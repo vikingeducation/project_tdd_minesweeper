@@ -41,6 +41,10 @@ class Cell
     @flagged = true unless cleared?
   end
 
+  def unflag
+    @flagged = false
+  end
+
   def to_s
     if cleared?
       cleared_string_states

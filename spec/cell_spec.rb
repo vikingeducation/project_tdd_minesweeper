@@ -79,6 +79,15 @@ describe Cell do
     end
   end
 
+  describe '#unflag' do
+    it 'removes the flag' do
+      cell.flag
+      expect(cell.flagged?).to be true
+      cell.unflag
+      expect(cell.flagged?).to be false
+    end
+  end
+
   describe '#to_s' do
     describe 'for cleared states' do
       it 'displays a mine (✷) if exploded' do
