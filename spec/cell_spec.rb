@@ -5,14 +5,14 @@ describe Cell do
   let(:cell){ Cell.new }
 
   describe '#new' do
-    it 'is initialized with mine? false' do
-      expect(cell.mine?).to be false
+    it 'is initialized without a mine' do
+      expect(cell.mine).to be false
     end
-    it 'is initialized with cleared? false' do
-      expect(cell.cleared?).to be false
+    it 'is initialized as uncleared' do
+      expect(cell.cleared).to be false
     end
-    it 'is initialized with flagged? false' do
-      expect(cell.flagged?).to be false
+    it 'is initialized without a flag' do
+      expect(cell.flagged).to be false
     end
     it 'is initialized with adjacent_mines equal to zero' do
       expect(cell.adjacent_mines).to be 0
@@ -24,7 +24,7 @@ describe Cell do
       cell.place_mine
     end
     it 'adds a mine to the cell' do
-      expect(cell.mine?).to be true
+      expect(cell.mine).to be true
     end
   end
 
@@ -43,12 +43,12 @@ describe Cell do
     describe 'without a mine' do
       it 'clears the cell if there is no flag' do
         cell.clear
-        expect(cell.cleared?).to be true
+        expect(cell.cleared).to be true
       end
       it 'does nothing if the cell has a flag' do
         cell.flag
         cell.clear
-        expect(cell.cleared?).to be false
+        expect(cell.cleared).to be false
       end
     end
     describe 'with a mine' do
@@ -70,21 +70,21 @@ describe Cell do
   describe '#flag' do
     it 'flags the cell' do
       cell.flag
-      expect(cell.flagged?).to be true
+      expect(cell.flagged).to be true
     end
     it 'does not work if the cell is cleared' do
       cell.clear
       cell.flag
-      expect(cell.flagged?).to be false
+      expect(cell.flagged).to be false
     end
   end
 
   describe '#unflag' do
     it 'removes the flag' do
       cell.flag
-      expect(cell.flagged?).to be true
+      expect(cell.flagged).to be true
       cell.unflag
-      expect(cell.flagged?).to be false
+      expect(cell.flagged).to be false
     end
   end
 

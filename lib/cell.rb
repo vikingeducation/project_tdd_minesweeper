@@ -9,20 +9,8 @@ class Cell
     @adjacent_mines = 0
   end
 
-  def mine?
-    mine
-  end
-
-  def cleared?
-    cleared
-  end
-
-  def flagged?
-    flagged
-  end
-
   def exploded?
-    mine? && cleared?
+    mine && cleared
   end
 
   def place_mine
@@ -34,11 +22,11 @@ class Cell
   end
 
   def clear
-    @cleared = true unless flagged?
+    @cleared = true unless flagged
   end
 
   def flag
-    @flagged = true unless cleared?
+    @flagged = true unless cleared
   end
 
   def unflag
@@ -46,7 +34,7 @@ class Cell
   end
 
   def to_s
-    if cleared?
+    if cleared
       cleared_string_states
     else
       uncleared_string_states
@@ -65,7 +53,7 @@ class Cell
   end
 
   def uncleared_string_states
-    if flagged?
+    if flagged
       "⚑"
     else
       "█"
