@@ -14,9 +14,6 @@ describe Cell do
     it 'is initialized with flagged? false' do
       expect(cell.flagged?).to be false
     end
-    it 'is initialized with exploded? false' do
-      expect(cell.exploded?).to be false
-    end
     it 'is initialized with adjacent_mines equal to zero' do
       expect(cell.adjacent_mines).to be 0
     end
