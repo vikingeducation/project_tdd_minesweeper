@@ -46,18 +46,9 @@ class Cell
 
   def to_s
     if cleared?
-      return "✷" if exploded?
-      if adjacent_mines == 0
-        " "
-      else
-        adjacent_mines.to_s
-      end
+      cleared_string_states
     else
-      if flagged?
-        "⚑"
-      else
-        "█"
-      end
+      uncleared_string_states
     end
   end
 
@@ -65,5 +56,22 @@ class Cell
 
   def hit_mine?
     mine? && cleared?
+  end
+
+  def cleared_string_states
+    return "✷" if exploded?
+    if adjacent_mines == 0
+      " "
+    else
+      adjacent_mines.to_s
+    end
+  end
+
+  def uncleared_string_states
+    if flagged?
+      "⚑"
+    else
+      "█"
+    end
   end
 end

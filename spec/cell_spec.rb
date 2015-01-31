@@ -89,11 +89,11 @@ describe Cell do
         cell.clear
         expect(cell.to_s).to eq "✷"
       end
-      it 'displays a space ( ) if cleared with no adjacent mines' do
+      it 'displays a space ( ) if there are no adjacent mines' do
         cell.clear
         expect(cell.to_s).to eq " "
       end
-      it 'displays the number of adjacent mines if cleared with at least one adjacent mine' do
+      it 'displays the number of adjacent mines if there are any' do
         4.times { cell.count_adjacent_mine }
         cell.clear
         expect(cell.to_s).to eq "4"
