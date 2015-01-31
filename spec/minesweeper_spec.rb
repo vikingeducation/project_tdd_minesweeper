@@ -91,13 +91,13 @@ describe Board do
       end
       expect(mine_number).to eq(10)
     end
-    #next steps write method to apply mines
-  end
+#     #next steps write method to apply mines
+#   end
     it 'creates a 10*10 array of blank Cells'
     it 'sets some of the Cells as mines'
 #    expect(my_array[2][0].mine).to eq(true)
     it 'sets some of the Cells as numbers'
-  end
+#  end
   
 #   #step 1
 #   i = 1
