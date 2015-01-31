@@ -1,13 +1,11 @@
 class Cell
 
-  attr_reader :cleared, :flagged, :exploded, :adjacent_mines
-  attr_accessor :mine
+  attr_reader :mine, :cleared, :flagged, :adjacent_mines
 
   def initialize
     @mine = false
     @cleared = false
     @flagged = false
-    @exploded = false
     @adjacent_mines = 0
   end
 
@@ -24,7 +22,7 @@ class Cell
   end
 
   def exploded?
-    exploded
+    mine? && cleared?
   end
 
   def place_mine
@@ -37,7 +35,6 @@ class Cell
 
   def clear
     @cleared = true unless flagged?
-    @exploded = true if hit_mine?
   end
 
   def flag
@@ -53,10 +50,6 @@ class Cell
   end
 
   private
-
-  def hit_mine?
-    mine? && cleared?
-  end
 
   def cleared_string_states
     return "✷" if exploded?
