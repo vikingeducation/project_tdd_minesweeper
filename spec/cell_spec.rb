@@ -26,17 +26,17 @@ describe Cell do
     before(:each) do
       cell.place_mine
     end
-    it 'changes mine? from false to true' do
+    it 'adds a mine to the cell' do
       expect(cell.mine?).to be true
     end
   end
 
   describe '#count_adjacent_mine' do
-    it 'iterates adjacent_mines up by one' do
+    it 'adds to the count' do
       cell.count_adjacent_mine
       expect(cell.adjacent_mines).to eq 1
     end
-    it 'accepts multiple mines' do
+    it 'accepts multiple neighboring mines' do
       4.times { cell.count_adjacent_mine }
       expect(cell.adjacent_mines).to eq 4
     end
@@ -71,11 +71,11 @@ describe Cell do
   end
 
   describe '#flag' do
-    it 'changes flagged? from false to true' do
+    it 'flags the cell' do
       cell.flag
       expect(cell.flagged?).to be true
     end
-    it 'does not work when cleared? is true' do
+    it 'does not work if the cell is cleared' do
       cell.clear
       cell.flag
       expect(cell.flagged?).to be false
