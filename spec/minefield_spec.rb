@@ -1,4 +1,5 @@
 require 'minefield'
+require 'toy_minefield'
 
 describe Minefield do
 
@@ -42,7 +43,50 @@ describe Minefield do
     end
 
     describe 'counts adjacent mines for every cell' do
-      it ''
+      let(:t){ ToyMinefield.new }
+      it 'correctly labels neighbors of a single mine' do
+        t.field[0][0].place_mine
+        t.generate_adjacent_mine_counts
+        expect(t.field[0][0].adjacent_mines).to be 0
+        expect(t.field[0][1].adjacent_mines).to be 1
+        expect(t.field[0][2].adjacent_mines).to be 0
+        expect(t.field[1][0].adjacent_mines).to be 1
+        expect(t.field[1][1].adjacent_mines).to be 1
+        expect(t.field[1][2].adjacent_mines).to be 0
+        expect(t.field[2][0].adjacent_mines).to be 0
+        expect(t.field[2][1].adjacent_mines).to be 0
+        expect(t.field[2][2].adjacent_mines).to be 0
+      end
+      it 'correctly labels neighbors of two mines' do
+        t.field[0][0].place_mine
+        t.field[0][2].place_mine
+        t.generate_adjacent_mine_counts
+        expect(t.field[0][0].adjacent_mines).to be 0
+        expect(t.field[0][1].adjacent_mines).to be 2
+        expect(t.field[0][2].adjacent_mines).to be 0
+        expect(t.field[1][0].adjacent_mines).to be 1
+        expect(t.field[1][1].adjacent_mines).to be 2
+        expect(t.field[1][2].adjacent_mines).to be 1
+        expect(t.field[2][0].adjacent_mines).to be 0
+        expect(t.field[2][1].adjacent_mines).to be 0
+        expect(t.field[2][2].adjacent_mines).to be 0
+      end
+      it 'correctly labels neighbors of multiple mines' do
+        t.field[0][0].place_mine
+        t.field[0][2].place_mine
+        t.field[1][0].place_mine
+        t.field[2][0].place_mine
+        t.generate_adjacent_mine_counts
+        expect(t.field[0][0].adjacent_mines).to be 1
+        expect(t.field[0][1].adjacent_mines).to be 3
+        expect(t.field[0][2].adjacent_mines).to be 0
+        expect(t.field[1][0].adjacent_mines).to be 2
+        expect(t.field[1][1].adjacent_mines).to be 4
+        expect(t.field[1][2].adjacent_mines).to be 1
+        expect(t.field[2][0].adjacent_mines).to be 1
+        expect(t.field[2][1].adjacent_mines).to be 1
+        expect(t.field[2][2].adjacent_mines).to be 0
+      end
     end
   end
 
@@ -63,6 +107,19 @@ describe Minefield do
       expect(m.field[0][0]).not_to equal m.field[5][5]
       expect(m.field[0][9]).not_to equal m.field[9][0]
       expect(m.field[3][7]).not_to equal m.field[7][3]
+    end
+  end
+
+  describe 'private methods' do
+    it '#generate_mines should be private' do
+      expect do
+        m.generate_mines
+      end.to raise_error
+    end
+    it '#generate_adjacent_mine_counts should be private' do
+      expect do
+        m.generate_adjacent_mine_counts
+      end.to raise_error
     end
   end
 

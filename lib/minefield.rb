@@ -5,14 +5,8 @@ class Minefield
   attr_reader :size, :field, :number_of_mines
 
   def initialize(size = 10)
-    if size.class == Fixnum
-      @size = size
-    else
-      raise 'Please enter an integer.'
-    end
-    @field = Array.new(size){ Array.new(size){ Cell.new } }
-    @number_of_mines = mine_calculator
-    generate_mines
+    set_field_size(size)
+    create_field_with_attributes
   end
 
   # def winning?
@@ -21,6 +15,20 @@ class Minefield
   # end
 
   private
+
+  def set_field_size(size)
+    if size.class == Fixnum
+      @size = size
+    else
+      raise 'Please enter an integer.'
+    end
+  end
+
+  def create_field_with_attributes
+    @field = Array.new(size){ Array.new(size){ Cell.new } }
+    @number_of_mines = mine_calculator
+    generate_mines
+  end
 
   def mine_calculator
     if size < 20
@@ -42,15 +50,24 @@ class Minefield
     end
   end
 
-  # def generate_adjacent_mine_counts
-  #   field.each_with_index do |row, row_num|
-  #     row.each_with_index do |cell, col_num|
-  #       if cell.mine
-  #         valid_neighbors(row_num,col_num).each do |neighbor|
-  #           neighbor.count_adjacent_mine
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
+  def generate_adjacent_mine_counts
+    field.each_with_index do |row, row_num|
+      row.each_with_index do |cell, col_num|
+        if cell.mine
+          valid_neighbors(row_num,col_num).each do |neighbor|
+            neighbor.count_adjacent_mine
+          end
+        end
+      end
+    end
+  end
+
+  def valid_neighbors(row,col)
+    valid_neighbors = []
+    valid_neighbors += field[row-1][col-1..col+1]
+    valid_neighbors += field[row][col-1]
+    valid_neighbors += field[row][col+1]
+    valie_neighbors += field[row+1][col-1..col+1]
+
+  end
 end
