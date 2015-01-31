@@ -6,6 +6,18 @@ class Cell
     @flagged = flagged
     @adjacent_mines = adjacent_mines
   end
+  
+  def symbolize
+    if (@flagged)
+      return "F"
+    elsif(@hidden)
+      return "□"
+    elsif(@mine)
+      return "□"
+    elsif(@adjacent_mines)
+      return @adjacent_mines.to_s
+    end
+  end
 end
 
 class Board
@@ -23,4 +35,19 @@ class Board
     (1..100).to_a.sample(10)
   end
   
+  def render
+    print " "
+    10.times do |iteration|
+      print iteration.to_s
+    end
+     print "\n"
+    @board.each do |row|
+      print row.to_s
+      @board[row].each do |column|
+        print @board[row][column].symbolize
+      end
+      print"\n"
+    end
+  end
 end
+
