@@ -12,7 +12,7 @@ class Minefield
     end
     @field = Array.new(size){ Array.new(size){ Cell.new } }
     @number_of_mines = mine_calculator
-    auto_generate_mines
+    generate_mines
   end
 
   # def winning?
@@ -30,7 +30,7 @@ class Minefield
     end
   end
 
-  def auto_generate_mines
+  def generate_mines
     mines_left = number_of_mines
     until mines_left == 0
       row = rand(size)
@@ -41,4 +41,16 @@ class Minefield
       end
     end
   end
+
+  # def generate_adjacent_mine_counts
+  #   field.each_with_index do |row, row_num|
+  #     row.each_with_index do |cell, col_num|
+  #       if cell.mine
+  #         valid_neighbors(row_num,col_num).each do |neighbor|
+  #           neighbor.count_adjacent_mine
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 end
