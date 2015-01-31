@@ -12,7 +12,7 @@ class Minefield
     end
     @field = Array.new(size){ Array.new(size){ Cell.new } }
     @number_of_mines = mine_calculator
-    place_mines_on_field
+    auto_generate_mines
   end
 
   # def winning?
@@ -30,13 +30,13 @@ class Minefield
     end
   end
 
-  def place_mines_on_field
+  def auto_generate_mines
     mines_left = number_of_mines
     until mines_left == 0
       row = rand(size)
       col = rand(size)
       unless field[row][col].mine
-        @field[row][col].place_mine
+        field[row][col].place_mine
         mines_left -= 1
       end
     end

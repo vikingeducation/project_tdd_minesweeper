@@ -9,6 +9,7 @@ class Cell
     @adjacent_mines = 0
   end
 
+  # This ends the game!
   def exploded?
     mine && cleared
   end

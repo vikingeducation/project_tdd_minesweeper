@@ -20,10 +20,8 @@ describe Cell do
   end
 
   describe '#place_mine' do
-    before(:each) do
-      cell.place_mine
-    end
     it 'adds a mine to the cell' do
+      cell.place_mine
       expect(cell.mine).to be true
     end
   end
@@ -40,7 +38,7 @@ describe Cell do
   end
 
   describe '#clear' do
-    describe 'without a mine' do
+    context 'without a mine' do
       it 'clears the cell if there is no flag' do
         cell.clear
         expect(cell.cleared).to be true
@@ -51,7 +49,7 @@ describe Cell do
         expect(cell.cleared).to be false
       end
     end
-    describe 'with a mine' do
+    context 'with a mine' do
       before(:each) do
         cell.place_mine
       end
@@ -89,7 +87,7 @@ describe Cell do
   end
 
   describe '#to_s' do
-    describe 'for cleared states' do
+    context 'for cleared states' do
       it 'displays a mine (✷) if exploded' do
         cell.place_mine
         cell.clear
@@ -105,7 +103,7 @@ describe Cell do
         expect(cell.to_s).to eq "4"
       end
     end
-    describe 'for un-cleared states' do
+    context 'for un-cleared states' do
       it 'displays a solid box (█) without a flag' do
         expect(cell.to_s).to eq "█"
       end
