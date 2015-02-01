@@ -17,6 +17,21 @@ class Minefield
     nil
   end
 
+  def take_turn(turn)
+    row = turn[:row]
+    column = turn[:column]
+    action = turn[:action]
+    cell = field[row][column]
+    take_action(action,cell)
+  end
+
+  def take_action(action,cell)
+    case action
+    when "C"
+      cell.clear
+    end
+  end
+
   # def winning?
     # return false if field.flatten.any? { |cell| cell.exploded? }
     # field.flatten.all? { |cell| cell.cleared || cell.flagged }

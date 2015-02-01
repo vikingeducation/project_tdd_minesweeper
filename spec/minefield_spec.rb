@@ -123,6 +123,29 @@ describe Minefield do
     end
   end
 
+  describe 'take_turn' do
+    let(:toy){ ToyMinefield.new }
+
+    before(:each) do
+      toy.field[0][0].place_mine
+      toy.generate_adjacent_mine_counts
+    end
+
+    context 'clearing' do
+      it 'clears a cell with an adjacent mine' do
+        turn = {row: 0, column: 1, action: 'C'}
+        toy.take_turn(turn)
+        expect(toy.field[0][1].cleared).to be true
+      end
+
+      it 'explodes a cell with a mine' do
+        turn = {row: 0, column: 0, action: 'C'}
+        toy.take_turn(turn)
+        expect(toy.field[0][0].exploded?).to be true
+      end
+    end
+  end
+
   describe '#winning?' do
     # let(:cleared_field) do
     #   cleared_field = Minefield.new
