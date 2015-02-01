@@ -104,6 +104,7 @@ class Board
     around_array.each do |row_offset|
       around_array.each do |column_offset|
         if (is_in_bound?(row+row_offset,column+column_offset) && is_mine?(row+row_offset,column+column_offset))
+          next if row_offset == row && column_offset == column 
           @board[row][column].adjacent_mines += 1
         end
       end
@@ -129,6 +130,7 @@ class Board
     around_array.each do |row_offset|
       around_array.each do |column_offset|
         if (is_in_bound?(row+row_offset,column+column_offset) && is_empty?(row+row_offset,column+column_offset))
+          next if row_offset == row && column_offset == column 
           if @board[row+row_offset][column+column_offset].adjacent_mines > 0
             @board[row+row_offset][column+column_offset].hidden = false
           end
@@ -148,6 +150,7 @@ class Board
         return false
       end
     end
+    return true
   end
 
 

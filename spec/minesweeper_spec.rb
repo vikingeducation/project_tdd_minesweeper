@@ -101,46 +101,33 @@ describe Board do
       mines_array = my_array.generate_mines
       expect(mines_array.uniq.length).to eq(10)
     end
-  end
-  
-  context 'mine placement' do
-    
-    describe '#place_mines' do
-      
-      it 'should have ten mines' do
-        mine_count = 0
-        my_array.board.flatten.each do |x|
-          if x.mine == true
-            mine_count +=1
-          end
-        end
-        expect(mine_count).to eq(10)
+  end  
+ 
+  describe '#check_victory?' do 
+    it 'confirms a victory' do
+      my_array.board.flatten.each do |x|
+        x.mine = false
+        x.hidden = false
       end
-      
+      expect(my_array.check_victory?).to eq(true)
     end
-    
   end
+  
+  describe '#check_loss?' do
+    it 'displays a loss' do
+      my_array.board.flatten.each do |x|
+        x.mine = true
+        x.hidden = false
+      end
+      expect(my_array.check_loss?).to eq(true)
+    end    
+  end
+end
 
-#   describe '#apply mines' do
-#     it 'has ten mines' do
-#       mine_number
-#       my_array.flatten.each do |x|
-#         if x.mine == true
-#           mine_number +=1
-#         end
-#       end
-#       expect(mine_number).to eq(10)
-#     end
-# #     #next steps write method to apply mines
-# #   end
-#     it 'creates a 10*10 array of blank Cells'
-#     it 'sets some of the Cells as mines'
-# #    expect(my_array[2][0].mine).to eq(true)
-#     it 'sets some of the Cells as numbers'
-# #  end
+describe Player do
+  let (:player) {Player.new}
   
-  
-  
-#   describe '#render' do
-#   end
+  it 'should be able to quit a game' do
+    #WHERE WE LEFT OFFFF
+  end  
 end
