@@ -14,11 +14,9 @@ describe Cell do
     expect(my_cell.hidden).to eq(true)
   end
   
-  describe '#adjacent_mines' do
-    let(:my_cell) {Cell.new}
-    
-    it 'should initialize with a nil value' do
-      expect(my_cell.adjacent_mines).to eq(nil)
+  describe '#adjacent_mines' do    
+    it 'should initialize with a 0 value' do
+      expect(my_cell.adjacent_mines).to eq(0)
     end
 
     it 'can explicitly have adjacent mines changed to a number' do
@@ -29,6 +27,30 @@ describe Cell do
     it 'should have a value as an integer' do
       my_cell.adjacent_mines = 4
       expect(my_cell.adjacent_mines.is_a?(Integer)).to eq(true)    
+    end
+  end
+  
+  describe '#symbolize' do
+    it 'should represent F if it is flagged' do
+      my_cell.flagged = true
+      expect(my_cell.symbolize).to eq("F")
+    end
+    it 'should represent mine as ■' do
+      my_cell.mine = true
+      my_cell.hidden = false
+      expect(my_cell.symbolize).to eq("■")
+    end
+    it 'should represent hidden as □' do
+      expect(my_cell.symbolize).to eq("□")
+    end
+    it 'should represent hidden as □ even if it is a mine' do
+      my_cell.mine = true
+      expect(my_cell.symbolize).to eq("□")
+    end
+    it 'should represent adjacent_mines as a number (stringed)' do
+      my_cell.hidden = false
+      my_cell.adjacent_mines = 5
+      expect(my_cell.symbolize).to eq("5")
     end
   end
   
@@ -80,43 +102,45 @@ describe Board do
       expect(mines_array.uniq.length).to eq(10)
     end
   end
-
-  describe '#apply mines' do
-    it 'has ten mines' do
-      mine_number
-      my_array.flatten.each do |x|
-        if x.mine == true
-          mine_number +=1
-        end
-      end
-      expect(mine_number).to eq(10)
-    end
-#     #next steps write method to apply mines
-#   end
-    it 'creates a 10*10 array of blank Cells'
-    it 'sets some of the Cells as mines'
-#    expect(my_array[2][0].mine).to eq(true)
-    it 'sets some of the Cells as numbers'
-#  end
   
-#   #step 1
-#   i = 1
-#   my_array.each do |x|
-#     x = i
-#     i += 1
-#   end
-#   def make_me_some_mines
-#   my_array.each do |y|
+  context 'mine placement' do
     
-#       if my_mines.include?(y)
-#         y = Cell.new.mine(true)
-#       else
-#         y = Cell.new
-#       end
-#     end
-#   end
-  
-  
-  describe '#render' do
+    describe '#place_mines' do
+      
+      it 'should have ten mines' do
+        mine_count = 0
+        my_array.board.flatten.each do |x|
+          if x.mine == true
+            mine_count +=1
+          end
+        end
+        expect(mine_count).to eq(10)
+      end
+      
+    end
+    
   end
+
+#   describe '#apply mines' do
+#     it 'has ten mines' do
+#       mine_number
+#       my_array.flatten.each do |x|
+#         if x.mine == true
+#           mine_number +=1
+#         end
+#       end
+#       expect(mine_number).to eq(10)
+#     end
+# #     #next steps write method to apply mines
+# #   end
+#     it 'creates a 10*10 array of blank Cells'
+#     it 'sets some of the Cells as mines'
+# #    expect(my_array[2][0].mine).to eq(true)
+#     it 'sets some of the Cells as numbers'
+# #  end
+  
+  
+  
+#   describe '#render' do
+#   end
 end
