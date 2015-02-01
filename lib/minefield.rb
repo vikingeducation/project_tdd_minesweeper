@@ -41,6 +41,26 @@ class Minefield
     field.flatten.count { |cell| cell.mine }
   end
 
+  def number_of_flags
+    field.flatten.count { |cell| cell.flagged }
+  end
+
+  def unflagged_mines
+    number_of_mines - number_of_flags
+  end
+
+  def blow_up_board
+    field.flatten.each do |cell|
+      cell.clear if cell.mine
+    end
+  end
+
+  def flag_remaining_mines
+    field.flatten.each do |cell|
+      cell.flag if cell.mine
+    end
+  end
+
   private
 
   def set_field_size(size)
@@ -50,7 +70,6 @@ class Minefield
       raise 'Please enter an integer.'
     end
   end
-
 
   def create_field_with_attributes
     @field = Array.new(size){ Array.new(size){ Cell.new } }
@@ -164,7 +183,7 @@ class Minefield
     when "C"
       clear_with_zero_cascade(row,column)
     when "F"
-      cell.flag
+      cell.flag if unflagged_mines > 0
     when "U"
       cell.unflag
     end

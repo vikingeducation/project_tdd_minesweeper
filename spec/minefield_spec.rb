@@ -197,6 +197,11 @@ describe Minefield do
       it 'adds a flag' do
         expect(toy.field[0][0].flagged).to be true
       end
+      it 'will not add a flag if there are no flags available' do
+        turn = {row: 0, column: 1, action: 'F'}
+        toy.take_turn(turn)
+        expect(toy.field[0][1].flagged).to be false
+      end
       it 'removes a flag' do
         turn = {row: 0, column: 0, action: 'U'}
         toy.take_turn(turn)
@@ -207,15 +212,29 @@ describe Minefield do
 
   describe 'game ending' do
     let(:t){ ToyMinefield.new }
+
     describe '#lost?' do
       it 'returns false with a new board' do
         expect(t.lost?).to be false
       end
       it 'returns true with a single exploded mine' do
         t.field[0][0].place_mine
+        t.generate_adjacent_mine_counts
         turn = {action: 'C', row: 0, column: 0}
         t.take_turn(turn)
         expect(t.lost?).to be true
+      end
+    end
+
+    describe '#blow_up_board' do
+      it 'will blow up all unflagged mines in case of a loss' do
+        t.field[0][0].place_mine
+        t.field[0][2].place_mine
+        t.generate_adjacent_mine_counts
+        turn = {action: 'C', row: 0, column: 0}
+        t.take_turn(turn)
+        t.blow_up_board
+        expect(t.field[0][2].cleared).to be true
       end
     end
 
@@ -225,6 +244,7 @@ describe Minefield do
       end
       it 'returns true when uncleared cells equal number of mines' do
         t.field[0][0].place_mine
+        t.generate_adjacent_mine_counts
         turn = {action: 'F', row: 0, column: 0}
         t.take_turn(turn)
         turn = {action: 'C', row: 0, column: 2}
@@ -233,15 +253,33 @@ describe Minefield do
       end
     end
 
+    describe '#flag_remaining_mines' do
+      it 'plants flags on all uncleared cells' do
+        t.field[0][0].place_mine
+        t.field[0][2].place_mine
+        t.generate_adjacent_mine_counts
+        turn = {action: 'F', row: 0, column: 0}
+        t.take_turn(turn)
+        turn = {action: 'C', row: 0, column: 1}
+        t.take_turn(turn)
+        turn = {action: 'C', row: 2, column: 0}
+        t.take_turn(turn)
+        t.flag_remaining_mines
+        expect(t.field[0][2].flagged).to be true
+      end
+    end
+
     describe '#game_over?' do
       it 'returns true if the game is lost' do
         t.field[0][0].place_mine
+        t.generate_adjacent_mine_counts
         turn = {action: 'C', row: 0, column: 0}
         t.take_turn(turn)
         expect(t.game_over?).to be true
       end
       it 'returns true if the game is won' do
         t.field[0][0].place_mine
+        t.generate_adjacent_mine_counts
         turn = {action: 'F', row: 0, column: 0}
         t.take_turn(turn)
         turn = {action: 'C', row: 0, column: 2}
