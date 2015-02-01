@@ -13,7 +13,12 @@ class Turn
       @action = gets.chomp.upcase
       print "that is not a valid action" unless action_is_valid?
     end
-    return message
+  end
+
+  def message
+    { row: @row,
+      column: @column,
+      action: @action }
   end
 
   private
@@ -25,11 +30,4 @@ class Turn
   def valid_actions
     ["A","C","F","U"]
   end
-
-  def message
-    { row: @row,
-      column: @column,
-      action: @action }
-  end
-
 end

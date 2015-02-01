@@ -28,8 +28,10 @@ class Minefield
   def take_action(row, column, action)
     cell = field[row][column]
     case action
+    when "A"
+      auto_clear(row,column)
     when "C"
-      smart_clear(row,column)
+      clear_with_zero_cascade(row,column)
     when "F"
       cell.flag
     when "U"
@@ -37,17 +39,34 @@ class Minefield
     end
   end
 
-  def smart_clear(target_row,target_column)
+  def clear_with_zero_cascade(target_row,target_column)
     target_cell = field[target_row][target_column]
     target_cell.clear
     if target_cell.adjacent_mines == 0
-      valid_coordinates(target_row,target_column).each do |cell|
+      valid_neighbor_coordinates(target_row,target_column).each do |cell|
         row,col = cell[0],cell[1]
         unless field[row][col].cleared
-          smart_clear(cell[0],cell[1])
+          clear_with_zero_cascade(cell[0],cell[1])
         end
       end
     end
+  end
+
+  def auto_clear(row,col)
+    if already_cleared?(row,col) && flags_match_mines?(row,col)
+      valid_neighbor_coordinates(row,col).each do |cell|
+        row,col = cell[0],cell[1]
+        clear_with_zero_cascade(row,col)
+      end
+    end
+  end
+
+  def already_cleared?(row,col)
+    field[row][col].cleared
+  end
+
+  def flags_match_mines?(row,col)
+    count_nearby_flags(row,col) == field[row][col].adjacent_mines
   end
 
   # def winning?
@@ -96,7 +115,7 @@ class Minefield
     field.each_with_index do |row, row_num|
       row.each_with_index do |cell, col_num|
         if cell.mine
-          valid_neighbors(row_num,col_num).each do |neighbor|
+          neighbor_cells(row_num,col_num).each do |neighbor|
             neighbor.count_adjacent_mine
           end
         end
@@ -104,16 +123,15 @@ class Minefield
     end
   end
 
-  def valid_neighbors(row,col)
-    neighbors = valid_rows(row).each_with_object([]) do |row, nearby|
-                  valid_cols(col).each do |col|
-                    nearby << field[row][col]
-                  end
-                end
-    neighbors - [field[row][col]]
+  def neighbor_cells(row,col)
+    valid_neighbor_coordinates(row,col).each_with_object([]) do |cell,neighbors|
+      neighbor_row = cell[0]
+      neighbor_col = cell[1]
+      neighbors << field[neighbor_row][neighbor_col]
+    end
   end
 
-  def valid_coordinates(row,col)
+  def valid_neighbor_coordinates(row,col)
     coords =  valid_rows(row).each_with_object([]) do |row, nearby|
                 valid_cols(col).each do |col|
                   nearby << [row,col]
@@ -134,5 +152,9 @@ class Minefield
     cols << (col - 1) unless col == 0
     cols << (col + 1) unless col == (size - 1)
     cols
+  end
+
+  def count_nearby_flags(row,col)
+    neighbor_cells(row,col).count { |cell| cell.flagged }
   end
 end

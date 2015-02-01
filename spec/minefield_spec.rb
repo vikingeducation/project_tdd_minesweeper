@@ -131,7 +131,7 @@ describe Minefield do
       toy.generate_adjacent_mine_counts
     end
 
-    context 'clearing' do
+    context '#clear' do
       it 'clears a cell with an adjacent mine' do
         turn = {row: 0, column: 1, action: 'C'}
         toy.take_turn(turn)
@@ -159,12 +159,37 @@ describe Minefield do
       end
     end
 
-    context 'auto-clearing' do
-      it 'auto-clears surrounding cells if flags match'
-      it 'will not auto-clear surrounding cells if flags don\'t match'
+    context '#auto_clear' do
+      it 'auto-clears surrounding cells if flags match' do
+        toy.field[0][0].flag
+        toy.field[0][1].clear
+        toy.auto_clear(0,1)
+        expect(toy.field[0][0].cleared).to be false
+        expect(toy.field[0][1].cleared).to be true
+        expect(toy.field[0][2].cleared).to be true
+        expect(toy.field[1][0].cleared).to be true
+        expect(toy.field[1][1].cleared).to be true
+        expect(toy.field[1][2].cleared).to be true
+        expect(toy.field[2][0].cleared).to be true
+        expect(toy.field[2][1].cleared).to be true
+        expect(toy.field[2][2].cleared).to be true
+      end
+      it 'will not auto-clear surrounding cells if flags don\'t match' do
+        toy.field[0][1].clear
+        toy.auto_clear(0,1)
+        expect(toy.field[0][0].cleared).to be false
+        expect(toy.field[0][1].cleared).to be true
+        expect(toy.field[0][2].cleared).to be false
+        expect(toy.field[1][0].cleared).to be false
+        expect(toy.field[1][1].cleared).to be false
+        expect(toy.field[1][2].cleared).to be false
+        expect(toy.field[2][0].cleared).to be false
+        expect(toy.field[2][1].cleared).to be false
+        expect(toy.field[2][2].cleared).to be false
+      end
     end
 
-    context 'flagging and unflagging' do
+    context '#flag and #unflag' do
       before(:each) do
         turn = {row: 0, column: 0, action: 'F'}
         toy.take_turn(turn)
