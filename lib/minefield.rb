@@ -3,7 +3,7 @@ require 'pry'
 
 class Minefield
 
-  attr_reader :size, :field, :number_of_mines
+  attr_reader :size, :field
 
   def initialize(size = 10)
     set_field_size(size)
@@ -25,10 +25,21 @@ class Minefield
     take_action(row, column, action)
   end
 
-  # def winning?
-    # return false if field.flatten.any? { |cell| cell.exploded? }
-    # field.flatten.all? { |cell| cell.cleared || cell.flagged }
-  # end
+  def lost?
+    field.flatten.any? { |cell| cell.exploded? }
+  end
+
+  def won?
+    uncleared_cells == number_of_mines
+  end
+
+  def game_over?
+    lost? || won?
+  end
+
+  def number_of_mines
+    field.flatten.count { |cell| cell.mine }
+  end
 
   private
 
@@ -39,6 +50,7 @@ class Minefield
       raise 'Please enter an integer.'
     end
   end
+
 
   def create_field_with_attributes
     @field = Array.new(size){ Array.new(size){ Cell.new } }
@@ -56,7 +68,7 @@ class Minefield
   end
 
   def generate_mines
-    mines_left = number_of_mines
+    mines_left = mine_calculator
     until mines_left == 0
       row = rand(size)
       col = rand(size)
@@ -156,5 +168,11 @@ class Minefield
     when "U"
       cell.unflag
     end
+  end
+
+  # GAME ENDING SCENARIO HELPERS
+
+  def uncleared_cells
+    field.flatten.count { |cell| !(cell.cleared) }
   end
 end

@@ -205,12 +205,52 @@ describe Minefield do
     end
   end
 
-  describe '#lost?' do
+  describe 'game ending' do
     let(:t){ ToyMinefield.new }
-    it 'returns true with any exploded mine' do
-      t.field[0][0].place_mine
-      t.field[0][0].clear
-      expect(t.lost?).to be true
+    describe '#lost?' do
+      it 'returns false with a new board' do
+        expect(t.lost?).to be false
+      end
+      it 'returns true with a single exploded mine' do
+        t.field[0][0].place_mine
+        turn = {action: 'C', row: 0, column: 0}
+        t.take_turn(turn)
+        expect(t.lost?).to be true
+      end
+    end
+
+    describe '#won?' do
+      it 'returns false with a new board' do
+        expect(t.won?).to be false
+      end
+      it 'returns true when uncleared cells equal number of mines' do
+        t.field[0][0].place_mine
+        turn = {action: 'F', row: 0, column: 0}
+        t.take_turn(turn)
+        turn = {action: 'C', row: 0, column: 2}
+        t.take_turn(turn)
+        expect(t.won?).to be true
+      end
+    end
+
+    describe '#game_over?' do
+      it 'returns true if the game is lost' do
+        t.field[0][0].place_mine
+        turn = {action: 'C', row: 0, column: 0}
+        t.take_turn(turn)
+        expect(t.game_over?).to be true
+      end
+      it 'returns true if the game is won' do
+        t.field[0][0].place_mine
+        turn = {action: 'F', row: 0, column: 0}
+        t.take_turn(turn)
+        turn = {action: 'C', row: 0, column: 2}
+        t.take_turn(turn)
+        expect(t.game_over?).to be true
+      end
+      it 'returns false if the game is neither won nor lost' do
+        expect(t.game_over?).to be false
+      end
     end
   end
 end
