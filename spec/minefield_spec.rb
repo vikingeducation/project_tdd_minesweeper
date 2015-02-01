@@ -205,21 +205,12 @@ describe Minefield do
     end
   end
 
-  describe '#winning?' do
-    # let(:cleared_field) do
-    #   cleared_field = Minefield.new
-    #   cleared_field.field.flatten.each do |cell|
-    #     cell.clear
-    #   end
-    #   cleared_field
-    # end
-    # it 'true when every cell is cleared' do
-    #   expect(cleared_field.winning?).to be true
-    # end
-    # it 'is false when any cell has exploded' do
-    #   cleared_field.field[4][4].place_mine
-    #   expect(cleared_field.winning?).to be false
-    # end
-    # it 'true when every cell is flagged'
+  describe '#lost?' do
+    let(:t){ ToyMinefield.new }
+    it 'returns true with any exploded mine' do
+      t.field[0][0].place_mine
+      t.field[0][0].clear
+      expect(t.lost?).to be true
+    end
   end
 end

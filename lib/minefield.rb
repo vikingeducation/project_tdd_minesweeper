@@ -25,50 +25,6 @@ class Minefield
     take_action(row, column, action)
   end
 
-  def take_action(row, column, action)
-    cell = field[row][column]
-    case action
-    when "A"
-      auto_clear(row,column)
-    when "C"
-      clear_with_zero_cascade(row,column)
-    when "F"
-      cell.flag
-    when "U"
-      cell.unflag
-    end
-  end
-
-  def clear_with_zero_cascade(target_row,target_column)
-    target_cell = field[target_row][target_column]
-    target_cell.clear
-    if target_cell.adjacent_mines == 0
-      valid_neighbor_coordinates(target_row,target_column).each do |cell|
-        row,col = cell[0],cell[1]
-        unless field[row][col].cleared
-          clear_with_zero_cascade(cell[0],cell[1])
-        end
-      end
-    end
-  end
-
-  def auto_clear(row,col)
-    if already_cleared?(row,col) && flags_match_mines?(row,col)
-      valid_neighbor_coordinates(row,col).each do |cell|
-        row,col = cell[0],cell[1]
-        clear_with_zero_cascade(row,col)
-      end
-    end
-  end
-
-  def already_cleared?(row,col)
-    field[row][col].cleared
-  end
-
-  def flags_match_mines?(row,col)
-    count_nearby_flags(row,col) == field[row][col].adjacent_mines
-  end
-
   # def winning?
     # return false if field.flatten.any? { |cell| cell.exploded? }
     # field.flatten.all? { |cell| cell.cleared || cell.flagged }
@@ -156,5 +112,49 @@ class Minefield
 
   def count_nearby_flags(row,col)
     neighbor_cells(row,col).count { |cell| cell.flagged }
+  end
+
+  def already_cleared?(row,col)
+    field[row][col].cleared
+  end
+
+  def flags_match_mines?(row,col)
+    count_nearby_flags(row,col) == field[row][col].adjacent_mines
+  end
+
+  def clear_with_zero_cascade(target_row,target_column)
+    target_cell = field[target_row][target_column]
+    target_cell.clear
+    if target_cell.adjacent_mines == 0
+      valid_neighbor_coordinates(target_row,target_column).each do |cell|
+        row,col = cell[0],cell[1]
+        unless field[row][col].cleared
+          clear_with_zero_cascade(cell[0],cell[1])
+        end
+      end
+    end
+  end
+
+  def auto_clear(row,col)
+    if already_cleared?(row,col) && flags_match_mines?(row,col)
+      valid_neighbor_coordinates(row,col).each do |cell|
+        row,col = cell[0],cell[1]
+        clear_with_zero_cascade(row,col)
+      end
+    end
+  end
+
+  def take_action(row, column, action)
+    cell = field[row][column]
+    case action
+    when "A"
+      auto_clear(row,column)
+    when "C"
+      clear_with_zero_cascade(row,column)
+    when "F"
+      cell.flag
+    when "U"
+      cell.unflag
+    end
   end
 end

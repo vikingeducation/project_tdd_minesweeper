@@ -15,4 +15,9 @@ describe ToyMinefield do
       t.generate_adjacent_mine_counts
     end.not_to raise_error
   end
+  it '#auto_clear should be public' do
+    expect do
+      t.auto_clear(0,0)
+    end.not_to raise_error
+  end
 end
