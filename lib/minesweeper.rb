@@ -10,10 +10,10 @@ class Cell
   def symbolize
     if (@flagged)
       return "⚑" #change to flag under dr au
-    elsif(@hidden)
+#     elsif(@hidden)
       return "■"
-    elsif(@mine)
-      return "✷"
+    elsif(@mine) #Switch later
+      return "✷"  
     elsif(@adjacent_mines == 0)
       return "□"
     elsif(@adjacent_mines)
@@ -43,6 +43,39 @@ class Board
     end
   end
   
+  def set_all_cell_adjacent_mines
+    @board.each_with_index do |row, row_index|
+      @board[row_index].each_with_index do |column, column_index|
+        set_cell_adjacent_mines(row_index,column_index)
+      end
+    end
+  end
+  
+  def is_mine? (row, column)
+    @board[row][column].mine
+  end
+  
+  def set_cell_adjacent_mines(row, column)
+    around_array = [-1, 0, 1]
+    around_array.each do |row_offset|
+      around_array.each do |column_offset|
+        if (is_in_bound(row+row_offset,column+column_offset) && is_mine?(row+row_offset,column+column_offset))
+          @board[row][column].adjacent_mines += 1
+        end
+      end
+    end
+  end
+  
+  def is_in_bound (row_index, column_index)
+    if (row_index < 0 || column_index < 0)
+      return false
+    elsif (row_index > @size-1 || column_index > @size-1)
+      return false
+    else
+      return true
+    end
+  end
+
   def render
     print "   "
     10.times do |column_number|
@@ -73,6 +106,9 @@ class Board
 end
 
 myBoard = Board.new
+# myBoard.render
+# myBoard.place_mines([50,51,52,53,54,55,56,57,58,59])
+myBoard.set_all_cell_adjacent_mines
 myBoard.render
 
 
