@@ -84,7 +84,7 @@ describe Minefield do
         expect(t.field[1][1].adjacent_mines).to be 4
         expect(t.field[1][2].adjacent_mines).to be 1
         expect(t.field[2][0].adjacent_mines).to be 1
-        expect(t.field[2][1].adjacent_mines).to be 1
+        expect(t.field[2][1].adjacent_mines).to be 2
         expect(t.field[2][2].adjacent_mines).to be 0
       end
     end

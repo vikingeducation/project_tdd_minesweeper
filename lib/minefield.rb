@@ -63,11 +63,25 @@ class Minefield
   end
 
   def valid_neighbors(row,col)
-    valid_neighbors = []
-    valid_neighbors += field[row-1][col-1..col+1]
-    valid_neighbors += field[row][col-1]
-    valid_neighbors += field[row][col+1]
-    valie_neighbors += field[row+1][col-1..col+1]
+    neighbors = valid_rows(row).each_with_object([]) do |row, nearby|
+                  valid_cols(col).each do |col|
+                    nearby << field[row][col]
+                  end
+                end
+    neighbors - [field[row][col]]
+  end
 
+  def valid_rows(row)
+    rows = [row]
+    rows << (row - 1) unless row == 0
+    rows << (row + 1) unless row == (size - 1)
+    rows
+  end
+
+  def valid_cols(col)
+    cols = [col]
+    cols << (col - 1) unless col == 0
+    cols << (col + 1) unless col == (size - 1)
+    cols
   end
 end
