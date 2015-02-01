@@ -9,6 +9,14 @@ class Minefield
     create_field_with_attributes
   end
 
+  def render
+    field.each do |row|
+      row.each { |cell| print cell }
+      print "\n"
+    end
+    nil
+  end
+
   # def winning?
     # return false if field.flatten.any? { |cell| cell.exploded? }
     # field.flatten.all? { |cell| cell.cleared || cell.flagged }
