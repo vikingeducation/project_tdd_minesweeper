@@ -21,15 +21,23 @@ class Minefield
     row = turn[:row]
     column = turn[:column]
     action = turn[:action]
-    cell = field[row][column]
-    take_action(action,cell)
+    take_action(row, column, action)
   end
 
-  def take_action(action,cell)
+  def take_action(row, column, action)
+    cell = field[row][column]
     case action
     when "C"
       cell.clear
+    when "F"
+      cell.flag
+    when "U"
+      cell.unflag
     end
+  end
+
+  def smart_clear(cell)
+    cell.clear
   end
 
   # def winning?

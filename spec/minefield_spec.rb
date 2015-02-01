@@ -143,6 +143,40 @@ describe Minefield do
         toy.take_turn(turn)
         expect(toy.field[0][0].exploded?).to be true
       end
+
+      it 'clears many cells if there are no adjacent mines' do
+        turn = {row: 0, column: 2, action: 'C'}
+        toy.take_turn(turn)
+        expect(toy.field[0][0].cleared).to be false
+        expect(toy.field[0][1].cleared).to be true
+        expect(toy.field[0][2].cleared).to be true
+        expect(toy.field[1][0].cleared).to be true
+        expect(toy.field[1][1].cleared).to be true
+        expect(toy.field[1][2].cleared).to be true
+        expect(toy.field[2][0].cleared).to be true
+        expect(toy.field[2][1].cleared).to be true
+        expect(toy.field[2][2].cleared).to be true
+      end
+    end
+
+    context 'auto-clearing' do
+      it 'auto-clears surrounding cells if flags match'
+      it 'will not auto-clear surrounding cells if flags don\'t match'
+    end
+
+    context 'flagging and unflagging' do
+      before(:each) do
+        turn = {row: 0, column: 0, action: 'F'}
+        toy.take_turn(turn)
+      end
+      it 'adds a flag' do
+        expect(toy.field[0][0].flagged).to be true
+      end
+      it 'removes a flag' do
+        turn = {row: 0, column: 0, action: 'U'}
+        toy.take_turn(turn)
+        expect(toy.field[0][0].flagged).to be false
+      end
     end
   end
 
