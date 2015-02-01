@@ -1,4 +1,5 @@
 require_relative 'cell'
+require 'pry'
 
 class Minefield
 
@@ -28,7 +29,7 @@ class Minefield
     cell = field[row][column]
     case action
     when "C"
-      cell.clear
+      smart_clear(row,column)
     when "F"
       cell.flag
     when "U"
@@ -36,8 +37,17 @@ class Minefield
     end
   end
 
-  def smart_clear(cell)
-    cell.clear
+  def smart_clear(target_row,target_column)
+    target_cell = field[target_row][target_column]
+    target_cell.clear
+    if target_cell.adjacent_mines == 0
+      valid_coordinates(target_row,target_column).each do |cell|
+        row,col = cell[0],cell[1]
+        unless field[row][col].cleared
+          smart_clear(cell[0],cell[1])
+        end
+      end
+    end
   end
 
   # def winning?
@@ -101,6 +111,15 @@ class Minefield
                   end
                 end
     neighbors - [field[row][col]]
+  end
+
+  def valid_coordinates(row,col)
+    coords =  valid_rows(row).each_with_object([]) do |row, nearby|
+                valid_cols(col).each do |col|
+                  nearby << [row,col]
+                end
+              end
+    coords - [[row,col]]
   end
 
   def valid_rows(row)
