@@ -138,18 +138,12 @@ describe Board do
     end
   end
 
-  describe '#set_all_cell_adjacent_mines'
-
-
-  describe '#set_cell_adjacent_mines'
-
-
-end
-
-describe Player do
-  let (:player) {Player.new}
-  
-  it 'should be able to quit a game' do
-    #WHERE WE LEFT OFFFF
-  end  
+  describe '#is_mine?' do
+    it 'should return true if the cell has a mine' do
+      my_array.board.flatten.each do |x|
+        x.mine = true
+      end
+      expect(my_array.is_mine?(5,5)).to eq(true)
+    end
+  end  # describe '#set_cell_adjacent_mines'
 end

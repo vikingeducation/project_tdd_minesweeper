@@ -1,6 +1,7 @@
 require 'pry'
 # require './board.rb'
 # require './cell.rb'
+#RSPEC didn't like the separate files, althought they are included and you may comment this out if this is how you wish to use it. In current form it is one file. 
 
 class Minesweeper
   def initialize
@@ -58,7 +59,6 @@ class Player
   end
 end
 
-###########you can delete all below if you wanna require
 
 
 class Board
