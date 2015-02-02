@@ -25,17 +25,33 @@ class Minefield
     take_action(row, column, action)
   end
 
+  # GAME ENDING SCENARIOS
+
   def lost?
     field.flatten.any? { |cell| cell.exploded? }
+  end
+
+  def blow_up_board
+    field.flatten.each do |cell|
+      cell.clear if cell.mine
+    end
   end
 
   def won?
     uncleared_cells == number_of_mines
   end
 
+  def flag_remaining_mines
+    field.flatten.each do |cell|
+      cell.flag if cell.mine
+    end
+  end
+
   def game_over?
     lost? || won?
   end
+
+  # PUBLIC BOARD INFORMATION
 
   def number_of_mines
     field.flatten.count { |cell| cell.mine }
@@ -49,19 +65,13 @@ class Minefield
     number_of_mines - number_of_flags
   end
 
-  def blow_up_board
-    field.flatten.each do |cell|
-      cell.clear if cell.mine
-    end
-  end
-
-  def flag_remaining_mines
-    field.flatten.each do |cell|
-      cell.flag if cell.mine
-    end
+  def uncleared_cells
+    field.flatten.count { |cell| !(cell.cleared) }
   end
 
   private
+
+  # INITIALIZE HELPERS
 
   def set_field_size(size)
     if size.class == Fixnum
@@ -110,70 +120,7 @@ class Minefield
     end
   end
 
-  def neighbor_cells(row,col)
-    valid_neighbor_coordinates(row,col).each_with_object([]) do |cell,neighbors|
-      neighbor_row = cell[0]
-      neighbor_col = cell[1]
-      neighbors << field[neighbor_row][neighbor_col]
-    end
-  end
-
-  def valid_neighbor_coordinates(row,col)
-    coords =  valid_rows(row).each_with_object([]) do |row, nearby|
-                valid_cols(col).each do |col|
-                  nearby << [row,col]
-                end
-              end
-    coords - [[row,col]]
-  end
-
-  def valid_rows(row)
-    rows = [row]
-    rows << (row - 1) unless row == 0
-    rows << (row + 1) unless row == (size - 1)
-    rows
-  end
-
-  def valid_cols(col)
-    cols = [col]
-    cols << (col - 1) unless col == 0
-    cols << (col + 1) unless col == (size - 1)
-    cols
-  end
-
-  def count_nearby_flags(row,col)
-    neighbor_cells(row,col).count { |cell| cell.flagged }
-  end
-
-  def already_cleared?(row,col)
-    field[row][col].cleared
-  end
-
-  def flags_match_mines?(row,col)
-    count_nearby_flags(row,col) == field[row][col].adjacent_mines
-  end
-
-  def clear_with_zero_cascade(target_row,target_column)
-    target_cell = field[target_row][target_column]
-    target_cell.clear
-    if target_cell.adjacent_mines == 0
-      valid_neighbor_coordinates(target_row,target_column).each do |cell|
-        row,col = cell[0],cell[1]
-        unless field[row][col].cleared
-          clear_with_zero_cascade(cell[0],cell[1])
-        end
-      end
-    end
-  end
-
-  def auto_clear(row,col)
-    if already_cleared?(row,col) && flags_match_mines?(row,col)
-      valid_neighbor_coordinates(row,col).each do |cell|
-        row,col = cell[0],cell[1]
-        clear_with_zero_cascade(row,col)
-      end
-    end
-  end
+  # TAKE TURN HELPERS
 
   def take_action(row, column, action)
     cell = field[row][column]
@@ -189,9 +136,72 @@ class Minefield
     end
   end
 
-  # GAME ENDING SCENARIO HELPERS
+  # SMART CLEARING
 
-  def uncleared_cells
-    field.flatten.count { |cell| !(cell.cleared) }
+  def auto_clear(row,col)
+    if already_cleared?(row,col) && flags_match_mines?(row,col)
+      valid_neighbor_coordinates(row,col).each do |cell|
+        row,col = cell[0],cell[1]
+        clear_with_zero_cascade(row,col)
+      end
+    end
+  end
+
+  def clear_with_zero_cascade(target_row,target_column)
+    target_cell = field[target_row][target_column]
+    target_cell.clear
+    if target_cell.adjacent_mines == 0
+      valid_neighbor_coordinates(target_row,target_column).each do |cell|
+        row,col = cell[0],cell[1]
+        unless field[row][col].cleared
+          clear_with_zero_cascade(cell[0],cell[1])
+        end
+      end
+    end
+  end
+
+  def already_cleared?(row,col)
+    field[row][col].cleared
+  end
+
+  def flags_match_mines?(row,col)
+    count_nearby_flags(row,col) == field[row][col].adjacent_mines
+  end
+
+  def count_nearby_flags(row,col)
+    neighbor_cells(row,col).count { |cell| cell.flagged }
+  end
+
+  # FINDING NEIGHBOR CELLS HELPERS
+
+  def valid_rows(row)
+    rows = [row]
+    rows << (row - 1) unless row == 0
+    rows << (row + 1) unless row == (size - 1)
+    rows
+  end
+
+  def valid_cols(col)
+    cols = [col]
+    cols << (col - 1) unless col == 0
+    cols << (col + 1) unless col == (size - 1)
+    cols
+  end
+
+  def valid_neighbor_coordinates(row,col)
+    coords =  valid_rows(row).each_with_object([]) do |row, nearby|
+                valid_cols(col).each do |col|
+                  nearby << [row,col]
+                end
+              end
+    coords - [[row,col]]
+  end
+
+  def neighbor_cells(row,col)
+    valid_neighbor_coordinates(row,col).each_with_object([]) do |cell,neighbors|
+      neighbor_row = cell[0]
+      neighbor_col = cell[1]
+      neighbors << field[neighbor_row][neighbor_col]
+    end
   end
 end
