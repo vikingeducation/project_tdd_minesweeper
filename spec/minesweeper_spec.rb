@@ -7,6 +7,8 @@
 #1 integer attribute
 #adjacent_mines = nil (going to be set the moment it exists, is set on the 2nd pass)
 require 'minesweeper'
+require 'board'
+require 'cell'
 describe Cell do
   let(:my_cell) {Cell.new}
   
@@ -33,19 +35,19 @@ describe Cell do
   describe '#symbolize' do
     it 'should represent F if it is flagged' do
       my_cell.flagged = true
-      expect(my_cell.symbolize).to eq("F")
+      expect(my_cell.symbolize).to eq("⚑")
     end
-    it 'should represent mine as ■' do
+    it 'should represent mine as ✷' do
       my_cell.mine = true
       my_cell.hidden = false
-      expect(my_cell.symbolize).to eq("■")
+      expect(my_cell.symbolize).to eq("✷")
     end
-    it 'should represent hidden as □' do
-      expect(my_cell.symbolize).to eq("□")
+    it 'should represent hidden as ■' do
+      expect(my_cell.symbolize).to eq("■")
     end
     it 'should represent hidden as □ even if it is a mine' do
       my_cell.mine = true
-      expect(my_cell.symbolize).to eq("□")
+      expect(my_cell.symbolize).to eq("■")
     end
     it 'should represent adjacent_mines as a number (stringed)' do
       my_cell.hidden = false
@@ -122,6 +124,26 @@ describe Board do
       expect(my_array.check_loss?).to eq(true)
     end    
   end
+
+
+  describe '#place_mines' do
+    it 'should place as many mines as a row is long' do
+      mine_counter = 0
+      my_array.board.flatten.each do |x|
+        if x.mine == true
+          mine_counter += 1
+        end
+      end
+      expect(mine_counter).to eq(my_array.board.size)
+    end
+  end
+
+  describe '#set_all_cell_adjacent_mines'
+
+
+  describe '#set_cell_adjacent_mines'
+
+
 end
 
 describe Player do
