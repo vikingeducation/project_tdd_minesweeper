@@ -11,20 +11,33 @@ class Minesweeper
   end
 
   def play
-    while player_wants_to_continue
-      game_board.select_coordinate(get_user_input)
-      exit if player_has_lost || player_has_won
+    welcome
+    while @player_wants_to_continue
+      @game_board.select_coordinate(@player.get_user_input)
+
+      @game_board.render
+      if player_has_lost? || player_has_won?
+        exit
+      end
     end
   end
 
+  def welcome
+    puts "Welcome to minesweeper! For each move enter your coordinates array style, (i.e. type '5,5') if you want to quit type 'Q'! If you want to flag a mine, type 'F' first, then coordinates. Same method to unflag. Good luck!"
+  end
+
   def player_has_lost?
-    #Condition
-    puts "Congratulations!"
+    if @game_board.check_loss?
+      puts "Sorry man, you lose!"
+      return true
+    end
   end
 
   def player_has_won?
-    #Condition
-    puts "Congratulations!"
+    if @game_board.check_victory?
+      puts "Congratulations! You win!"
+      return true
+    end
   end
 end
 
@@ -36,20 +49,26 @@ class Player
       @player_wants_to_continue = false
       exit
     end
-    player_choice = player_choice.split(",").map(&:to_i)
+    if player_choice == "F"
+      return player_choice
+    else
+      player_choice = player_choice.split(",").map(&:to_i)
+      return player_choice
+    end
   end
 end
 
 
-
-myBoard = Board.new
-# myBoard.render
-myBoard.place_mines([0,3,20,40,55,33,34,35,60,70])
-myBoard.set_all_cell_adjacent_mines
+schwad = Minesweeper.new
+schwad
+# myBoard = Board.new
+# # myBoard.render
+# myBoard.place_mines([0,3,20,40,55,33,34,35,60,70])
 # myBoard.set_all_cell_adjacent_mines
-myBoard.autoclear(7,5)
+# # myBoard.set_all_cell_adjacent_mines
+# myBoard.autoclear(7,5)
 
-myBoard.render
+# myBoard.render
 
 
 

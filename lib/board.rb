@@ -4,11 +4,13 @@ class Board
   def initialize(size=10)
     @size = size
     @board = Array.new(@size) {Array.new(@size){Cell.new}}
-    # place_mines  #bring back later
+    place_mines(generate_mines)
+    set_all_cell_adjacent_mines
+
   end
 
   def generate_mines
-    (0..99).to_a.sample(10)
+    (0..((@size*@size)-1)).to_a.sample(@size)
   end
 
   def place_mines mine_locations
@@ -19,9 +21,9 @@ class Board
     end
   end
 
-  def initialize_mines
-    place_mines(generate_mines)
-  end
+  # def initialize_mines
+  #   place_mines(generate_mines)
+  # end
 
   def set_all_cell_adjacent_mines
     @board.each_with_index do |row, row_index|
@@ -94,6 +96,27 @@ class Board
     @board.flatten.each do |cell|
       if cell.mine == true && cell.hidden == false
         return true
+      end      
+    end
+    return false
+  end
+  #magic in here
+  def select_coordinate(user_ary)
+
+    if user_ary == "F"
+      print "Enter flag coordinates:  "
+      flag_coordinates = gets.chomp.split(",").map(&:to_i)
+      if @board[flag_coordinates[0]][flag_coordinates[1]].flagged == false
+        @board[flag_coordinates[0]][flag_coordinates[1]].flagged = true
+      else
+        @board[flag_coordinates[0]][flag_coordinates[1]].flagged = false
+      end
+      
+    else  
+      user_move = @board[user_ary[0]][user_ary[1]]    
+      user_move.hidden = false
+      if user_move.adjacent_mines == 0
+      autoclear(user_ary[0], user_ary[1]) 
       end
     end
   end
@@ -126,6 +149,5 @@ class Board
     print "\n"
   end
 
-  def select_coordinate
-  end
+
 end
