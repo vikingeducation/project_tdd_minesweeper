@@ -172,23 +172,16 @@ class Minefield
 
   # FINDING NEIGHBOR CELLS HELPERS
 
-  def valid_rows(row)
-    rows = [row]
-    rows << (row - 1) unless row == 0
-    rows << (row + 1) unless row == (size - 1)
-    rows
-  end
-
-  def valid_cols(col)
-    cols = [col]
-    cols << (col - 1) unless col == 0
-    cols << (col + 1) unless col == (size - 1)
-    cols
+  def valid_rows_or_cols(num)
+    valid = [num]
+    valid << (num - 1) unless num == 0
+    valid << (num + 1) unless num == (size - 1)
+    valid
   end
 
   def valid_neighbor_coordinates(row,col)
-    coords =  valid_rows(row).each_with_object([]) do |row, nearby|
-                valid_cols(col).each do |col|
+    coords =  valid_rows_or_cols(row).each_with_object([]) do |row, nearby|
+                valid_rows_or_cols(col).each do |col|
                   nearby << [row,col]
                 end
               end

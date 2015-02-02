@@ -160,7 +160,7 @@ describe Minefield do
       it 'auto-clears surrounding cells if flags match' do
         toy.field[0][0].flag
         toy.field[0][1].clear
-        toy.auto_clear(0,1)
+        toy.take_turn({action: "A", row: 0, column: 1})
         expect(toy.field[0][0].cleared).to be false
         expect(toy.field[0][1].cleared).to be true
         expect(toy.field[0][2].cleared).to be true
@@ -173,7 +173,7 @@ describe Minefield do
       end
       it 'will not auto-clear surrounding cells if flags don\'t match' do
         toy.field[0][1].clear
-        toy.auto_clear(0,1)
+        toy.take_turn({action: "A", row: 0, column: 1})
         expect(toy.field[0][0].cleared).to be false
         expect(toy.field[0][1].cleared).to be true
         expect(toy.field[0][2].cleared).to be false

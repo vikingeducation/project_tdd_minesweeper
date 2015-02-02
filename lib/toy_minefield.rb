@@ -12,8 +12,4 @@ class ToyMinefield < Minefield
   def generate_adjacent_mine_counts
     super
   end
-
-  def auto_clear(row,column)
-    super
-  end
 end
