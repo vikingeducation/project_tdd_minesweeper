@@ -145,5 +145,5 @@ describe Board do
       end
       expect(my_array.is_mine?(5,5)).to eq(true)
     end
-  end  # describe '#set_cell_adjacent_mines'
+  end 
 end
