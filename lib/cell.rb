@@ -1,5 +1,5 @@
 class Cell
-  attr_accessor :value, :is_a_mine, :adjacent_mines
+  attr_accessor :value, :is_a_mine, :adjacent_mines, :flagged
 
   def initialize(value = 0, is_a_mine = false, is_visible = false, flagged = false)
     @value = value
