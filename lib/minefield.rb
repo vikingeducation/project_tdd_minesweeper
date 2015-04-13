@@ -53,11 +53,15 @@ class Minefield
       puts 'Enter flag row, col: '
       print '> '
 
-      flag_coord = gets.chomp.strip.split(',').map(&:to_i)
-      if !in_bounds?(flag_coord[0], flag_coord[1])
-        puts 'Entered OOB flag coordinates!'
-      else
-        @board[flag_coord[0]][flag_coord[1]].toggle_flag
+      begin
+        flag_coord = gets.chomp.strip.split(',').map(&:to_i)
+        if !in_bounds?(flag_coord[0], flag_coord[1])
+          raise ArgumentError, 'Entered OOB flag coordinates!'
+        else
+          @board[flag_coord[0]][flag_coord[1]].toggle_flag
+        end
+        rescue => e
+        puts e
       end
     else
       if !in_bounds?(move_array[0], move_array[1])
