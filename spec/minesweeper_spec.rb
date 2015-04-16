@@ -25,6 +25,7 @@ end
 describe Board do
 
   describe "#initialize" do
+  	# FAIL
   	it 'calls create_board with size 10, 9' do
   		expect(Board).to receive(:create_board).with(10,9)
   		Board.new(10,9)
@@ -49,9 +50,9 @@ describe Board do
   		Board.new(size,9)
   	end
 
-  	it 'calls the set_mines function' do
-  		expect(Board).to receive(:set_mines)
-  			
+  	# FAIL
+  	it 'calls the set_mines method' do
+  		expect(Board.new(10,9)).to receive(:set_mines)
   	end
   end
 
