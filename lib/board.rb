@@ -2,11 +2,13 @@
 # board itself.
 
 class Board
-	attr_reader :flags_remaining, :board
+	attr_reader :flags_remaining, :board, :mine_coords
 	
 	def initialize(size, num_mines)
+		@size = size
 		@board = create_board(size,num_mines)
 		@flags_remaining = num_mines
+		@mine_coords = get_all_mines
 		add_surrounding_mines
 	end
 
@@ -76,8 +78,50 @@ class Board
 		square = get_square(coords)
 		if square.displayed == false
 			square.display_square
-		else
-			raise_error ArgumentError
+			if square.surrounding_mines == 0
+				square.adjacent_squares.each do |coords|
+					square = get_square(coords)
+					display_square(square.coords) unless square.mine == true
+				end
+			end
+		end
+	end
+
+	# Get coords of all mines
+	def get_all_mines
+		all_mines = []
+		@board.flatten.each do |square|
+			all_mines << square.coords if square.mine == true
+		end
+		all_mines
+	end
+
+	def get_all_flags
+		all_flags = []
+		@board.flatten.each do |square|
+			all_flags << square.coords if square.flag == true
+		end
+		all_flags
+	end
+
+	# Is loss?
+	def is_loss?(coords)
+		square = get_square(coords)
+		square.mine ? true : false
+	end
+
+	# Is victory?
+	def is_victory? 
+		all_flags = get_all_flags
+		@mine_coords.all?{|mine_coord| all_flags.include?(mine_coord)} ? true : false
+	end
+
+	# Show all mines
+	def show_all_mines
+		@board.flatten.each do |square|
+			if square.mine == true
+				square.displayed = true
+			end
 		end
 	end
 
@@ -92,23 +136,36 @@ class Board
 		output = "MINESWEEPER\n-----------\n#{@flags_remaining} Flags Remaining\n-----------\n"
 		# This will iterate through each row
 		# on the board.
-		@board.each do |row|
+		@board.each_with_index do |row, index|
+			index == 0 ? output << "#{@size - index} | " : output << "#{@size - index}  | "
 			# This will iterate over each square
 			row.each do |square|
 				if square.displayed == false && square.flag == false
 					output << "O"
 				elsif square.displayed == false && square.flag == true
-					output << "F"
+					output << "F".green
+				elsif square.displayed == true && square.mine == true && square.flag == true
+					output << "F".green
+				elsif square.displayed == true && square.mine == true
+					output << "M".red
 				elsif square.displayed == true
 					if square.surrounding_mines == 0
 						output << "_"
-					else 
-						output << square.surrounding_mines.to_s
+					elsif square.surrounding_mines == 1
+						output << "1".blue
+					elsif square.surrounding_mines == 2
+						output << "2".green
+					elsif square.surrounding_mines == 3
+						output << "3".red
+					else
+						output << square.surrounding_mines.to_s.blue
 					end
 				end
 			end
 			output << "\n"
 		end
+		output << "     ___________\n"
+		output << "     12345678910\n"
 		print output
 	end
 

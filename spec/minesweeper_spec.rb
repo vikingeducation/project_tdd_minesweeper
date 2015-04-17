@@ -130,11 +130,65 @@ describe Board do
 			new_board.display_square([1,1])
 			expect(s.displayed).to eq(true)
 		end
+	end
 
-		it 'raises an error if the Square has been displayed already' do
-			new_board.display_square([1,1])
-			expect{new_board.display_square([1,1])}.to raise_error
+	describe "#get_all_mines" do
+		it 'gets array of all mines with 1 mine set' do
+			b = Board.new(2,0)
+			b.get_square([2,1]).make_mine
+			expect(b.get_all_mines).to include([2,1])
 		end
+
+		it 'gets array of all mines with 2 mine set' do
+			b = Board.new(2,0)
+			b.get_square([2,2]).make_mine
+			b.get_square([2,1]).make_mine
+			expect(b.get_all_mines).to include([2,1],[2,2])
+		end
+	end
+
+	describe "#get_all_flags" do
+		it 'gets coordinates for all flags' do
+			small_board = Board.new(2,0)
+			small_board.get_square([2,1]).switch_flag
+			small_board.get_square([2,2]).switch_flag
+			expect(small_board.get_all_flags).to include([2,2],[2,1])
+		end
+	end
+
+	describe "#is_loss?" do
+		it 'returns true if the selection is a mine' do
+			small_board = Board.new(2,0)
+			small_board.get_square([1,1]).make_mine
+			expect(small_board.is_loss?([1,1])).to eq(true)
+		end
+
+		it 'returns false if the selection isn\'t a mine' do
+			small_board = Board.new(2,0)
+			small_board.get_square([2,1]).make_mine
+			expect(small_board.is_loss?([1,1])).to eq(false)
+		end
+	end
+
+	describe "#is_victory?" do
+		it 'returns true if all flags array == all mines array' do
+			sb = Board.new(2,0)
+			sb.get_square([2,1]).make_mine
+			sb.get_square([2,2]).make_mine
+			sb.get_square([2,1]).switch_flag
+			sb.get_square([2,2]).switch_flag
+			expect(sb.is_victory?).to eq(true)
+		end
+
+		it 'returns false if all flags array != all mines array' do
+			sb = Board.new(2,2)
+			sb.get_square([2,1]).switch_flag
+			expect(sb.is_victory?).to eq(false)
+		end
+
+		# Thought about it but don't have to check if both mines and flags
+		# arrays are empty. Mines would never be empty since they get set in
+		# the initialize function.
 	end
 end
 
@@ -183,13 +237,12 @@ describe Square do
 		end
 	end
 
-	describe "#dispaly_square" do
+	describe "#display_square" do
 		it 'sets @displayed to true' do
 			s.display_square
 			expect(s.displayed).to eq(true)
 		end
 	end
-
 end
 
 describe Player do
