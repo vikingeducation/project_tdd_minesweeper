@@ -31,6 +31,9 @@ class Square
 	end
 
 	# Get adjacent squares
+	# NOTE: For this method we don't need to put this on the 
+	# square class- should probably be part of the board.
+
 	def get_adjacent_squares(coords)
 		x, y, adj_squares = coords[0], coords[1], []
 		# Loop through the columns

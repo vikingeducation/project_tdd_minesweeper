@@ -1,14 +1,6 @@
 require('minesweeper')
 
 describe Minesweeper do
-	let(:board){ double() }
-  let(:player){ double() }
-
-  before(:each) do
-    allow(Player).to receive(:new).and_return(player)
-    allow(Board).to receive(:new).and_return(board)
-  end
-
 	describe "#initialize" do
 		it 'creates a new board object' do
 			expect(Board).to receive(:new).with(10,9)
@@ -79,21 +71,22 @@ describe Board do
 
 	# These render tests seem to mess with things, 
 	# let's take a look at them later.
-	# describe "#render" do
-	# 	it 'renders a blank board at first' do
-	# 		expect{new_board.render}.to output(/O/).to_stdout
-	# 	end
+	describe "#render" do
 
-	# 	it 'renders a F if a flag is set' do
-	# 		new_board.get_square([1,1]).switch_flag
-	# 		expect{new_board.render}.to output(/F/).to_stdout
-	# 	end
+		it 'renders a blank board at first' do
+			expect{new_board.render}.to output(/O/).to_stdout
+		end
 
-	# 	it 'calls :clear' do
-	# 		expect(new_board).to receive(:clear)
-	# 		new_board.render
-	# 	end
-	# end
+		it 'renders a F if a flag is set' do
+			new_board.get_square([1,1]).switch_flag
+			expect{new_board.render}.to output(/F/).to_stdout
+		end
+
+		it 'calls :clear' do
+			expect(new_board).to receive(:clear)
+			new_board.render
+		end
+	end
 
 	describe "#get_square" do
 		it 'finds a Square object' do
@@ -156,6 +149,10 @@ describe Board do
 		end
 	end
 
+	# NOTE: is_loss? has a naming issue. We shouldn't have to 
+	# tell it the coordinates since the board already knows
+	# what we chose. 
+	
 	describe "#is_loss?" do
 		it 'returns true if the selection is a mine' do
 			small_board = Board.new(2,0)
@@ -194,6 +191,11 @@ end
 
 describe Square do
 	let(:s){Square.new([1,1],10)}
+	# describe "#initialize" do
+	# 	it 'creates a square' do
+	# 		expect(s.is_a?(Square)).to eq(true))
+	# 	end
+	# end
 
 	describe "#make_mine" do
 		it 'turns the square into a mine' do
