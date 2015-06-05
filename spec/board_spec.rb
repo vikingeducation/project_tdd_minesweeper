@@ -17,6 +17,12 @@ describe Board do
       Board.new(2, 2, 1)
     end
 
+    it "starts with victory and defeat conditions as false" do
+      board = Board.new
+      expect(board.victory).to be_falsey
+      expect(board.defeat).to be_falsey
+    end
+
   end
 
 
@@ -125,9 +131,18 @@ describe Board do
   end
 
 
-  describe "#clear" do
+  describe "#feedback" do
+    let(:target) { double(:mine => true) }
+
+    it "ends the game if a mine square was cleared" do
+      move = {command: "clear"}
+      #allow(target).to receive(:mine).and_return(true)
+      expect{subject.feedback(target, move)}.to change{subject.defeat}.from(false).to(true)
+    end
 
   end
+
+
 
   describe "#flag" do
 

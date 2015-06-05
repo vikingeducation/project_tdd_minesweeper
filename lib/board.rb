@@ -1,6 +1,7 @@
 require_relative 'square'
 
 class Board
+  attr_reader :victory, :defeat
 
   def initialize(height = 10, width = 10, number_of_mines = 9)
     @height = height
@@ -14,6 +15,7 @@ class Board
       end
     end
 
+    @victory = @defeat = false
   end
 
 
@@ -80,11 +82,20 @@ class Board
     target = find_square(move[:row], move[:column])[0]
     target.send(move[:command])
     #provide feedback
+      #if target.mine --> defeat
   end
 
 
   def find_square(row, column)
     @squares.select { |square| square.x == column && square.y == row }
+  end
+
+
+  def feedback(target, move)
+    # hit a mine?
+    @defeat = true if target.mine && move[:command] == "clear"
+    # win?
+    # comment & go to next turn
   end
 
 end

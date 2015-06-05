@@ -20,13 +20,17 @@ class Square
 
   def clear
     @cleared = true # once clear, always clear
+    if @mine == true
+      #BOOM
+    end
   end
 
 
   def status
     status = "#" if !@cleared && !@flagged
     status = "X" if !@cleared && @flagged
-    status = " " if @cleared
+    status = " " if @cleared && !@mine
+    status = "*" if @cleared && @mine
 
     status
   end

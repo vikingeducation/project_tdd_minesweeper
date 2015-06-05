@@ -65,6 +65,11 @@ describe Square do
       expect{s.clear}.not_to change{s.cleared}
     end
 
+    it "explodes if it's a mine" do
+      s.plant_mine
+      expect{s.clear}.to change{s.status}.to("*")
+    end
+
   end
 
 
