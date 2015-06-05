@@ -6,6 +6,7 @@ class Minesweeper
 
   def initialize(height = 10, width = 10, number_of_mines = 9)
     @board = Board.new(height, width, number_of_mines)
+    @player = Player.new(width, height)
   end
 
   def start

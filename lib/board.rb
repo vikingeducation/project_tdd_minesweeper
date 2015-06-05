@@ -65,7 +65,7 @@ class Board
   end
 
 
-  def count_flags(squares)
+  def count_flags(squares)  #refactor with Array#count??
     flag_count = 0
 
     squares.each do |square|
