@@ -8,12 +8,8 @@ class Square
   end
 
 
-  def status
-    status = "O" if !@cleared && !@flagged
-    status = "@" if !@cleared && @flagged
-    status = "_" if @cleared
-
-    status
+  def plant_mine
+    @mine = true
   end
 
 
@@ -24,6 +20,15 @@ class Square
 
   def clear
     @cleared = !@cleared
+  end
+
+
+  def status
+    status = "O" if !@cleared && !@flagged
+    status = "@" if !@cleared && @flagged
+    status = "_" if @cleared
+
+    status
   end
 
 end
