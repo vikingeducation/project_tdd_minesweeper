@@ -19,6 +19,7 @@ class Minesweeper
     #loop do
       move = @player.take_turn
       @board.process(move)
+      @board.render
       #board provides feedback
       #break if endgame
     #end

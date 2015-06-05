@@ -9,9 +9,9 @@ describe Player do
 
   describe "#take_turn" do
 
-    it "should return parsed input if valid move entered" do
+    it "should return translated input hash (with a column number replacing the letter)" do
       allow(subject).to receive(:gets).and_return("clear a 3")
-      expect(subject.take_turn).to eq(["clear","a","3"])
+      expect(subject.take_turn).to eq({command: "clear", column: 1, row: 3})
     end
 
   end

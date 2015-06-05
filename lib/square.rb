@@ -19,14 +19,14 @@ class Square
 
 
   def clear
-    @cleared = !@cleared
+    @cleared = true # once clear, always clear
   end
 
 
   def status
-    status = "O" if !@cleared && !@flagged
-    status = "@" if !@cleared && @flagged
-    status = "_" if @cleared
+    status = "#" if !@cleared && !@flagged
+    status = "X" if !@cleared && @flagged
+    status = " " if @cleared
 
     status
   end

@@ -48,7 +48,7 @@ describe Minesweeper do
 
   describe "#gameplay" do
     let(:game) { Minesweeper.new }
-    let(:board) { double(:process => ["clear","a","3"]) }
+    let(:board) { double(:process => ["clear","a","3"], :render => true) }
     let(:player) { double(:take_turn => ["clear","a","3"]) }
 
     before do

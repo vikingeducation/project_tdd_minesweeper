@@ -56,7 +56,7 @@ class Board
     end
     print "\n"
     print "Remaining flags: #{@number_of_mines - count_flags(@squares)}."
-    print "\n"
+    print "\n\n"
   end
 
 
@@ -77,7 +77,14 @@ class Board
 
 
   def process(move)
+    target = find_square(move[:row], move[:column])[0]
+    target.send(move[:command])
+    #provide feedback
+  end
 
+
+  def find_square(row, column)
+    @squares.select { |square| square.x == column && square.y == row }
   end
 
 end

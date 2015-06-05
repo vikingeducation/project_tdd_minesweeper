@@ -33,7 +33,7 @@ describe Board do
 
     it "displays the square's status in the array" do
       small_board = Board.new(3,3,1)
-      expect(small_board.row_status(3)).to eq(["O","O","O"])
+      expect(small_board.row_status(3)).to eq(["#","#","#"])
     end
 
   end
@@ -90,8 +90,46 @@ describe Board do
 
 
   describe "#process" do
+    let(:board) { Board.new }
+    let(:square) { double(:x => 3, :y => 2) }
+
+    before do
+      allow(Square).to receive(:new).and_return(square)
+    end
+
+    it "finds the target square by row and column" do
+      move = {command: "clear", row: 2, column: 3}
+      allow(square).to receive(:clear)
+      expect(square.x).to eq(3)
+      expect(square.y).to eq(2)
+      subject.process(move)
+    end
+
+    it "calls #clear on target square when commanded" do
+      move = {command: "clear", row: 2, column: 3}
+      expect(square).to receive(:clear)
+      subject.process(move)
+    end
+
+    it "calls #flag on target square when commanded" do
+      move = {command: "flag", row: 2, column: 3}
+      expect(square).to receive(:flag)
+      subject.process(move)
+    end
+
+    #change cleared/flagged variables on square
+    #keeps cleared squares as cleared
+    #removes flag if already flagged
+    #booms if mine
+
+  end
 
 
+  describe "#clear" do
+
+  end
+
+  describe "#flag" do
 
   end
 
