@@ -7,12 +7,14 @@ class Player
 
 
   def take_turn
-    #loop
-      #move = parse_input(get_input)
-      #break if valid_input?
-    #end
+    move = ""
 
-    #return input
+    loop do
+      move = parse_input(get_input)
+      break if valid_input?(move)
+    end
+
+    move
   end
 
 
@@ -20,19 +22,19 @@ class Player
     puts "Enter your move below."
     puts "Specify your row and column with the number and letter shown."
     puts "Choose whether you'd like to 'flag' the square as a mine,"
-    puts "\tor 'clear' the square to reveal it. Use spaces to separate"
-    puts "\teach part (example: clear A 10)."
+    puts "or 'clear' the square to reveal it. Use spaces to separate"
+    puts "teach part (example: clear A 10)."
     gets.chomp
   end
 
 
   def parse_input(input)
-    input.downcase.split(" ")
+    input.downcase.split(" ").uniq
   end
 
 
   def valid_input?(parsed_input)
-    find_command? && find_row? && find_column?
+    find_command?(parsed_input) && find_row?(parsed_input) && find_column?(parsed_input)
   end
 
 
@@ -49,7 +51,7 @@ class Player
 
 
   def find_column?(parsed_input)
-    valid_columns = ("A".."Z").to_a.take(@board_width)
+    valid_columns = ("a".."z").to_a.take(@board_width)
     (parsed_input & valid_columns).size == 1
   end
 

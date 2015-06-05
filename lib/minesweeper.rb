@@ -12,6 +12,19 @@ class Minesweeper
   def start
     @board.place_mines
     @board.render
-    #first user input
+    gameplay
   end
+
+  def gameplay
+    #loop do
+      move = @player.take_turn
+      @board.process(move)
+      #board provides feedback
+      #break if endgame
+    #end
+
+    #win/loss fork
+
+  end
+
 end

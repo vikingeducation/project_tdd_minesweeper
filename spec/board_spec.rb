@@ -36,47 +36,42 @@ describe Board do
       expect(small_board.row_status(3)).to eq(["O","O","O"])
     end
 
-    #it "displays flagged status appropriately" do
-    #  expect(board_one_flag.row_status(3)).to eq(["O","O","@"])
-    #end
-
   end
 
 
   describe "#render_column_header" do
     let(:board) { Board.new }
 
-    xit "creates hash equal in size to board width" do
-      expect(Hash).to receive(:new).with(10)
-      board.column_headers(10)
-    end
-
-
     it "prints sequential letters" do
       expect{ board.render_column_header }.to output(/\A[A]\s[B]\s[C].*\n\z/).to_stdout
     end
 
-    #it "prints out width # of letters" do
-    #  expect{ board.render_column_header }.to output(/[A-Z]{10}/).to_stdout
-    #end
+    it "prints out 10 letters by default" do
+      expect(subject).to receive(:render_row).with(%w(A B C D E F G H I J))
+      subject.render_column_header
+    end
+
+    it "prints out number of letters to match board width" do
+      small_board = Board.new(6,6,3)
+      expect(small_board).to receive(:render_row).with(%w(A B C D E F))
+      small_board.render_column_header
+    end
 
   end
 
 
 
   describe "#place_mines" do
-    let(:board) { Board.new }
+    let(:square) { double(:plant_mine => true) }
 
-    xit "should pull a random sample of squares from @squares" do
-      #squares = double("@squares")
-      #allow(squares).to receive(:sample).with(9).and_return(true)
-      #expect(squares).to receive(:sample).with(9)
-      expect(subject)
-      board.place_mines(9)
+    before do
+      allow(Square).to receive(:new).and_return(square)
     end
 
-
-    it "should call #plant_mine on each square"
+    it "should call #plant_mine on each square" do
+      expect(square).to receive(:plant_mine)
+      subject.place_mines
+    end
 
   end
 
@@ -93,5 +88,11 @@ describe Board do
 
   end
 
+
+  describe "#process" do
+
+
+
+  end
 
 end

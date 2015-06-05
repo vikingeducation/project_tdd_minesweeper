@@ -75,4 +75,9 @@ class Board
     flag_count
   end
 
+
+  def process(move)
+
+  end
+
 end

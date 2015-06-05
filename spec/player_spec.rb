@@ -8,22 +8,16 @@ describe Player do
 
 
   describe "#take_turn" do
-    #asks for input
-    #break if input is legit
 
-    #return input
+    it "should return parsed input if valid move entered" do
+      allow(subject).to receive(:gets).and_return("clear a 3")
+      expect(subject.take_turn).to eq(["clear","a","3"])
+    end
+
   end
 
 
   describe "#get_input" do
-
-    xit "should give user a prompt" do
-      p = Player.new
-      expect(p).to receive(:gets).and_return(true)
-      p.get_input
-    end
-
-    it "should result in calling #validate"
 
   end
 
@@ -39,68 +33,49 @@ describe Player do
       expect(p.parse_input("CleAr A 3")).to eq(["clear","a","3"])
     end
 
-    #it "declare invalid if array is not equal to 3" do
-    #  expect(p.parse_input("clear a b 4")).to raise_error
-    #end
-
   end
 
 
-  describe "#find_command?" do
-    let(:p) { Player.new }
+  describe "#valid_input?" do
 
-    it "returns true if there is one valid command" do
-      expect(p.find_command?(["clear","A","3"])).to be_truthy
+    it "returns true for one valid command, row, and column" do
+      array = ["clear","a","3"]
+      expect(subject.valid_input?(array)).to be_truthy
     end
 
+    it "handles duplicates as long as only one unique command, row, and column" do
+      array = ["clear","a","3","a","clear","a","3"]
+      expect(subject.valid_input?(array)).to be_truthy
+    end
 
     it "returns false if no valid command" do
-      expect(p.find_command?(["A","3"])).to be_falsey
+      array = ["explode","a","3"]
+      expect(subject.valid_input?(array)).to be_falsey
     end
-
 
     it "returns false if multiple valid commands" do
-      expect(p.find_command?(["clear","A","flag","3"])).to be_falsey
+      array = ["clear","a","flag","3"]
+      expect(subject.valid_input?(array)).to be_falsey
     end
-
-  end
-
-
-  describe "#find_row?" do
-    let(:p) { Player.new }
-
-    it "returns true if there is one valid row" do
-      expect(p.find_row?(["clear","A","3"])).to be_truthy
-    end
-
 
     it "returns false if no valid row" do
-      expect(p.find_row?(["clear", "A"])).to be_falsey
+      array = ["clear","a"]
+      expect(subject.valid_input?(array)).to be_falsey
     end
-
 
     it "returns false if multiple valid rows" do
-      expect(p.find_row?(["clear","A","3", "1"])).to be_falsey
+      array = ["clear","a","2","3"]
+      expect(subject.valid_input?(array)).to be_falsey
     end
-
-  end
-
-
-  describe "#find_column?" do
-    let(:p) { Player.new }
-
-    it "returns true if there is one valid column" do
-      expect(p.find_column?(["clear","A","3"])).to be_truthy
-    end
-
 
     it "returns false if no valid column" do
-      expect(p.find_column?(["clear","3"])).to be_falsey
+      array = ["clear","3", "4"]
+      expect(subject.valid_input?(array)).to be_falsey
     end
 
-
     it "returns false if multiple valid columns" do
-      expect(p.find_column?(["B", "clear","A","3"])).to be_falsey
+      array = ["clear","a","2","b"]
+      expect(subject.valid_input?(array)).to be_falsey
     end
 
   end
