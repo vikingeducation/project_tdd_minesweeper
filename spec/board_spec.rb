@@ -82,6 +82,84 @@ describe Board do
   end
 
 
+  describe "#run_nearby_mines" do
+    let(:square) { double(:count_nearby_mines => true) }
+
+    before do
+      allow(Square).to receive(:new).and_return(square)
+    end
+
+    xit "should call #count_nearby_mines" do
+      expect(square).to receive(:count_nearby_mines)
+      subject.run_nearby_mines
+    end
+
+  end
+
+
+  describe "#count_nearby_mines" do
+    let(:square) { double(:x => 3, :y => 2) }
+
+    before do
+      allow(Square).to receive(:new).and_return(square)
+    end
+
+    xit "accepts a Square class as the only argument" do
+      expect(subject).to receive(:count_nearby_mines).with(Square)
+      subject.count_nearby_mines(square)
+    end
+
+    xit "rejects non-Square class arguments"
+
+    xit "finds other squares with x and/or y +/- 1" do
+      expect(subject.count_nearby_mines(square)).to 
+    end
+
+    it "doesn't try to find out of range squares"
+
+    it "counts flags with mines underneath"
+
+    it "doesn't count flags without mines underneath"
+
+  end
+
+
+  describe "#nearby_square?" do
+    let(:current) { double(:x => 3, :y => 5) }
+    let(:other) { double(:x => 1, :y => 1) }
+
+    it "returns true for a square that's +1, +1 away" do
+      allow(other).to receive(:x).and_return(4)
+      allow(other).to receive(:y).and_return(6)
+      expect(subject.nearby_square?(current, other)).to be_truthy
+    end
+
+    it "returns true for a square that's -1, -1 away" do
+      allow(other).to receive(:x).and_return(2)
+      allow(other).to receive(:y).and_return(4)
+      expect(subject.nearby_square?(current, other)).to be_truthy
+    end
+
+    it "returns true for a square that's -1, 0 away" do
+      allow(other).to receive(:x).and_return(2)
+      allow(other).to receive(:y).and_return(5)
+      expect(subject.nearby_square?(current, other)).to be_truthy
+    end
+
+    it "returns false for a square that's +2, 0 away" do
+      allow(other).to receive(:x).and_return(5)
+      allow(other).to receive(:y).and_return(5)
+      expect(subject.nearby_square?(current, other)).to be_falsey
+    end
+
+    it "returns false for a square that's 0, -2 away" do
+      allow(other).to receive(:x).and_return(3)
+      allow(other).to receive(:y).and_return(3)
+      expect(subject.nearby_square?(current, other)).to be_falsey
+    end
+
+  end
+
   describe "#count_flags" do
     let(:square) { double(:status => "@") }
 
@@ -100,6 +178,7 @@ describe Board do
 
     before do
       allow(Square).to receive(:new).and_return(square)
+      allow(subject).to receive(:feedback).and_return(true)
     end
 
     it "finds the target square by row and column" do
@@ -119,6 +198,13 @@ describe Board do
     it "calls #flag on target square when commanded" do
       move = {command: "flag", row: 2, column: 3}
       expect(square).to receive(:flag)
+      subject.process(move)
+    end
+
+    it "calls #feedback to see if a mine is hit" do
+      move = {command: "clear", row: 2, column: 3}
+      allow(square).to receive(:clear).and_return(true)
+      expect(subject).to receive(:feedback)
       subject.process(move)
     end
 
@@ -142,9 +228,5 @@ describe Board do
   end
 
 
-
-  describe "#flag" do
-
-  end
 
 end

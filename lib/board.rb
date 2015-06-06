@@ -66,6 +66,24 @@ class Board
     @squares.sample(@number_of_mines).each { |square| square.plant_mine }
   end
 
+  def run_nearby_mines
+    @squares.each { |square| count_nearby_mines(square) }
+  end
+
+
+  def count_nearby_mines(current_square)
+    surrounding_squares = []
+    surrounding_squares = @squares.select { |other_square| nearby_square?(current_square, other_square) && other_square != current_square}
+
+    #within new array, count where mine is true
+    surrounding_squares.count { |square| square.mine }
+  end
+
+
+  def nearby_square?(current, other)
+    other.x.between?(current.x - 1, current.x + 1) && other.y.between?(current.y - 1, current.y + 1)
+  end
+
 
   def count_flags(squares)  #refactor with Array#count??
     flag_count = 0
@@ -81,8 +99,7 @@ class Board
   def process(move)
     target = find_square(move[:row], move[:column])[0]
     target.send(move[:command])
-    #provide feedback
-      #if target.mine --> defeat
+    feedback(target, move)
   end
 
 

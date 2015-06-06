@@ -20,7 +20,7 @@ describe Minesweeper do
 
   describe "#start" do
     let(:game) { Minesweeper.new }
-    let(:board) { double(:place_mines => true, :render => true)}
+    let(:board) { double(:place_mines => true, :run_nearby_mines => true, :render => true)}
 
     before do
       allow(Board).to receive(:new).and_return(board)
@@ -29,6 +29,12 @@ describe Minesweeper do
     it "tells the board to place the mines" do
       allow(subject).to receive(:gameplay).and_return(false)
       expect(board).to receive(:place_mines)
+      subject.start
+    end
+
+    it "tells the board to set up the nearby mine counts" do
+      allow(subject).to receive(:gameplay).and_return(false)
+      expect(board).to receive(:run_nearby_mines)
       subject.start
     end
 
@@ -48,7 +54,7 @@ describe Minesweeper do
 
   describe "#gameplay" do
     let(:game) { Minesweeper.new }
-    let(:board) { double(:process => ["clear","a","3"], :render => true, :defeat => false) }
+    let(:board) { double(:process => ["clear","a","3"], :render => true, :defeat => true) }
     let(:player) { double(:take_turn => ["clear","a","3"]) }
 
     before do
@@ -67,7 +73,7 @@ describe Minesweeper do
     end
 
     it "calls #loser if player hits a mine" do
-      allow(board).to receive(:defeat).and_return(true)
+      #allow(board).to receive(:defeat).and_return(true)
       expect(subject).to receive(:loser)
       subject.gameplay
     end

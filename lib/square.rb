@@ -1,5 +1,5 @@
 class Square
-  attr_reader :x, :y, :cleared, :flagged
+  attr_reader :x, :y, :mine, :cleared, :flagged
 
   def initialize(x, y)
     @x = x
@@ -20,9 +20,6 @@ class Square
 
   def clear
     @cleared = true # once clear, always clear
-    if @mine == true
-      #BOOM
-    end
   end
 
 

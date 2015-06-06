@@ -22,9 +22,9 @@ describe Square do
 
 
   describe "#plant_mine" do
+    let(:s) { Square.new(1,3) }
 
     it "toggles square to become a mine" do
-      s = Square.new(1,3)
       expect(s.plant_mine).to be_truthy
     end
 
