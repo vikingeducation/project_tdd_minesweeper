@@ -48,7 +48,7 @@ describe Minesweeper do
 
   describe "#gameplay" do
     let(:game) { Minesweeper.new }
-    let(:board) { double(:process => ["clear","a","3"], :render => true) }
+    let(:board) { double(:process => ["clear","a","3"], :render => true, :defeat => false) }
     let(:player) { double(:take_turn => ["clear","a","3"]) }
 
     before do
@@ -64,6 +64,21 @@ describe Minesweeper do
     it "sends the move to the board for processing" do
       expect(board).to receive(:process)
       subject.gameplay
+    end
+
+    it "calls #loser if player hits a mine" do
+      allow(board).to receive(:defeat).and_return(true)
+      expect(subject).to receive(:loser)
+      subject.gameplay
+    end
+
+  end
+
+
+  describe "#loser" do
+
+    it "prints a 'you lose' message" do
+      expect{ subject.loser }.to output(/BOOM/).to_stdout
     end
 
   end

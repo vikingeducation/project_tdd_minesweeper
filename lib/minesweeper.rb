@@ -21,11 +21,17 @@ class Minesweeper
       @board.process(move)
       @board.render
       #board provides feedback
+      loser if @board.defeat
       #break if endgame
     #end
 
     #win/loss fork
+  end
 
+  def loser
+    puts "BOOM!  You have struck a mine."
+    print "/n"
+    puts "Thanks for playing!"
   end
 
 end

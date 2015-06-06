@@ -18,9 +18,9 @@ describe Board do
     end
 
     it "starts with victory and defeat conditions as false" do
-      board = Board.new
-      expect(board.victory).to be_falsey
-      expect(board.defeat).to be_falsey
+      fresh_board = Board.new
+      expect(fresh_board.victory).to be_falsey
+      expect(fresh_board.defeat).to be_falsey
     end
 
   end
@@ -83,11 +83,10 @@ describe Board do
 
 
   describe "#count_flags" do
+    let(:square) { double(:status => "@") }
 
     it "should count squares where status is flagged" do
       b = Board.new(2,2,1)
-      square = double
-      allow(square).to receive(:status).and_return("@")
       squares = [square, square, square, square]
       expect(b.count_flags(squares)).to eq(4)
     end
