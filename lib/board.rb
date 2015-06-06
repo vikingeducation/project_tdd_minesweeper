@@ -67,7 +67,7 @@ class Board
   end
 
   def run_nearby_mines
-    @squares.each { |square| count_nearby_mines(square) }
+    @squares.each { |square| square.nearby_count = count_nearby_mines(square) }
   end
 
 
@@ -89,7 +89,7 @@ class Board
     flag_count = 0
 
     squares.each do |square|
-      flag_count += 1 if square.status == "@"
+      flag_count += 1 if square.status == "X"
     end
 
     flag_count

@@ -104,6 +104,28 @@ describe Board do
       allow(Square).to receive(:new).and_return(square)
     end
 
+    it "returns a number" do
+      expect(subject.count_nearby_mines(square)).to be_a(Fixnum)
+    end
+
+    xit "counts all nearby mines" do
+      square_1_1 = double(:x => 1, :y =>1, :mine => true)
+      square_1_2 = double(:x => 1, :y =>2, :mine => true)
+      square_1_3 = double(:x => 1, :y =>3, :mine => true)
+      square_2_1 = double(:x => 2, :y =>1, :mine => true)
+      square_2_2 = double(:x => 2, :y =>2, :mine => true)
+      square_2_3 = double(:x => 2, :y =>3, :mine => true)
+      square_3_1 = double(:x => 3, :y =>1, :mine => true)
+      square_3_2 = double(:x => 3, :y =>2, :mine => true)
+      square_3_3 = double(:x => 3, :y =>3, :mine => true)
+
+      squares = [square_1_1, square_1_2, square_1_3,
+                 square_2_1, square_2_2, square_2_3,
+                 square_3_1, square_3_2, square_3_3]
+
+      expect(subject.count_nearby_mines(square_2_2)).to eq(9)
+    end
+
     xit "accepts a Square class as the only argument" do
       expect(subject).to receive(:count_nearby_mines).with(Square)
       subject.count_nearby_mines(square)
@@ -161,7 +183,7 @@ describe Board do
   end
 
   describe "#count_flags" do
-    let(:square) { double(:status => "@") }
+    let(:square) { double(:status => "X") }
 
     it "should count squares where status is flagged" do
       b = Board.new(2,2,1)

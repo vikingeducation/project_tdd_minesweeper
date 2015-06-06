@@ -34,6 +34,10 @@ describe Square do
   describe "#status" do
     let(:s) { Square.new(3, 5) }
 
+    before do
+      s.nearby_count = 0
+    end
+
     it "displays O for an uncleared square" do
       expect(s.status).to eq("#")
     end
@@ -48,7 +52,11 @@ describe Square do
       expect(s.status).to eq(" ")
     end
 
-    it "displays Number for clue square"
+    it "displays Number for clue square" do
+      s.nearby_count = 3
+      s.clear
+      expect(s.status).to eq(3)
+    end
 
   end
 
