@@ -98,7 +98,17 @@ class Board
 
   def process(move)
     target = find_square(move[:row], move[:column])[0]
-    target.send(move[:command])
+    if move[:command] == "flag"
+      if count_flags(@squares) == @number_of_mines
+        puts "Out of flags!"
+      elsif target.cleared == true
+        puts "You can't flag a cleared square."
+      else
+        target.send(move[:command])
+      end
+    else
+      target.send(move[:command])
+    end
     feedback(target, move)
   end
 
@@ -110,9 +120,32 @@ class Board
 
   def feedback(target, move)
     # hit a mine?
+    autoclear
     @defeat = true if target.mine && move[:command] == "clear"
     # win?
     # comment & go to next turn
+  end
+
+
+  def autoclear
+    10.times do # terrible fix - need to run every time a square is cleared
+      @squares.each do |current_square|
+
+        if current_square.cleared == true && current_square.nearby_count == 0
+          surrounding_squares = []
+          surrounding_squares = @squares.select { |other_square| nearby_square?(current_square, other_square) && other_square != current_square}
+
+          #within new array, count where mine is true
+          surrounding_squares.each do |square|
+            square.clear
+          end
+
+        end
+
+      end
+
+    end
+
   end
 
 end

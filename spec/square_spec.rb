@@ -36,6 +36,7 @@ describe Square do
 
     before do
       s.nearby_count = 0
+      allow(@board).to receive(:autoclear).and_return(true)
     end
 
     it "displays O for an uncleared square" do
@@ -63,6 +64,11 @@ describe Square do
 
   describe "#clear" do
     let(:s) { Square.new(3, 5) }
+    #let(:board) { double(:autoclear => true) }
+
+    before do
+      #allow(@board).to receive(:autoclear).and_return(true)
+    end
 
     it "clears the square if it's currently uncleared" do
       expect{s.clear}.to change{s.cleared}.from(false).to(true)
@@ -90,7 +96,7 @@ describe Square do
 
     it "unflags the square if it's currently flagged" do
       s.flag
-      expect{s.flag}.to change{s.flagged}.from(true).to(false)
+      expect{s.unflag}.to change{s.flagged}.from(true).to(false)
     end
 
   end

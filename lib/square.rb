@@ -15,13 +15,18 @@ class Square
 
 
   def flag
-    @flagged = !@flagged
+    @flagged = true
+  end
+
+  def unflag
+    @flagged = false
   end
 
 
   def clear
     @cleared = true # once clear, always clear
     @clue = true if @nearby_count != 0
+    #@board.autoclear
   end
 
 
@@ -32,7 +37,7 @@ class Square
     status = self.nearby_count if @clue
     status = "*" if @cleared && @mine
 
-    status = "m" if !@cleared && @mine #testing only
+    #status = "m" if !@cleared && @mine #testing only
 
     status
   end

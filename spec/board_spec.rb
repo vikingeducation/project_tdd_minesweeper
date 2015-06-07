@@ -196,11 +196,12 @@ describe Board do
 
   describe "#process" do
     let(:board) { Board.new }
-    let(:square) { double(:x => 3, :y => 2) }
+    let(:square) { double(:x => 3, :y => 2, :cleared => false) }
 
     before do
       allow(Square).to receive(:new).and_return(square)
       allow(subject).to receive(:feedback).and_return(true)
+      allow(subject).to receive(:count_flags).and_return(0)
     end
 
     it "finds the target square by row and column" do
@@ -230,6 +231,25 @@ describe Board do
       subject.process(move)
     end
 
+    it "will not add a flag if zero flags remaining" do
+      move = {command: "flag", row: 2, column: 3}
+      allow(subject).to receive(:count_flags).and_return(9)
+      expect(square).not_to receive(:flag)
+      subject.process(move)
+    end
+
+    it "allows player to unflag if zero flags remaining" do
+      move = {command: "unflag", row: 2, column: 3}
+      allow(square).to receive(:cleared).and_return(true)
+      allow(subject).to receive(:count_flags).and_return(9)
+      expect(square).to receive(:unflag)
+      subject.process(move)
+    end
+
+    it "should not be able to flag a cleared space" do
+
+    end
+
     #change cleared/flagged variables on square
     #keeps cleared squares as cleared
     #removes flag if already flagged
@@ -244,8 +264,16 @@ describe Board do
     it "ends the game if a mine square was cleared" do
       move = {command: "clear"}
       #allow(target).to receive(:mine).and_return(true)
+      allow(subject).to receive(:autoclear).and_return(true)
       expect{subject.feedback(target, move)}.to change{subject.defeat}.from(false).to(true)
     end
+
+  end
+
+
+  describe "#autoclear" do
+
+    it ""
 
   end
 

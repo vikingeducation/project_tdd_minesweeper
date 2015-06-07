@@ -4,7 +4,7 @@ class Player
     @board_width = board_width
     @board_height = board_height
 
-    @valid_commands = %w(clear flag)
+    @valid_commands = %w(clear flag unflag)
     @valid_rows = (1..@board_height).to_a.map! { |number| number.to_s }
     @valid_columns = ("a".."z").to_a.take(@board_width)
   end
@@ -25,9 +25,9 @@ class Player
   def get_input
     puts "Enter your move below."
     puts "Specify your row and column with the number and letter shown."
-    puts "Choose whether you'd like to 'flag' the square as a mine,"
+    puts "Choose whether you'd like to 'flag'/'unflag' the square as a mine,"
     puts "or 'clear' the square to reveal it. Use spaces to separate"
-    puts "each part, and order doesn't matter ('clear A 10' = '10 a clear')."
+    puts "each part, and order doesn't matter ('clear A 8' = '8 a clear')."
     print ">>> "
     gets.chomp
   end
