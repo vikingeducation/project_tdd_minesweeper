@@ -268,15 +268,23 @@ describe Board do
       expect{subject.feedback(target, move)}.to change{subject.defeat}.from(false).to(true)
     end
 
+
+    it "declares victory if all squares are cleared" do
+      move = {command: "clear"}
+      allow(subject).to receive(:all_cleared?).and_return(true)
+      expect{subject.feedback(target, move)}.to change{subject.victory}.from(false).to(true)
+    end
+
+
+    it "returns false if at least 1 square is not clear"
+
   end
 
 
   describe "#autoclear" do
 
-    it ""
+
 
   end
-
-
 
 end

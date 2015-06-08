@@ -122,6 +122,7 @@ class Board
     # hit a mine?
     autoclear
     @defeat = true if target.mine && move[:command] == "clear"
+    @victory = true if all_cleared?
     # win?
     # comment & go to next turn
   end
@@ -146,6 +147,12 @@ class Board
 
     end
 
+  end
+
+
+  def all_cleared?
+    squares_to_clear = @height * @width - @number_of_mines
+    @squares.count { |square| square.cleared == true } == squares_to_clear
   end
 
 end

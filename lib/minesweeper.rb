@@ -10,6 +10,7 @@ class Minesweeper
   end
 
   def start
+    system("clear")
     @board.place_mines
     @board.run_nearby_mines
     @board.render
@@ -19,22 +20,37 @@ class Minesweeper
   def gameplay
     loop do
       move = @player.take_turn
+      system("clear")
       @board.process(move)
       @board.render
-      #board provides feedback
-      break if @board.defeat
-      #break if endgame
+
+      break if @board.defeat || @board.victory
+
     end
 
-    loser
+    endgame
 
-    #win/loss fork
   end
+
+
+  def endgame
+    if @board.defeat
+      loser
+    else
+      winner
+    end
+  end
+
 
   def loser
     puts "BOOM!  You have struck a mine."
     print "\n"
     puts "Thanks for playing!"
+  end
+
+
+  def winner
+    puts "You win!  Thanks for playing!"
   end
 
 end

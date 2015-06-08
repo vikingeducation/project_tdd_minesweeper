@@ -54,7 +54,7 @@ describe Minesweeper do
 
   describe "#gameplay" do
     let(:game) { Minesweeper.new }
-    let(:board) { double(:process => ["clear","a","3"], :render => true, :defeat => true) }
+    let(:board) { double(:process => ["clear","a","3"], :render => true, :defeat => true, :victory => false) }
     let(:player) { double(:take_turn => ["clear","a","3"]) }
 
     before do
@@ -75,6 +75,13 @@ describe Minesweeper do
     it "calls #loser if player hits a mine" do
       #allow(board).to receive(:defeat).and_return(true)
       expect(subject).to receive(:loser)
+      subject.gameplay
+    end
+
+    it "calls #winner if player clears all squares" do
+      allow(board).to receive(:defeat).and_return(false)
+      allow(board).to receive(:victory).and_return(true)
+      expect(subject).to receive(:winner)
       subject.gameplay
     end
 
