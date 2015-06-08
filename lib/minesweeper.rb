@@ -1,5 +1,6 @@
 require_relative 'board'
 require_relative 'player'
+#require 'colorize'
 require 'pry'
 
 class Minesweeper

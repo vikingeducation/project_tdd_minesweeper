@@ -45,7 +45,7 @@ describe Square do
 
     it "displays @ for a flagged square" do
       s.flag
-      expect(s.status).to eq("X")
+      expect(s.status).to eq("X".colorize(:cyan))
     end
 
     it "displays _ for a cleared square" do
@@ -64,11 +64,6 @@ describe Square do
 
   describe "#clear" do
     let(:s) { Square.new(3, 5) }
-    #let(:board) { double(:autoclear => true) }
-
-    before do
-      #allow(@board).to receive(:autoclear).and_return(true)
-    end
 
     it "clears the square if it's currently uncleared" do
       expect{s.clear}.to change{s.cleared}.from(false).to(true)
@@ -81,7 +76,7 @@ describe Square do
 
     it "explodes if it's a mine" do
       s.plant_mine
-      expect{s.clear}.to change{s.status}.to("*")
+      expect{s.clear}.to change{s.status}.to("*".colorize(:red))
     end
 
   end

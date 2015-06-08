@@ -1,3 +1,5 @@
+require 'colorize'
+
 class Square
   attr_reader :x, :y, :mine, :cleared, :flagged
   attr_accessor :nearby_count
@@ -32,10 +34,10 @@ class Square
 
   def status
     status = "#" if !@cleared && !@flagged
-    status = "X" if !@cleared && @flagged
+    status = "X".colorize(:cyan) if !@cleared && @flagged
     status = " " if @cleared && !@mine
     status = self.nearby_count if @clue
-    status = "*" if @cleared && @mine
+    status = "*".colorize(:red) if @cleared && @mine
 
     #status = "m" if !@cleared && @mine #testing only
 
