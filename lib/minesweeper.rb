@@ -83,15 +83,12 @@ class Board
 
     @bombs = []
 
-    9.times do |bomb_number|
+    until @bombs.length == 9
       current_bomb = [rand(0..9),rand(0..9)]
       @bombs << current_bomb unless @bombs.include?(current_bomb)
     end
 
-    # bomb1 = [0,0]
-    # bomb2 = [1,0]
-    # bomb3 = [1,1]
-    # bomb4 = [9,9]
+    @bombs
 
   end
 
