@@ -39,6 +39,38 @@ let (:b) {Board.new}
 
     end
 
+  end
+
+  describe "#generate_bombs" do
+
+    it "returns an array" do
+
+      expect(b.generate_bombs).to be_an(Array)
+
+    end
+
+    it "returns an array of the coordinates for 9 bombs" do
+
+      bombs = b.generate_bombs
+
+      expect(bombs.length).to eq(9)
+
+      coords = bombs.all? {|bomb| bomb.length == 2}
+
+      expect(coords).to be true
+
+    end
+
+    it "doesn't generate the same bomb twice" do
+
+      bombs = b.generate_bombs
+
+      checked_bombs = bombs.uniq
+
+      expect(bombs).to eq(checked_bombs)
+
+
+    end
 
   end
 
