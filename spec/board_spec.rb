@@ -22,11 +22,12 @@ describe "Board" do
       end
       expect(count).to be(9)
     end
+
+    it "sets up game with 10 flags" do
+      expect(board.flag_count).to eq(10)
+    end
     
-
-
   end
-
-
+  
 end
 
