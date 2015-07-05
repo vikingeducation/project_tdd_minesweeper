@@ -39,11 +39,15 @@ class Board
 	end
 
 	def change_state_of_square(square_to_change)
-		@game_board[square_to_change].check_for_mine? ? game_over : @game_board[square_to_change].state_change
+		@game_board[square_to_change].state_change
+		game_on?(square_to_change)
 	end
 
-	def game_over
-		puts "You lost!"
+	def game_on?(square_to_change)
+		if @game_board[square_to_change].check_for_mine?
+			puts "You lost!"
+			return false
+		end
 	end
 
 	def render_grid
@@ -99,6 +103,9 @@ class Cell
 
 	def check_for_mine?
 		@mine == 1 ? true : false
+	end
+
+	def check_surrounding_mines
 	end
 
 end

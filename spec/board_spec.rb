@@ -50,7 +50,11 @@ end
 
 	it "should end game if player selects a square with a mine in it" do
 		board.game_board[1].set_mine
-		expect(board.change_state_of_square(1)).to be_nil
+		expect(board.change_state_of_square(1)).to be false
+	end
+
+	specify 'clearing a square should expose the mines nearby count' do
+		expect(board.change_state_of_square(1).surrounding_mines).to be_a(Integer)
 	end
 
 end
