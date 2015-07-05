@@ -54,7 +54,7 @@ end
 	end
 
 	specify 'clearing a square should expose the mines nearby count' do
-		expect(board.change_state_of_square(1).surrounding_mines).to be_a(Integer)
+		expect(board.check_surrounding_mines(1)).to be_a(Integer)
 	end
 
 end

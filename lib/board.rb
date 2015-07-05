@@ -47,6 +47,8 @@ class Board
 		if @game_board[square_to_change].check_for_mine?
 			puts "You lost!"
 			return false
+		else
+			return true
 		end
 	end
 
@@ -70,13 +72,31 @@ class Board
 	def render_each_square(position_in_grid)
 		square_has_been_selected_test = 0
 		if @game_board[position_in_grid].state == 1
-			print "\u2B1C "
+			mines = check_surrounding_mines(position_in_grid)
+			if @game_board[position_in_grid].mine == 1
+				print "\u23F6".ljust(2)
+			elsif (mines > 0)
+				print "#{mines}".ljust(2)
+			else
+				print "\u2B1C ".ljust(2)
+			end
 			square_has_been_selected_test += 1
 		elsif @game_board[position_in_grid].state == 0
-			print "\u2B1B "
+			print "\u2B1B ".ljust(2)
 		end
 		return square_has_been_selected_test
 	end
+
+	def check_surrounding_mines(square)
+		i = -10
+		total_mines = 0
+		while i < 11
+			total_mines = @game_board[square-1].mine + @game_board[square+1].mine + @game_board[square].mine
+			i += 10
+		end
+		return total_mines
+	end
+
 end
 
 class Cell
@@ -86,7 +106,7 @@ class Cell
 		@state = 0    	     								# 0 or 1 for selected or not
 		@mine = 0											# 0 or 1 for has mine or not
 		@flag = 0
-		@surrounding_mines = 0											# 0 or 1 for has flag or not
+		# @surrounding_mines = 0											# 0 or 1 for has flag or not
 	end
 
 	def state_change
@@ -102,10 +122,11 @@ class Cell
 	end
 
 	def check_for_mine?
-		@mine == 1 ? true : false
-	end
-
-	def check_surrounding_mines
+		if @mine == 1
+			return true
+		else
+			return false
+		end
 	end
 
 end
