@@ -46,8 +46,7 @@ class Minesweeper # Game flow
     tiles = @board.game_state.flatten
     victory = tiles.all? { |tile|
       tile.is_cleared ||
-      tile.is_mine ||
-      (tile.is_flag && tile.is_mine)
+      tile.is_mine
     }
 
     puts "Congratulations!!!! You must be a master minesweeper!" if victory
