@@ -5,7 +5,7 @@ describe "Board" do
   describe "#Initialize" do
     
     it 'should create Board with 10 rows' do
-      expect(board.field.length).to be(10)
+      expect(board.field.size).to be(10)
     end
 
     it 'should create Board with 10 columns' do
@@ -15,9 +15,9 @@ describe "Board" do
     it 'has 9 mines' do
       count=0
       
-      board.field.each do |row|
-        row.each do  |elem|
-          count+=1 if elem == "M" 
+      board.field.each do |row| 
+        row.each do |h|
+          count+=1 if h[:mine]
         end
       end
       expect(count).to be(9)
@@ -31,19 +31,17 @@ describe "Board" do
 
     it "flags square when flag" do
       board.flag(1,1)
-      expect(board.field[1][1]).to eq("F")
+      expect(board.field[1][1][:flag]).to be(true)
     end
 
-    it "flags mine when flagged" do
-      board.flag(2,2)
-      expect(board.field[2][2]).to eq("O")
-    end
 
     it "cleares the square when played" do
-      board.play(1,1)
-      expect(board.field(1,1)).to eq("")
+      board.clear(1,1)
+      expect(board.field[1][1][:revealed]).to be(true)
 
     end
+
+    it "check that game is over when mine is revealed" 
 
   end
  

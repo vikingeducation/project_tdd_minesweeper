@@ -1,41 +1,43 @@
 class Board
-  attr_reader :field
+  attr_accessor :field
 
-  def initialize(state=nil)
 
-  # M == mine
-  # 0 == nothing
-  # 1-8 == hints
-  # F == flag
-  # O == flagged mine
+  def initialize()
+  
+    @field = Array.new(10) { Array.new(10) {{:hint => 0, :flag => false, :mine => false, :revealed =>false}}  }
 
-    # The actual state
-    # Mines
-    # Hints "what number do we show when we reveal"
-    @field = Array.new(10) { Array.new(10) { 0 }  }
-    # What's drawn to the player
-    # Revealed
-    # Flagged
-    #@display_board
     generate_mines
     @flag_count = 10
-
+    @game_over = false
   end
 
+  def game_over?
+    @game_over
+  end
 
   def generate_mines
-    count = 0
-    used = []
-    until count == 9
-      current_row = rand(0..9)
-      current_col = rand(0..9)
-      current = [current_row, current_col]
-      unless used.include?(current)
-        @field[current_row][current_col] = "M"
-        used << current
+  count=0
+    while count<9
+      if @field[rand(0..9)][rand(0..9)][:mine] == false
+        @field[rand(0..9)][rand(0..9)][:mine] = true  
         count += 1
-      end
+      end 
     end
+  end
+
+  def flag(x,y)
+    getsq(x,y)[:flag]=true
+  end
+
+  def clear(x,y)
+    if getsq(x,y)[:mine]
+      @game_over=true
+    else
+      getsq(x,y)[:revealed]=true
+    end
+  end
+  def getsq(x,y)
+   @field[x][y]
   end
 
   def clear_square(player_move)
@@ -43,7 +45,7 @@ class Board
 
   def render
 
-    render_board = []
+    #render_board = []
 
   end
 

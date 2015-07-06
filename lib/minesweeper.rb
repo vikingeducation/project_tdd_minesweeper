@@ -10,6 +10,12 @@ class Minesweeper
 
   def game
 
+    loop do
+
+      break if @board.game_over?
+
+    end
+
   end
 
 end
