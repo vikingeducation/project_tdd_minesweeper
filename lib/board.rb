@@ -55,7 +55,15 @@ class Board
   end
 
   def flag(x,y)
-    getsq(x,y)[:flag]=true
+    if getsq(x,y)[:flag]
+      getsq(x,y)[:flag]=false
+      @flag_count += 1
+    else
+      unless flag_count == 0
+        getsq(x,y)[:flag]=true 
+        @flag_count -= 1
+      end
+    end
   end
 
   def clear(x,y)
@@ -87,9 +95,7 @@ class Board
     @flag_count
   end
 
-  def decrease_flag_count
-    @flag_count -= 1
-  end
+
 
   def increase_flag_count
     @flag_count += 1

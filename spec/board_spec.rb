@@ -3,6 +3,7 @@ require 'board'
 describe "Board" do
   let(:board){Board.new}
   let(:new_board) {Array.new(10) { Array.new(10) {{:hint => 0, :flag => false, :mine => false, :revealed =>false}}  }}
+  let(:s_board) {Array.new(4) { Array.new(4) {{:hint => 0, :flag => false, :mine => false, :revealed =>false}}  }}
   describe "#Initialize" do
 
     it 'should create Board with 10 rows' do
@@ -54,11 +55,33 @@ describe "Board" do
         expect(board.field[1][1][:flag]).to be(true)
       end
 
-      it "should not place flag if out of flags"
+      it "should not place flag if out of flags" do
+        allow(board).to receive(:flag_count).and_return(0)
+        board.flag(1,1)
+        expect(board.field[1][1][:flag]).to be(false)
+      end
 
+      it "should not place flag if out of flags" do
+        allow(board).to receive(:flag_count).and_return(0)
+        board.flag(1,1)
+        expect(board.field[1][1][:flag]).to be(false)
+      end
+
+      it "should decrease flag's amount when a flag is used" do
+        board.flag(1,1)
+        expect(board.flag_count).to eq(9)
+      end
+
+      it "should increase flag's amount when a flag is removed" do 
+        board.flag(1,1)
+        board.flag(1,1)
+        expect(board.flag_count).to eq(10)
+      end
     end
 
+  end
 
+  describe "Clearing the board" do
     it "cleares the square when played" do
       board.field[1][1][:mine] = false
       board.clear(1,1)
@@ -71,7 +94,16 @@ describe "Board" do
       expect(board.game_over?).to be true
     end
 
+    it "cleares all obvious squares" do
+      board.field = s_board
+      board.clear(0,0)
+      expect(board[2][1][:hint]).to eq(1)
+    end
+
+    
   end
+
+
 
 end
 
