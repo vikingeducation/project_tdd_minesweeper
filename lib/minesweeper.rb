@@ -89,9 +89,9 @@ class Minesweeper
 
     hit_a_mine = tile.is_mine && tile.is_cleared
     if hit_a_mine
+      @board.reveal_mines
       puts "BOOM! Oh no. You've hit a mine! :("
       puts "Better luck next time!"
-      @board.reveal_mines
     end
     hit_a_mine
 
@@ -131,5 +131,6 @@ class Minesweeper
 
 end
 
-
+game = Minesweeper.new
+game.play
 

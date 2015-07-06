@@ -22,7 +22,7 @@ class Player
         puts "You already cleared this tile"
       else
         current_tile.is_cleared = true
-        @board.clear_nearby(current_tile) if current_tile.mines_nearby == 0
+        @board.clear_nearby(current_tile) if current_tile.mines_nearby == 0 && !current_tile.is_mine
       end
     else
       if current_tile.is_flag

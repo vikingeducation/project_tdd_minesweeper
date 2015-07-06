@@ -31,7 +31,6 @@ class Board
     mines_generated = 0
 
     while mines_generated < amount_needed
-      # mine_pos = [rand(0..9),rand(0..9)]
       current_tile = @game_state[rand(0..9)][rand(0..9)]
 
       unless current_tile.is_mine
@@ -87,7 +86,8 @@ class Board
     puts "****** Current Board ******"
     print "\n"
     (@height-1).downto(0) do |x|
-      print " #{x+1}  |  "
+      print " #{x+1}  |  " if x < 9
+      print " #{x+1} |  " if x >= 9
       (0...@width).each do |y|
         current_tile = @game_state[x][y]
         if current_tile.is_flag
@@ -102,24 +102,36 @@ class Board
       end
       print "\n"
     end
-    puts "   |__1_2_3_4_5_6_7_8_9_10__"
+    puts "    |__1_2_3_4_5_6_7_8_9_10__"
     print "\n"
   end
 
   def clear_nearby(tile)
 
-    neighbors = find_neighbors(tile)
+    neighbors = find_direct_neighbors(tile)
 
     neighbors.each do |t|
 
-      if t.mines_nearby == 0 && !t.is_cleared
+      unless t.is_cleared
         t.is_cleared = true
-        clear_nearby(t)
+        clear_nearby(t) if t.mines_nearby == 0
       end
 
     end
 
   end
+
+  def find_direct_neighbors(tile)
+
+    @game_state.flatten.select do |t|
+      (t.x == tile.x.+(1) && t.y == tile.y) ||
+      (t.x == tile.x.-(1) && t.y == tile.y) ||
+      (t.x == tile.x && t.y == tile.y.+(1)) ||
+      (t.x == tile.x && t.y == tile.y.-(1))
+    end
+
+  end
+
 
   def reveal_mines
 
