@@ -20,6 +20,15 @@ describe Board do
 
   end
 
+  describe "#render" do
+
+    it "should render initial gameboard" do
+      #init_board
+      expect(board.render).to be_true
+    end
+
+  end
+
   describe "game play" do
 
     it "should show remaining flags" do
