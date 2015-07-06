@@ -1,4 +1,4 @@
-require 'board'
+require_relative './board.rb'
 
 class Minesweeper
   attr_accessor :board
@@ -12,6 +12,19 @@ class Minesweeper
 
     loop do
 
+      @board.render
+
+      puts "What move do you want to play?"
+      coords = gets.chomp.split(" ")
+
+      if coords == "Q"
+        break
+      end
+
+      @board.clear(coords[0].to_i, coords[1].to_i)
+
+
+
       break if @board.game_over?
 
     end
@@ -19,6 +32,9 @@ class Minesweeper
   end
 
 end
+
+# minesweeper = Minesweeper.new
+# minesweeper.game
 
 
 

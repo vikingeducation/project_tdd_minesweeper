@@ -80,7 +80,7 @@ describe "Board" do
         expect(board.flag_count).to eq(9)
       end
 
-      it "should increase flag's amount when a flag is removed" do 
+      it "should increase flag's amount when a flag is removed" do
         board.flag(1,1)
         board.flag(1,1)
         expect(board.flag_count).to eq(10)
@@ -90,6 +90,9 @@ describe "Board" do
   end
 
   describe "Clearing the board" do
+
+    let(:xs_board){Array.new(3) { Array.new(3) {{:hint => 0, :flag => false, :mine => false, :revealed =>false}}  }}
+
     it "clears the square when played" do
       board.field[1][1][:mine] = false
       board.clear(1,1)
@@ -103,15 +106,22 @@ describe "Board" do
     end
 
     it "clears all obvious squares" do
-      board.field[2][2][:mine] = true
-      board.clear(1,1)
-      expect(board.field[0][0][:revealed]).to be(true)
+      board.field = xs_board
+      board.size = 3
+      board.field[1][1][:mine] = true
+      board.generate_hints
+      board.clear(0,0)
+      expect(board.field[1][0][:revealed]).to be true
+      expect(board.field[0][1][:revealed]).to be true
     end
 
     it "does not clear non-obvious squares" do
-      board.field[2][2][:mine] = true
-      board.clear(1,1)
-      expect(board.field[3][3][:revealed]).to be(false)
+      board.field = xs_board
+      board.size = 3
+      board.field[1][1][:mine] = true
+      board.generate_hints
+      board.clear(0,0)
+      expect(board.field[2][2][:revealed]).to be(false)
     end
 
     it "does not reveal the mine" do
@@ -127,8 +137,8 @@ describe "Board" do
       board.field = s_board
       board.size = 4
       board.field[2][2][:mine] = true
-      board.clear(1,1)
       board.clear(3,3)
+
       expect(board.win?).to be true
     end
 

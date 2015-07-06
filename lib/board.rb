@@ -6,6 +6,7 @@ class Board
     @field = Array.new(10) { Array.new(10) {{:hint => 0, :flag => false, :mine => false, :revealed =>false}}  }
     @size = 10
     generate_mines
+    generate_hints
     @flag_count = 10
     @game_over = false
   end
@@ -19,7 +20,12 @@ class Board
     @size**2 == @field.reduce(0) do |sum,item| 
       sum+=item.select{|el| el[:revealed] || el[:mine]}.length
     end
-    
+  end
+
+  def revealed_count
+    @field.reduce(0) do |sum,item|
+      sum+=item.select{|el| el[:revealed]}.length
+    end
   end
 
   # How to generate hints
@@ -102,20 +108,32 @@ class Board
   # Get neighbors
   # Reveal neighbors
   def reveal(x, y)
+    p revealed_count
     current_square = getsq(x, y)
-    current_square[:revealed]=true unless current_square[:revealed]
+    current_square[:revealed]=true
     get_around_map(x, y).each do |coord|
-      new_sq = getsq(coord[0], coord[1])
-      return if new_sq[:revealed]
-
-      if new_sq[:hint] == 0 || !new_sq[:mine]
-        new_sq[:revealed]=true
-        reveal(coord[0], coord[1])
-      elsif !new_sq[:mine]
-        new_sq[:revealed]=true
-      end
+      reveal_next(coord[0], coord[1])
     end
+  end
 
+  # clear(0,0)
+  # reveal(0,0)
+
+  # current_square = getsq(0,0)
+  # current_square[:revealed] = true
+  # get_around_map(x, y).each do |coord|
+  #   reveal_next(coord[0])
+
+  def reveal_next(x, y)
+    new_sq = getsq(x, y)
+    return if new_sq[:revealed]
+
+    if new_sq[:hint] == 0 && !new_sq[:mine]
+      new_sq[:revealed]=true
+      reveal(x, y)
+    elsif !new_sq[:mine]
+      new_sq[:revealed]=true
+    end
   end
 
   def getsq(x,y)
@@ -131,7 +149,21 @@ class Board
 
   def render
 
-    #render_board = []
+    @field.each_with_index do |row, x|
+      row.each_with_index do |col, y|
+        sq = getsq(x, y)
+        if sq[:revealed]
+          if sq[:hint] == 0
+            print "."
+          else
+            print sq[:hint]
+          end
+        else
+          print "0"
+        end
+      end
+      puts ""
+    end
 
   end
 
