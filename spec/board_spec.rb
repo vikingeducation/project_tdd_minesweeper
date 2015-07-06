@@ -44,6 +44,14 @@ describe "Board" do
       expect(board.field[0][0][:hint]).to eq(2)
     end
 
+    it "should properly sets hint to 0 if no nearby mines" do
+      board.field = new_board
+      board.field[1][1][:mine] = true
+      board.field[1][0][:mine] = true
+      board.generate_hints
+      expect(board.field[4][4][:hint]).to eq(0)
+    end
+
   end
 
   describe "Moves on board" do
@@ -82,7 +90,7 @@ describe "Board" do
   end
 
   describe "Clearing the board" do
-    it "cleares the square when played" do
+    it "clears the square when played" do
       board.field[1][1][:mine] = false
       board.clear(1,1)
       expect(board.field[1][1][:revealed]).to be(true)
@@ -94,14 +102,48 @@ describe "Board" do
       expect(board.game_over?).to be true
     end
 
-    it "cleares all obvious squares" do
-      board.field = s_board
-      board.clear(0,0)
-      expect(board[2][1][:hint]).to eq(1)
+    it "clears all obvious squares" do
+      board.field[2][2][:mine] = true
+      board.clear(1,1)
+      expect(board.field[0][0][:revealed]).to be(true)
     end
 
-    
+    it "does not clear non-obvious squares" do
+      board.field[2][2][:mine] = true
+      board.clear(1,1)
+      expect(board.field[3][3][:revealed]).to be(false)
+    end
+
+    it "does not reveal the mine" do
+      board.field[2][2][:mine] = true
+      board.clear(1,1)
+      expect(board.field[2][2][:revealed]).to be(false)
+    end
   end
+
+  describe "#win?" do
+
+    it "should win the game if all non-mines revealed" do
+      board.field = s_board
+      board.size = 4
+      board.field[2][2][:mine] = true
+      board.clear(1,1)
+      board.clear(3,3)
+      expect(board.win?).to be true
+    end
+
+  end
+
+  # 0000
+  # 0000
+  # 00X0
+  # 0000
+  # (1,1)
+
+  # ....
+  # .111
+  # .100
+  # .100
 
 
 

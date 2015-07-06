@@ -14,6 +14,10 @@ class Board
     @game_over
   end
 
+  def win?
+
+  end
+
   # How to generate hints
   # Take each square and count surrounding mines
   def generate_hints
@@ -31,6 +35,18 @@ class Board
     map.each do |val|
       if getsq(val[0] + x, val[1] + y)
         surrounding << getsq(val[0] + x,val[1] + y)
+      end
+    end
+    return surrounding
+  end
+
+  def get_around_map(x, y)
+    map = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,1],[1,0],[1,-1]]
+
+    surrounding = []
+    map.each do |val|
+      if getsq(val[0] + x, val[1] + y)
+        surrounding << [val[0] + x,val[1] + y]
       end
     end
     return surrounding
@@ -60,18 +76,42 @@ class Board
       @flag_count += 1
     else
       unless flag_count == 0
-        getsq(x,y)[:flag]=true 
+        getsq(x,y)[:flag]=true
         @flag_count -= 1
       end
     end
   end
 
+  # Clearing:
+  # Clears current square, and also any obvious nearby squares,
+  # and any obvious squares near those, and so on and so forth
   def clear(x,y)
     if getsq(x,y)[:mine]
       @game_over=true
     else
-      getsq(x,y)[:revealed]=true
+      reveal(x,y)
     end
+  end
+
+  # Get current square
+  # Reveal it if not revealed
+  # Get neighbors
+  # Reveal neighbors
+  def reveal(x, y)
+    current_square = getsq(x, y)
+    current_square[:revealed]=true unless current_square[:revealed]
+    get_around_map(x, y).each do |coord|
+      new_sq = getsq(coord[0], coord[1])
+      return if new_sq[:revealed]
+
+      if new_sq[:hint] == 0 || !new_sq[:mine]
+        new_sq[:revealed]=true
+        reveal(coord[0], coord[1])
+      elsif !new_sq[:mine]
+        new_sq[:revealed]=true
+      end
+    end
+
   end
 
   def getsq(x,y)
