@@ -1,80 +1,34 @@
 require_relative '../lib/minesweeper.rb'
+require_relative '../lib/tile.rb'
 
 describe Minesweeper do
 
+  describe "#initialize" do
 
+    it "is an instance of minesweeper class" do
 
-
-end
-
-
-describe Board do
-
-let (:b) {Board.new}
-
-  describe '#initialize' do
-
-
-
-  end
-
-  describe '#create_board' do
-
-    it 'returns an 10 x 10 array with dashes inside' do
-
-      example_board = [%w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),
-                      %w(- - - - - - - - - -),]
-
-      returned_array = b.create_board
-
-      expect(returned_array).to eq(example_board)
+      expect(subject).to be_a(Minesweeper)
 
     end
 
   end
 
-  describe "#generate_bombs" do
+  describe "#player_win?" do
 
-    it "returns an array" do
+    let(:my_tile) {Tile.new(1,1)}
 
-      expect(b.generate_bombs).to be_an(Array)
+    it "should return true if you win" do
 
-    end
+      my_tile.is_cleared = true
+      my_board = instance_double("Board", :game_state => Array.new(10) {Array.new(10, my_tile)}
+      subject.instance_variable_set(:@board, my_board)
 
-    it "returns an array of the coordinates for 9 bombs" do
-
-      bombs = b.generate_bombs
-
-      expect(bombs.length).to eq(9)
-
-      coords = bombs.all? {|bomb| bomb.length == 2}
-
-      expect(coords).to be true
-
-    end
-
-    it "doesn't generate the same bomb twice" do
-
-      bombs = b.generate_bombs
-
-      checked_bombs = bombs.uniq
-
-      expect(bombs).to eq(checked_bombs)
-
+      # allow(subject).to receive(:game_state).and_return(my_board)
+      expect(subject.player_win?).to be true
 
     end
 
   end
-
-
 
 
 end
