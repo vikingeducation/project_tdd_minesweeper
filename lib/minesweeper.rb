@@ -13,21 +13,31 @@ class Minesweeper
     loop do
 
       @board.render
-
       puts "What move do you want to play?"
       coords = gets.chomp.split(" ")
 
-      if coords == "Q"
+      until validate?(coords)
+      puts "Invalid move. What move do you want to play?"
+      coords = gets.chomp.split(" ")
+      end
+
+      if coords == ["Q"]
         break
       end
 
       @board.clear(coords[0].to_i, coords[1].to_i)
 
-
-
       break if @board.game_over?
 
     end
+
+  end
+
+  def validate?(input)
+    return true if input == ["Q"] 
+
+    input ==
+
 
   end
 

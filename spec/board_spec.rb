@@ -137,6 +137,8 @@ describe "Board" do
       board.field = s_board
       board.size = 4
       board.field[2][2][:mine] = true
+      board.generate_hints
+      board.clear(1,1)
       board.clear(3,3)
 
       expect(board.win?).to be true

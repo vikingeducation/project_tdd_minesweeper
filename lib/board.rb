@@ -108,7 +108,6 @@ class Board
   # Get neighbors
   # Reveal neighbors
   def reveal(x, y)
-    p revealed_count
     current_square = getsq(x, y)
     current_square[:revealed]=true
     get_around_map(x, y).each do |coord|
@@ -116,14 +115,7 @@ class Board
     end
   end
 
-  # clear(0,0)
-  # reveal(0,0)
-
-  # current_square = getsq(0,0)
-  # current_square[:revealed] = true
-  # get_around_map(x, y).each do |coord|
-  #   reveal_next(coord[0])
-
+  
   def reveal_next(x, y)
     new_sq = getsq(x, y)
     return if new_sq[:revealed]
