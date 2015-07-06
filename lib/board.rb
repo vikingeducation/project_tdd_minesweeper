@@ -16,68 +16,6 @@ class Board
 
   end
 
-  def create_board
-
-    (0...@height).each do |x|
-      (0...@width).each do |y|
-        @game_state[x][y] = Tile.new(x, y)
-      end
-    end
-
-  end
-
-  def generate_mines(amount_needed)
-
-    mines_generated = 0
-
-    while mines_generated < amount_needed
-      current_tile = @game_state[rand(0..9)][rand(0..9)]
-
-      unless current_tile.is_mine
-        current_tile.is_mine = true
-        mines_generated += 1
-      end
-
-    end
-  end
-
-  def get_tiles_mine_count
-
-    (0...@height).each do |x|
-      (0...@width).each do |y|
-        current_tile = @game_state[x][y]
-        find_mines_nearby(current_tile)
-      end
-    end
-
-  end
-
-  def find_mines_nearby(tile)
-    num_of_mines = 0
-
-    neighbors = find_neighbors(tile)
-
-    neighbors.each do |t|
-      if t.is_mine
-        num_of_mines += 1
-      end
-    end
-
-    tile.mines_nearby = num_of_mines
-
-  end
-
-  def find_neighbors(tile)
-
-    # We have to flatten first so we can access the objects inside the array shell
-    @game_state.flatten.select do |t|
-      t.x.between?(tile.x.-(1), tile.x.+(1)) &&
-      t.y.between?(tile.y.-(1), tile.y.+(1)) &&
-      t != tile
-    end
-
-  end
-
   def render
 
     system "clear"
@@ -122,6 +60,23 @@ class Board
 
   end
 
+  def reveal_mines
+
+    (0...@height).each do |x|
+      (0...@width).each do |y|
+        current_tile = @game_state[x][y]
+        current_tile.is_cleared = true if current_tile.is_mine
+      end
+    end
+    render
+
+  end
+
+
+  private
+
+
+
   def find_direct_neighbors(tile)
 
     @game_state.flatten.select do |t|
@@ -133,16 +88,65 @@ class Board
 
   end
 
+  def create_board
 
-  def reveal_mines
+    (0...@height).each do |x|
+      (0...@width).each do |y|
+        @game_state[x][y] = Tile.new(x, y)
+      end
+    end
+
+  end
+
+  def generate_mines(amount_needed)
+
+    mines_generated = 0
+
+    while mines_generated < amount_needed
+      current_tile = @game_state[rand(0...@height)][rand(0...@width)]
+
+      unless current_tile.is_mine
+        current_tile.is_mine = true
+        mines_generated += 1
+      end
+
+    end
+  end
+
+  def get_tiles_mine_count
 
     (0...@height).each do |x|
       (0...@width).each do |y|
         current_tile = @game_state[x][y]
-        current_tile.is_cleared = true if current_tile.is_mine
+        find_mines_nearby(current_tile)
       end
     end
-    render
+
+  end
+
+  def find_mines_nearby(tile)
+    num_of_mines = 0
+
+    neighbors = find_neighbors(tile)
+
+    neighbors.each do |t|
+      if t.is_mine
+        num_of_mines += 1
+      end
+    end
+
+    tile.mines_nearby = num_of_mines
+
+  end
+
+  def find_neighbors(tile)
+
+    # We have to flatten first so we can access the objects inside the array shell
+    @game_state.flatten.select do |t|
+      t.x.between?(tile.x.-(1), tile.x.+(1)) &&
+      t.y.between?(tile.y.-(1), tile.y.+(1)) &&
+      t != tile
+    end
 
   end
 
