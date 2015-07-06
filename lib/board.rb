@@ -111,6 +111,9 @@ class Board
       end
 
     end
+
+    mines_generated
+    
   end
 
   def get_tiles_mine_count

@@ -16,12 +16,6 @@ describe Board do
 
     end
 
-    it "generates the right amount of mines" do
-
-      #expect(subject.generate_mines)
-
-    end
-
   end
 
 end
