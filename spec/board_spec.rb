@@ -34,7 +34,16 @@ describe "Board" do
       expect(board.field[1][1]).to eq("F")
     end
 
-    it "cleares the square when played" 
+    it "flags mine when flagged" do
+      board.flag(2,2)
+      expect(board.field[2][2]).to eq("O")
+    end
+
+    it "cleares the square when played" do
+      board.play(1,1)
+      expect(board.field(1,1)).to eq("")
+
+    end
 
   end
  

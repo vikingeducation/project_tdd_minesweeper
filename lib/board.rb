@@ -3,9 +3,20 @@ class Board
 
   def initialize(state=nil)
 
-    
+  # M == mine
+  # 0 == nothing
+  # 1-8 == hints
+  # F == flag
+  # O == flagged mine
 
+    # The actual state
+    # Mines
+    # Hints "what number do we show when we reveal"
     @field = Array.new(10) { Array.new(10) { 0 }  }
+    # What's drawn to the player
+    # Revealed
+    # Flagged
+    #@display_board
     generate_mines
     @flag_count = 10
 
