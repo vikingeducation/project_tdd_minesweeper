@@ -1,9 +1,9 @@
 require 'board'
 
 describe "Board" do
-
+  let(:board){Board.new}
   describe "#Initialize" do
-    let(:board){Board.new}
+    
     it 'should create Board with 10 rows' do
       expect(board.field.length).to be(10)
     end
@@ -26,8 +26,19 @@ describe "Board" do
     it "sets up game with 10 flags" do
       expect(board.flag_count).to eq(10)
     end
-    
+
+  describe "Moves on board"
+
+    it "flags square when flag" do
+      board.flag(1,1)
+      expect(board.field[1][1]).to eq("F")
+    end
+
+    it "cleares the square when played" 
+
   end
+ 
+
   
 end
 

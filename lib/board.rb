@@ -1,9 +1,18 @@
 class Board
   attr_reader :field
 
-  def initialize
+  def initialize(state=nil)
+
+    
 
     @field = Array.new(10) { Array.new(10) { 0 }  }
+    generate_mines
+    @flag_count = 10
+
+  end
+
+
+  def generate_mines
     count = 0
     used = []
     until count == 9
@@ -16,9 +25,6 @@ class Board
         count += 1
       end
     end
-
-    @flag_count = 10
-
   end
 
   def clear_square(player_move)

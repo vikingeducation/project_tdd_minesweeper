@@ -10,6 +10,8 @@ describe "Minesweeper" do
       expect(game.board.class).to be(Board)
     end
 
+    
+
 
   end
 
