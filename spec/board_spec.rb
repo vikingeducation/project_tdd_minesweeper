@@ -49,7 +49,7 @@ describe Board do
       # specify "each cell should have clear state" do
 
       # end
-
+      #assume @mine == 0
       it "should appear clear when cleared by player" do
         board.change_state_of_square(3)
         expect(board.gameboard[3].print_value).to eq(" \u25A2")
