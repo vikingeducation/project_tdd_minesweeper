@@ -1,8 +1,8 @@
 require 'board'
 
 describe Board do
-
-  describe "#initialize" do
+	let(:board){Board.new}
+   describe "#initialize" do
 
     it "should create a Board object" do
 
@@ -11,18 +11,20 @@ describe Board do
     end
 
     it "should be 10x10 by default" do
-
-      expect(Board.new.flatten.size).to eq(100)
-
+      expect(board.gameboard.size).to eq(100)
     end
 
-    it "should have 9 mines by default"
+    it "should have 9 mines by default" do
+    	expect(board.mines).to eq(9)
+    end
 
   end
 
   describe "game play" do
 
-    it "should show remaining flags"
+    it "should show remaining flags" do
+    	expect(board.remaining_flags).to eq(9)
+    end
 
   end
 
