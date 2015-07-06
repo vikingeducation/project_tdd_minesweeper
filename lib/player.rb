@@ -16,7 +16,7 @@ class Player
 
   def perform_move(type, coords)
 
-    current_tile = @board[coords[0]][coords[1]]
+    current_tile = @board.game_state[coords[0]][coords[1]]
     if type == "c"
       current_tile.is_cleared = true
     else
@@ -32,11 +32,11 @@ class Player
 
   def get_move_type
 
-    print "Would you like to place/remove a [f]lag or [c]lear a tile?"
+    print "Would you like to place/remove a [f]lag or [c]lear a tile? "
     input = gets.chomp.downcase
 
     until ["f", "c"].include?(input)
-      print "Sorry! I didn't get that. Try 'f' or 'c' as your input: "
+      print "Sorry! I didn't get that. Try 'f' or 'c' as your input:  "
       input = gets.chomp.downcase
     end
 
@@ -44,10 +44,11 @@ class Player
 
   end
 
-   def get_coordinates
+  def get_coordinates
 
-    print "Enter your desired coordinates in the format 0,0"
+    print "Enter your desired coordinates in the format 0,0: "
     input = gets.chomp.split(",")
+    input.map! { |item| item.to_i }
 
     until is_valid_coordinate?(input)
       print "Sorry! I didn't get that. Try two numbers as your input: "

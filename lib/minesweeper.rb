@@ -72,21 +72,46 @@ class Minesweeper
     @board.render
 
     #Until game over(we hit a mine or we win)
-    until game_over?
+    loop do
 
       # Ask type of action (place/remove flag, clear tile)
-      tile = @player.get_move
+      move = @player.get_move
       # Ask player for coordinates
       # Perform appropriate action
       # Render the board
       @board.render
+      break if game_over?(move)
     end
+    say_goodbye
+  end
+
+  def game_over?(tile)
+
+    player_win? || hit_mine?(tile)
 
   end
 
-  def game_over?
+  def hit_mine?(tile)
 
-    
+    tile.is_mine && tile.is_cleared
+
+  end
+
+  def player_win?
+
+    tiles = @board.game_state.flatten
+
+    tiles.all? { |tile|
+      tile.is_cleared ||
+      tile.is_mine ||
+      (tile.is_flag && tile.is_mine)
+    }
+
+  end
+
+  def say_goodbye
+
+    puts "Thank you for playing! Goodbye."
 
   end
 

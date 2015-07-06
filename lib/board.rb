@@ -86,8 +86,8 @@ class Board
     (0...@height).each do |x|
       (0...@width).each do |y|
         current_tile = @game_state[x][y]
-        if current_tile.is_cleared
-          print "0 "
+        if !current_tile.is_cleared
+          print "- "
         elsif current_tile.is_mine
           print "* "
         else
