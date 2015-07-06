@@ -1,3 +1,5 @@
+require 'yaml'
+
 class Board
   attr_accessor :field, :size
 
@@ -11,13 +13,26 @@ class Board
     @game_over = false
   end
 
+  def save(filename, mode)
+    my_dump = YAML::dump(@field)
+    File.open(filename, mode) do |file|
+      file.write my_dump
+    end
+  end
+
+  def load(filename)
+    my_field = YAML::load(File.read(filename))
+    @field = my_field
+  end
+
+
   def game_over?
     @game_over
   end
 
   def win?
 
-    @size**2 == @field.reduce(0) do |sum,item| 
+    @size**2 == @field.reduce(0) do |sum,item|
       sum+=item.select{|el| el[:revealed] || el[:mine]}.length
     end
   end
@@ -115,7 +130,7 @@ class Board
     end
   end
 
-  
+
   def reveal_next(x, y)
     new_sq = getsq(x, y)
     return if new_sq[:revealed]
@@ -150,6 +165,8 @@ class Board
           else
             print sq[:hint]
           end
+        elsif sq[:flag]
+          print "F"
         else
           print "0"
         end
