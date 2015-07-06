@@ -15,9 +15,10 @@ describe Minesweeper do
 
   describe "#play" do
 
+    let(:my_board) { double("Board", :render => nil) }
+    let(:my_player) { double("Player", :get_move => nil) }
+
     before do
-      my_board = instance_double("Board", :render => nil)
-      my_player = instance_double("Player", :get_move => Tile.new(0,0))
       subject.instance_variable_set(:@board, my_board)
       subject.instance_variable_set(:@player, my_player)
     end
@@ -25,21 +26,30 @@ describe Minesweeper do
     it "calls the #print_instructions method" do
 
       expect(subject).to receive(:print_instructions)
-      allow(subject).to receive(:render)
-      allow(subject).to receive(:get_move)
+      allow(my_board).to receive(:render)
+      allow(my_player).to receive(:get_move)
+      allow(subject).to receive(:game_over?).with(any_args).and_return(true)
       subject.play
 
     end
 
     it "loops until game over is true" do
-      # allow(subject).to receive(:player_win?).and_return(true)
+
+      allow(subject).to receive(:game_over?).and_return(false, false, false, true)
+      allow(subject).to receive(:print_instructions)
+      allow(my_board).to receive(:render)
+      expect(my_player).to receive(:get_move).exactly(4).times
+      subject.play
 
     end
 
-    specify "player.get_move return an instance of a tile" do
+    # specify "player.get_move return an instance of a tile" do
 
+    #   allow(subject).to receive(:print_instructions)
+    #   allow(my_board).to receive(:render)
+    #   allow(subject).to receive(:game_over?).with(any_args).and_return(true)
 
-    end
+    # end
 
 
 
@@ -50,9 +60,17 @@ describe Minesweeper do
 
     let(:my_tile) {Tile.new(1,1)}
 
-    it "calls the #player_win? method" do
+    it "returns true if a player wins" do
 
       allow(subject).to receive(:player_win?).and_return(true)
+
+      expect(subject.game_over?(my_tile)).to be true
+
+    end
+
+    it "returns true if we clear a mine tile" do
+
+      allow(subject).to receive(:hit_mine?).and_return(true)
 
       expect(subject.game_over?(my_tile)).to be true
 
@@ -85,6 +103,14 @@ describe Minesweeper do
       expect(subject.player_win?).to be true
 
     end
+
+    it "should return false if all the board is not clear" do
+
+      expect(subject.player_win?).to be false
+
+    end
+
+    
 
   end
 
