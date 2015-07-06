@@ -52,8 +52,6 @@ describe Minesweeper do
     # end
 
 
-
-
   end
 
   describe "#game_over?" do
@@ -78,39 +76,89 @@ describe Minesweeper do
 
   end
 
-  describe "#player_win?" do
+  context "check methods that call board" do
 
     let(:my_tile) {Tile.new(1,1)}
     let(:my_mine_tile) {Tile.new(1,1)}
+    let(:my_board) { instance_double("Board", :game_state => Array.new(10) {Array.new(10, my_tile)}) }
 
-    it "should return true if all board is clear" do
+    before do
+        subject.instance_variable_set(:@board, my_board)
+    end
 
-      my_tile.is_cleared = true
-      my_board = instance_double("Board", :game_state => Array.new(10) {Array.new(10, my_tile)})
-      subject.instance_variable_set(:@board, my_board)
-      expect(subject.player_win?).to be true
+    describe "#player_win?" do
+
+      it "returns true if all board is clear" do
+
+        my_tile.is_cleared = true
+        expect(subject.player_win?).to be true
+
+      end
+
+      it "returns true if you clear all the tiles except the mines" do
+
+        my_tile.is_cleared = true
+        my_mine_tile.is_mine = true
+        initial_board = Array.new(10) {Array.new(10, my_tile)}
+        initial_board[5][3] = my_mine_tile
+        expect(subject.player_win?).to be true
+
+      end
+
+      it "returns false if all the board is not clear" do
+
+        expect(subject.player_win?).to be false
+
+      end
+
+      it "returns false if board has one uncleared tile (apart from mines)" do
+
+        my_tile.is_cleared = true
+        my_mine_tile.is_mine = true
+
+        initial_board = Array.new(10) {Array.new(10, my_tile)}
+        initial_board[5][3] = my_mine_tile
+        initial_board[4][4].is_cleared = false
+
+        expect(subject.player_win?).to be false
+
+      end
 
     end
 
-    it "should return true if you clear all the tiles except the mines" do
+    describe "#hit mine?" do
 
-      my_tile.is_cleared = true
-      my_mine_tile.is_mine = true
-      initial_board = Array.new(10) {Array.new(10, my_tile)}
-      initial_board[5][3] = my_mine_tile
-      my_board = instance_double("Board", :game_state => initial_board)
-      subject.instance_variable_set(:@board, my_board)
-      expect(subject.player_win?).to be true
+      it "returns true if a mine has been cleared" do
+
+        my_mine_tile.is_mine = true
+        my_mine_tile.is_cleared = true
+
+        allow(my_board).to receive(:reveal_mines)
+
+        expect(subject.hit_mine?(my_mine_tile)).to be true
+
+      end
+
+      it "returns false if with a cleared regular tile" do 
+         
+         my_tile.is_cleared = true
+         allow(my_board).to receive(:reveal_mines)
+
+        expect(subject.hit_mine?(my_tile)).to be false
+
+      end
+
+      it "returns false if a the tile is uncleared" do
+
+        allow(my_board).to receive(:reveal_mines)
+
+        expect(subject.hit_mine?(my_tile)).to be false
+
+      end
+
 
     end
 
-    it "should return false if all the board is not clear" do
-
-      expect(subject.player_win?).to be false
-
-    end
-
-    
 
   end
 
