@@ -139,8 +139,8 @@ describe Minesweeper do
 
       end
 
-      it "returns false if with a cleared regular tile" do 
-         
+      it "returns false if with a cleared regular tile" do
+
          my_tile.is_cleared = true
          allow(my_board).to receive(:reveal_mines)
 
