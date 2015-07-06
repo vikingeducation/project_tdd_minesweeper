@@ -30,7 +30,7 @@ class Board
       (0...@width).each do |x|
         current_tile = @game_state[x][y]
         if current_tile.is_flag
-          print "F "
+          print "\u{2691} "
         elsif !current_tile.is_cleared
           print "- ".white.on_light_white
         elsif current_tile.is_mine
