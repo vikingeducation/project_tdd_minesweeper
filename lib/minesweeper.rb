@@ -54,44 +54,44 @@
 
 =end
 
-
+require_relative "board.rb"
+require_relative "player.rb"
 
 
 class Minesweeper
 
-
-end
-
-
-class Board
-
-  attr_accessor :board
-
   def initialize
 
-    @board = create_board
+    @board = Board.new
+    @player = Player.new(@board)
 
   end
 
-  def create_board
+  def play
 
-    Array.new(10) {Array.new(10, "-")}
+    @board.render
 
-  end
+    #Until game over(we hit a mine or we win)
+    until game_over?
 
-  def generate_bombs
-
-    @bombs = []
-
-    until @bombs.length == 9
-      current_bomb = [rand(0..9),rand(0..9)]
-      @bombs << current_bomb unless @bombs.include?(current_bomb)
+      # Ask type of action (place/remove flag, clear tile)
+      tile = @player.get_move
+      # Ask player for coordinates
+      # Perform appropriate action
+      # Render the board
+      @board.render
     end
 
-    @bombs
-
   end
 
+  def game_over?
+
+    
+
+  end
 
 
 end
+
+
+
