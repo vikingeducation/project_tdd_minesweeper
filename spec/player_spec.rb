@@ -141,26 +141,36 @@ describe Player do
 
   describe "#get_coordinates" do
 
-    it "keeps asking for input if it's a string" do 
+    it "keeps asking for input if it's a string" do
 
-      allow(p).to receive(:gets).and_return('car', "1,2")
-      expect{p.get_coordinates}.to output("Sorry! I didn't get that. Try two x,y coordinates as your input: \n").to_stdout
+      allow(p).to receive(:gets).and_return('car', "hello", "ASDDFWE", "1,2")
+      expect(p).to receive(:print).exactly(4).times
+      p.get_coordinates
 
     end
 
-    it "keeps asking for input if it's a float"
-    it "keeps asking for input if it's an integers without comma"
+    it "keeps asking for input if it's a float" do
 
-    it "returns an array with two integers"
+      allow(p).to receive(:gets).and_return('1.0', "11.2, 3.1", "1.2, 2.3, 3.6, 4.4", "1,1")
+      expect(p).to receive(:print).exactly(4).times
+      p.get_coordinates
 
+    end
+    it "keeps asking for input if it's an integers without comma" do
 
+      allow(p).to receive(:gets).and_return("1", "2", "1,2")
+      expect(p).to receive(:print).exactly(3).times
+      p.get_coordinates
 
+    end
 
+    it "returns an array with two integers" do
+
+      allow(p).to receive(:gets).and_return("1,1")
+      allow(p).to receive(:print)
+      expect(p.get_coordinates).to eq([1,1])
+
+    end
 
   end
-
-
-
-
-
 end

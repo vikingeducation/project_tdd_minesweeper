@@ -63,8 +63,7 @@ class Player
     until is_valid
       input = gets.chomp.split(",")
       exit if input == ["q"]
-      input.map! { |item| item.to_i.-(1) }
-      is_valid = is_valid_coordinate?(input)
+      is_valid = is_valid_input?(input)
       print "Sorry! I didn't get that. Try two x,y coordinates as your input: " unless is_valid
     end
 
@@ -72,10 +71,21 @@ class Player
 
   end
 
+
+  def is_valid_input?(input)
+
+    return false if input.length != 2
+    input.map! do |item|
+      item.to_i
+    end
+
+    is_valid_coordinate?(input)
+
+  end
+
   def is_valid_coordinate?(input)
 
-    max_coordinate = [@board.width - 1, @board.height - 1].max
-    input.all? { |item| item.between?(0, max_coordinate) }
+    input[0].between?(1, @board.width) && input[1].between?(1, @board.height)
 
   end
 
