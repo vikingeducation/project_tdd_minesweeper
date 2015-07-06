@@ -73,6 +73,90 @@ describe Player do
 
     end
 
+    it "doesn't clear a tile if there's a flag" do
+
+      p.perform_move("f",[0,0])
+
+      expect{p.perform_move("c",[0,0])}.to output("You must remove the flag before clearing a tile\n").to_stdout
+
+    end
+
+    it "places flag if tile is uncleared" do
+
+      flagged_tile = p.perform_move("f",[0,0])
+
+      expect(flagged_tile.is_flag).to be true
+
+    end
+
+    it "doesn't place a flag if tile is cleared" do
+
+      p.perform_move("c",[0,0])
+      expect{p.perform_move("f",[0,0])}.to output("No need to place a flag here ;)\n").to_stdout
+
+    end
+
+    it 'takes down flag if there is already one' do
+
+      flagged_tile = p.perform_move("f",[0,0])
+      flagged_tile = p.perform_move("f",[0,0])
+
+      expect(flagged_tile.is_flag).to be false
+      
+    end
+
+    it "doesn't place a flag if there are no flags remaining"
+
+
+  end
+
+  describe "#get_move_type" do
+
+    it "loops until it gets an f" do
+
+      allow(p).to receive(:gets).and_return("a","b","f")
+      expect(p).to receive(:print).exactly(3).times
+      p.get_move_type
+
+    end
+
+    it "loops until it gets a c" do 
+
+      allow(p).to receive(:gets).and_return("a","b","d", "c")
+      expect(p).to receive(:print).exactly(4).times
+      p.get_move_type
+
+
+    end
+
+    it "returns the letter the user inputs" do 
+
+      allow(p).to receive(:gets).and_return('c')
+      allow(p).to receive(:print)
+      expect(p.get_move_type).to eq('c')
+
+    end
+
+  end
+
+  describe "#get_coordinates" do
+
+    it "keeps asking for input if it's a string" do 
+
+      allow(p).to receive(:gets).and_return('car', "1,2")
+      expect{p.get_coordinates}.to output("Sorry! I didn't get that. Try two x,y coordinates as your input: \n").to_stdout
+
+    end
+
+    it "keeps asking for input if it's a float"
+    it "keeps asking for input if it's an integers without comma"
+
+    it "returns an array with two integers"
+
+
+
+
+
   end
 
 
