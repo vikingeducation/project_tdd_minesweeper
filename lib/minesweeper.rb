@@ -1,5 +1,6 @@
 require_relative "board.rb"
 require_relative "player.rb"
+require "colorize"
 
 
 class Minesweeper # Game flow
@@ -34,8 +35,8 @@ class Minesweeper # Game flow
     hit_a_mine = tile.is_mine && tile.is_cleared
     if hit_a_mine
       @board.reveal_mines
-      puts "BOOM! Oh no. You've hit a mine! :("
-      puts "Better luck next time!"
+      puts "BOOM! Oh no. You've hit a mine! :(".colorize(:red)
+      puts "Better luck next time!".colorize(:red)
     end
     hit_a_mine
 
@@ -57,7 +58,7 @@ class Minesweeper # Game flow
 
   def say_goodbye
 
-    puts "Thank you for playing! Goodbye."
+    puts "Thank you for playing! Goodbye.".colorize(:blue)
 
   end
 

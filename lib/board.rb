@@ -1,4 +1,5 @@
 require_relative "tile.rb"
+require "colorize"
 
 class Board
 
@@ -31,11 +32,20 @@ class Board
         if current_tile.is_flag
           print "F "
         elsif !current_tile.is_cleared
-          print "- "
+          print "- ".white.on_light_white
         elsif current_tile.is_mine
-          print "* "
+          print "* ".light_red.on_light_white
         else
-          print "#{current_tile.mines_nearby} "
+          case current_tile.mines_nearby
+          when 0
+            print "  ".white.on_light_white
+          when 1
+            print "1 ".blue.on_light_white
+          when 2
+            print "2 ".green.on_light_white
+          else
+            print "#{current_tile.mines_nearby} "
+          end
         end
       end
       print "\n"
