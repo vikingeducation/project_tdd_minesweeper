@@ -16,6 +16,10 @@ class Board
 
   def win?
 
+    @size**2 == @field.reduce(0) do |sum,item| 
+      sum+=item.select{|el| el[:revealed] || el[:mine]}.length
+    end
+    
   end
 
   # How to generate hints
