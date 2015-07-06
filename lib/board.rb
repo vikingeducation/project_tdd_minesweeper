@@ -81,12 +81,18 @@ class Board
 
   def render
 
+    system "clear"
+    print "\n"
+
     puts "****** Current Board ******"
     print "\n"
-    (0...@height).each do |x|
+    (@height-1).downto(0) do |x|
+      print " #{x+1}  |  "
       (0...@width).each do |y|
         current_tile = @game_state[x][y]
-        if !current_tile.is_cleared
+        if current_tile.is_flag
+          print "F "
+        elsif !current_tile.is_cleared
           print "- "
         elsif current_tile.is_mine
           print "* "
@@ -96,7 +102,34 @@ class Board
       end
       print "\n"
     end
+    puts "   |__1_2_3_4_5_6_7_8_9_10__"
     print "\n"
+  end
+
+  def clear_nearby(tile)
+
+    neighbors = find_neighbors(tile)
+
+    neighbors.each do |t|
+
+      if t.mines_nearby == 0 && !t.is_cleared
+        t.is_cleared = true
+        clear_nearby(t)
+      end
+
+    end
+
+  end
+
+  def reveal_mines
+
+    (0...@height).each do |x|
+      (0...@width).each do |y|
+        current_tile = @game_state[x][y]
+        current_tile.is_cleared = true if current_tile.is_mine
+      end
+    end
+    render
 
   end
 

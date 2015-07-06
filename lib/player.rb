@@ -18,12 +18,21 @@ class Player
 
     current_tile = @board.game_state[coords[0]][coords[1]]
     if type == "c"
-      current_tile.is_cleared = true
-    else
-      if current_tile.is_flag = false
-        current_tile.is_flag = true
+      if current_tile.is_cleared
+        puts "You already cleared this tile"
       else
+        current_tile.is_cleared = true
+        @board.clear_nearby(current_tile) if current_tile.mines_nearby == 0
+      end
+    else
+      if current_tile.is_flag
         current_tile.is_flag = false
+      else
+        if current_tile.is_cleared
+          puts "No need to place a flag here ;)"
+        else
+          current_tile.is_flag = true
+        end
       end
     end
     current_tile
@@ -34,6 +43,7 @@ class Player
 
     print "Would you like to place/remove a [f]lag or [c]lear a tile? "
     input = gets.chomp.downcase
+    exit if input == "q"
 
     until ["f", "c"].include?(input)
       print "Sorry! I didn't get that. Try 'f' or 'c' as your input:  "
@@ -46,13 +56,14 @@ class Player
 
   def get_coordinates
 
-    print "Enter your desired coordinates in the format 0,0: "
-    input = gets.chomp.split(",")
-    input.map! { |item| item.to_i }
-
-    until is_valid_coordinate?(input)
-      print "Sorry! I didn't get that. Try two numbers as your input: "
+    print "Enter your desired coordinates in the format 1,1: "
+    is_valid = false
+    until is_valid
       input = gets.chomp.split(",")
+      exit if input == ["q"]
+      input.map! { |item| item.to_i.-(1) }
+      is_valid = is_valid_coordinate?(input)
+      print "Sorry! I didn't get that. Try two x,y coordinates as your input: " unless is_valid
     end
 
     input
@@ -61,7 +72,7 @@ class Player
 
   def is_valid_coordinate?(input)
 
-    max_coordinate = [@board.width, @board.height].max
+    max_coordinate = [@board.width - 1, @board.height - 1].max
     input.all? { |item| item.between?(0, max_coordinate) }
 
   end
