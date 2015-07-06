@@ -35,6 +35,16 @@ describe Board do
     	expect(board.remaining_flags).to eq(9)
     end
 
+    context "clearing squares" do
+
+      specify "player can change state of square"
+
+      specify "each cell should have clear state"
+
+      it "should appear clear when cleared by player"
+
+    end
+
   end
 
 end
