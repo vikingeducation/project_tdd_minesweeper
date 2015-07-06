@@ -1,59 +1,3 @@
-=begin
-
-  Board
-  -set up a board
-    ORIGINAL STATE
-    ----------  symbol for mine X
-    ----------  numbers are numbers
-    ----------  flags i
-    ----------  empty spaces O
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-
-    FIRST MOVE
-
-    OOOO------  symbol for mine X
-    OO11------  numbers are numbers
-    OO1i------  flags i
-    ----------  empty spaces O
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-    ----------
-
-
-  minesweeper (game flow)
-
-    initialize a player [minesweeper]
-    initialize a board [minesweeper]
-
-    start game loop [minesweeper]
-      ask - check a field or put/remove flag
-        ask for input (coordinates)
-          validate that coordinate are in board
-          check that the field isn't already check
-          execute the move
-
-
-  board
-    create board
-    render the board
-    randomly create bombs but not place them
-
-  player
-    initialize a player
-    handle input
-
-
-
-=end
-
 require_relative "board.rb"
 require_relative "player.rb"
 
@@ -130,7 +74,3 @@ class Minesweeper
 
 
 end
-
-game = Minesweeper.new
-game.play
-

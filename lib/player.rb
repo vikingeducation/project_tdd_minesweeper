@@ -20,6 +20,8 @@ class Player
     if type == "c"
       if current_tile.is_cleared
         puts "You already cleared this tile"
+      elsif current_tile.is_flag
+        puts "You must remove the flag before clearing a tile"
       else
         current_tile.is_cleared = true
         @board.clear_nearby(current_tile) if current_tile.mines_nearby == 0 && !current_tile.is_mine

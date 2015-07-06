@@ -85,10 +85,10 @@ class Board
 
     puts "****** Current Board ******"
     print "\n"
-    (@height-1).downto(0) do |x|
-      print " #{x+1}  |  " if x < 9
-      print " #{x+1} |  " if x >= 9
-      (0...@width).each do |y|
+    (@height-1).downto(0) do |y|
+      print " #{y+1}  |  " if y < 9
+      print " #{y+1} |  " if y >= 9
+      (0...@width).each do |x|
         current_tile = @game_state[x][y]
         if current_tile.is_flag
           print "F "
@@ -102,6 +102,7 @@ class Board
       end
       print "\n"
     end
+    puts "    |"
     puts "    |__1_2_3_4_5_6_7_8_9_10__"
     print "\n"
   end
