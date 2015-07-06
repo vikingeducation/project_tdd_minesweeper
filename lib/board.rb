@@ -3,11 +3,12 @@
 class Board
 attr_reader :mines, :gameboard
 
-  def initialize(size=10, mines = 9)
+  def initialize(size=10, mines=9)
     @mines = mines
     create_game_board(size)
     set_mines(mines)
   end
+
 
   def set_mines(mines)
     mines_to_set = mines
