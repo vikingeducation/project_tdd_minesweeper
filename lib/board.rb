@@ -30,11 +30,11 @@ class Board
       (0...@width).each do |x|
         current_tile = @game_state[x][y]
         if current_tile.is_flag
-          print "\u{2691} "
+          print "\u{2691} ".on_light_white
         elsif !current_tile.is_cleared
-          print "- ".white.on_light_white
+          print "- ".yellow.on_light_white
         elsif current_tile.is_mine
-          print "* ".light_red.on_light_white
+          print "\u{2620} ".light_red.on_light_white
         else
           case current_tile.mines_nearby
           when 0
@@ -119,7 +119,7 @@ class Board
     end
 
     mines_generated
-    
+
   end
 
   def get_tiles_mine_count

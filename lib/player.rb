@@ -50,6 +50,7 @@ class Player
     until ["f", "c"].include?(input)
       print "Sorry! I didn't get that. Try 'f' or 'c' as your input:  "
       input = gets.chomp.downcase
+      exit if input == "q"
     end
 
     input
@@ -76,7 +77,7 @@ class Player
 
     return false if input.length != 2
     input.map! do |item|
-      item.to_i
+      (item.to_i) - 1
     end
 
     is_valid_coordinate?(input)
@@ -85,7 +86,7 @@ class Player
 
   def is_valid_coordinate?(input)
 
-    input[0].between?(1, @board.width) && input[1].between?(1, @board.height)
+    input[0].between?(0, @board.width-1) && input[1].between?(0, @board.height-1)
 
   end
 
