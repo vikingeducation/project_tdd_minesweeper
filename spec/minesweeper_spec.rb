@@ -1,6 +1,5 @@
 require 'minesweeper'
 
-
 describe Minesweeper do
 	let(:new_game){Minesweeper.new}
 	let(:blank_board){((0..100).to_a)}
@@ -9,7 +8,6 @@ describe Minesweeper do
 		it "creates a Minesweeper object" do
 			expect(Minesweeper.new).to be_a(Minesweeper)
 		end
-
 	end
 
 	describe "#game" do
@@ -32,14 +30,8 @@ describe Minesweeper do
 			expect(Board).to receive(:new).with(1,2)
 			new_game.game
 		end
-
 	end
 
 	describe '#___' do
-
-
 	end
-
-
-
 end

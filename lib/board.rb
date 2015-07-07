@@ -1,10 +1,11 @@
 
 
 class Board
-attr_reader :mines, :gameboard
+attr_reader :mines, :gameboard, :size
 
   def initialize(size=10, mines=9)
     @mines = mines
+    @size = size
     create_game_board(size)
     set_mines(mines)
   end
@@ -62,11 +63,7 @@ attr_reader :mines, :gameboard
   def lose?(cell)
     @gameboard[cell].mine == 1 ? true : false
   end
-
-
 end
-
-
 
 class Cell
 	attr_reader :mine, :flag
@@ -89,5 +86,4 @@ class Cell
   def set_mine
     @mine = 1
   end
-
 end

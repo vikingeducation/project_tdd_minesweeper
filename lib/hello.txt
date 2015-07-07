@@ -1,0 +1,403 @@
+--- !ruby/object:Board
+mines: 0
+gameboard:
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 1
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 1
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 1
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0
+- !ruby/object:Cell
+  mine: 0
+  flag: 0
+  state: 0

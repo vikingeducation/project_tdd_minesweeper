@@ -3,7 +3,7 @@ class Player
   attr_reader :difficulty
 
   def initialize(board)
-    @gameboard = board
+    @board = board
   end
 
   def level
@@ -21,13 +21,16 @@ class Player
       move.map!{|col| col.to_i}
       if validate?(move)
         correct_input = true
+      elsif move == [0,0]
+        correct_input = true
+        move = 00
       end
     end
     move
   end
 
   def validate?(move)
-    row_size = @gameboard.flatten.size**(1.0/2)
+    row_size = @board.gameboard.flatten.size**(1.0/2)
     ((1..row_size+1).include? move[0]) && ((1..row_size+1).include? move[1]) ? true : false
   end
 end
