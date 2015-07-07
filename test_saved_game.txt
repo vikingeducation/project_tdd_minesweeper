@@ -1,0 +1,401 @@
+---
+- - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 0
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: true
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 2
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+- - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 1
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
+  - :hint: 0
+    :flag: false
+    :mine: false
+    :revealed: false
