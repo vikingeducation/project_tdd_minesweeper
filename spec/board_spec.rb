@@ -149,7 +149,7 @@ describe "Board" do
   describe "Saving a game" do
     it "should save the game" do
       name="test_saved_game.txt"
-      File.delete(name) if File.exist?(name) 
+      File.delete(name) if File.exist?(name)
       board.save(name, "w")
       expect(File.exist? (name)).to be true
       #expect(File).to exist(name)
@@ -157,18 +157,15 @@ describe "Board" do
 
     it "should load a game" do
       name="test_saved_game.txt"
-      File.delete(name)
+      File.delete(name) if File.exist?(name)
       board.save(name, "w")
-      field1=board.load(name)
       board.flag(1,1)
+      new_field = board.field
+      old_field=board.load(name)
 
-      expect(board.field).not_to eq(field1)
+      expect(new_field).not_to eq(old_field)
     end
   end
-
-  
-
-
 
 end
 

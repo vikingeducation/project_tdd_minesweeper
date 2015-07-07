@@ -168,7 +168,25 @@ class Board
         elsif sq[:flag]
           print "F"
         else
-          print "0"
+          print "_"
+        end
+      end
+      puts ""
+    end
+
+  end
+
+  def render_game_over
+
+    @field.each_with_index do |row, x|
+      row.each_with_index do |col, y|
+        sq = getsq(x, y)
+        if sq[:mine]
+          print "M"
+        elsif sq[:hint] == 0
+          print "."
+        else
+          print sq[:hint]
         end
       end
       puts ""
@@ -178,11 +196,5 @@ class Board
 
   def flag_count
     @flag_count
-  end
-
-
-
-  def increase_flag_count
-    @flag_count += 1
   end
 end

@@ -10,6 +10,10 @@ class Minesweeper
 
   def game
 
+    if File.exist?("my_game.txt")
+      ask_to_load_game
+    end
+
     loop do
 
       @board.render
@@ -25,9 +29,11 @@ class Minesweeper
       when "Q"
         break
       when "P"
-        @board.clear(coords[1], coords[2])
+        @board.clear(coords[2], coords[1])
       when "F"
-        @board.flag(coords[1],coords[2])
+        @board.flag(coords[2],coords[1])
+      when "S"
+        @board.save("my_game.txt", "w")
       end
 
       break if @board.game_over? || @board.win?
@@ -38,13 +44,28 @@ class Minesweeper
 
   end
 
+  def ask_to_load_game
+    puts "Type 'Y' to load 'my_game.txt'."
+    choice = gets.chomp.downcase
+
+    if choice == "y"
+      @board.load("my_game.txt")
+    end
+  end
+
   def print_game_finished
-    @board.render
-    @board.game_over? ? (puts "Dang, you lost...") : (puts "Hooray, you win!")
+    if @board.win?
+      @board.render
+      puts "Hooray, you win!"
+    else
+      @board.render_game_over
+      puts "Better luck next time..."
+    end
   end
 
   def validate?(input)
-    return true if input == ["Q"]
+    return true if input == ["Q"] || input == ["S"]
+    input[0] = input[0].upcase
 
     input[1] = input[1].to_i
     input[2] = input[2].to_i
@@ -60,22 +81,5 @@ class Minesweeper
 
 end
 
-# minesweeper = Minesweeper.new
-# minesweeper.game
-
-
-
-=begin
-
-Set up game [Minesweeper]
-Set up blank 10x10 board [Board]
-Random put 9 mines [Board]
-Keep flags, "cleared squares" and bordermines_number [Board]
-Square should has states: cleared (show mine or not), flag
-Should show remaining flags [Board]
-
-
-Should change state of a board square [Player]
-
-Set flag at coordinates [Player]
-=end
+minesweeper = Minesweeper.new
+minesweeper.game
