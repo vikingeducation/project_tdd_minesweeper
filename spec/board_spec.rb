@@ -51,9 +51,6 @@ describe Board do
         board.change_state_of_square(3)
         expect(board.gameboard[3].print_value).to eq(" \u25A2")
       end
-
     end
-
   end
-
 end
