@@ -83,10 +83,6 @@ class Board
   end
 
 
-  private
-
-
-
   def find_direct_neighbors(tile)
 
     @game_state.flatten.select do |t|
