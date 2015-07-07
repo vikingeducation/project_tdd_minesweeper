@@ -56,6 +56,11 @@ attr_reader :mines, :gameboard
 
   def change_state_of_square(square_to_change)
     @gameboard[square_to_change].state = 1 if @gameboard[square_to_change].state == 0
+    lose?(square_to_change)
+  end
+
+  def lose?(cell)
+    @gameboard[cell].mine == 1 ? true : false
   end
 
 

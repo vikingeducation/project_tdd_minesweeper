@@ -1,13 +1,21 @@
 #Edited
-require 'Player'
+require 'player'
+require 'board'
 
 class Minesweeper
 	def initialize
 	end
 
 	def game
-		board = Board.new(level)
+		difficulty = level
+		board = Board.new(difficulty[0], difficulty[1])
 		player = Player.new(board)
+		row_size = board.flatten.size**(1.0/2)
+		loop do
+			coord = player.select_move #array
+			cell = coord[0]*row_size + coord[1]
+			break if board.change_state_of_square(cell)
+		end
 	end
 
 	def level
@@ -19,12 +27,20 @@ class Minesweeper
 		if difficulty == "B"
 	       size = 5
 	       mines = 5
-	    elsif difficulty == "I"
+	  elsif difficulty == "I"
 	      size = 10
-	    elsif difficulty == "A"
+	  elsif difficulty == "A"
 	      size = 20
 	      mines = 20
-	    end
-	   return size, mines
-    end
+	  end
+	  return [size, mines]
+  end
+
+  def save_game
+
+
+  end
+
+
+
 end
