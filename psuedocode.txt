@@ -1,0 +1,32 @@
+setup the game
+- create board (10x10)
+- - 
+- randomly place 9 mines (populate array of mine coords)
+- board should show remaining flags (can go negative, too many flagged)
+render board
+ask player for coords
+ask player if coords are to be cleared or flagged
+if coords are flagged, load into flagged array, re-render board
+if coords are cleared, check for mine
+- if no mine then begin checking all coords around for a mine
+- - add numbers to cleared tiles that are adjecent to a mine
+    a tile cannot be auto-cleared if its possibly a mine, creates the wall
+- - re-render board with recursively cleared tiles
+- if coords are a mine, game over
+- - re-render board showing all mines
+
+data being kept
+mine coords
+cleared coords
+flagged coords
+remaining flags count, can be negative
+
+when clearing, if a numbered tile is met, so that is a tile adajecent to a mine
+its number is revealed but we do not check the tiles around it
+
+:u
+:c
+:m
+:f
+
+tile class
