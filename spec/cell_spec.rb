@@ -2,7 +2,7 @@ require 'cell'
 
 describe Cell do
 
-  context "#initialize" do
+  context "#initialize new cell" do
 
     it "is covered" do
       expect( subject.covered? ).to be true
@@ -34,7 +34,7 @@ describe Cell do
       expect( subject.flagged? ).to be true
     end
 
-    it "#mine! sets the tile be mined" do
+    it "#mine! sets the tile to mined" do
       subject.mine!
       expect( subject.mined? ).to be true
     end

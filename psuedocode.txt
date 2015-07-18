@@ -37,9 +37,8 @@ initialize
 it starts with a blank board by default
 board state can be set on creation
 
-setup_board
-populates the board with covered cells
-randomly sets 9 of the cells to mines
+place_mines
+random sets 9 cells to mined
 
 flag cell
 sets the cell to flag!
