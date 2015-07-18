@@ -1,16 +1,16 @@
 setup the game
 - create board (10x10)
-- - 
-- randomly place 9 mines (populate array of mine coords)
+- populate board with covered cells
+- randomly set 9 cells to be mines
 - board should show remaining flags (can go negative, too many flagged)
 render board
 ask player for coords
 ask player if coords are to be cleared or flagged
-if coords are flagged, load into flagged array, re-render board
+if coords are flagged, set cell to flag!
 if coords are cleared, check for mine
 - if no mine then begin checking all coords around for a mine
-- - add numbers to cleared tiles that are adjecent to a mine
-    a tile cannot be auto-cleared if its possibly a mine, creates the wall
+- - set mined neighbors on the coords and cells around the coords
+    *tiles adjacent to a cell with mined neighbors will not be auto cleared
 - - re-render board with recursively cleared tiles
 - if coords are a mine, game over
 - - re-render board showing all mines
@@ -24,9 +24,22 @@ remaining flags count, can be negative
 when clearing, if a numbered tile is met, so that is a tile adajecent to a mine
 its number is revealed but we do not check the tiles around it
 
-:u
-:c
-:m
-:f
+cell class
+it "initially is covered"
+it "initially is not flagged"
+it "initially is not a mine"
+it "reveal! sets the tile to not be covered"
+it "flag! sets the tile to flagged"
+it "mine! sets the tile be a mine"
 
-tile class
+board class
+initialize
+it starts with a blank board by default
+board state can be set on creation
+
+setup_board
+populates the board with covered cells
+randomly sets 9 of the cells to mines
+
+flag cell
+sets the cell to flag!
