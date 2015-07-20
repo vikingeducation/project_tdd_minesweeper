@@ -83,3 +83,14 @@ build_queue(cells_to_check)
 
 
 
+make_move(coords, action)
+  if cell(coords)
+    if action = :flag
+      flag_cell(coords)
+      return true
+    else
+      auto_reveal_search(coords)
+      return true
+    end
+  end
+end

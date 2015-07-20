@@ -1,13 +1,20 @@
 require_relative 'cell'
-require 'pry'
+require_relative 'logic'
+require 'colorize'
 
 class Board
+  include Logic
   attr_reader :range, :grid
+  attr_writer :status_message
+
   
   def initialize(grid = nil)
     @grid = grid || blank_grid
     @range = ( 0..(@grid.keys.max) )
+    @status_message = nil
+    @flags = 9
   end
+
 
   def blank_grid
     @grid = {}
@@ -19,6 +26,7 @@ class Board
     @grid
   end
 
+
   def place_mines
     9.times do
       random_row = @range.to_a.sample
@@ -26,11 +34,6 @@ class Board
       cell = @grid[random_row][random_col]
       cell.mined? ? next : cell.mine!
     end
-  end
-
-  def cell(coords)
-    return nil unless coords.all? { |i| @range.include?(i) }
-    @grid[coords[0]][coords[1]]
   end
 
 
@@ -42,38 +45,38 @@ class Board
     end
   end
 
-  def count_mined_neighbors(coords)
-    neighbors = get_neighbors(coords)
-    count = neighbors.count { |neighbor| cell(neighbor).mined? }
-    cell(coords).mined_neighbors = count 
-  end
 
-  def get_neighbors(coords)
-    row = coords[0]
-    col = coords[1]
-    neighbors = []
-
-    possible_neighbors = [
-    [row-1, col-1], [row-1, col], [row-1, col+1],
-    [row, col-1],                 [row, col+1],
-    [row+1, col-1], [row+1, col], [row+1, col+1]]
-
-    possible_neighbors.each do |neighbor|
-      unless cell(neighbor) == nil
-        neighbors << neighbor
+  def make_move(coords, action)
+    if cell(coords)
+      if action == :flag
+        flag_cell(coords)
+        return true
+      elsif action == :reveal
+        cell(coords).flag! if cell(coords).flagged? 
+        cell(coords).reveal!
+        auto_reveal_search(coords)
+        return true
       end
     end
-
-    neighbors
   end
 
+  def revealed_mine?
+    @grid.values.flatten.any? do |cell|
+      cell.covered? == false && 
+      cell.mined? 
+    end
+  end
+
+
   def flag_cell(coords)
+    if cell(coords).flagged?
+      @flags += 1
+    else
+      @flags -= 1
+    end
     cell(coords).flag!
   end
 
-  def mined?(coords)
-    cell(coords).mined?    
-  end
 
   def victory?
     flagged = @grid.values.flatten.select { |cell| cell.flagged? }
@@ -81,66 +84,44 @@ class Board
     flagged == mined
   end
 
-  def auto_reveal_search(coords)
-    queue = [coords]
-    until queue.empty?
 
-      test_cell = queue.pop
-      neighbors = get_neighbors( test_cell )
+  def render_grid(game_over = false)
+    system "clear"
+    puts "Welcome to Minesweeper, first enter the" 
+    puts "coordinates of a cell.  Then if you'd like"
+    puts "to flag or reveal that cell.\n\n"
 
-      queue += queue_cells_for_search(neighbors)
+    print "   "
+    (0..9).each { |num| print " #{num} "}
+    print "\n"
 
-      auto_reveal_cells(neighbors)
-
-    end
-  end
-
-  def auto_reveal_cells(cells)
-    cells.each do |coords|
-      cell(coords).reveal! if auto_reveal?(coords)
-    end
-  end
-
-  def queue_cells_for_search(cells)
-    queue = []
-    cells.each do |coords|
-      queue << coords if add_to_queue?(coords)
-    end
-    queue
-  end
-
-  def auto_reveal?(coords) 
-    cell(coords).covered? == true &&
-    cell(coords).mined? == false &&
-    cell(coords).flagged? == false
-  end
-
-
-  def add_to_queue?(coords)
-    auto_reveal?(coords) && cell(coords).mined_neighbors == 0
-  end
-
-  def render_grid
-    @grid.each_value do |row|
+    @grid.each do |row_num, row|
+      print " #{row_num} "
       row.each do |cell|
-        render_cell(cell)
+        render_cell(cell, game_over)
       end
       print "\n"
     end
+    puts "\nFlags remaining: #{@flags}"
+    puts "#{@status_message}\n\n"
     nil
   end
 
-  def render_cell(cell)
-    if cell.covered? == false && cell.mined_neighbors > 0
-      print "[#{cell.mined_neighbors}]"
-    elsif cell.covered? == false
-      print "[c]"
+
+  def render_cell(cell, game_over)
+    if game_over && cell.flagged? && cell.mined?
+      print "[F]".colorize(:light_red)
     elsif cell.flagged?
-      print "[f]"
-    elsif cell.mined?
-      print "[*]"
+      print "[f]".colorize(:red)
+    elsif game_over && cell.mined? #|| cell.mined?
+      print "[*]".colorize(:light_yellow)
+    elsif game_over && cell.mined_neighbors > 0 || 
+          cell.covered? == false && cell.mined_neighbors > 0
+      print "[#{cell.mined_neighbors}]".colorize(:light_black)
+    elsif game_over || cell.covered? == false
+      print "   "
     else
-      print "[ ]"
+      print "[ ]".colorize(:light_black)
     end
   end
 
