@@ -2,8 +2,7 @@ require_relative 'cell'
 require 'pry'
 
 class Board
-  attr_accessor :grid
-  attr_reader :range
+  attr_reader :range, :grid
   
   def initialize(grid = nil)
     @grid = grid || blank_grid
@@ -34,15 +33,6 @@ class Board
     @grid[coords[0]][coords[1]]
   end
 
-  def flag_cell(coords)
-    unless cell(coords).flagged?
-      cell(coords).flag!
-      true
-    else
-      puts "Cell already flagged!"
-      false
-    end
-  end
 
   def set_mined_neighbors_for_all_cells
     @grid.each_key do |row|
@@ -54,7 +44,7 @@ class Board
 
   def count_mined_neighbors(coords)
     neighbors = get_neighbors(coords)
-    count = neighbors.count { |coords| cell(coords).mined? }
+    count = neighbors.count { |neighbor| cell(neighbor).mined? }
     cell(coords).mined_neighbors = count 
   end
 
@@ -63,46 +53,71 @@ class Board
     col = coords[1]
     neighbors = []
 
-    possible_coords = [
+    possible_neighbors = [
     [row-1, col-1], [row-1, col], [row-1, col+1],
     [row, col-1],                 [row, col+1],
     [row+1, col-1], [row+1, col], [row+1, col+1]]
 
-    possible_coords.each do |coords|
-      if @range.include?(coords[0]) &&
-         @range.include?(coords[1])
-        neighbors << [coords[0],coords[1]]
+    possible_neighbors.each do |neighbor|
+      unless cell(neighbor) == nil
+        neighbors << neighbor
       end
     end
 
     neighbors
   end
 
-  def clear_grid_around_cell(coords)
+  def flag_cell(coords)
+    cell(coords).flag!
+  end
+
+  def mined?(coords)
+    cell(coords).mined?    
+  end
+
+  def victory?
+    flagged = @grid.values.flatten.select { |cell| cell.flagged? }
+    mined = @grid.values.flatten.select { |cell| cell.mined? }
+    flagged == mined
+  end
+
+  def auto_reveal_search(coords)
     queue = [coords]
     until queue.empty?
 
       test_cell = queue.pop
       neighbors = get_neighbors( test_cell )
 
-      neighbors.delete_if { |coords| ignore_cell_when_clearing?( coords ) }
-      neighbors.each { |coords| cell(coords).reveal! }
-      neighbors.delete_if { |coords| cell(coords).mined_neighbors > 0 }
+      queue += queue_cells_for_search(neighbors)
 
-      queue = queue + neighbors
+      auto_reveal_cells(neighbors)
+
     end
   end
 
-  def reveal_cells(coords)
-    coords.each do |coord|
-      cell(coord).reveal! if auto_reveal_cell?(coord)
+  def auto_reveal_cells(cells)
+    cells.each do |coords|
+      cell(coords).reveal! if auto_reveal?(coords)
     end
   end
 
-  def auto_reveal_cell?(coords) 
+  def queue_cells_for_search(cells)
+    queue = []
+    cells.each do |coords|
+      queue << coords if add_to_queue?(coords)
+    end
+    queue
+  end
+
+  def auto_reveal?(coords) 
     cell(coords).covered? == true &&
     cell(coords).mined? == false &&
     cell(coords).flagged? == false
+  end
+
+
+  def add_to_queue?(coords)
+    auto_reveal?(coords) && cell(coords).mined_neighbors == 0
   end
 
   def render_grid

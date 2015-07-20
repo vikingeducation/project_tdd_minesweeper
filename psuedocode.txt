@@ -1,5 +1,5 @@
 setup the game
-- create board (10x10)
+- create board (10x10]
 - populate board with covered cells
 - randomly set 9 cells to be mines
 - board should show remaining flags (can go negative, too many flagged)
@@ -42,3 +42,44 @@ random sets 9 cells to mined
 
 flag cell
 sets the cell to flag!
+
+auto_clear(row, col)
+get_neighbors
+dump from the array any neighbors we've already checked
+and any neighbors that have count_mined_neighbors > 0
+
+cells to check
+instead of 
+
+when clearing, cells to ignore
+@grid[row][col].mined_neighbors > 0 || 
+@grid[row][col].covered? == false ||
+@grid[row][col].mined? == true ||
+@grid[row][col].flagged? == true
+
+what to do when finding a cell that we don't want to ignore
+needs to be marked, then we come back and check it
+
+queue = [cell to check]
+while queue is not empty
+test_cell = queue.pop
+get_neighbors(test_cell)
+get_neighbors.each { |cell| count_mined_neighbors(cell) }
+get_neighbors.delete_if { |cell| cell == cells_to_ignore }
+get_neighbors.each { |cell| cell.reveal! }
+queue + get_neighbors
+end
+
+
+
+ignore or 
+reveal and don't add to queue or 
+reveal and add to queue
+
+reveal_cells(cells_to_check)
+
+
+build_queue(cells_to_check)
+
+
+

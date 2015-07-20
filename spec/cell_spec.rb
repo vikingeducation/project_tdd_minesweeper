@@ -34,6 +34,12 @@ describe Cell do
       expect( subject.flagged? ).to be true
     end
 
+    it "#flag! removes the flag from an already flagged cell" do
+      subject.flag!
+      subject.flag!
+      expect( subject.flagged? ).to be false
+    end
+
     it "#mine! sets the tile to mined" do
       subject.mine!
       expect( subject.mined? ).to be true
