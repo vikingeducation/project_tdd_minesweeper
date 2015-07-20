@@ -5,7 +5,7 @@ class Cell
     @covered = true
     @flagged = false
     @mined = false
-    @mined_neighbors = 0  
+    @mined_neighbors = 0
   end
 
   def covered?
@@ -31,5 +31,5 @@ class Cell
   def mine!
     @mined = true    
   end
-  
+ 
 end
