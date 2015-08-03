@@ -27,8 +27,8 @@ let(:intf){Interface.new}
             [6, 10]=>" # ", [7, 10]=>" # ", [8, 10]=>" # ", [9, 10]=>" # ", [10, 10]=>" # "})
     end
     
-    it "has 2 models to decide click or put flag" do
-    end
+    #it "has 2 models to decide click or put flag" do
+    #end
     
     it "mark the square when puts flag" do
         intf.flag([10, 6])
@@ -36,6 +36,9 @@ let(:intf){Interface.new}
     end
     
     it "transfer square into testbench to compare" do
+        intf.godset
+        allow(intf.click([10, 6])).to receive(:dig).and_return(true)
+        intf.click([10, 6])
     end
     
     it "has a god model to display the answer" do

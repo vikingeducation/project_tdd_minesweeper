@@ -132,8 +132,10 @@ class Interface
         print flag_bag.sort 
         print mines_bag.sort
         if flag_bag.sort != mines_bag.sort
+            puts "not win yet"
             return "not win yet"
         else
+            puts "you win"
             return "you win"
         end
     end

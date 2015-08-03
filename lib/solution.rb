@@ -40,7 +40,7 @@ class Solution
        #below are just for game test
        hush.each do |key, value|
            print value
-           print "\n" if key[1] == @width
+           print "\n" if key[1] == @length
        end
        hush
     end
