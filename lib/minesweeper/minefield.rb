@@ -8,6 +8,16 @@ class Minefield
 		self.state = options[:state] || blank_state
 	end
 
+	def select_coordinates
+		coordinates = []
+		@state.each_with_index do |row, y|
+			row.each_with_index do |square, x|
+				coordinates << [y, x] if yield(x, y)
+			end
+		end
+		coordinates
+	end
+
 	def state=(value)
 		@state = format_state(value)
 	end

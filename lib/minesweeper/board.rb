@@ -9,16 +9,6 @@ class Board < Minefield
 		self.state = options[:state] || random_state
 	end
 
-	def select_coordinates
-		coordinates = []
-		@state.each_with_index do |row, y|
-			row.each_with_index do |square, x|
-				coordinates << [y, x] if yield(x, y)
-			end
-		end
-		coordinates
-	end
-
 	def non_mine_coordinates
 		select_coordinates {|x, y| not_mine?(x, y)}
 	end

@@ -30,7 +30,6 @@ class GameModel < Mousevc::Model
 
 	def flags
 		@game.player.flags
-		# @game.player.flags > 0 ? @game.player.flags : "No more flags".colorize(:red)
 	end
 
 	def to_s

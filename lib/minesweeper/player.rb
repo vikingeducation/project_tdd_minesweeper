@@ -40,7 +40,7 @@ class Player < Minefield
 	end
 
 	def cleared?(x, y)
-		@state[y][x].to_s =~ /[\-0-9]/
+		!!(@state[y][x].to_s =~ /[\-1-9]/)
 	end
 
 	def not_cleared?(x, y)
