@@ -10,7 +10,7 @@ class GameModel < Mousevc::Model
 	end
 
 	def clear
-		@game = Game.new(:debug => true)
+		@game = Game.new
 	end
 
 	def move(value)
