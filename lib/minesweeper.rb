@@ -17,5 +17,3 @@ class Minesweeper < Mousevc::App
 		)
 	end
 end
-
-Minesweeper.new.run

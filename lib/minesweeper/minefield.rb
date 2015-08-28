@@ -5,7 +5,11 @@ class Minefield
 
 	def initialize(options={})
 		@size = options[:size] || 10
-		@state = options[:state] || blank_state
+		self.state = options[:state] || blank_state
+	end
+
+	def state=(value)
+		@state = format_state(value)
 	end
 
 	def each_adjacent(x, y)
@@ -50,8 +54,20 @@ class Minefield
 			.gsub(/\[0\]/, '[ ]')
 	end
 
+	def format_state(state)
+		formatted = state
+		if state.is_a?(Array)
+			formatted = decompress(state) if state.all? {|r| r =~ /^[\-0-9MFC]{10}$/}
+		elsif state.is_a?(String)
+			formatted = denormalize(state) if state =~ /^[\-0-9MFC]{#{@size**2}}$/
+		else
+			raise "Invalid state"
+		end
+		formatted
+	end
+
 	def blank_state
-		@state = Array.new(10){Array.new(10){0}}
+		Array.new(@size){Array.new(@size){0}}
 	end
 
 	def normalize
@@ -65,6 +81,23 @@ class Minefield
 	def denormalize(str)
 		array = str.chars.each_slice(@size).to_a
 		array = array.map {|r| r.map {|s| s =~ /[0-9]/ ? s.to_i : s}}
+	end
+
+	def compress
+		compressed = []
+		@state.each do |row|
+			compressed << row.join
+		end
+		compressed
+	end
+
+	def decompress(array)
+		decompressed = []
+		array.each do |row|
+			decompressed << row.split('')
+				.map! {|i| i =~ /[0-9]/ ? i.to_i : i }
+		end
+		decompressed
 	end
 
 	def in_bounds?(x, y)

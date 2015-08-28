@@ -19,6 +19,7 @@ class Player < Minefield
 	end
 
 	def clear(x, y)
+		@flags += 1 if flagged?(x, y)
 		@state[y][x] = 'C'
 	end
 

@@ -6,8 +6,8 @@ class Game
 
 	def initialize(options={})
 		@debug = options[:debug] || false
-		@player = options[:player] || Player.new
-		@board = options[:board] || Board.new
+		@player = Player.new(:state => options[:player]) || Player.new
+		@board = Board.new(:state => options[:board]) || Board.new
 	end
 
 	def to_s
@@ -30,7 +30,7 @@ class Game
 		@board.non_mine_coordinates.each do |c|
 			x = c[1]
 			y = c[0]
-			@player.state[y][x] = @board.not_near_mine?(x, y) ? '-' : @board.state[y][x]
+			clear_square(x, y)
 		end
 		@player.flags = 0
 		@board.mine_coordinates.each do |c|
@@ -77,8 +77,12 @@ class Game
 					@player.clear(x, y)
 				end
 				@player.each_cleared do |x, y|
-					@player.state[y][x] = @board.not_near_mine?(x, y) ? '-' : @board.state[y][x]
+					clear_square(x, y)
 				end
 			end
+		end
+
+		def clear_square(x, y)
+			@player.state[y][x] = @board.not_near_mine?(x, y) ? '-' : @board.state[y][x]
 		end
 end

@@ -15,11 +15,11 @@ class GameController < Mousevc::Controller
 		@view.render(view)
 		@view.render('reset')
 		Input.prompt
-		@router.action = :play
+		reset
 	end
 
 	def select_move
-		if ['cheat', 'boom'].include?(Input.data)
+		if ['cheat', 'boom', 'flag'].include?(Input.data)
 			special_inputs
 		else
 			Input.notice = @model.validation.error unless @model.move(Input.data)
@@ -29,7 +29,6 @@ class GameController < Mousevc::Controller
 		else
 			@router.action = :play
 		end
-		special_inputs
 	end
 
 	private
@@ -42,5 +41,6 @@ class GameController < Mousevc::Controller
 		def special_inputs
 			@model.cheat if Input.data == 'cheat'
 			@model.boom if Input.data == 'boom'
+			@model.flag if Input.data == 'flag'
 		end
 end

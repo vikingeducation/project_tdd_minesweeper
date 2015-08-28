@@ -14,6 +14,7 @@ class GameModel < Mousevc::Model
 	end
 
 	def move(value)
+		raise "Not a string" unless value.is_a?(String)
 		valid_move = @validation.valid_move?(value)
 		if valid_move
 			values = value.split(' ')
@@ -28,7 +29,8 @@ class GameModel < Mousevc::Model
 	end
 
 	def flags
-		@game.player.flags > 0 ? @game.player.flags : "No more flags".colorize(:red)
+		@game.player.flags
+		# @game.player.flags > 0 ? @game.player.flags : "No more flags".colorize(:red)
 	end
 
 	def to_s
@@ -43,15 +45,25 @@ class GameModel < Mousevc::Model
 		@game.boom!
 	end
 
+	def flag
+		[
+			'f 1,1',
+			'f 1,2',
+			'f 1,3',
+			'f 1,4',
+			'f 1,5',
+			'f 1,6',
+			'f 1,7',
+			'f 1,8',
+			'f 1,9'
+		].each {|v| move(v)}
+	end
+
 	def win?
 		@game.win?
 	end
 
 	def lose?
 		@game.lose?
-	end
-
-	def flags
-		@game.player.flags
 	end
 end

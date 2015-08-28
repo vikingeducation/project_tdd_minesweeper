@@ -1,5 +1,3 @@
-require 'byebug'
-
 class GameValidation < Mousevc::Validation
 	def initialize(model)
 		@model = model
@@ -13,6 +11,14 @@ class GameValidation < Mousevc::Validation
 		is_valid_clear
 	end
 
+	def valid_flag?(x, y)
+		is_valid_flag = @model.game.player.flagged?(x.to_i - 1, y.to_i - 1)
+		unless is_valid_flag
+			is_valid_flag = (player_has_flags? && valid_clear?(x, y))
+		end
+		is_valid_flag
+	end
+
 	def player_has_flags?
 		player_has_flags = coerce_bool (@model.game.player.flags > 0)
 		unless player_has_flags
@@ -22,16 +28,14 @@ class GameValidation < Mousevc::Validation
 	end
 
 	def valid_move?(value)
+		raise "Not a string" unless value.is_a?(String)
 		is_valid_move = false
 		if valid_format?(value)
 			type = value.split(' ')[0]
 			coordinates = value.split(' ')[1].split(',')
 			x, y = coordinates[0], coordinates[1]
 			if valid_coordinates?(x, y)
-				is_valid_move = valid_clear?(x, y)
-				if type == 'f'
-					is_valid_move = player_has_flags?
-				end
+				is_valid_move = (type == 'f') ? valid_flag?(x, y) : valid_clear?(x, y)
 			end
 		end
 		is_valid_move
@@ -46,7 +50,7 @@ class GameValidation < Mousevc::Validation
 	end
 
 	def valid_coordinates?(x, y)
-		valid_coordinates = (1..10).to_a
+		valid_coordinates = (1..@model.game.board.size).to_a
 		are_valid_coordinates = coerce_bool (
 			valid_coordinates.include?(x.to_i) &&
 			valid_coordinates.include?(y.to_i)
