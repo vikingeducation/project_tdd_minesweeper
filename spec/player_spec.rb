@@ -37,11 +37,42 @@ describe Player do
     end
 
     context 'place a flag' do
-      it 'should ask the player for a flag location'
-      it 'should ask again if the entry is not valid'
-      it 'should allow the player to place a flag on the board'
-      it 'should ask again if the flag location was not valid'
+      it 'should ask the player for a flag location' do
+        allow(player).to receive(:ask_move_type).and_return('f')
+        allow(player).to receive(:ask_turn).and_return([1,2])
+        expect(player).to receive(:ask_turn)
+        player.take_turn
+      end
 
+      it 'should ask again if the entry is not valid' do
+        allow(player).to receive(:ask_move_type).and_return('f')
+        allow(player).to receive(:ask_turn).and_return([0], [1,1])
+        expect(player).to receive(:ask_turn)
+        expect(player).to receive(:ask_turn)
+        player.take_turn
+      end
+
+      it 'should allow the player to place a flag on the board' do
+        allow(player).to receive(:ask_move_type).and_return('f')
+        allow(player).to receive(:ask_turn).and_return([1,1])
+        allow(board).to receive(:place_flag).and_return(true)
+        expect(board).to receive(:place_flag)
+        player.take_turn
+      end
+
+      it 'should ask again if the flag location was not valid' do
+        allow(player).to receive(:ask_move_type).and_return('f')
+        allow(player).to receive(:ask_turn).and_return([20,1], [0,1])
+        allow(board).to receive(:place_flag).and_return(false, true)
+
+        expect(player).to receive(:ask_turn)
+        expect(board).to receive(:place_flag)
+
+        expect(player).to receive(:ask_turn)
+        expect(board).to receive(:place_flag)
+
+        player.take_turn
+      end
     end
 
     context 'clear a square' do

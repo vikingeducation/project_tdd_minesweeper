@@ -38,7 +38,7 @@ describe Board do
   describe '#place_move' do
 
     it 'should not allow placement on an invalid square' do
-      board.place_move([0,20])
+      expect(board.place_move([0,20])).to eq(false)
     end
 
     it 'should change the state of a square to visible if valid' do
@@ -53,11 +53,30 @@ describe Board do
   end
 
   describe '#place_flag' do
-    it 'should not allow placement on a cleared square'
-    it 'should not allow placement on an invalid location'
-    it 'should show the flag on the rendered board'
-    it 'should update the remaining flags attribute'
-    it 'should not allow placement if no flags left'
+    it 'should not allow placement on a cleared square' do
+      board.place_move([1,1])
+      expect(board.place_flag([1,1])).to eq(false)
+    end
+
+    it 'should not allow placement on an invalid location' do
+      expect(board.place_flag([0,20])).to eq(false)
+    end
+
+    it 'should show the flag on the rendered board' do
+      board.place_flag([1,1])
+      expect(board.visible_board[0][0]).to eq(Rainbow(' * ').red.bg(:white))
+    end
+
+    it 'should update the remaining flags attribute' do
+      start = board.remaining_flags
+      board.place_flag([1,1])
+      expect(board.remaining_flags).to eq(start - 1)
+    end
+
+    it 'should not allow placement if no flags left' do
+      b = Board.new(10, 0)
+      expect(b.place_flag([1,1])).to eq(false)
+    end
   end
 
 end

@@ -6,7 +6,7 @@ class Board
 
   def initialize(size=10, mines=9, mine_locations=nil, visible_board=nil)
     @mines = mines
-    @remaining_flags = 9
+    @remaining_flags = mines
     @size = size
     @last_move = nil
 
@@ -46,11 +46,33 @@ class Board
     end
   end
 
+  def place_flag(move)
+    if move_valid?(move) && spot_open?(move) && flags_left?
+      @visible_board[move.first - 1][move.last - 1] = Rainbow(' * ').red.bg(:white)
+      @remaining_flags -= 1
+      true
+    else
+      false
+    end
+  end
+
   def last_move_bomb?
     @last_move == 1
   end
 
   private
+
+  def flags_left?
+    @remaining_flags > 0 ? true : puts("I'm sorry, you have no flags left.")
+  end
+
+  def spot_open?(move)
+    if @visible_board[move.first - 1][move.last - 1] == Rainbow('   ').bg(:white)
+      true
+    else
+      puts "I'm sorry, you can only place flags on non-cleared squares. Try again..."
+    end
+  end
 
   def create_mine_locations(size, mines)
     @mine_locations = Array.new(size){ Array.new(size, 0) }
