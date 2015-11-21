@@ -2,13 +2,13 @@ require 'pry'
 require 'rainbow'
 
 class Board
-  attr_reader :mines, :mine_locations, :remaining_flags, :visible_board, :size
+  attr_reader :mines, :mine_locations, :remaining_flags, :visible_board, :size, :last_move_bomb
 
   def initialize(size=10, mines=9, mine_locations=nil, visible_board=nil)
     @mines = mines
     @remaining_flags = mines
     @size = size
-    @last_move = nil
+    @last_move_bomb = false
 
     # 0 indicates no mine, 1 indicates mine
     @mine_locations = mine_locations || create_mine_locations(size, mines)
@@ -56,10 +56,6 @@ class Board
     end
   end
 
-  def last_move_bomb?
-    @last_move == 1
-  end
-
   private
 
   def flags_left?
@@ -97,18 +93,35 @@ class Board
   end
 
   def reveal_square(row, col)
-    @last_move = @mine_locations[row][col]
-    if @last_move == 1
-      show = Rainbow(' * ').black.bg(:red)
+    last_move = @mine_locations[row][col]
+    if last_move == 1
+      @visible_board[row][col] = Rainbow(' * ').black.bg(:red)
+      @last_move_bomb = true
     else
-      count = get_count(row, col)
-      count = ' ' if count == 0
-      show = Rainbow(" #{count} ").red
+      show(row, col)
     end
-    @visible_board[row][col] = show
   end
 
-  def get_count(row, col)
+  def show(row, col)
+    count = get_count(row, col)
+    if count == 0
+      @visible_board[row][col] = '   '
+      reveal_neighbors(row, col)
+    else
+      @visible_board[row][col] = Rainbow(" #{count} ").red
+    end
+  end
+
+  def reveal_neighbors(row, col)
+    neighbors = get_neighbors(row, col)
+    neighbors.each do |loc|
+      if @visible_board[loc.first][loc.last] == Rainbow('   ').bg(:white)
+        show(loc.first, loc.last)
+      end
+    end
+  end
+
+  def get_neighbors(row, col)
     nearby_cells = [
       [row - 1, col - 1], [row - 1, col], [row - 1, col + 1],
       [row, col - 1], [row, col + 1],
@@ -116,9 +129,14 @@ class Board
     ]
 
     # remove any off the board
-    nearby_cells.select! do |loc|
-      (0..(@size-1)).include?(loc.first) && (0..(@size-1)).include?(loc.last)
+    nearby_cells.select! do |l|
+      (0..(@size-1)).include?(l.first) && (0..(@size-1)).include?(l.last)
     end
+    nearby_cells
+  end
+
+  def get_count(row, col)
+    nearby_cells = get_neighbors(row, col)
 
     # map to the mine locations and add up the mines
     nearby_cells.map!{|loc| @mine_locations[loc.first][loc.last]}.inject(:+)

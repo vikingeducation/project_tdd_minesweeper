@@ -42,20 +42,29 @@ describe Board do
     end
 
     it 'should change the state of a square to visible if valid' do
-      board.place_move([1,1])
-      expect(board.visible_board[0][0]).to_not eq(Rainbow('   ').bg(:white))
+      board2.place_move([1,1])
+      expect(board2.visible_board[0][0]).to_not eq(Rainbow('   ').bg(:white))
     end
 
     it "should expose that square's nearby mine count" do
       board2.place_move([1,1])
       expect(board2.visible_board[0][0]).to eq(Rainbow(" 3 ").red)
     end
+
+    it 'should reveal all neighboring squares if mine count is 0' do
+      board2.place_move([4,2])
+      (3..5).each do |r|
+        (1..3).each do |c|
+          expect(board2.visible_board[r-1][c-1]).to_not eq(Rainbow('   ').bg(:white))
+        end
+      end
+    end
   end
 
   describe '#place_flag' do
     it 'should not allow placement on a cleared square' do
-      board.place_move([1,1])
-      expect(board.place_flag([1,1])).to eq(false)
+      board2.place_move([1,1])
+      expect(board2.place_flag([1,1])).to eq(false)
     end
 
     it 'should not allow placement on an invalid location' do

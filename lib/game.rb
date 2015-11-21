@@ -31,7 +31,7 @@ class Game
   end
 
   def loss?
-    if @board.last_move_bomb?
+    if @board.last_move_bomb
       puts Rainbow("\nI'm sorry, #{@player.name}.  You lost. :(").red
       true
     else
