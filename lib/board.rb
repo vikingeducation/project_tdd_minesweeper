@@ -13,7 +13,7 @@ class Board
     @board ||= create_board(size, mines)
 
     # blank indicates not yet cleared
-    @visible_board ||= Array.new(size){ Array.new(size, ' ') }
+    @visible_board ||= Array.new(size){ Array.new(size, Rainbow('   ').bg(:white)) }
   end
 
   def render
@@ -30,7 +30,7 @@ class Board
     puts "\nRow " + "-" * (@size * 4 + 1)
 
     (@size-1).downto(0) do |row|
-      puts "#{(row+1).to_s.rjust(4)}| " + @visible_board[row].join(' | ') + ' |'
+      puts "#{(row+1).to_s.rjust(4)}|" + @visible_board[row].join('|') + '|'
         puts "    " + "-" * (@size * 4 + 1)
     end
   end
