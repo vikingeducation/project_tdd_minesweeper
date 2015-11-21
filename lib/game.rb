@@ -27,7 +27,12 @@ class Game
   end
 
   def win?
-    false
+    if @board.all_clear?
+      puts Rainbow("\nCongrats, #{@player.name}!! You WON!!! :)").green
+      true
+    else
+      false
+    end
   end
 
   def loss?

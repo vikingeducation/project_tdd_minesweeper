@@ -56,6 +56,20 @@ class Board
     end
   end
 
+  def all_clear?
+    unclear_count = 0
+
+    @visible_board.each do |row|
+      row.each do |col|
+        if col == Rainbow(' * ').red.bg(:white) || col == Rainbow('   ').bg(:white)
+          unclear_count += 1
+        end
+      end
+    end
+
+    unclear_count == @mines
+  end
+
   private
 
   def flags_left?

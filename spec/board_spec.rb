@@ -13,6 +13,15 @@ describe Board do
       [0,0,0,0,0]
     ])
   end
+  let(:board3) do
+    Board.new(5,1,[
+      [0,0,0,0,1],
+      [0,0,0,0,0],
+      [0,0,0,0,0],
+      [0,0,0,0,0],
+      [0,0,0,0,0]
+    ])
+  end
 
   describe '#initialize' do
 
@@ -85,6 +94,18 @@ describe Board do
     it 'should not allow placement if no flags left' do
       b = Board.new(10, 0)
       expect(b.place_flag([1,1])).to eq(false)
+    end
+  end
+
+  describe '#all_clear?' do
+
+    it 'should return false if the board is not clear' do
+      expect(board.all_clear?).to eq(false)
+    end
+
+    it 'should return true if the board is clear of everything but bombs' do
+      board3.place_move([1,1])
+      expect(board3.all_clear?).to eq(true)
     end
   end
 
