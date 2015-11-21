@@ -2,23 +2,23 @@ require 'pry'
 require 'rainbow'
 
 class Board
-  attr_reader :mines, :board, :remaining_flags, :visible_board, :size
+  attr_reader :mines, :mine_locations, :remaining_flags, :visible_board, :size
 
-  def initialize(board=nil, visible_board=nil, mines=9, size=10)
+  def initialize(size=10, mines=9, mine_locations=nil, visible_board=nil)
     @mines = mines
     @remaining_flags = 9
     @size = size
 
     # 0 indicates no mine, 1 indicates mine
-    @board ||= create_board(size, mines)
+    @mine_locations = mine_locations || create_mine_locations(size, mines)
 
-    # blank indicates not yet cleared
-    @visible_board ||= Array.new(size){ Array.new(size, Rainbow('   ').bg(:white)) }
+    # blank and white background indicates not yet cleared
+    @visible_board = visible_board || Array.new(size){ Array.new(size, Rainbow('   ').bg(:white)) }
   end
 
   def render
     # TODO: delete this loop
-    @board.each do |row|
+    @mine_locations.each do |row|
       puts row.to_s
     end
 
@@ -35,20 +35,24 @@ class Board
     end
   end
 
+  def place_move(move)
+    true
+  end
+
   private
 
-  def create_board(size, mines)
-    @board = Array.new(size){ Array.new(size, 0) }
+  def create_mine_locations(size, mines)
+    @mine_locations = Array.new(size){ Array.new(size, 0) }
     mine = 0
     until mine == mines
       rand_row = rand(0..9)
       rand_col = rand(0..9)
-      if @board[rand_row][rand_col] == 0
-        @board[rand_row][rand_col] = 1
+      if @mine_locations[rand_row][rand_col] == 0
+        @mine_locations[rand_row][rand_col] = 1
         mine += 1
       end
     end
-    @board
+    @mine_locations
   end
 
 end
