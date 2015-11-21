@@ -8,14 +8,28 @@ class Player
 
   def take_turn
     loop do
-      move = ask_turn
-      if valid_format?(move)
-        break if @board.place_move(move)
+      type = ask_move_type
+      if type == 'f'
+        move = ask_turn('flag')
+        if valid_format?(move)
+          break if @board.place_flag(move)
+        end
+      else
+        move = ask_turn('move')
+        if valid_format?(move)
+          break if @board.place_move(move)
+        end
       end
     end
   end
 
   private
+
+  def ask_move_type
+    puts "\nTo place a flag, type 'f'. Type anything else to clear a square."
+    print " > "
+    gets.chomp.downcase
+  end
 
   def get_name
     puts "Welcome to Minesweeper!  What is your name?"
@@ -23,8 +37,8 @@ class Player
     gets.chomp.capitalize
   end
 
-  def ask_turn
-    puts "Enter your move as row number, column number. For example: 4,5"
+  def ask_turn(type)
+    puts "\nEnter your #{type} as row number, column number. For example: 4,5"
     print " > "
     gets.chomp.split(',').map{|i| i.to_i}
   end

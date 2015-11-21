@@ -3,7 +3,13 @@ require_relative '../lib/board.rb'
 
 describe Player do
 
-  let(:board){ Board.new }
+  let(:board){ Board.new(5,5,[
+      [0,1,0,0,1],
+      [1,1,0,0,0],
+      [0,0,0,0,0],
+      [0,0,0,1,0],
+      [0,0,0,0,0]
+    ]) }
   let(:player){ Player.new(board, "Name") }
 
   describe '#initialize' do
@@ -23,37 +29,59 @@ describe Player do
 
   describe '#take_turn' do
 
-    it 'should ask the player for a turn' do
-      allow(player).to receive(:ask_turn).and_return([0,1])
-      expect(player).to receive(:ask_turn)
+    it 'should ask for a move type' do
+      allow(player).to receive(:ask_move_type).and_return('c')
+      allow(player).to receive(:ask_turn).and_return([1,1])
+      expect(player).to receive(:ask_move_type)
       player.take_turn
     end
 
-    it 'should ask again if the entry is not valid' do
-      allow(player).to receive(:ask_turn).and_return([0], [0,1])
-      expect(player).to receive(:ask_turn)
-      expect(player).to receive(:ask_turn)
-      player.take_turn
+    context 'place a flag' do
+      it 'should ask the player for a flag location'
+      it 'should ask again if the entry is not valid'
+      it 'should allow the player to place a flag on the board'
+      it 'should ask again if the flag location was not valid'
+
     end
 
-    it 'should allow the player to place a move on board' do
-      allow(player).to receive(:ask_turn).and_return([0,1])
-      allow(board).to receive(:place_move).and_return(true)
-      expect(board).to receive(:place_move)
-      player.take_turn
-    end
+    context 'clear a square' do
 
-    it 'should ask again if the move location was not valid' do
-      allow(player).to receive(:ask_turn).and_return([20,1], [0,1])
-      allow(board).to receive(:place_move).and_return(false, true)
+      it 'should ask the player for a move' do
+        allow(player).to receive(:ask_move_type).and_return('c')
+        allow(player).to receive(:ask_turn).and_return([1,1])
+        expect(player).to receive(:ask_turn)
+        player.take_turn
+      end
 
-      expect(player).to receive(:ask_turn)
-      expect(board).to receive(:place_move)
+      it 'should ask again if the entry is not valid' do
+        allow(player).to receive(:ask_move_type).and_return('c')
+        allow(player).to receive(:ask_turn).and_return([0], [1,1])
+        expect(player).to receive(:ask_turn)
+        expect(player).to receive(:ask_turn)
+        player.take_turn
+      end
 
-      expect(player).to receive(:ask_turn)
-      expect(board).to receive(:place_move)
+      it 'should allow the player to place a move on board' do
+        allow(player).to receive(:ask_move_type).and_return('c')
+        allow(player).to receive(:ask_turn).and_return([1,1])
+        allow(board).to receive(:place_move).and_return(true)
+        expect(board).to receive(:place_move)
+        player.take_turn
+      end
 
-      player.take_turn
+      it 'should ask again if the move location was not valid' do
+        allow(player).to receive(:ask_move_type).and_return('c')
+        allow(player).to receive(:ask_turn).and_return([20,1], [0,1])
+        allow(board).to receive(:place_move).and_return(false, true)
+
+        expect(player).to receive(:ask_turn)
+        expect(board).to receive(:place_move)
+
+        expect(player).to receive(:ask_turn)
+        expect(board).to receive(:place_move)
+
+        player.take_turn
+      end
     end
   end
 end

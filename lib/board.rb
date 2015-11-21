@@ -8,6 +8,7 @@ class Board
     @mines = mines
     @remaining_flags = 9
     @size = size
+    @last_move = nil
 
     # 0 indicates no mine, 1 indicates mine
     @mine_locations = mine_locations || create_mine_locations(size, mines)
@@ -22,21 +23,31 @@ class Board
       puts row.to_s
     end
 
-    puts Rainbow("Remaining mines: ").black.bg(:yellow) + Rainbow("#{@remaining_flags}").red.bg(:yellow)
+    puts Rainbow("Remaining mine flags: ").black.bg(:yellow) + Rainbow("#{@remaining_flags}").red.bg(:yellow)
 
-    puts "    Column:"
-    print "    "
-    (1..@size).each {|c| print "  #{c} "}
-    puts "\nRow " + "-" * (@size * 4 + 1)
+
+    puts "\nRow:" + "-" * (@size * 4 + 1)
 
     (@size-1).downto(0) do |row|
       puts "#{(row+1).to_s.rjust(4)}|" + @visible_board[row].join('|') + '|'
         puts "    " + "-" * (@size * 4 + 1)
     end
+
+    print "Col:"
+    (1..@size).each {|c| print "  #{c} "}
   end
 
   def place_move(move)
-    true
+    if move_valid?(move)
+      reveal_square(move.first - 1, move.last - 1)
+      true
+    else
+      false
+    end
+  end
+
+  def last_move_bomb?
+    @last_move == 1
   end
 
   private
@@ -55,4 +66,39 @@ class Board
     @mine_locations
   end
 
+  def move_valid?(move)
+    if move.all?{ |location| (1..@size).include?(location)}
+      true
+    else
+      puts "I'm sorry that location doesn't exist on the board. Try again."
+    end
+  end
+
+  def reveal_square(row, col)
+    @last_move = @mine_locations[row][col]
+    if @last_move == 1
+      show = Rainbow(' * ').black.bg(:red)
+    else
+      count = get_count(row, col)
+      count = ' ' if count == 0
+      show = Rainbow(" #{count} ").red
+    end
+    @visible_board[row][col] = show
+  end
+
+  def get_count(row, col)
+    nearby_cells = [
+      [row - 1, col - 1], [row - 1, col], [row - 1, col + 1],
+      [row, col - 1], [row, col + 1],
+      [row + 1, col - 1], [row + 1, col], [row + 1, col + 1]
+    ]
+
+    # remove any off the board
+    nearby_cells.select! do |loc|
+      (0..(@size-1)).include?(loc.first) && (0..(@size-1)).include?(loc.last)
+    end
+
+    # map to the mine locations and add up the mines
+    nearby_cells.map!{|loc| @mine_locations[loc.first][loc.last]}.inject(:+)
+  end
 end
