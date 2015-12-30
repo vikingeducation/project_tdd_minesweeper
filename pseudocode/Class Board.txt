@@ -1,0 +1,8 @@
+class Board
+  attr_reader :flags_left
+
+  def initialize
+    @flags_left = 9
+  end
+
+end
