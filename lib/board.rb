@@ -3,8 +3,6 @@ class Board
     @display_grid = Array.new(10){Array.new(10){"-"}}
     @flags = 9
     @answer_grid = Array.new(10){Array.new(10)}
-    place_random_mines
-    set_up_rest_of_answer_grid
   end
 
   def render
@@ -14,7 +12,6 @@ class Board
         print x
       end
     end
-    print @answer_grid
   end
 
   def place_random_mines
@@ -48,39 +45,21 @@ class Board
   def how_many_mines_touching(y_index, x_index)
     mines_touching = 0
     # Check above and to the left
-    if (y_index > 0) && (x_index > 0) && (@answer_grid[y_index - 1][x_index - 1] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (y_index > 0) && (x_index > 0) && (@answer_grid[y_index - 1][x_index - 1] == 'm')
     # Check above
-    if (y_index > 0) && (@answer_grid[y_index - 1][x_index] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (y_index > 0) && (@answer_grid[y_index - 1][x_index] == 'm')
     # Check above and to the right
-    if (y_index > 0) && (x_index < 9) && (@answer_grid[y_index - 1][x_index + 1] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (y_index > 0) && (x_index < 9) && (@answer_grid[y_index - 1][x_index + 1] == 'm')
     # Check to the right
-    if (x_index < 9) && (@answer_grid[y_index][x_index + 1] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (x_index < 9) && (@answer_grid[y_index][x_index + 1] == 'm')
     # Check to the right and below
-    if (x_index < 9) &&  (y_index < 9) && (@answer_grid[y_index + 1][x_index + 1] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (x_index < 9) &&  (y_index < 9) && (@answer_grid[y_index + 1][x_index + 1] == 'm')
     # Check below
-    if (y_index < 9) && (@answer_grid[y_index + 1][x_index] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (y_index < 9) && (@answer_grid[y_index + 1][x_index] == 'm')
     # Check below and to the left
-    if (y_index < 9) && (x_index > 0) && (@answer_grid[y_index + 1][x_index -1] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (y_index < 9) && (x_index > 0) && (@answer_grid[y_index + 1][x_index -1] == 'm')
     # Check to the left
-    if (x_index > 0) && (@answer_grid[y_index][x_index - 1] == 'm')
-      mines_touching += 1
-    end
+    mines_touching += 1 if (x_index > 0) && (@answer_grid[y_index][x_index - 1] == 'm')
     mines_touching
   end
 end
-
-Board.new.render

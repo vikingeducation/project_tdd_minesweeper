@@ -1,8 +1,159 @@
 class Board
-  attr_reader :flags_left
 
   def initialize
     @flags_left = 9
+    @display_grid = Array.new(10){Array.new(10){"-"}}
+    @answer_grid = Array.new(10){Array.new(10)}
+    place_random_mines
+    set_up_rest_of_answer_grid
   end
+
+  def render
+    puts "Flags Left: #{@flags_left}"
+    puts ""
+    puts "   1 2 3 4 5 6 7 8 9 10"
+    (  print "1  "
+    puts display row 0
+    print "2  "
+    puts display row 0
+    etc but done elegantly with a smart while loop or something  )
+    puts ""
+    puts ""
+  end
+
+  def win?
+    @display_grid == @ answer_grid
+  end
+
+  def lose?
+    @display_grid.each do |y|
+      y.each do |spot|
+        return true if spot == '!'
+      end
+    end
+    false
+  end
+
+  def place_players_move(response)
+    split response into 3 pieces
+    convert the second and third pieces into integers
+    if the first piece is f
+      place_or_remove_flag(second, third pieces)
+    else
+      check_answer_grid(second, third pieces)
+    end
+  end
+
+  def place_or_remove_flag(second, third pieces)
+    check with display grid if the coordinates given has a flag on it, if it does,
+      change that flag back to a '-' and increase the flag count by 1
+    else
+      change that coordinate from a '-' into a flag and decrease the count by 1
+    end
+  end
+
+  def check_answer_grid(second, third pieces)
+    with these coordinates we're going to check
+      if the player has selected a spot with a mine on it
+        transfer mine locations from answer_grid to display_grid, except for ones with flags already on them.
+        put a punctuation mark on the selected mine location
+      end
+
+      if the player has selected a number
+        we're going to transfer that number onto the display grid.
+        open_squares_around_exposed_empty_squares
+      end
+  end
+
+  def open_squares_around_exposed_empty_squares
+    @display_grid.each_with_index do |y, y_index|
+      y.each_with_index do |x, x_index|
+        if x == 0
+          open_top_left_square(y_index, x_index)
+          open_top_square(y_index, x_index)
+          open_top_right_square(y_index, x_index)
+          open_right_square(y_index, x_index)
+          open_bottom_right_square(y_index, x_index)
+          open_bottom_square(y_index, x_index)
+          open_bottom_left_square(y_index, x_index)
+          open_left_square(y_index, x_index)
+          open_squares_around_exposed_empty_squares
+        end
+      end
+    end
+  end
+
+  # WON'T TYPE THIS OUT FOR EACH ONE BUT YOU GET THE JIST
+  def open_top_left_square(y_index, x_index)
+    if index position is available then
+      transfer the grid answer for that position to the display grid
+    end
+  end
+
+  def place_random_mines
+    mines_placed = 0
+    until mines_placed == 9
+      y = rand(10)
+      x = rand(10)
+      until space_is_nil?(x, y)
+        y = rand(10)
+        x = rand(10)
+      end
+      @answer_grid[y][x] = 'm'
+      mines_placed += 1
+    end
+  end
+
+  def space_is_nil?(y, x)
+    @answer_grid[y][x] == nil
+  end
+
+  def set_up_rest_of_answer_grid
+    @answer_grid.each_with_index do |y, y_index|
+      y.each_with_index do |x, x_index|
+        if x == nil
+          @answer_grid[y_index][x_index] = how_many_mines_touching(y_index, x_index)
+        end
+      end
+    end
+  end
+
+  def how_many_mines_touching(y_index, x_index)
+    mines_touching = 0
+    # Check above and to the left
+    if (y_index > 0) && (x_index > 0) && (@answer_grid[y_index - 1][x_index - 1] == 'm')
+      mines_touching += 1
+    end
+    # Check above
+    if (y_index > 0) && (@answer_grid[y_index - 1][x_index] == 'm')
+      mines_touching += 1
+    end
+    # Check above and to the right
+    if (y_index > 0) && (x_index < 9) && (@answer_grid[y_index - 1][x_index + 1] == 'm')
+      mines_touching += 1
+    end
+    # Check to the right
+    if (x_index < 9) && (@answer_grid[y_index][x_index + 1] == 'm')
+      mines_touching += 1
+    end
+    # Check to the right and below
+    if (x_index < 9) &&  (y_index < 9) && (@answer_grid[y_index + 1][x_index + 1] == 'm')
+      mines_touching += 1
+    end
+    # Check below
+    if (y_index < 9) && (@answer_grid[y_index + 1][x_index] == 'm')
+      mines_touching += 1
+    end
+    # Check below and to the left
+    if (y_index < 9) && (x_index > 0) && (@answer_grid[y_index + 1][x_index -1] == 'm')
+      mines_touching += 1
+    end
+    # Check to the left
+    if (x_index > 0) && (@answer_grid[y_index][x_index - 1] == 'm')
+      mines_touching += 1
+    end
+    mines_touching
+  end
+
 
 end

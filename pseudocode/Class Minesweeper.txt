@@ -2,6 +2,7 @@ Class Minesweeper
 
   def initialize
     @board = Board.new
+    @player = Player.new(@board)
   end
 
   def start_game
@@ -15,6 +16,14 @@ Class Minesweeper
     puts ""
     loop do
       @board.render
+      @player.turn
+      if @board.win?
+        puts "You Win!"
+        break
+      elsif @board.lose?
+        puts "You Lose!"
+        break
+      end
     end
   end
 

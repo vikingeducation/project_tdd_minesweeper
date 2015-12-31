@@ -25,7 +25,7 @@ Flags Left: 9
 Type 'f' for flag or 'o' for open followed by the location(e.g.'f33').
 Otherwise 'q' then enter to quit.
 
-You Move: o44
+Your Move: o44
 
 Flags Left: 9
 

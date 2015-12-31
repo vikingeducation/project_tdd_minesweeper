@@ -1,0 +1,36 @@
+Class Player
+
+  def initialize(board)
+    @board = board
+  end
+
+  def turn
+    puts "Type 'f' for flag or 'o' for open followed by the location(e.g.'f33').
+    puts "Otherwise 'q' then enter to quit."
+    puts ""
+    print "Your Move: "
+    @board.place_players_move(get_response)
+  end
+
+  def get_response
+    response = gets.chomp
+    until response_is_valid?(response)
+      response = gets.chomp.downcase
+      quit if reponse == 'q'
+    end
+    response
+  end
+
+  def response_is_valid?(response)
+    return true if (response == 'q')
+    response_broken_down = response.split('')
+    if response_broken_down.size != 3
+      return false
+    elsif (response_broken_down[0] != "f") || (response_broken_down[0] != "o")
+      return false
+    elsif !(("0".."9").include? response_broken_down[1] && ("0".."9").include? response_broken_down[2])
+      return false
+    end
+    true
+  end
+end
