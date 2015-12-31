@@ -62,4 +62,8 @@ class Board
     mines_touching += 1 if (x_index > 0) && (@answer_grid[y_index][x_index - 1] == 'm')
     mines_touching
   end
+
+  def win?
+    @display_grid == @answer_grid
+  end
 end

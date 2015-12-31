@@ -147,4 +147,34 @@ describe Board do
 
   end
 
+  describe '#win?' do
+    it 'returns true' do
+      board.instance_variable_set(:@answer_grid, [['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                  ['m',nil,'m',nil,nil,nil,nil,nil,nil,nil],
+                                                  ['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,'m',nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]])
+      board.instance_variable_set(:@display_grid, [['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                  ['m',nil,'m',nil,nil,nil,nil,nil,nil,nil],
+                                                  ['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,'m',nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]])
+      expect(board.win?).to eq(true)
+    end
+
+    it 'returns false if the display_grid and answer_grids are not the same' do
+      expect(board.win?).to eq(false)
+    end
+  end
+
 end
