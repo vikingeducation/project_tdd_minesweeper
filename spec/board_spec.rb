@@ -43,10 +43,48 @@ describe Board do
   end
 
   describe '#set_up_rest_of_answer_grid' do
+
+    before(:each) do
+      board.instance_variable_set(:@answer_grid, [['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                  ['m',nil,'m',nil,nil,nil,nil,nil,nil,nil],
+                                                  ['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,'m',nil],
+                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]])
+    end
+
     it 'calls the how_many_mines_touching method' do
       allow(board).to receive(:how_many_mines_touching).and_return(nil)
       expect(board).to receive(:how_many_mines_touching)
       board.set_up_rest_of_answer_grid
+    end
+
+    it "sets an 8 in a spot that's touching 8 mines" do
+      board.set_up_rest_of_answer_grid
+      board_test = board.instance_variable_get(:@answer_grid)
+      expect(board_test[1][1]).to eq(8)
+    end
+
+    it "sets a 2 in a spot that's touching 2 mines" do
+      board.set_up_rest_of_answer_grid
+      board_test = board.instance_variable_get(:@answer_grid)
+      expect(board_test[0][3]).to eq(2)
+    end
+
+    it "sets a 3 in a spot that's touching 3 mines" do
+      board.set_up_rest_of_answer_grid
+      board_test = board.instance_variable_get(:@answer_grid)
+      expect(board_test[3][3]).to eq(1)
+    end
+
+    it "sets an 1 in a spot that's touching 1 mine" do
+      board.set_up_rest_of_answer_grid
+      board_test = board.instance_variable_get(:@answer_grid)
+      expect(board_test[1][3]).to eq(3)
     end
 =begin
     # I want to check that the board does not include nils
