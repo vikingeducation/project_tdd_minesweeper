@@ -177,4 +177,102 @@ describe Board do
     end
   end
 
+  describe '#lose?' do
+    it 'returns false' do
+      expect(board.lose?).to eq(false)
+    end
+
+    it 'returns true if the display_grid contains an !' do
+      board.instance_variable_set(:@display_grid, [['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                   ['m',nil,'m',nil,nil,nil,nil,nil,nil,nil],
+                                                   ['m','m','m',nil,nil,nil,nil,nil,nil,nil],
+                                                   [nil,nil,nil,nil,'!',nil,nil,nil,nil,nil],
+                                                   [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                   [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                   [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                   [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+                                                   [nil,nil,nil,nil,nil,nil,nil,nil,'m',nil],
+                                                   [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]])
+      expect(board.lose?).to eq(true)
+    end
+  end
+
+  describe '#place_players_move' do
+    it 'calls the add_or_remove_flag method if the argument has an f as its first letter' do
+      allow(board).to receive(:add_or_remove_flag).and_return(true)
+      expect(board).to receive(:add_or_remove_flag)
+      board.place_players_move('f33')
+    end
+
+    it 'calls the open_on_display_grid method if the argument has an o as its first letter' do
+      allow(board).to receive(:open_on_display_grid).and_return(true)
+      expect(board).to receive(:open_on_display_grid)
+      board.place_players_move('o33')
+    end
+  end
+
+  describe '#add_or_remove_flag' do
+
+    before do
+        board.instance_variable_set(:@display_grid, [['f','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-',3,'-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-'],
+                                                     ['-','-','-','-','-','-','-','-','-','-']])
+      end
+
+    it 'does nothing if a player has chosen a spot with a number on it' do
+      board.add_or_remove_flag(2, 2)
+      display = board.instance_variable_get(:@display_grid)
+      expect(display[2][2]).to eq(3)
+    end
+
+    context 'a player has chosen to flag a spot with a flag already on it' do
+      it 'remove a flag from the position that was chosen' do
+        board.add_or_remove_flag(0, 0)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[0][0]).to eq('-')
+      end
+
+      it 'increases the flag count' do
+        board.add_or_remove_flag(0, 0)
+        expect(board.instance_variable_get(:@flags)).to eq(10)
+      end
+    end
+
+    context 'a player has chosen to flag a spot that is unopen' do
+      it 'adds a flag to the position that was chosen' do
+        board.add_or_remove_flag(1, 1)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[1][1]).to eq('f')
+      end
+
+      it 'decreases the flag count' do
+        board.add_or_remove_flag(1, 1)
+        expect(board.instance_variable_get(:@flags)).to eq(8)
+      end
+    end
+
+  # What are we testing? Well what does the method do, it either adds a flag to the display grid
+  # or if the position described by the argument on the display grid already has a flag on it
+  # remove the flag.
+  # Also increase or decrease the flag count depending on that situation.
+  # I'm sensing four tests
+  # 1. in a situation where the coordinates given already has a flag on it, we want to test that
+  # that the flag is removed
+  # 2. In a situation where the coordinates given doesn't have a flag on it, we want to add the flag
+  # 
+=begin
+    check with display grid if the coordinates given has a flag on it, if it does,
+      change that flag back to a '-' and increase the flag count by 1
+    else
+      change that coordinate from a '-' into a flag and decrease the count by 1
+    end
+=end
+  end
 end

@@ -66,4 +66,36 @@ class Board
   def win?
     @display_grid == @answer_grid
   end
+
+  def lose?
+    @display_grid.each do |y|
+      y.each do |spot|
+        return true if spot == '!'
+      end
+    end
+    false
+  end
+
+  def place_players_move(move)
+    move_split = move.split('')
+    if move_split[0] == 'f'
+      add_or_remove_flag(move_split[1], move_split[2])
+    else
+      open_on_display_grid(move_split[1], move_split[2])
+    end
+  end
+
+  def add_or_remove_flag(y_index, x_index)
+    if @display_grid[y_index][x_index] == 'f'
+      @display_grid[y_index][x_index] = '-'
+      @flags += 1
+    elsif @display_grid[y_index][x_index] == '-'
+      @display_grid[y_index][x_index] = 'f'
+      @flags -= 1
+    end
+  end
+
+  def open_on_display_grid(y_index, x_index)
+    true
+  end
 end
