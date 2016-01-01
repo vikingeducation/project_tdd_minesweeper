@@ -81,12 +81,12 @@ class Board
     if move_split[0] == 'f'
       add_or_remove_flag(move_split[1], move_split[2])
     else
-      open_on_display_grid(move_split[1], move_split[2])
+      open_square(move_split[1], move_split[2])
     end
   end
 
   def add_or_remove_flag(y_index, x_index)
-    if @display_grid[y_index][x_index] == 'f'
+    if flag_on_square?(y_index, x_index)
       @display_grid[y_index][x_index] = '-'
       @flags += 1
     elsif @display_grid[y_index][x_index] == '-'
@@ -95,7 +95,65 @@ class Board
     end
   end
 
-  def open_on_display_grid(y_index, x_index)
+  def flag_on_square?(y_index, x_index)
+    @display_grid[y_index][x_index] == 'f'
+  end
+
+  def open_square(y_index, x_index)
+    unless flag_on_square?(y_index, x_index)
+      @display_grid[y_index][x_index] = @answer_grid[y_index][x_index]
+      open_surrounding_squares if @display_grid[y_index][x_index] == 0
+    end
+  end
+
+  def open_surrounding_squares
+    @display_grid.each_with_index do |y, y_index|
+      y.each_with_index do |x, x_index|
+        if x == 0 && !(surrounding_squares_open?(y_index,x_index))
+          # Open top left
+          @display_grid[y_index-1][x_index-1] = @answer_grid[y_index-1][x_index-1] if (y_index > 0) && (x_index > 0) && !(flag_on_square?(y_index-1, x_index-1))
+          # Open top
+          @display_grid[y_index-1][x_index] = @answer_grid[y_index-1][x_index] if (y_index > 0) && !(flag_on_square?(y_index-1, x_index))
+          # Open top right
+          @display_grid[y_index-1][x_index+1] = @answer_grid[y_index-1][x_index+1] if (y_index > 0) && (x_index < 9) && !(flag_on_square?(y_index-1, x_index+1))
+          # Open right
+          @display_grid[y_index][x_index+1] = @answer_grid[y_index][x_index+1] if (x_index < 9) && !(flag_on_square?(y_index, x_index+1))
+          # Open bottom right
+          @display_grid[y_index+1][x_index+1] = @answer_grid[y_index+1][x_index+1] if (y_index < 9) && (x_index < 9) && !(flag_on_square?(y_index+1, x_index+1))
+          # Open bottom
+          @display_grid[y_index+1][x_index] = @answer_grid[y_index+1][x_index] if (y_index < 9) && !(flag_on_square?(y_index+1, x_index))
+          # Open bottom left
+          @display_grid[y_index+1][x_index-1] = @answer_grid[y_index+1][x_index-1] if (y_index < 9) && (x_index > 0) && !(flag_on_square?(y_index+1, x_index-1))
+          # Open left
+          @display_grid[y_index][x_index-1] = @answer_grid[y_index][x_index-1] if (x_index > 0) && !(flag_on_square?(y_index, x_index-1))
+
+          open_surrounding_squares
+        end
+      end
+    end
+  end
+    # Go through the display grid
+    # If there's any 0, check to see if any of the surrounding boxes are '-', if they are switch them and run the loop from the beginning again.
+    # possible retry loop?
+
+  def surrounding_squares_open?(y_index, x_index)
+    # Top Left
+    return false if (y_index > 0) && (x_index > 0) && (@display_grid[y_index - 1][x_index - 1] == '-')
+    # Top
+    return false if (y_index > 0) && (@display_grid[y_index - 1][x_index] == '-')
+    # Top Right
+    return false if (y_index > 0) && (x_index < 9) && (@display_grid[y_index - 1][x_index + 1] == '-')
+    # Check to the right
+    return false if (x_index < 9) && (@display_grid[y_index][x_index + 1] == '-')
+    # Check to the right and below
+    return false if (x_index < 9) &&  (y_index < 9) && (@display_grid[y_index + 1][x_index + 1] == '-')
+    # Check below
+    return false if (y_index < 9) && (@display_grid[y_index + 1][x_index] == '-')
+    # Check below and to the left
+    return false if (y_index < 9) && (x_index > 0) && (@display_grid[y_index + 1][x_index -1] == '-')
+    # Check to the left
+    return false if (x_index > 0) && (@display_grid[y_index][x_index - 1] == '-')
     true
   end
+
 end

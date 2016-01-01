@@ -205,8 +205,8 @@ describe Board do
     end
 
     it 'calls the open_on_display_grid method if the argument has an o as its first letter' do
-      allow(board).to receive(:open_on_display_grid).and_return(true)
-      expect(board).to receive(:open_on_display_grid)
+      allow(board).to receive(:open_square).and_return(true)
+      expect(board).to receive(:open_square)
       board.place_players_move('o33')
     end
   end
@@ -257,22 +257,93 @@ describe Board do
         expect(board.instance_variable_get(:@flags)).to eq(8)
       end
     end
+  end
 
-  # What are we testing? Well what does the method do, it either adds a flag to the display grid
-  # or if the position described by the argument on the display grid already has a flag on it
-  # remove the flag.
-  # Also increase or decrease the flag count depending on that situation.
-  # I'm sensing four tests
-  # 1. in a situation where the coordinates given already has a flag on it, we want to test that
-  # that the flag is removed
-  # 2. In a situation where the coordinates given doesn't have a flag on it, we want to add the flag
-  # 
-=begin
-    check with display grid if the coordinates given has a flag on it, if it does,
-      change that flag back to a '-' and increase the flag count by 1
-    else
-      change that coordinate from a '-' into a flag and decrease the count by 1
+  describe '#open_square' do
+    before do
+      board.instance_variable_set(:@answer_grid, [['m','m','m',2,0,0,0,0,0,0],
+                                                  ['m',8,'m',3,0,0,0,0,0,0],
+                                                  ['m','m','m',2,0,0,0,0,0,0],
+                                                  [2, 3, 2, 1,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,1,1,1],
+                                                  [0,0,0,0,0,0,0,1,'m',1],
+                                                  [0,0,0,0,0,0,0,1,1,1]])
+      board.instance_variable_set(:@display_grid, [['f','-','-','-','-','-','-','-','-','-'],
+                                                   ['-','-','-',3,'-','-','-','-','-','-'],
+                                                   ['-','-','-','-','-','-','-','-','-','-'],
+                                                   ['-','-','-','-','-','-','-','-','-','-'],
+                                                   ['-','-','-','-','-','-','-','-','-','-'],
+                                                   ['-','-','-','-','-','-','-','-','-','-'],
+                                                   ['-','-','-','-','-','-','-','-','-','-'],
+                                                   ['-','-','-','-','-','-','-','-','-','-'],
+                                                   ['-','-','-','-','-','-','-','-','-','-'],
+                                                   ['f','-','-','-','-','-','-','-','-','-']])
     end
-=end
+
+    # 1 opening up a square that is a number above 0
+    it 'opens up a square that is a number ABOVE 0' do
+      board.open_square(1,1)
+      display = board.instance_variable_get(:@display_grid)
+      expect(display[1][1]).to eq(8)
+    end
+
+    # 2 opening up a square that's already open
+    it "doesn't change anything if square is already open" do
+      board.open_square(1,3)
+      display = board.instance_variable_get(:@display_grid)
+      expect(display[1][3]).to eq(3)
+    end
+
+    # 3 opening up a square with a flag on it
+    it "doesn't change anything if square has a flag on it" do
+      board.open_square(0,0)
+      display = board.instance_variable_get(:@display_grid)
+      expect(display[0][0]).to eq('f')
+    end
+
+    context 'player has opened a square that is not touching any mines' do
+      # 4 opening up a square that is a number that is 0
+      it "opens up the square if it's zero" do
+        board.open_square(0,4)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[0][4]).to eq(0)
+      end
+
+      it 'it calls the open_surround_squares method' do
+        allow(board).to receive(:open_surrounding_squares)
+        expect(board).to receive(:open_surrounding_squares)
+        board.open_square(0,4)
+      end
+
+      it 'opens up all adjacent squares' do
+        board.open_square(0,4)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[7][7]).to eq(1)
+      end
+
+      it 'opens up all adjacent squares' do
+        board.open_square(0,4)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[0][5]).to eq(0)
+      end
+
+      it 'does not open squares that are not directly touching a zero' do
+        board.open_square(0,4)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[1][1]).to eq('-')
+      end
+
+      it 'does not open squares that are flagged' do
+        board.open_square(0,4)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[9][0]).to eq('f')
+      end
+    end
+
+
+    #  opening up a square that is a mine
   end
 end
