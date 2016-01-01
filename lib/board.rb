@@ -101,8 +101,12 @@ class Board
 
   def open_square(y_index, x_index)
     unless flag_on_square?(y_index, x_index)
-      @display_grid[y_index][x_index] = @answer_grid[y_index][x_index]
-      open_surrounding_squares if @display_grid[y_index][x_index] == 0
+      if @answer_grid[y_index][x_index] == 'm'
+        @display_grid[y_index][x_index] = "!"
+      else
+        @display_grid[y_index][x_index] = @answer_grid[y_index][x_index]
+        open_surrounding_squares if @display_grid[y_index][x_index] == 0
+      end
     end
   end
 

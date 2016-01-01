@@ -304,6 +304,14 @@ describe Board do
       expect(display[0][0]).to eq('f')
     end
 
+    context 'player has opened a square that has a mine on it' do    
+      it "changes the square to an apostrophe" do
+        board.open_square(0,1)
+        display = board.instance_variable_get(:@display_grid)
+        expect(display[0][1]).to eq('!')
+      end
+    end
+
     context 'player has opened a square that is not touching any mines' do
       # 4 opening up a square that is a number that is 0
       it "opens up the square if it's zero" do
@@ -342,8 +350,5 @@ describe Board do
         expect(display[9][0]).to eq('f')
       end
     end
-
-
-    #  opening up a square that is a mine
   end
 end
