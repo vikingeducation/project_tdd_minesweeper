@@ -1,0 +1,30 @@
+Class Minesweeper
+
+  def initialize
+    @board = Board.new
+    @player = Player.new(@board)
+  end
+
+  def start_game
+    puts "Minesweeper"
+    puts "By Steven Chang"
+    puts "---------------"
+    puts ""
+    puts "Minesweeper is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden "mines" without detonating any of them, with help from clues about the number of neighboring mines in each field."
+    puts ""
+    puts "Lets Go!"
+    puts ""
+    loop do
+      @board.render
+      @player.turn
+      if @board.win?
+        puts "You Win!"
+        exit
+      elsif @board.lose?
+        puts "You Lose!"
+        exit
+      end
+    end
+  end
+
+end

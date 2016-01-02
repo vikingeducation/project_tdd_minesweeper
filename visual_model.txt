@@ -1,0 +1,145 @@
+Minesweeper
+By Steven Chang
+---------------
+
+Minesweeper is a single-player puzzle video game. The objective of the game is to clear a rectangular board containing hidden "mines" without detonating any of them, with help from clues about the number of neighboring mines in each field.
+
+Let's Go!
+
+Flags Left: 9
+
+   1 2 3 4 5 6 7 8 9 10
+1  - - - - - - - - - -
+2  - - - - - - - - - -
+3  - - - - - - - - - -
+4  - - - - - - - - - -
+5  - - - - - - - - - -
+6  - - - - - - - - - -
+7  - - - - - - - - - -
+8  - - - - - - - - - -
+9  - - - - - - - - - -
+10 - - - - - - - - - -
+
+####### LOSING SCENARIO
+
+Type 'f' for flag or 'o' for open followed by the location(e.g.'f33').
+Otherwise 'q' then enter to quit.
+
+Your Move: o44
+
+Flags Left: 9
+
+   1 2 3 4 5 6 7 8 9 10
+1  - - - - - - - - - -
+2  - - - - - - - - - -
+3  - - - - - - - - - -
+4  - - - ! - - - - - -
+5  - - - - - - - - - -
+6  - - - - - - - - - -
+7  - - - - - - - - - -
+8  - - - - - - - - - -
+9  - - - - - - - - - -
+10 - - - - - - - - - -
+
+YOU LOSE!
+
+####### OPENING SCENARIO WHERE NUMBER GREATER THAN ZERO IS CHOSEN
+
+Type 'f' for flag or 'o' for open followed by the location(e.g.'f33').
+Otherwise 'q' then enter to quit.
+
+You Move: o44
+
+Flags Left: 9
+
+   1 2 3 4 5 6 7 8 9 10
+1  - - - - - - - - - -
+2  - - - - - - - - - -
+3  - - - - - - - - - -
+4  - - - 3 - - - - - -
+5  - - - - - - - - - -
+6  - - - - - - - - - -
+7  - - - - - - - - - -
+8  - - - - - - - - - -
+9  - - - - - - - - - -
+10 - - - - - - - - - -
+
+####### OPENING SCENARIO WHERE NUMBER ZERO IS CHOSEN
+
+Type 'f' for flag or 'o' for open followed by the location(e.g.'f33').
+Otherwise 'q' then enter to quit.
+
+You Move: o44
+
+Flags Left: 9
+
+   1 2 3 4 5 6 7 8 9 10
+1  - - 2 1 1 - - - - -
+2  - 3 3 . 2 1 - - - -
+3  - 3 . . . 2 - - - -
+4  - 3 . . . 2 - - - -
+5  - 3 3 3 3 3 - - - -
+6  - - - - - - - - - -
+7  - - - - - - - - - -
+8  - - - - - - - - - -
+9  - - - - - - - - - -
+10 - - - - - - - - - -
+
+####### FLAG PLACING SCENARIO
+
+You Move: o46
+
+Flags Left: 8
+
+   1 2 3 4 5 6 7 8 9 10
+1  - - 2 1 1 - - - - -
+2  - 3 3 0 2 1 - - - -
+3  - 3 0 0 0 2 - - - -
+4  - 3 0 0 0 2 - - - -
+5  - 3 3 3 3 3 - - - -
+6  - - - F - - - - - -
+7  - - - - - - - - - -
+8  - - - - - - - - - -
+9  - - - - - - - - - -
+10 - - - - - - - - - -
+
+####### UNPLACING A FLAG SCENARIO
+
+You Move: o46
+
+Flags Left: 9
+
+   1 2 3 4 5 6 7 8 9 10
+1  - - 2 1 1 - - - - -
+2  - 3 3 . 2 1 - - - -
+3  - 3 . . . 2 - - - -
+4  - 3 . . . 2 - - - -
+5  - 3 3 3 3 3 - - - -
+6  - - - - - - - - - -
+7  - - - - - - - - - -
+8  - - - - - - - - - -
+9  - - - - - - - - - -
+10 - - - - - - - - - -
+
+####### WINNING THE GAME SCENARIO
+
+You Move: o46
+
+Flags Left: 0
+
+   1 2 3 4 5 6 7 8 9 10
+1  4 3 2 1 1 . . . . .
+2  5 3 3 . 2 1 . . . .
+3  6 3 . . . 2 . . . .
+4  F 3 . . . 2 . . . .
+5  F 3 3 3 3 3 . . . .
+6  F 5 . . . . . . . .
+7  F 3 . . . . . . . .
+8  F 3 . . . . . . . .
+9  F 3 . . . . . . . .
+10 F 3 . . . . . . . .
+
+YOU WIN!
+
+
+
