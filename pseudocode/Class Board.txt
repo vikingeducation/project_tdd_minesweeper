@@ -22,7 +22,7 @@ class Board
   end
 
   def win?
-    @display_grid == @ answer_grid
+    @display_grid == @answer_grid
   end
 
   def lose?
