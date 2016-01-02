@@ -19,10 +19,10 @@ Class Minesweeper
       @player.turn
       if @board.win?
         puts "You Win!"
-        break
+        exit
       elsif @board.lose?
         puts "You Lose!"
-        break
+        exit
       end
     end
   end

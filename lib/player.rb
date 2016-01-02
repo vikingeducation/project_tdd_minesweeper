@@ -21,8 +21,8 @@ class Player
     until response_is_valid?(response)
       display_instructions
       response = gets.chomp.downcase
-      exit if response == 'q'
     end
+    exit if response == 'q'
     response
   end
 

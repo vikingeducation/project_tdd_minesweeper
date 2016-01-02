@@ -6,12 +6,20 @@ class Board
   end
 
   def render
-    @answer_grid.each do |y|
+    puts ""
+    puts "Flags Left: #{@flags}"
+    puts ""
+    print "  0 1 2 3 4 5 6 7 8 9"
+    @display_grid.each_with_index do |y, y_index|
       puts ""
+      print "#{y_index} "
       y.each do |x|
         print x
+        print " "
       end
     end
+    puts ""
+    puts ""
   end
 
   def place_random_mines
@@ -64,7 +72,16 @@ class Board
   end
 
   def win?
-    @display_grid == @answer_grid
+    @display_grid.each_with_index do |y, y_index|
+      y.each_with_index do |x, x_index|
+        if x == 'f' && @answer_grid[y_index][x_index] != 'm'
+          return false
+        elsif x != 'f' && x != @answer_grid[y_index][x_index]
+          return false
+        end
+      end
+    end
+    true
   end
 
   def lose?
@@ -78,6 +95,8 @@ class Board
 
   def place_players_move(move)
     move_split = move.split('')
+    move_split[1] = move_split[1].to_i
+    move_split[2] = move_split[2].to_i
     if move_split[0] == 'f'
       add_or_remove_flag(move_split[1], move_split[2])
     else

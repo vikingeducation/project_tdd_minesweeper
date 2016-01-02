@@ -149,31 +149,27 @@ describe Board do
 
   describe '#win?' do
     it 'returns true' do
-      board.instance_variable_set(:@answer_grid, [['m','m','m',nil,nil,nil,nil,nil,nil,nil],
-                                                  ['m',nil,'m',nil,nil,nil,nil,nil,nil,nil],
-                                                  ['m','m','m',nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,'m',nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]])
-      board.instance_variable_set(:@display_grid, [['m','m','m',nil,nil,nil,nil,nil,nil,nil],
-                                                  ['m',nil,'m',nil,nil,nil,nil,nil,nil,nil],
-                                                  ['m','m','m',nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,'m',nil],
-                                                  [nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]])
+      board.instance_variable_set(:@answer_grid, [['m','m','m',2,0,0,0,0,0,0],
+                                                  ['m',8,'m',3,0,0,0,0,0,0],
+                                                  ['m','m','m',2,0,0,0,0,0,0],
+                                                  [2,3,2,1,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,1,1,1],
+                                                  [0,0,0,0,0,0,0,1,'m',1],
+                                                  [0,0,0,0,0,0,0,1,1,1]])
+      board.instance_variable_set(:@display_grid, [['f','f','f',2,0,0,0,0,0,0],
+                                                  ['f',8,'f',3,0,0,0,0,0,0],
+                                                  ['f','f','f',2,0,0,0,0,0,0],
+                                                  [2,3,2,1,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,0,0,0],
+                                                  [0,0,0,0,0,0,0,1,1,1],
+                                                  [0,0,0,0,0,0,0,1,'f',1],
+                                                  [0,0,0,0,0,0,0,1,1,1]])
       expect(board.win?).to eq(true)
-    end
-
-    it 'returns false if the display_grid and answer_grids are not the same' do
-      expect(board.win?).to eq(false)
     end
   end
 
