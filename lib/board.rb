@@ -2,6 +2,7 @@ class Board
   attr_reader :grid, :mines, :flags
 
   def initialize(size: 10, mines: 9)
+    @size = size
     @grid = Array.new(size) { Array.new(size) }
     @mines = mines
     @flags = mines
@@ -17,11 +18,21 @@ class Board
     end
   end
 
-  def render
+  def place_mine(coord)
+    tile = tile_at(coord)
+    tile.mine!
+  end
 
+  def render
+  end
+
+  def tile_at(coord)
+    x, y = coord
+    grid[x][y]
   end
 
   private
+
 
   def random_coord
     x = (0...@size).to_a.sample

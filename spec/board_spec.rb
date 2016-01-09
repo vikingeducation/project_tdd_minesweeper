@@ -1,4 +1,5 @@
 require 'board'
+require 'spec_helper'
 
 describe Board do
 
@@ -27,8 +28,18 @@ describe Board do
   end
 
   describe "#populate_board" do
-    it "starting coordinate has no mine" do
-      
+    it "places nine mines" do
+      expect(board).to receive(:place_mine).exactly(9).times
+      board.populate_board([0,4])
+    end
+  end
+
+  describe "#place_mine" do
+    it 'places a mine at the given coordinate' do
+      tile_double = instance_double('Tile')
+      expect(tile_double).to receive(:mine!)
+      board.grid[1][4] = tile_double
+      board.place_mine([1,4])
     end
   end
 

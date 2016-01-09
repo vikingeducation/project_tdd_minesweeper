@@ -4,3 +4,18 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+Board	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/board.rb	/^class Board$/;"	c
+Tile	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^class Tile$/;"	c
+flag!	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def flag!$/;"	f	class:Tile
+flagged?	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def flagged?$/;"	f	class:Tile
+initialize	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/board.rb	/^  def initialize(size: 10, mines: 9)$/;"	f	class:Board
+initialize	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def initialize$/;"	f	class:Tile
+mine!	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def mine!$/;"	f	class:Tile
+place_mine	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/board.rb	/^  def place_mine(coord)$/;"	f
+populate_board	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/board.rb	/^  def populate_board(given_coord)$/;"	f	class:Board
+random_coord	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/board.rb	/^  def random_coord$/;"	f
+render	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/board.rb	/^  def render$/;"	f
+reveal!	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def reveal!$/;"	f	class:Tile
+revealed?	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def revealed?$/;"	f	class:Tile
+safe?	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def safe?$/;"	f	class:Tile
+tile_at	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/board.rb	/^  def tile_at(coord)$/;"	f
