@@ -11,7 +11,7 @@ class Board
     #directions to adjacent squares (including diagonals)
     @delta = [[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]]
     fill_board_with_squares
-    #count_proximities
+    count_proximities
   end
 
   private_class_method :new
@@ -62,7 +62,7 @@ class Board
     @board.each_with_index do |row, r_index|
       row.each_with_index do |col, c_index|
         #skip current iteration if current Square element has a mine
-        puts col.inspect
+        #puts col.inspect
         next if col.has_mine?
         mine_count = 0
         neighbors = []

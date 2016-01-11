@@ -44,20 +44,30 @@ describe Board do
       end
     end
 
-    it 'runs count_proximities' do
-      board_copy = board.board
-      adjacent_mine_count = 0
-      board_copy.each do |row|
-        row.each do |col|
-          if col.proximity > 0
-            adjacent_mine_count = col.proximity
-            break
+    describe '#count_proximities' do
+      it 'runs count_proximities' do
+        board_copy = board.board
+        adjacent_mine_count = 0
+        board_copy.each do |row|
+          row.each do |col|
+            if col.proximity > 0
+              adjacent_mine_count = col.proximity
+              break
+            end
           end
         end
+        expect(adjacent_mine_count).to be_between(0, 8).inclusive
       end
-      expect(adjacent_mine_count).to be_between(0, 8).inclusive
     end
-
   end
+
+  describe '#mine_count' do
+    it 'returns correct number of mines planted in board' do
+      new_board = Board.build_board(5,5,3)
+      expect(new_board.mine_count).to eq(3)
+    end
+  end
+
+
 
 end

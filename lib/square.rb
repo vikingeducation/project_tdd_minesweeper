@@ -22,7 +22,7 @@ class Square
   #setter method overrides
   def proximity=(adjacent_mines)
     raise ArgumentError, "Not an integer!" unless adjacent_mines.is_a?(Fixnum)
-    raise ArgumentError, "Must be between 1-8" unless (1..8).to_a.include?(adjacent_mines)
+    raise ArgumentError, "Must be between 0-8" unless (0..8).to_a.include?(adjacent_mines)
     @proximity = adjacent_mines
   end
 

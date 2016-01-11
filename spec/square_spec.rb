@@ -29,7 +29,7 @@ describe Square do
     end
 
     it 'raises ArgumentError if input is not between 1 and 8 inclusive' do
-      expect{empty_square.proximity = 99}.to raise_error(ArgumentError, "Must be between 1-8")
+      expect{empty_square.proximity = 99}.to raise_error(ArgumentError, "Must be between 0-8")
     end
 
     it 'a square\'s proximity count can be set to an integer value' do
