@@ -7,42 +7,4 @@ Kit Langton
 
 # Planning
 
-Board
-  randomly place mines
-  default mines = 9
-  to_s
-    render a properly
-  check_neighbors
-    loop through neighbors_from_a_coordinate
-    store unsafe neighbors in tile
-    call reveal_square on safe neighbors only if that square is already revealed
-  reveal_square
-    mark as cleared
-    check_neighbors
-  place_flag
-    only if there are flags remaining
-    mark as flagged
-    decrement flags remaining
-  number of flagged squares
-  remaining flags
-  mine_detonated?
-  non-mine squares revealed
 
-Tile
-  to_s
-    cleared and mine - mine
-    flagged - flag
-    etc...
-  mine true/false
-  cleared true/false
-  flagged true/false
-  unsafe_neighbors
-
-Game
-  board
-  play
-    render
-    user_input (coords)
-      send to board
-    update
-  loop until game over
