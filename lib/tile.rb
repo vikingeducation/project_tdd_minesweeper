@@ -6,7 +6,7 @@ class Tile
     @flag = flag
   end
 
-  def reveal
+  def reveal!
     @revealed = true
   end
 
@@ -14,7 +14,7 @@ class Tile
     @revealed
   end
 
-  def mine
+  def mine!
     @mine = true
   end
 
@@ -22,7 +22,7 @@ class Tile
     @mine
   end
 
-  def flag
+  def flag!
     @flag = !@flag
   end
 

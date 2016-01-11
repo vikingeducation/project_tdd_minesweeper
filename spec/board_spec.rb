@@ -3,8 +3,8 @@ require 'tile'
 
 describe 'Board' do
 
-  let(:board_3) { Board.new(size: 3) }
-  
+  let(:small_board) { Board.new(size: 3) }
+
   describe '#initialize' do
 
     context 'with no parameters' do
@@ -42,22 +42,60 @@ describe 'Board' do
   end
 
   describe  "#populate_the_mines" do
-
     it "places 2 mines on an empty board" do
-        
-        board_3.populate_mines([0,0])
-        expect(board_3.mine_count).to eq(2) 
-    end 
-
-    it "places no mines on the starting coordinate" do
-        
-        30.times do 
-          board_3.populate_mines([2,2])
-          expect(board_3.grid[2][2].mine?).to eq(false) 
-        end
+      small_board.populate_mines([0,0])
+      expect(small_board.placed_mine_count).to eq(2)
     end
 
+    it "places no mines on the starting coordinate" do
+      30.times do
+        small_board.populate_mines([2,2])
+        expect(small_board.grid[2][2].mine?).to eq(false)
+      end
+    end
+  end
+
+  describe '#reveal_coord' do
+
+    context 'coord is dangerous' do
+
+      it 'reveals the coordinate' do
+        small_board.grid[1,0].mine!
+        small_board.reveal_coord([1,1])
+        tile = small_board.tile_at([1,1])
+        expect(tile.revealed?).to eq true
+      end
+
+    end
+
+    context 'coord is completely_safe' do
+
+      let(:safe_grid) do
+        [
+          [ "*", "_", "_"],
+          [ "*", "_", "_"],
+          [ "_", "_", "_"],
+        ]
+      end
+
+      let(:expected_out) do
+        [
+          [ "*", "1", "0"],
+          [ "*", "1", "0"],
+          [ "_", "1", "0"],
+        ]
+      end
+
+      it 'reveals coords outwardly, stopping once they are dangerous' do
+        small_board.load_grid(safe_grid)
+        small_board.reveal_coord([2,2])
+        tile = small_board.tile_at([1,2])
+        expect(tile.revealed?).to eq true
+      end
+
+    end
+
+    context 'coord is a mine'
 
   end
-    
 end
