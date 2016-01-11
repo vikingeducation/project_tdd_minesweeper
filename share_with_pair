@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+`git add .`
+`git commit -m "passing to pair"`
+'git push'
