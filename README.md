@@ -135,6 +135,9 @@ safe, dangerous: 1-8, mine
 
 REVEAL:
 
+  #----dkackar---------------------------------#
+  # tile = unrevealed do below 
+  #--------------------------------------------#
   if the coordinate is COMPLETELY safe:
     recursively clear squares until it reaches a dangerous square (clears the dangerous square)
 
@@ -168,3 +171,39 @@ map
 #game_over?:
   all mines are flagged?
   any mine is revealed?
+
+
+#------dkackar---
+
+User clicks space
+  
+  Board:
+    get tile at the coordinate
+    if Tile: tile is not flagged or revealed (from tile class)
+       flag_at_coordinate (tile.flag)
+    end
+
+User clicks enter
+    Board:
+      get tile at the coordinate
+      
+      if  Tile: tile is not flagged or revealed
+          BOARD: PROC REVEAL ---(1)
+           tile.reveal == true
+          
+           if tile.mined
+             Board : reveal all mines 
+          
+           elseif tile.danger_level is NO Danger (i.e. no mines)
+             Board: get_all_neighbors_for_tile
+             for each neighbor call (1)
+          
+           elseif tile.danger ? (with 1 or more mines next it)
+             return
+      end       
+
+            
+        
+def tile_coord(tile)
+  board.each_index { |row| col = a[row].index(tile); p [row, col] if col }
+end  

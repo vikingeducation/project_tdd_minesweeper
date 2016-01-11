@@ -1,7 +1,15 @@
 class Tile
 
+  def initialize
+    @revealed = false
+  end
+    
   def revealed?
-    false
+    @revealed
+  end
+
+  def reveal
+    @revealed = true
   end
 
 end
