@@ -28,7 +28,7 @@ describe Board do
   end
 
   describe "#populate_board" do
-    it "places nine mines" do
+    it "places nine mines by default" do
       expect(board).to receive(:place_mine).exactly(9).times
       board.populate_board([0,4])
     end
