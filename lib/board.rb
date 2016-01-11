@@ -14,15 +14,24 @@ class Board
   def initialize
     @board = []
     @mines = []
+    create_board
+  end
+
+  def create_board
     ROWS.times do
       @board.push(Array.new(COLUMNS) { Tile.new })
     end
-    mine_coords(MINES)
-    place_mines(@mines)
   end
 
   def check_for_mines(coords)
-    
+    neighbors = neighbors(coords)
+    counter = 0
+    neighbors.each do |tile|
+      if board[tile[0]][tile[1]].mine == true
+        counter += 1
+      end
+    end
+    counter
   end
 
   def neighbors(coords)

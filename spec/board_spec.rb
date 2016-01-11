@@ -57,8 +57,13 @@ describe Board do
   end
 
   describe "#check_for_mines" do
+    it "should return 0 if there are no neighboring mines" do
+      expect(minesweeper.check_for_mines([5,5])).to eq(0)
+    end
+
     it "should return number of neighboring mines" do
-      
+      minesweeper.board[5][4].make_mine
+      expect(minesweeper.check_for_mines([5,5])).to eq(1)
     end
   end
 end
