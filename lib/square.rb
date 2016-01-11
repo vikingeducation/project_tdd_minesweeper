@@ -1,7 +1,6 @@
 class Square
 
   attr_accessor :proximity, :cleared
-  attr_reader :mine
 
   def initialize(mine, cleared)
     @mine = mine          #boolean for existence of mine
@@ -27,7 +26,11 @@ class Square
   end
 
   def cleared=(status)
-    raise ArgumentError, "Not a Boolean!" unless status.is_a?(Boolean)
+    raise ArgumentError, "Not a Boolean!" unless status == !!status
     @cleared = status
+  end
+
+  def has_mine?
+    return @mine
   end
 end

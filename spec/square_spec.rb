@@ -7,13 +7,13 @@ describe Square do
 
   describe '.build_mine' do
     it 'builds a Square with a mine' do
-      expect(mine_square.mine).to eq(true)
+      expect(mine_square.has_mine?).to eq(true)
     end
   end
 
   describe '.build_empty' do
     it 'builds a Square without mine' do
-      expect(empty_square.mine).to eq(false)
+      expect(empty_square.has_mine?).to eq(false)
     end
   end
 
@@ -29,7 +29,7 @@ describe Square do
     end
 
     it 'raises ArgumentError if input is not between 1 and 8 inclusive' do
-      expect{empty_square.proximity=99}.to raise_error(ArgumentError, "Must be between 1-8")
+      expect{empty_square.proximity = 99}.to raise_error(ArgumentError, "Must be between 1-8")
     end
 
     it 'a square\'s proximity count can be set to an integer value' do
@@ -47,7 +47,7 @@ describe Square do
 
   describe '#cleared=()' do
     it 'raises an error if argument is not boolean' do
-      expect{empty_square.cleared(10)}.to raise_error(ArgumentError, "Not a Boolean!")
+      expect{empty_square.cleared = 10}.to raise_error(ArgumentError, "Not a Boolean!")
     end
 
     it 'a square\'s clear status can be set' do
