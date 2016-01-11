@@ -1,4 +1,4 @@
-include 'minesweeper_cli.rb'
+require 'minesweeper_cli'
 
 class Game
   def initialize(user_interface=MSCLI.new)
@@ -16,9 +16,20 @@ class Game
 
   def game_loop
     get_input
+    make_move(@coord)
+    game_over?
   end
 
   def get_input
-    [1,2]
+    @coord = @user_interface.get_coordinates
+  end
+
+  def make_move(coord)
+    
+
+  end
+
+  def game_over?
+
   end
 end

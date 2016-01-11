@@ -25,11 +25,19 @@ describe "Game" do
   end
 
   describe '#game_loop' do
+  
     it "should receive get_input" do
+      # user = double("user", :get_coordinates => [1,2])
+      allow
+      allow(game).to receive(:get_input).and_return([1,2])
       expect(game).to receive(:get_input)
       game.game_loop
     end
-    it "should receive make_move"
+    # it "should receive make_move" do
+    #   expect(game).to receive(:make_move)
+    # end
+
+
   end
 
   describe '#get_input' do
