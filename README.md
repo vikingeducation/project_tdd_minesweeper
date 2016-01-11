@@ -46,3 +46,31 @@ Game
       send to board
     update
   loop until game over
+
+
+Tests for overall game
+  Set up the game [Game]
+    Create a board [Board]
+  play
+    Setup
+    Game Loop
+  Setup
+    render (once) [Board]
+  Game Loop [Game]
+    Get and test input [Game]
+    Make the move [Board]
+    Check game over [Game]
+      if game over
+        break from loop
+    Render [Game]
+  Game Over [Game]
+    Render last board with special message: [Game]
+      Loss?
+        loss message
+      Win?
+        win message
+      render all mines
+  Win? [Game]
+    all squares without mines revealed
+  Loss? [Game]
+    player has revealed a mine
