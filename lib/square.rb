@@ -1,9 +1,10 @@
 class Square
 
-  attr_accessor :status, :mark, :num_adjacent_bombs
+  attr_accessor :has_bomb, :flagged, :revealed, :num_adjacent_bombs
 
-  def initialize(mark)
-    @mark = mark
+  def initialize
+    @flagged = false
+    @revealed = false
   end
 
 end

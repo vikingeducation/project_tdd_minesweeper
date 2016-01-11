@@ -3,26 +3,17 @@ require 'square'
 
 describe Square do
 
- let(:square) { Square.new("unmarked") }
+ let(:square) { Square.new }
 
  describe '#initialize' do
 
-  it "take parameter 'mark'" do
-    expect(square.mark).to eq("unmarked")
+  it "flagged is false" do
+    expect(square.flagged).to be false
   end
 
-  it "status is nil" do
-    expect(square.status).to be nil
+  it "revealed is false" do
+    expect(square.revealed).to be false
   end
-
-  it "status can be set" do
-    square.status = "bomb"
-    expect(square.status).to eq("bomb")
-  end
-
-
-
-
  end
 
 end
