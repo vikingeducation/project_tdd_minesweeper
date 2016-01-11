@@ -33,7 +33,6 @@ class Board
 
   private
 
-
   def random_coord
     x = (0...@size).to_a.sample
     y = (0...@size).to_a.sample
