@@ -5,7 +5,10 @@ class Board
 
   def initialize(size: 10, mines: 9)
     @size = size
-    @grid = Array.new(size) { Array.new(size) }
+    @grid = []
+    size.times do
+      @grid << []
+    end
     @mines = mines
     @flags = mines
   end
@@ -20,6 +23,13 @@ class Board
     end
   end
 
+  def move(coord)
+    tile_at(coord).reveal!
+
+    return true unless tile_at(coord).safe?
+    false
+  end
+
   def place_mine(coord)
     tile = tile_at(coord)
     tile.mine!
@@ -30,7 +40,7 @@ class Board
 
   def tile_at(coord)
     x, y = coord
-    grid[x][y]
+    @grid[x][y]
   end
 
   private

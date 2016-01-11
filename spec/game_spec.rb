@@ -29,7 +29,8 @@ describe "Game" do
   describe '#game_loop' do
 
     it "should receive get_input" do
-      expect(game).to receive(:get_input)
+      allow(game).to receive(:make_move)
+      expect(game).to receive(:get_input).and_return([1,2])
       game.game_loop
     end
 
@@ -42,6 +43,6 @@ describe "Game" do
   end
 
   describe '#get_input' do
-    
+
   end
 end
