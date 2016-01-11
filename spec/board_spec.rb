@@ -4,9 +4,9 @@ require 'spec_helper'
 describe Board do
 
   let(:board) { Board.new }
-  let(:neighbor_grid) { [ [Tile.new(mine:true),Tile.new,Tile.new],
+  let(:test_board) { Board.new( grid: [[Tile.new(mine:true),Tile.new,Tile.new],
                           [Tile.new,Tile.new,Tile.new],
-                          [Tile.new,Tile.new,Tile.new]] }
+                          [Tile.new,Tile.new,Tile.new]]) }
 
   describe "#initialize" do
     it "creates a 10x10 board by default" do
@@ -47,6 +47,11 @@ describe Board do
   end
 
   describe '#check_neighbors' do
+
+    it "checks each neighbor cell for mine" do
+      test_board.check_neighbors
+      expect(test_board.grid[1][1].unsafe_neighbors).to eq(1)
+    end
     
   end
 end

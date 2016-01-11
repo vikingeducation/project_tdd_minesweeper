@@ -1,9 +1,11 @@
 class Tile
+  attr_accessor :unsafe_neighbors
 
   def initialize(mine: false, flag: false, revealed: false)
     @mine = mine
     @flag = flag
     @revealed = revealed
+    @unsafe_neighbors = 0
   end
 
   def safe?
@@ -29,4 +31,6 @@ class Tile
   def reveal!
     @revealed = true
   end
+
+
 end

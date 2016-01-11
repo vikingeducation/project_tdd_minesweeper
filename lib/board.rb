@@ -32,6 +32,10 @@ class Board
     tile.mine!
   end
 
+  def check_neighbors
+    
+  end
+
   private
 
   def tile_at(coord)
