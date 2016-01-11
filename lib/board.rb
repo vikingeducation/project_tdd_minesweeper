@@ -1,3 +1,5 @@
+require_relative 'tile'
+
 class Board
   attr_reader :grid, :mines, :flags
 
