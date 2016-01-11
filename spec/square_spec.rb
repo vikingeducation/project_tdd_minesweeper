@@ -1,4 +1,4 @@
-require 'square'
+require 'square' 
 
 
 describe Square do
@@ -14,6 +14,12 @@ describe Square do
   it "status is nil" do
     expect(square.status).to be nil
   end
+
+  it "status can be set" do
+    square.status = "bomb"
+    expect(square.status).to eq("bomb")
+  end
+
 
 
 
