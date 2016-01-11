@@ -28,7 +28,11 @@ class Minesweeper
     neighbor_arr.each do | neighbor | 
         row = neighbor.row
         col = neighbor.col
-        @grid.grid[row][col].revealed = true
+        unless @grid.grid[ row ][ col ].revealed 
+            @grid.grid[ row ][ col ].revealed = true
+            if @grid.grid[ row][ col ].num_adjacent_bombs == 0
+              auto_reveal_multi_square( row, col )
+        end
     end
   end
 
