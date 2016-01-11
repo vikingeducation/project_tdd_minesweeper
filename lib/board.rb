@@ -2,10 +2,11 @@ class Board
   ROWS = 10
   COLUMNS = 10
   MINES = 10
-  attr_accessor :board
+  attr_accessor :board, :mines
 
   def initialize
     @board = []
+    @mines = []
     ROWS.times do
       @board.push(Array.new(COLUMNS, "-"))
     end
@@ -13,19 +14,12 @@ class Board
   end
 
   def place_mines(mines)
-    return false if mines > ROWS * COLUMNS
-    counter = 0
-    mines.times do 
-      row = board.sample
-      column = row.sample
-      if column == "-"
-        column = "X"
-        counter += 1
-      else
-        place_mines(mines - counter)
-      end
+    return true if mines <= 0
+    row = (0..ROWS-1).to_a.sample
+    column = (0..COLUMNS-1).to_a.sample
+    unless @mines.include?([row, column])
+      @mines << [row, column]
     end
-    puts @board
+    place_mines(mines-1)
   end
-
 end
