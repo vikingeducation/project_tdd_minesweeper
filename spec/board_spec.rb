@@ -15,8 +15,22 @@ describe Board do
       expect(minesweeper.board.size).to eq(10)
     end
 
-    it "places bombs" do
-      
+    it "places 10 bombs" do
+      count = 0
+      minesweeper.board.each do |row|
+        count += row.count("X")
+      end
+      expect(count).to eq 10
+    end
+  end
+
+  describe "#place_mines" do
+    it "places 10 mines into the board" do
+      expect(minesweeper.place_mines(10)).to eq true
+    end
+
+    it "places 1000 mines into the board" do
+      expect(minesweeper.place_mines(1000)).to eq false
     end
   end
 end
