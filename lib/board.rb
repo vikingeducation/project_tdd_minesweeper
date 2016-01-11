@@ -21,8 +21,24 @@ class Board
     place_mines(@mines)
   end
 
-  def neighbors(coords)
+  def check_for_mines(coords)
     
+  end
+
+  def neighbors(coords)
+    neighbors = []
+    [-1, 0, 1].each do |row_mod|
+      [-1, 0, 1].each do |col_mod|
+        new_row = coords[0] + row_mod
+        new_col = coords[1] + col_mod
+
+        if (0 <= new_row) && (new_row < ROWS) && (0 <= new_col) && (new_col < COLUMNS)
+          neighbors << [new_row, new_col]
+        end
+      end
+    end
+    neighbors.delete(coords)
+    neighbors
   end
 
   # private
@@ -30,7 +46,6 @@ class Board
     mine_coords.each do |mine|
       @board[mine[0]][mine[1]].make_mine
     end
-    print mine_coords
   end
 
   def mine_coords(mines)

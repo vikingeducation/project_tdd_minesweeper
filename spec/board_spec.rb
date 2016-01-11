@@ -45,8 +45,20 @@ describe Board do
   describe "#neighbors" do
     it "should return list of neighboring tiles" do
       array1 = [[4, 4], [5, 4], [6, 4], [4, 5], [6, 5], [4, 6], [5, 6], [6, 6]]
-      array2 = minesweeper.board.neighbors([5,5])
+      array2 = minesweeper.neighbors([5,5])
       expect(array2.sort).to eq(array1.sort)
+    end
+
+    it "should only keep coordinates in bounds" do
+      array1 = [[0, 1], [1, 0], [1, 1]]
+      array2 = minesweeper.neighbors([0, 0])
+      expect(array2.sort).to eq(array1.sort)
+    end
+  end
+
+  describe "#check_for_mines" do
+    it "should return number of neighboring mines" do
+      
     end
   end
 end
