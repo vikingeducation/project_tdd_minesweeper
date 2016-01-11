@@ -9,9 +9,15 @@ Tile	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^class 
 Tile	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^class Tile$/;"	c
 []	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def [](x, y)$/;"	f	class:Board
 coords_for_tile	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^def coords_for_tile(given_tile)$/;"	f
+flag	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def flag$/;"	f	class:Tile
+flag?	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def flag?$/;"	f	class:Tile
+initialize	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def initialize(revealed: false, mine: false, flag: false)$/;"	f	class:Tile
 initialize	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def initialize$/;"	f	class:Board
 initialize	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def initialize(mine = false)$/;"	f	class:Tile
 inspect	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def inspect$/;"	f	class:Tile
+mine	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def mine$/;"	f	class:Tile
+mine?	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def mine?$/;"	f	class:Tile
 neighbors_for_coord	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def neighbors_for_coord(x,y)$/;"	f	class:Board
 place_mine	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def place_mine$/;"	f	class:Tile
+reveal	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def reveal$/;"	f	class:Tile
 revealed?	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def revealed?$/;"	f	class:Tile

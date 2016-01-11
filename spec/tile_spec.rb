@@ -4,7 +4,7 @@ describe "Tile" do
 
   let(:tile){ Tile.new }
 
-  describe "initialize tile " do
+  context "when initialzed with no parameters" do
 
     it "is unrevealed" do
       expect(tile.revealed?).to eq false
@@ -34,7 +34,7 @@ describe "Tile" do
       tile.mine
       expect(tile.mine?).to eq true
     end
-    
+
   end
 
   describe '#flag' do
@@ -42,7 +42,7 @@ describe "Tile" do
       tile.flag
       expect(tile.flag?).to eq true
     end
-    
+
     it 'unflags the tile if it is flagged' do
       flagged_tile = Tile.new(flag: true)
       flagged_tile.flag
