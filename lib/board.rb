@@ -5,10 +5,7 @@ class Board
 
   def initialize(size: 10, mines: 9)
     @size = size
-    @grid = []
-    size.times do
-      @grid << []
-    end
+    @grid = Array.new(size) { Array.new(size) }
     @mines = mines
     @flags = mines
   end
