@@ -4,7 +4,9 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+Tile	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^class Tile$/;"	c
 Tile	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^class Tile$/;"	c
 coords_for_tile	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^def coords_for_tile(given_tile)$/;"	f
 initialize	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def initialize(mine = false)$/;"	f	class:Tile
 inspect	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/test.rb	/^  def inspect$/;"	f	class:Tile
+revealed?	/Users/kitlangton/Viking/Unit4/project_tdd_minesweeper/lib/tile.rb	/^  def revealed?$/;"	f	class:Tile
