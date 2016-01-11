@@ -23,7 +23,13 @@ class Minesweeper
     @grid.grid[i][j].flagged = true
   end
 
-  def auto_reveal_multi_square
+  def auto_reveal_multi_square(i, j)
+    neighbor_arr = @grid.grid.neighbors(i, j)
+    neighbor_arr.each do | neighbor | 
+        row = neighbor.row
+        col = neighbor.col
+        @grid.grid[row][col].revealed = true
+    end
   end
 
 

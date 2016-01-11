@@ -10,6 +10,13 @@ class Grid
     @num_mines = 10
     @mines_hash = {}
     @grid = Array.new(@width){Array.new(@height){Square.new}}
+
+    (0..@width - 1).each do | row_index |
+      (0..@height - 1).each do | col_index |
+        @grid[row_index][col_index].row = row_index
+        @grid[row_index][col_index].col = col_index
+      end
+    end
   end
 
   def import_grid( new_grid )
@@ -53,41 +60,45 @@ class Grid
   end
 
 
-  def calculate_adjacent_bombs( i, j )  
-    horizontal_arr = [ i-1, i, i + 1] if i > 0 && i < @width - 1
-    horizontal_arr = [ i, i + 1] if i == 0
-    horizontal_arr = [ i-1, i ] if i == @width - 1
+  # returns only the neighbors, not the square passed in
+  def neighbors( i, j )
+      horizontal_arr = [ i-1, i, i + 1] if i > 0 && i < @width - 1
+      horizontal_arr = [ i, i + 1] if i == 0
+      horizontal_arr = [ i-1, i ] if i == @width - 1
 
-    vertical_arr = [ j-1, j, j + 1] if j > 0 && j < @height - 1
-    vertical_arr = [ j, j + 1] if j == 0
-    vertical_arr = [ j-1, j ] if j == @height - 1
+      vertical_arr = [ j-1, j, j + 1] if j > 0 && j < @height - 1
+      vertical_arr = [ j, j + 1] if j == 0
+      vertical_arr = [ j-1, j ] if j == @height - 1
 
-    num_adjacent_bombs = 0
-    horizontal_arr.each do | row_index |
-      vertical_arr.each do | col_index |
-        num_adjacent_bombs += 1  if @grid[row_index][col_index].has_bomb
+      neighbor_arr = []
+      horizontal_arr.each do | row_index |
+        vertical_arr.each do | col_index |
+          if i != row_index || j != col_index
+            neighbor_arr << grid[row_index][col_index]
+          end
+        end
       end
-    end
-    @grid[i][j].has_bomb ? num_adjacent_bombs - 1 : num_adjacent_bombs
+
+      neighbor_arr
+  end
+
+  def calculate_adjacent_bombs( i, j )  
+    num_adjacent_bombs = 0
+     neighbor_arr = neighbors(i, j)
+     neighbor_arr.each do | neighbor |
+        num_adjacent_bombs += 1  if neighbor.has_bomb
+     end
+     num_adjacent_bombs
   end
 
 
   def calculate_adjacent_flags(i,j)
-    horizontal_arr = [ i-1, i, i + 1] if i > 0 && i < @width - 1
-    horizontal_arr = [ i, i + 1] if i == 0
-    horizontal_arr = [ i-1, i ] if i == @width - 1
-
-    vertical_arr = [ j-1, j, j + 1] if j > 0 && j < @height - 1
-    vertical_arr = [ j, j + 1] if j == 0
-    vertical_arr = [ j-1, j ] if j == @height - 1
-
     num_adjacent_flags = 0
-    horizontal_arr.each do | row_index |
-      vertical_arr.each do | col_index |
-        num_adjacent_flags += 1  if @grid[row_index][col_index].flagged
-      end
+    neighbor_arr = neighbors(i, j)
+    neighbor_arr.each do | neighbor |
+        num_adjacent_flags += 1  if neighbor.flagged
     end
-    @grid[i][j].flagged ? num_adjacent_flags - 1 : num_adjacent_flags
+    num_adjacent_flags
   end
 
 end
