@@ -20,7 +20,10 @@ safe, dangerous: 1-8, mine
     case key
     when key :enter
       game.reveal_coord(current_coord)
+    when key :space
+      game.flag_coord(current_coord)
     break if game_over?
+    display
 
 ## Game
   game_over?
@@ -37,7 +40,26 @@ safe, dangerous: 1-8, mine
   @data = [ [tile, tile, tile], [tile, tile, tile] ]
   Tile.new(board: self)
 
-  build_board(mines, size)
+  build_board(mines, size, starting_coord)
+    @data = Array.new(size) { Array.new(size) { Tile.new } }
+    mines.times do
+      don't set a mine if there's already a mine
+      don't set a mine if it's a starting_coord
+      random_tile.set_mine
+    end
+
+  set_danger_levels
+    @data.each do |row|
+      row.each do |tile|
+
+      end
+    end
+
+  coord_for_tile
+
+  tile_for_coord
+
+  adjacent_mines_for(coord)
 
   any_mines_revealed?
     mines = @data.flatten.select { |tile| tile.mine? }
@@ -51,6 +73,10 @@ safe, dangerous: 1-8, mine
    tile = self.tile_at(coord)
    return false if tile.flagged?
    tile.reveal
+   if tile.completely_safe?
+     reveal_neigbors(tile)
+   elsif tile.mine?
+     reveal_all_mines
 
   flag_coord(coord)
    tile = self.tile_at(coord)
@@ -73,6 +99,7 @@ safe, dangerous: 1-8, mine
   @revealed = false
   @mine = false
   @flagged = false
+  @adjacent_mines = 4
 
   mine?
     @mine
@@ -83,12 +110,13 @@ safe, dangerous: 1-8, mine
   unmined?
     !@mine
 
+  adjacent_mines
+    @adjacent_mines
+
   flag
     @flagged = !@flagged
 
-! _     O 1234 *
-
-  display_tile
+  to_s
     if revealed?
       if mined?
         "*"
@@ -102,19 +130,8 @@ safe, dangerous: 1-8, mine
       end
     end
 
-  danger_level
-    board.danger_level_for_tile(self)
-
   reveal
     @revealed = true
-    if completely_safe?
-      board.reveal_all_neigbors
-    if mined?
-      board.reveal_all_mines
-
-  completely_safe?
-    return false mine?
-    board.completely_safe?(self)
 
 REVEAL:
 
