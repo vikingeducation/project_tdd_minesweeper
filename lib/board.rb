@@ -3,9 +3,9 @@ require_relative 'tile'
 class Board
   attr_reader :grid, :mines, :flags
 
-  def initialize(size: 10, mines: 9)
+  def initialize(size: 10, mines: 9, grid: nil)
     @size = size
-    @grid = Array.new(size) { Array.new(size) }
+    @grid = grid || Array.new(size) { Array.new(size) }
     @mines = mines
     @flags = mines
   end
@@ -32,15 +32,12 @@ class Board
     tile.mine!
   end
 
-  def render
-  end
+  private
 
   def tile_at(coord)
     x, y = coord
     @grid[x][y]
   end
-
-  private
 
   def random_coord
     x = (0...@size).to_a.sample

@@ -4,6 +4,9 @@ require 'spec_helper'
 describe Board do
 
   let(:board) { Board.new }
+  let(:neighbor_grid) { [ [Tile.new(mine:true),Tile.new,Tile.new],
+                          [Tile.new,Tile.new,Tile.new],
+                          [Tile.new,Tile.new,Tile.new]] }
 
   describe "#initialize" do
     it "creates a 10x10 board by default" do
@@ -43,7 +46,7 @@ describe Board do
     end
   end
 
-  describe "#render" do
-
+  describe '#check_neighbors' do
+    
   end
 end

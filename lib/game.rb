@@ -3,17 +3,13 @@ require 'minesweeper_cli'
 
 class Game
   def initialize(user_interface=MinesweeperCLI.new)
-    @user_interface = user_interface
     @board = Board.new
+    @user_interface = user_interface
   end
 
   def play
-    setup
+    render
     game_loop
-  end
-
-  def setup
-
   end
 
   def game_loop
@@ -21,6 +17,8 @@ class Game
     game_over?
     render
   end
+
+  private
 
   def get_input
     @coord = @user_interface.get_coordinates
@@ -34,6 +32,6 @@ class Game
   end
 
   def render
-    @user_interface.render(@board)
+    @user_interface.render(@board.grid)
   end
 end

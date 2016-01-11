@@ -1,9 +1,9 @@
 class Tile
 
-  def initialize
-    @mine = false
-    @flag = false
-    @revealed = false
+  def initialize(mine: false, flag: false, revealed: false)
+    @mine = mine
+    @flag = flag
+    @revealed = revealed
   end
 
   def safe?
