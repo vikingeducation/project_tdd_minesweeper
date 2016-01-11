@@ -1,4 +1,5 @@
 require 'board'
+require 'tile'
 
 describe Board do
   let( :minesweeper ){ Board.new }
@@ -20,9 +21,32 @@ describe Board do
     end
   end
 
+  describe "#mine_coords" do 
+    it "returns 10 coordinates" do
+      expect(minesweeper.mines.count).to eq(10)
+    end
+  end
+
   describe "#place_mines" do
-    it "places 10 mines into the board" do
-      expect(minesweeper.place_mines(10)).to eq true
+
+    it "places mines at the 10 coordinates" do
+      counter = 0
+      minesweeper.board.each_with_index do |row, index|
+        row.each_with_index do |col, index2|
+          if minesweeper.board[index][index2].mine == true
+            counter += 1
+          end
+        end
+      end
+      expect(counter).to eq(10)
+    end
+  end
+
+  describe "#neighbors" do
+    it "should return list of neighboring tiles" do
+      array1 = [[4, 4], [5, 4], [6, 4], [4, 5], [6, 5], [4, 6], [5, 6], [6, 6]]
+      array2 = minesweeper.board.neighbors([5,5])
+      expect(array2.sort).to eq(array1.sort)
     end
   end
 end
