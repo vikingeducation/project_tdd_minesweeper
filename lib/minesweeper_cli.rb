@@ -4,7 +4,7 @@ class MinesweeperCLI
     coord = gets.chomp.split(",")
   end
 
-  def render(board_string*)
+  def render(board_string)
     puts "This is the board"
   end
 end

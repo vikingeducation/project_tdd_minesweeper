@@ -1,7 +1,7 @@
 require 'minesweeper_cli'
 
 class Game
-  def initialize(user_interface=MSCLI.new)
+  def initialize(user_interface=MinesweeperCLI.new)
     @user_interface = user_interface
   end
 
@@ -25,7 +25,7 @@ class Game
   end
 
   def make_move(coord)
-    
+
 
   end
 
