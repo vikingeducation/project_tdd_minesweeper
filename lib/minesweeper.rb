@@ -9,6 +9,7 @@ class Minesweeper
     @grid = Grid.new
     @grid.build_mines_hash
     @grid.place_bombs
+    @grid.calculate_adjacent_bombs
   end
 
 
@@ -24,15 +25,19 @@ class Minesweeper
   end
 
   def auto_reveal_multi_square(i, j)
-    neighbor_arr = @grid.grid.neighbors(i, j)
+    neighbor_arr = @grid.neighbors(i, j)
+    # puts "i: #{i}, j: #{j}"
     neighbor_arr.each do | neighbor | 
-        row = neighbor.row
-        col = neighbor.col
-        unless @grid.grid[ row ][ col ].revealed 
-            @grid.grid[ row ][ col ].revealed = true
-            if @grid.grid[ row][ col ].num_adjacent_bombs == 0
-              auto_reveal_multi_square( row, col )
+      row = neighbor.row
+      col = neighbor.col
+      # puts "#{row}, #{col}"
+      # puts "#{@grid.grid[row][col]}"
+      unless @grid.grid[ row ][ col ].revealed 
+        @grid.grid[ row ][ col ].revealed = true
+        if @grid.grid[row][col].num_adjacent_bombs == 0
+          auto_reveal_multi_square( row, col )
         end
+      end
     end
   end
 
@@ -46,6 +51,3 @@ class Minesweeper
 
 
 end
-
-# ms = Minesweeper.new
-# puts ms.grid.class

@@ -3,6 +3,24 @@ require 'minesweeper'
 describe Minesweeper do
 
   let (:minesweeper) { Minesweeper.new }
+  let(:minesweeper_custom) do
+    custom = Minesweeper.new
+    custom.grid.import_grid(
+      [
+        [" ", " ", " ", " ", "*", " ", " ", " ", " "], 
+        ["*", " ", " ", " ", "*", " ", " ", " ", " "], 
+        [" ", "*", " ", " ", " ", " ", " ", " ", " "], 
+        ["*", " ", " ", " ", " ", " ", " ", " ", "*"], 
+        [" ", " ", " ", " ", " ", " ", " ", " ", "*"], 
+        [" ", " ", " ", " ", "*", " ", " ", " ", " "], 
+        [" ", " ", " ", " ", " ", "*", " ", " ", " "], 
+        [" ", " ", " ", " ", " ", " ", " ", " ", " "], 
+        [" ", " ", " ", "*", " ", " ", " ", " ", " "]
+      ] 
+    )
+    custom
+    end
+
 
   describe "#initialize" do
     it "initializes grid and builds mines_hash" do
@@ -41,8 +59,12 @@ describe Minesweeper do
     end
   end
 
-  describe '#place_flag' do
-
+  describe '#auto_reveal_multi_square' do
+    it 'reveals squares until it hits bombs' do
+      expect(minesweeper_custom.grid.grid[6][7].revealed).to be false
+      minesweeper_custom.auto_reveal_multi_square(8,8)
+      expect(minesweeper_custom.grid.grid[6][7].revealed).to be true
+    end
 
 
 

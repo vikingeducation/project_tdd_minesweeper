@@ -10,27 +10,31 @@ class Grid
     @num_mines = 10
     @mines_hash = {}
     @grid = Array.new(@width){Array.new(@height){Square.new}}
-
-    (0..@width - 1).each do | row_index |
-      (0..@height - 1).each do | col_index |
-        @grid[row_index][col_index].row = row_index
-        @grid[row_index][col_index].col = col_index
-      end
-    end
+    set_row_col_for_square
   end
 
-  def import_grid( new_grid )
+  def import_grid(new_grid)
     # assumes new_grid is a 2x2 array of characters
     # "*" == bomb, " " == no_bomb
     return unless new_grid.length == @width && new_grid[0].length == @height
     (0..@width - 1).each do | row_index |
       (0..@height - 1).each do | col_index |
-        @grid[row_index][col_index] = Square.new
+        @grid[row_index][col_index] = Square.new(:row => row_index, :col => col_index)
         if new_grid[row_index][col_index] == "*"
           @grid[row_index][col_index].has_bomb = true
         else
           @grid[row_index][col_index].has_bomb = false
         end
+      end
+    end
+    calculate_adjacent_bombs
+  end
+
+  def set_row_col_for_square
+    (0..@width - 1).each do | row_index |
+      (0..@height - 1).each do | col_index |
+        @grid[row_index][col_index].row = row_index
+        @grid[row_index][col_index].col = col_index
       end
     end
   end
@@ -78,17 +82,25 @@ class Grid
           end
         end
       end
-
       neighbor_arr
   end
 
-  def calculate_adjacent_bombs( i, j )  
+  def calculate_adjacent_bombs_for_square(i,j)  
     num_adjacent_bombs = 0
      neighbor_arr = neighbors(i, j)
      neighbor_arr.each do | neighbor |
         num_adjacent_bombs += 1  if neighbor.has_bomb
      end
+     @grid[i][j].num_adjacent_bombs = num_adjacent_bombs
      num_adjacent_bombs
+  end
+
+  def calculate_adjacent_bombs
+    @grid.each_with_index do |row, row_index|
+      row.each_with_index do |square, column_index|
+        calculate_adjacent_bombs_for_square(row_index, column_index)
+      end
+    end
   end
 
 
