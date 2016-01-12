@@ -1,3 +1,34 @@
+require 'board'
+
+class Minesweeper
+  def initialize
+    @board = nil
+    @move_counter = 0
+  end
+
+  private_class_method :new
+
+  def self.setup_game
+    new
+  end
+
+  def print_intro
+    puts "\nWelcome to Minesweeper.\n"
+  end
+
+  def play
+    print_intro
+    get_game_params
+  end
+
+  def get_game_params
+    puts "\nEnter Height, Width, and Number of Mines as integers with a space in between:\n"
+    puts "\nExample: \"10 10 5\" or \"4 6 3\""
+    input = gets.chomp
+
+  end
+
+end
 #initialize game
 
 #print intro

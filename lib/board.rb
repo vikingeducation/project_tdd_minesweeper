@@ -29,12 +29,15 @@ class Board
     return @mines
   end
 
-  #if mine is at coord, return true, else run recursive clear_squares
+  #if mine is at coord, return true, else run recursive clear_squares and return false (used for lose condition later)
   def process_move(row, col)
     if @board[row][col].has_mine?
-      return true
+      return 0
+    elsif @board[row][col].cleared
+      return 1
     else
       clear_squares(row, col)
+      return 2
     end
   end
 

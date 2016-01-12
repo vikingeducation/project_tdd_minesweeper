@@ -103,15 +103,19 @@ describe Board do
   end
 
   describe '#process_move' do
-    it 'returns true at mine location' do
-      #test method
-      expect(test_board.process_move(0,0)).to eq(true)
+    it 'returns 0 at mine location' do
+      expect(test_board.process_move(0,0)).to eq(0)
     end
 
     it 'calls clear_squares at non-mine location' do
-      #test method
       expect(test_board).to receive(:clear_squares)
       test_board.process_move(1,0)
+    end
+
+    it 'returns 1 if the location is already cleared' do
+      small_test_board[1][0].cleared = true
+      test_board.instance_variable_set(:@board, small_test_board)
+      expect(test_board.process_move(1,0)).to eq(1)
     end
   end
 end
