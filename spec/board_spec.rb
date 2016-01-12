@@ -15,30 +15,12 @@ describe Board do
     it "new board should have 10 rows and 10 columns" do
       expect(minesweeper.board.size).to eq(10)
     end
-
-    it "places 10 bombs" do
-      expect(minesweeper.mines.length).to eq(10)
-    end
   end
 
   describe "#mine_coords" do 
     it "returns 10 coordinates" do
+      minesweeper.mine_coords(10)
       expect(minesweeper.mines.count).to eq(10)
-    end
-  end
-
-  describe "#place_mines" do
-
-    it "places mines at the 10 coordinates" do
-      counter = 0
-      minesweeper.board.each_with_index do |row, index|
-        row.each_with_index do |col, index2|
-          if minesweeper.board[index][index2].mine == true
-            counter += 1
-          end
-        end
-      end
-      expect(counter).to eq(10)
     end
   end
 
@@ -64,6 +46,20 @@ describe Board do
     it "should return number of neighboring mines" do
       minesweeper.board[5][4].make_mine
       expect(minesweeper.check_for_mines([5,5])).to eq(1)
+    end
+  end
+
+  describe "#toggle_flag" do
+    it "should toggle flag" do
+      minesweeper.toggle_flag([5,5])
+      expect(minesweeper.board[5][5].is_flagged).to eq(true)
+    end
+  end
+
+  describe "#reveal_tile" do
+    it "should reveal tile" do
+      minesweeper.reveal_tile([5,5])
+      expect(minesweeper.board[5][5].is_revealed).to eq(true)
     end
   end
 end

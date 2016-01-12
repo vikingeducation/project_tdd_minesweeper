@@ -1,3 +1,5 @@
+require_relative 'tile.rb'
+
 class Board
   #maximum of 8 possible neighbors
   #[row, col]
@@ -27,7 +29,7 @@ class Board
     neighbors = neighbors(coords)
     counter = 0
     neighbors.each do |tile|
-      if board[tile[0]][tile[1]].mine == true
+      if board[tile[0]][tile[1]].is_mine == true
         counter += 1
       end
     end
@@ -50,12 +52,28 @@ class Board
     neighbors
   end
 
-  # private
-  def place_mines(mine_coords)
-    mine_coords.each do |mine|
-      @board[mine[0]][mine[1]].make_mine
+  def render
+    @board.each do |row|
+      row.each do |tile|
+        if tile.is_revealed == false
+          if tile.is_flagged
+            print "P"
+          else
+            print "-"
+          end
+        else
+          if tile.is_mine
+            print "*"
+          else
+            print "_"
+          end
+        end
+      end
+      print "\n"
     end
   end
+
+  # private
 
   def mine_coords(mines)
     return true if mines <= 0
@@ -68,4 +86,15 @@ class Board
       mine_coords(mines-1)
     end
   end
+
+  def toggle_flag(coords)
+    @board[coords[0]][coords[1]].flag
+  end
+
+  def reveal_tile(coords)
+    @board[coords[0]][coords[1]].reveal
+  end
 end
+
+b = Board.new
+b.render

@@ -4,7 +4,7 @@ describe Tile do
 	let(:tile) { Tile.new }
 	describe "#initialize" do
 		it "does not have a mine" do
-			expect(tile.mine).to eq(false)
+			expect(tile.is_mine).to eq(false)
 		end
 
 		it "has contents that are not revealed" do
@@ -16,16 +16,16 @@ describe Tile do
 		end
 	end
 
-	describe "#revealed" do
+	describe "#reveal" do
 		it "reveals a tile that is not revealed" do
-			tile.revealed
+			tile.reveal
 			expect(tile.is_revealed).to eq(true)
 		end
 	end
 
-	describe "#flagged" do
+	describe "#flag" do
 		it "toggles a flag" do
-			tile.flagged
+			tile.flag
 			expect(tile.is_flagged).to eq(true)
 		end
 	end
@@ -33,7 +33,7 @@ describe Tile do
 	describe "#make_mine" do
 		it "makes a mine" do
 			tile.make_mine
-			expect(tile.mine).to eq(true)
+			expect(tile.is_mine).to eq(true)
 		end
 	end
 end

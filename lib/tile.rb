@@ -1,38 +1,42 @@
 class Tile
 	# mine?
-	# is_revealed?
-	# is_flagged?
+	# revealed?
+	# flagged?
 
 	#set flagged status
 	#set reveal status
 	#create a mine
 	#tile description
 
-	attr_accessor :mine, :is_revealed, :is_flagged
+	attr_accessor :is_mine, :is_revealed, :is_flagged
 
-	def initialize
-		@mine = false
-		@is_revealed = false
-		@is_flagged = false
+	def initialize(options={})
+		@is_mine = options[:is_mine] || false
+		@is_revealed = options[:is_revealed] || false
+		@is_flagged = options[:is_flagged] || false
 	end
 
-	def revealed
-		if @is_revealed
-			puts "You've already selected that tile"
-		else
-			@is_revealed = true
-		end
+	def reveal
+		@is_revealed = true
 	end
 
-	def flagged
-		if @is_flagged
-			@is_flagged = false
-		else
-			@is_flagged = true
-		end
+	def flag
+		@is_flagged = !@is_flagged
 	end
 
 	def make_mine
-		@mine = true
+		@is_mine = true
+	end
+
+	def mine?
+		@is_mine
+	end
+
+	def revealed?
+		@is_revealed
+	end
+
+	def flagged
+		@is_flagged
 	end
 end
