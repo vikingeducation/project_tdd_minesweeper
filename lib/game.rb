@@ -1,10 +1,11 @@
-require 'board'
-require 'minesweeper_cli'
+require_relative 'board'
+require_relative 'minesweeper_cli'
 
 class Game
   def initialize(user_interface=MinesweeperCLI.new)
     @board = Board.new
     @user_interface = user_interface
+    @first_move = true
   end
 
   def play
@@ -13,9 +14,15 @@ class Game
   end
 
   def game_loop
-    make_move(get_input)
-    game_over?
-    render
+    until game_over?
+      make_move(get_input)
+      @board.check_neighbors
+      render
+    end
+  end
+
+  def game_over?
+    false
   end
 
   private
@@ -25,6 +32,10 @@ class Game
   end
 
   def make_move(coord)
+    if @first_move
+      @board.populate_board(coord)
+      @first_move = false
+    end
     @board.move(coord)
   end
 
@@ -32,6 +43,6 @@ class Game
   end
 
   def render
-    @user_interface.render(@board.grid)
+    @user_interface.render(@board)
   end
 end

@@ -32,5 +32,13 @@ class Tile
     @revealed = true
   end
 
-
+  def render_tile
+    if !revealed?
+      "+"
+    elsif safe?
+      unsafe_neighbors.to_s
+    else
+      "*"
+    end
+  end
 end

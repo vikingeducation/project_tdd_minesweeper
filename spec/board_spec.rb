@@ -30,10 +30,37 @@ describe Board do
     end
   end
 
+  describe "#populate_tiles" do
+    it "initializes all tiles" do
+      board.populate_tiles
+      board.grid.each do |row|
+        row.each do |tile|
+          expect(tile).to be_a(Tile)
+        end
+      end
+    end
+  end
+
   describe "#populate_board" do
-    it "places nine mines by default" do
+    it "calls place_mine 9 times by default" do
       expect(board).to receive(:place_mine).exactly(9).times
       board.populate_board([0,4])
+    end
+
+    it "actually has 9 mines by default" do
+      board.populate_board([1,2])
+      num_mines = 0
+      board.grid.each do |row|
+        row.each do |tile|
+          num_mines += 1 unless tile.safe?
+        end
+      end
+      expect(num_mines).to eq(9)
+    end
+
+    it "sets the given coord to safe" do
+      board.populate_board([1,2])
+      expect(board.grid[1][2]).to be_safe
     end
   end
 
@@ -52,6 +79,6 @@ describe Board do
       test_board.check_neighbors
       expect(test_board.grid[1][1].unsafe_neighbors).to eq(1)
     end
-    
+
   end
 end
