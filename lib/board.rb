@@ -52,9 +52,11 @@ class Board
   end
 
   def check_neighbor(y,x)
-    possible_neighbors = [[y-1,x-1],[y-1,x],[y,x-1],[y-1,x+1],[y,x+1],[y+1,x],[y+1,x+1],[y+1,x-1]]
+    neighbors = [ [y-1,x-1],[y-1,x],  [y-1,x+1],
+                  [y,x-1  ],          [y,x+1  ],
+                  [y+1,x-1],[y+1,x  ],[y+1,x+1] ]
     bad_neighbors = 0
-    possible_neighbors.each do |coord|
+    neighbors.each do |coord|
       if tile_exists?(coord)
         neighbor = @grid[coord[0]][coord[1]]
         bad_neighbors += 1 unless neighbor.safe?
@@ -67,21 +69,23 @@ class Board
     #coords is player input
     x = coord[1]
     y = coord[0]
-    tangents = [[y-1,x-1],[y-1,x],[y,x-1],[y-1,x+1],[y,x+1],[y+1,x],[y+1,x+1],[y+1,x-1]]
-    tangents.each do |coords|
-      if tile_exists?(coords)
 
-        tile = @grid[coords[0]][coords[1]]
+    neighbors = [ [y-1,x-1],  [y-1,x],    [y-1,x+1],
+                  [y,x-1  ],              [y,x+1  ],
+                  [y+1,x-1],  [y+1,x  ],  [y+1,x+1] ]
 
-        if tile.unsafe_neighbors < 1 && tile.safe?
-          reveal_neighbors(coords)
-        else
-          return tile.reveal!
+    neighbors.each do |neighbor_coord|
+      if tile_exists?(neighbor_coord)
+        tile = tile_at(neighbor_coord)
+        if tile.safe? && !tile.revealed?
+          tile.reveal!
+          if tile.unsafe_neighbors == 0
+            reveal_neighbors(neighbor_coord)
+          end
         end
       end
     end
   end
-
 
   def tile_exists?(tile_coord)
     y = tile_coord[0]

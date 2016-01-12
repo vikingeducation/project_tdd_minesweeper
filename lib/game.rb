@@ -35,6 +35,7 @@ class Game
     if @first_move
       @board.populate_board(coord)
       @first_move = false
+      @board.check_neighbors
     end
     @board.move(coord)
   end

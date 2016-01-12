@@ -37,6 +37,8 @@ class Tile
       "+"
     elsif safe?
       unsafe_neighbors.to_s
+    elsif flagged?
+      "@"
     else
       "*"
     end
