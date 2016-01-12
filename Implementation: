@@ -1,0 +1,15 @@
+Implementation:
+
+board = contains grid plus timer plus labels, has render function
+
+grid = 9x9 filled with nils on init
+
+square = single box with bomb or number of bombs it touches, has a mark and a status
+      status: bomb or no bomb ==> set on game initialize
+      has_bomb: boolean
+      marks: unmarked, marked as bomb, checked safe(shows number), detonated bomb (player loses) ==> changed on each user input
+
+(timer) 
+
+player = input functions to get move
+
