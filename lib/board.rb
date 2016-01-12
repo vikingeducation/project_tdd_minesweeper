@@ -33,7 +33,7 @@ class Board
 
   def move(coord)
     tile_at(coord).reveal!
-
+    reveal_neighbors(coord)
     return true unless tile_at(coord).safe?
     false
   end
@@ -63,9 +63,25 @@ class Board
     @grid[y][x].unsafe_neighbors = bad_neighbors
   end
 
-  def reveal_neighbors
-    
+  def reveal_neighbors(coord)
+    #coords is player input
+    x = coord[1]
+    y = coord[0]
+    tangents = [[y-1,x-1],[y-1,x],[y,x-1],[y-1,x+1],[y,x+1],[y+1,x],[y+1,x+1],[y+1,x-1]]
+    tangents.each do |coords|
+      if tile_exists?(coords)
+
+        tile = @grid[coords[0]][coords[1]]
+
+        if tile.unsafe_neighbors < 1 && tile.safe?
+          reveal_neighbors(coords)
+        else
+          return tile.reveal!
+        end
+      end
+    end
   end
+
 
   def tile_exists?(tile_coord)
     y = tile_coord[0]
