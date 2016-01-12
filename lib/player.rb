@@ -1,12 +1,7 @@
-require 'board.rb'
+require_relative 'board.rb'
 
 class Player
-	# player chooses coordinates
-	# choose kind of move
-	#  	flag? or reveal?
-	# make move(reveal or flag)
-	#   flag a square
-	#   reveal a square
+
 	attr_accessor :choice, :kind
 
 	def initialize

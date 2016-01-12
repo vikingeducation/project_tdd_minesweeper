@@ -53,27 +53,17 @@ class Board
   end
 
   def render
-    @board.each do |row|
-      row.each do |tile|
+    @board.each_with_index do |row, row_index|
+      row.each_with_index do |tile, index|
         if tile.is_revealed == false
-          if tile.is_flagged
-            print "P"
-          else
-            print "-"
-          end
+          flag_render(tile)
         else
-          if tile.is_mine
-            print "*"
-          else
-            print "_"
-          end
+          mine_render(tile, row_index, index)
         end
       end
       print "\n"
     end
   end
-
-  # private
 
   def mine_coords(mines)
     return true if mines <= 0
@@ -94,7 +84,23 @@ class Board
   def reveal_tile(coords)
     @board[coords[0]][coords[1]].reveal
   end
-end
 
-b = Board.new
-b.render
+  private
+
+  def flag_render(tile)
+    if tile.is_flagged
+      print "P"
+    else
+      print "-"
+    end
+  end
+
+  def mine_render(tile, row_index, index)
+    if tile.is_mine
+      print "*"
+    else
+      num_mines = check_for_mines([row_index, index])
+      print "#{num_mines}"
+    end
+  end
+end

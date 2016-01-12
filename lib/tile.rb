@@ -1,12 +1,4 @@
 class Tile
-	# mine?
-	# revealed?
-	# flagged?
-
-	#set flagged status
-	#set reveal status
-	#create a mine
-	#tile description
 
 	attr_accessor :is_mine, :is_revealed, :is_flagged
 
@@ -36,7 +28,7 @@ class Tile
 		@is_revealed
 	end
 
-	def flagged
+	def flagged?
 		@is_flagged
 	end
 end
