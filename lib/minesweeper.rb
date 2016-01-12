@@ -24,7 +24,7 @@ class Minesweeper
   def get_game_params
     puts "\nEnter Height, Width, and Number of Mines as integers with a space in between:\n"
     puts "\nExample: \"10 10 5\" or \"4 6 3\""
-    input = gets.chomp
+    input = gets.chomp.split(" ").map(&:to_i)
 
   end
 
