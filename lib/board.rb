@@ -34,8 +34,24 @@ class Board
     #else
       #run clear_squares
 
+
+
   #clear_squares(row_location, col_location)
-    #recursively set all square's @cleared instance to clear from current location to appropriate boundaries
+  #recursively set all square's @cleared instance to clear from current location to squares that have proximity
+  #it's assumed the square at the location does not have a mine
+  def clear_squares(row, col)
+    #base cases
+    return if row < 0 || row >= @height || col < 0 || col >= @width
+    return if @board[row][col].has_mine?
+    return if @board[row][col].cleared
+    if @board[row][col].proximity >= 0
+      @board[row][col].cleared = true
+    end
+    clear_squares(row + 1, col) #recurse north
+    clear_squares(row - 1, col) #recurse south
+    clear_squares(row, col + 1) #recurse east
+    clear_squares(row, col - 1) #recurse west
+  end
 
   private
 

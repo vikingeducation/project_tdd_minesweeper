@@ -30,7 +30,7 @@ describe Board do
         board_copy = board.board
         board_copy.each do |row|
           row.each do |col|
-            square_checker = false if col.nil? || !col.is_a?(Square)
+            square_checker = false if !col.is_a?(Square)
           end
         end
         expect(square_checker).to eq(true)
@@ -68,6 +68,32 @@ describe Board do
     end
   end
 
+  describe '#clear_squares' do
+    it 'will set @cleared instance var of squares to true' do
+      test_board = Board.build_board(3,3,3)
+      e = Square.build_empty
+      m = Square.build_mine
+      small_test_board = [[m,m,m],
+                          [e,e,e],
+                          [e,e,e]]
+      #run count_proximities, or its effect since it's private method
+      small_test_board[1][0].proximity = 2
+      small_test_board[1][1].proximity = 3
+      small_test_board[1][2].proximity = 2
+      test_board.instance_variable_set(:@board, small_test_board)
 
+      #run method clear_squares at loc (0,3)
+      test_board.clear_squares(1, 0)
+      copy_board = test_board.board
 
+      clear_checker = true
+      (1..2).each do |row|
+        (0..2).each do |col|
+          clear_checker = false if !copy_board[row][col].cleared
+        end
+      end
+
+      expect(clear_checker).to eq(true)
+    end
+  end
 end
