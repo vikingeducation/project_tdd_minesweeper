@@ -57,10 +57,22 @@ describe 'Board' do
 
   describe '#reveal_coord' do
 
+    context 'coord is flagged' do
+
+      it 'coord is unchanged' do
+        tile = small_board.tile_at([1,1])
+        tile.flag!
+        small_board.reveal_coord([1,1])
+        expect(tile.revealed?).to eq false
+      end
+
+    end
+
     context 'coord is dangerous' do
 
       it 'reveals the coordinate' do
-        small_board.grid[1,0].mine!
+        tile = small_board.tile_at([1,0]).mine!
+        
         small_board.reveal_coord([1,1])
         tile = small_board.tile_at([1,1])
         expect(tile.revealed?).to eq true
@@ -80,10 +92,11 @@ describe 'Board' do
 
       let(:expected_out) do
         [
-          [ "*", "1", "0"],
-          [ "*", "1", "0"],
+          [ "_", "1", "0"],
+          [ "_", "1", "0"],
           [ "_", "1", "0"],
         ]
+
       end
 
       it 'reveals coords outwardly, stopping once they are dangerous' do
@@ -98,4 +111,21 @@ describe 'Board' do
     context 'coord is a mine'
 
   end
+
+  describe "compare 2 grids"  do
+
+    let(:expected_out) do
+      [
+        [ "_", "_", "_"],
+        [ "_", "_", "_"],
+        [ "_", "_", "0"],
+      ]
+    end  
+    it "compares a grid to the expected grid" do  
+        tile = small_board.tile_at([2,2])
+        tile.reveal!
+        expect(small_board.compare_grid(expected_out)).to eq(true)
+    end
+
+  end      
 end

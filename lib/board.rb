@@ -46,4 +46,31 @@ class Board
     end
   end
 
+  def reveal_coord(coord)
+    row,col = coord
+    tile = tile_at(coord)
+
+    return false if tile.flag?
+  
+    tile.reveal!
+
+  end
+
+  def compare_grid(expected_grid)
+    
+    expected_grid.each_with_index do |row,row_index|
+      row.each_with_index do |item,col_index|
+        tile = tile_at([row_index,col_index])
+     
+        case item
+        when "_"
+          return false if tile.revealed?
+        when "0"
+          return false unless tile.revealed?  
+        end  
+      end  
+    end 
+    true
+  end
+
 end
