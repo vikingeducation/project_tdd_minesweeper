@@ -33,7 +33,9 @@ class Board
 
   def move(coord)
     tile_at(coord).reveal!
-    reveal_neighbors(coord)
+    if tile_at(coord).unsafe_neighbors == 0
+      reveal_neighbors(coord)
+    end
     return true unless tile_at(coord).safe?
     false
   end
