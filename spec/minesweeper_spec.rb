@@ -87,7 +87,7 @@ describe Minesweeper do
         expect(minesweeper_custom.grid.grid[3][5].revealed).to be false
         allow(minesweeper).to receive(:gets).and_return("1", "3,5")
         minesweeper.play
-        puts minesweeper_custom.grid.grid[3][5].revealed
+        # puts minesweeper_custom.grid.grid[3][5].revealed
         expect(minesweeper_custom.grid.grid[3][5].revealed).to be true
     end
   end

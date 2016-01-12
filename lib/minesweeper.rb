@@ -15,11 +15,11 @@ class Minesweeper
   def reveal_one_square(i, j)
     # puts i, j, @grid.grid[i][j].revealed
     @grid.grid[i][j].revealed = true
-    # puts i, j, @grid.grid[i][j].revealed
     game_lost if @grid.grid[i][j].has_bomb
     if @grid.grid[i][j].num_adjacent_bombs == 0
       auto_reveal_multi_square(i,j)
     end
+    puts i, j, @grid.grid[i][j].revealed
   end
 
   def user_flags_square(i, j)
