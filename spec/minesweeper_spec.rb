@@ -66,13 +66,30 @@ describe Minesweeper do
       expect(minesweeper_custom.grid.grid[6][7].revealed).to be true
     end
 
-
-
-
   end
 
+  describe '#user_reveal_multi_square' do
+    it 'ends game if flags incorrect' do
+      expect(minesweeper_custom.grid.grid[7][3].revealed).to be false
+      expect(minesweeper_custom.grid.grid[7][4].revealed).to be false
 
+      minesweeper_custom.grid.place_flag( 5, 4 ) 
+      minesweeper_custom.grid.place_flag( 6, 5 ) 
+      minesweeper_custom.user_reveal_multi_square(6, 4)
 
+      expect(minesweeper_custom.grid.grid[7][3].revealed).to be true
+      expect(minesweeper_custom.grid.grid[7][4].revealed).to be true
+    end
+  end
 
+  describe '#play' do
+    it "verifies reveal one square play path" do
+        expect(minesweeper_custom.grid.grid[3][5].revealed).to be false
+        allow(minesweeper).to receive(:gets).and_return("1", "3,5")
+        minesweeper.play
+        puts minesweeper_custom.grid.grid[3][5].revealed
+        expect(minesweeper_custom.grid.grid[3][5].revealed).to be true
+    end
+  end
 
 end

@@ -12,9 +12,11 @@ class Minesweeper
     @grid.calculate_adjacent_bombs
   end
 
-
   def reveal_one_square(i, j)
+    # puts i, j, @grid.grid[i][j].revealed
     @grid.grid[i][j].revealed = true
+    # puts i, j, @grid.grid[i][j].revealed
+    game_lost if @grid.grid[i][j].has_bomb
     if @grid.grid[i][j].num_adjacent_bombs == 0
       auto_reveal_multi_square(i,j)
     end
@@ -26,28 +28,57 @@ class Minesweeper
 
   def auto_reveal_multi_square(i, j)
     neighbor_arr = @grid.neighbors(i, j)
-    # puts "i: #{i}, j: #{j}"
     neighbor_arr.each do | neighbor | 
       row = neighbor.row
       col = neighbor.col
-      # puts "#{row}, #{col}"
-      # puts "#{@grid.grid[row][col]}"
       unless @grid.grid[ row ][ col ].revealed 
-        @grid.grid[ row ][ col ].revealed = true
-        if @grid.grid[row][col].num_adjacent_bombs == 0
-          auto_reveal_multi_square( row, col )
-        end
+            reveal_one_square(row, col)
       end
     end
   end
 
-
-
-  def user_reveal_multi_square
-    # all adjacent bombs are flagged correctly
-
+  def game_lost
+    puts "you stepped on a bomb, sorry"
   end
 
+  def user_reveal_multi_square(i, j)
+    # all adjacent bombs are flagged correctly
+     if @grid.grid[i][j].num_adjacent_bombs == @grid.calculate_adjacent_flags(i, j)
+        auto_reveal_multi_square(i, j)
+     end
+  end
+
+    def get_square_input
+        input = nil
+        loop do
+              input = gets.chomp
+              break if input != nil
+        end
+        input
+    end
+
+    def play
+        #print_instructions
+        #render_grid
+        loop do
+            # puts "got in outer loop"
+            #Choose
+            # 1: reveal one square
+            # 2: reveal multiple squares
+            # 3: flag a square
+            # 4: new game
+            # 5: quit
+            input = gets.chomp.to_i
+            if input == 1
+                puts "got in input loop"
+                square = get_square_input
+                i, j = square.split(",").map!  { |c| c.to_i }
+                puts i, j
+                reveal_one_square(i, j)
+            end
+            break if input >= 1 && input <= 5
+        end
+    end
 
 
 end
