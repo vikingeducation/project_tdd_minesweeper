@@ -35,23 +35,21 @@ class Board
   def check_neighbors
     @grid.each_with_index do |row, y|
       row.each_with_index do |tile, x|
-        check_neighbor(y,x)
+        check_neighbor(y,x) if @grid[y][x].safe?
       end
     end
   end
 
   def check_neighbor(y,x)
     possible_neighbors = [[y-1,x-1],[y-1,x],[y,x-1],[y-1,x+1],[y,x+1],[y+1,x],[y+1,x+1],[y+1,x-1]]
-    unsafe_neighbors = 0
-    possible_neighbors.each_with_index do |neighbor_relative|
-      if tile_exists(neighbor_relative)
-        neighbor_y = neighbor_relative[0]
-        neighbor_x = neighbor_relative[1]
-        neighbor = @grid[neighbor_y][neighbor_x]
-        unsafe_neighbors += 1 unless neighbor.safe?
+    bad_neighbors = 0
+    possible_neighbors.each do |coord|
+      if tile_exists?(coord)
+        neighbor = @grid[coord[0]][coord[1]]
+        bad_neighbors += 1 unless neighbor.safe?
       end
     end
-    @grid[y][x].unsafe_neighbors = unsafe_neighbors
+    @grid[y][x].unsafe_neighbors = bad_neighbors
   end
 
   def tile_exists?(tile_coord)

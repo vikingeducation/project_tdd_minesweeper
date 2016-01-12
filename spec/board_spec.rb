@@ -6,7 +6,7 @@ describe Board do
   let(:board) { Board.new }
   let(:test_board) { Board.new( grid: [[Tile.new(mine:true),Tile.new,Tile.new],
                           [Tile.new,Tile.new,Tile.new],
-                          [Tile.new,Tile.new,Tile.new]]) }
+                          [Tile.new,Tile.new,Tile.new]], size: 3) }
 
   describe "#initialize" do
     it "creates a 10x10 board by default" do
