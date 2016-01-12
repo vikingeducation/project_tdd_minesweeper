@@ -1,6 +1,9 @@
 class Tile
 
+  attr_accessor :danger_level
+
   def initialize(revealed: false, mine: false, flag: false)
+    @danger_level = 0
     @revealed = revealed
     @mine = mine
     @flag = flag
@@ -12,6 +15,14 @@ class Tile
 
   def revealed?
     @revealed
+  end
+
+  def completely_safe?
+    if danger_level == 0 && !mine?
+      true
+    else
+      false
+    end
   end
 
   def mine!
@@ -28,6 +39,22 @@ class Tile
 
   def flag?
     @flag
+  end
+
+  def to_s
+    if revealed?
+      if mine?
+        "*"
+      else
+        danger_level.to_s
+      end
+    else
+      if flag?
+        "!"
+      else
+        "_"
+      end
+    end
   end
 
 end

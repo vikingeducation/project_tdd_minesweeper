@@ -34,7 +34,6 @@ class Board
 
   def neighbors_for_coord(x,y)
     NEIGHBOR_COORDS.map do |xdiff, ydiff|
-      # [xdiff + x, ydiff + y]
       neighbor_x = xdiff + x
       neighbor_y = ydiff + y
       self[neighbor_x, neighbor_y]
