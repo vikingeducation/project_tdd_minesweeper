@@ -68,20 +68,25 @@ describe Board do
     end
   end
 
+  #build explicit test case
+  let(:test_board) { Board.build_board(3,3,3) }
+  let(:e) { Square.build_empty }
+  let(:m) { Square.build_mine }
+  let(:small_test_board) { [[m,m,m],
+                            [e,e,e],
+                            [e,e,e]]}
+
+  #set up hooks for subsequent tests
+  before(:each) do
+    #run count_proximities, or its effect since it's private method
+    small_test_board[1][0].proximity = 2
+    small_test_board[1][1].proximity = 3
+    small_test_board[1][2].proximity = 2
+    test_board.instance_variable_set(:@board, small_test_board)
+  end
+
   describe '#clear_squares' do
     it 'will set @cleared instance var of squares to true' do
-      test_board = Board.build_board(3,3,3)
-      e = Square.build_empty
-      m = Square.build_mine
-      small_test_board = [[m,m,m],
-                          [e,e,e],
-                          [e,e,e]]
-      #run count_proximities, or its effect since it's private method
-      small_test_board[1][0].proximity = 2
-      small_test_board[1][1].proximity = 3
-      small_test_board[1][2].proximity = 2
-      test_board.instance_variable_set(:@board, small_test_board)
-
       #run method clear_squares at loc (0,3)
       test_board.clear_squares(1, 0)
       copy_board = test_board.board
@@ -94,6 +99,19 @@ describe Board do
       end
 
       expect(clear_checker).to eq(true)
+    end
+  end
+
+  describe '#process_move' do
+    it 'returns true at mine location' do
+      #test method
+      expect(test_board.process_move(0,0)).to eq(true)
+    end
+
+    it 'calls clear_squares at non-mine location' do
+      #test method
+      expect(test_board).to receive(:clear_squares)
+      test_board.process_move(1,0)
     end
   end
 end

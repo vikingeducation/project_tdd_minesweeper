@@ -29,14 +29,15 @@ class Board
     return @mines
   end
 
-  #process_move(row_location, col_location)
-    #if there is a mine at location, return true
-    #else
-      #run clear_squares
+  #if mine is at coord, return true, else run recursive clear_squares
+  def process_move(row, col)
+    if @board[row][col].has_mine?
+      return true
+    else
+      clear_squares(row, col)
+    end
+  end
 
-
-
-  #clear_squares(row_location, col_location)
   #recursively set all square's @cleared instance to clear from current location to squares that have proximity
   #it's assumed the square at the location does not have a mine
   def clear_squares(row, col)
