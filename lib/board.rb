@@ -20,9 +20,11 @@ class Board
   end
 
   def populate_mines(starting_coord)
+    skip_coords = neighbor_coords(starting_coord)
+    skip_coords << starting_coord
     until placed_mine_count == @mines
       coord = random_coord
-      next if coord == starting_coord
+      next if skip_coords.include?(coord)
       tile = tile_at(coord)
 
       tile.mine!
@@ -73,6 +75,29 @@ class Board
         reveal_coord(neighbor_coord)
       end
     end
+
+    if tile.mine?
+      @grid.flatten.select(&:mine?).each(&:reveal!)
+    end
+  end
+
+  def danger_coords
+    coords = []
+    @size.each do |row|
+      @size.each do |col|
+        coords << [row, col] if tile_at([row,col]).danger_level > 0
+      end
+    end
+    coords
+  end
+
+  def flag_coord(coord)
+    row,col = coord
+    tile = tile_at(coord)
+
+    return false if tile.revealed?
+
+    tile.flag!
   end
 
   def set_danger_levels
