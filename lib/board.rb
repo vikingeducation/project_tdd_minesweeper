@@ -26,8 +26,8 @@ class Board
       y = rand(@height)
       tile = @tiles[x][y]
 
-      unless tile.has_mine
-        tile.has_mine = true
+      unless tile.mine
+        tile.mine = true
         placed_mines += 1
       end
     end
@@ -50,7 +50,7 @@ class Board
 
   def count_mines_from(neighbors)
     neighbors.select do |num|
-      num.has_mine == true
+      num.mine == true
     end.size
   end
 end
