@@ -27,10 +27,10 @@ class Game
         if tile.hidden
           print "|   "
         elsif tile.hidden == false
-          if tile.mine == true
-            print "| * "
-          elsif tile.flag == true
+          if tile.flag == true
             print "| F "
+          elsif tile.mine == true
+            print "| * "
           else
             print "| #{tile.neighboring_mines} "
           end
