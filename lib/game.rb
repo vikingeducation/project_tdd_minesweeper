@@ -16,6 +16,7 @@ class Game
     while @no_explosions
       render_board
       get_coordinates
+      break if winner
     end
   end
 
@@ -73,6 +74,31 @@ class Game
     else
       tile.hidden = false
     end
+  end
+
+  def winner
+    return false if @flags > 0
+    if @flags == 0 && correct_flags
+      puts "You have won the game!"
+      return true
+    else
+      puts "You haven't died, but some of your mine flags are on the wrong tiles. Game over."
+      return true
+    end
+  end
+
+  def correct_flags
+    counter = 0
+    (0...@board.height).each do |x|
+      (0...@board.width).each do |y|
+        tile = @board.tiles[x][y]
+        if tile.flag && tile.mine
+          counter += 1
+        end
+      end
+    end
+    return true if counter == 9
+    return false
   end
 
 end
