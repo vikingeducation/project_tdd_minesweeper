@@ -2,17 +2,18 @@ require_relative 'tile.rb'
 require_relative 'board.rb'
 
 class Game
-  attr_accessor :board, :flags
+  attr_accessor :board, :flags, :no_explosions
 
   def initialize
     @board = Board.new
     @flags = 9
+    @no_explosions = true
   end
 
   def run
     # Game instructions
     puts "This 10x10 grid has 9 mines!\nEnter coordinates to clear mines and get clues.\nWrite 'F' after coordinates to add a flag on suspected mine.\nIf you clear a mine, you're dead!\n\n"
-    loop do
+    while @no_explosions
       render_board
       get_coordinates
     end
@@ -59,8 +60,16 @@ class Game
       tile.hidden = false
       tile.flag = true
       @flags -= 1
-    #else
-      #check_for_mine(x,y)
+    else
+      check_for_mine(x,y)
+    end
+  end
+
+  def check_for_mine(x,y)
+    tile = @board.tiles[x][y]
+    if tile.mine == true
+      puts "A mine has exploded!"
+      @no_explosions = false
     end
   end
 
