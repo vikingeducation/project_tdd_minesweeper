@@ -1,3 +1,5 @@
+Assignment by [Stephen Mayeux](http://stephenmayeux.com)
+
 # project_tdd_minesweeper
 Code go boom!
 
