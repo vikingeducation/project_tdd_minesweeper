@@ -70,6 +70,8 @@ class Game
     if tile.mine == true
       puts "A mine has exploded!"
       @no_explosions = false
+    else
+      tile.hidden = false
     end
   end
 
