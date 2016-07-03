@@ -25,7 +25,7 @@ class Board
     end
     puts "_______" * 10
     puts "Press arrow keys to navigate within the board"
-    puts "Press [c] to clear , [f] to flag"
+    puts "Press [c] to clear , [f] to flag, [u] to unflag"
     puts "_______" * 10
   end
 
@@ -65,11 +65,13 @@ class Board
   end
 
   def flag_square
-    cur_square.flag
+    if @remaining_flags > 0
+      @remaining_flags -= 1 if cur_square.flag
+    end
   end
 
   def unflag_square
-    cur_square.unflag
+    @remaining_flags += 1 if cur_square.unflag
   end
 
   def neighboring_mines(coordinates = cursor)
@@ -81,6 +83,19 @@ class Board
   def cur_square
     i, j = cursor
     @matrix[i][j]
+  end
+
+  def update(action)
+    case action
+    when :flag
+      flag_square
+    when :unflag
+      unflag_square
+    when :clear
+      return :gameover if !clear_square
+    else
+      update_cursor(action)
+    end
   end
 
   def update_cursor(direction)
@@ -96,6 +111,14 @@ class Board
     else
       raise "Invalid direction"
     end
+  end
+
+  def winner?
+    extend(Enumerable)
+    num_cleared = self.count { |sq| sq.cleared? }
+    num_mines   = self.count { |sq| sq.mine? }
+    num_flaged = self.count { |sq| sq.flaged? }
+    num_mines == num_flaged && num_cleared + num_mines == size * size
   end
 
   def each

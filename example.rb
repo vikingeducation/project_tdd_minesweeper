@@ -15,52 +15,9 @@
 #When a player marks a Square as cleared and if it has a mine, game is over and all the mines are made visible.
 #Player wins when all the flags are guessed correctly and num_flags == 0
 require_relative "lib/board.rb"
-require_relative "lib/Square.rb"
-require 'io/console'
+require_relative "lib/square.rb"
+require_relative "lib/player.rb"
+require_relative "lib/game.rb"
 
-def read_char
-  STDIN.echo = false
-  STDIN.raw!
-
-  input = STDIN.getc.chr
-  if input == "\e" then
-    input << STDIN.read_nonblock(3) rescue nil
-    input << STDIN.read_nonblock(2) rescue nil
-  end
-ensure
-  STDIN.echo = true
-  STDIN.cooked!
-
-  return input
-end
-
-b = Board.new
-b.render
-b.neighboring_mines
-b.clear_square
-# memo = []
-# b.r_clear_square(*b.cursor, memo)
-b.render
-# direction = nil
-# loop do
-#   print "Enter commands here>"
-#   ip = read_char
-#  case ip
-#   when "\e[A"
-#     puts "UP ARROW"
-#     direction = :up
-#   when "\e[B"
-#     puts "DOWN ARROW"
-#     direction = :down
-#   when "\e[C"
-#     puts "RIGHT ARROW"
-#     direction = :right
-#   when "\e[D"
-#     puts "LEFT ARROW"
-#     direction = :left
-#   end
-#   b.update_cursor(direction)
-#   b.render
-#   break if ip == 'q'
-# end
+Game.new.play
 

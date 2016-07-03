@@ -12,6 +12,7 @@ describe Player do
   end
   describe "#clear_square" do
     it "player clears the square where the cursor is preset" do
+      @board.cur_square.remove_mine
       subject.clear_square(@board)
       expect(@board.cur_square.state).to eq(:cleared)
     end
@@ -32,6 +33,7 @@ describe Player do
       expect(@board.cur_square.state).to eq(:flaged)
     end
     it "cleared squares cannot be flaged" do
+      @board.cur_square.remove_mine
       subject.clear_square(@board)
       subject.flag_square(@board)
       expect(@board.cur_square.state).to eq(:cleared)
@@ -41,6 +43,16 @@ describe Player do
       subject.flag_square(@board)
       subject.unflag_square(@board)
       expect(@board.cur_square.state).to eq(:none)
+    end
+
+    it "flaged square can not be flaged again" do
+      subject.flag_square(@board)
+      expect(subject.flag_square(@board)).to eq(nil)
+    end
+
+    it "square cannot be flaged if no more flags" do
+      @board.remaining_flags = 0
+      expect(subject.flag_square(@board)).to eq(nil)
     end
   end
 end

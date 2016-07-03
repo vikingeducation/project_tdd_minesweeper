@@ -11,12 +11,16 @@ class Square
     @mine = true
   end
 
+  def remove_mine
+    @mine = false
+  end
+
   def clear
     !mine? ? @state = :cleared : nil
   end
 
   def flag
-    !cleared? ? @state = :flaged : nil
+    !cleared? && !flaged? ? @state = :flaged : nil
   end
 
   def unflag
@@ -53,7 +57,7 @@ class Square
           print " "
       end
     elsif mine?
-      print "x"
+      print "x".black
     else
       print "-"
     end
