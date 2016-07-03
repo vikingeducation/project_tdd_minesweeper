@@ -10,7 +10,7 @@ class Board
     random_squares.each { |i,j| @matrix[i][j].make_mine }
   end
 
-  def render
+  def render(show_mines = false)
     system("clear")
     puts "_______" * 10
     puts "Remaining Flags : #{remaining_flags}"
@@ -18,7 +18,7 @@ class Board
     (0..@size-1).each do |x|
       (0..@size-1).each do |y|
         [x,y] == @cursor ? print("  <") : print("   ")
-        print @matrix[x][y].to_s
+        print @matrix[x][y].to_s(show_mines)
         [x,y] == @cursor ? print(">  ") : print("   ")
       end
       puts

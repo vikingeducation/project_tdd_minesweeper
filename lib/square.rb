@@ -43,7 +43,7 @@ class Square
     state == :cleared
   end
 
-  def to_s
+  def to_s(show_mines = false)
     if flaged?
       print "F".red
     elsif cleared?
@@ -57,7 +57,7 @@ class Square
           print " "
       end
     elsif mine?
-      print "x".black
+      show_mines ? print("x".black) : print("-")
     else
       print "-"
     end

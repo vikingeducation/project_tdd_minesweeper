@@ -19,7 +19,7 @@ class Game
       action = player_input
 
       if board.update(action) == :gameover
-        board.render
+        board.render(true)
         display_loosing_message
         break
       end
