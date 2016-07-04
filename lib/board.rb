@@ -1,4 +1,5 @@
 require 'pry'
+require_relative '../lib/square.rb'
 class Board
   attr_accessor :matrix, :remaining_flags, :size, :cursor, :make_mine
   def initialize(size=10, mines=9)
@@ -6,6 +7,7 @@ class Board
     @cursor = [4,4]
     @matrix = []
     size.times { @matrix << Array.new(size) { |i| Square.new } }
+    index_squares
     @remaining_flags = mines
     random_squares.each { |i,j| @matrix[i][j].make_mine }
   end
@@ -38,12 +40,25 @@ class Board
     rand_squares
   end
 
-  def clear_square
-    if cur_square.clear
-      cur_square.update_mine_count neighboring_mines
-      self.each_neighbor do |n, coordinates|
+  def clear_square(coordinates = cursor)
+    i, j = coordinates
+    square = @matrix[i][j]
+    if square.clear
+      square.update_mine_count neighboring_mines(coordinates)
+      self.each_neighbor(coordinates) do |n, coord|
         n.clear
-        n.update_mine_count neighboring_mines(coordinates)
+        n.update_mine_count neighboring_mines(coord)
+      end
+    end
+  end
+
+  def auto_clear_squares
+    extend(Enumerable)
+    p self.select { |sq| sq.neighboring_mines_zeros? && !sq.auto_cleared? }.count
+    while self.count { |sq| sq.neighboring_mines_zeros? && !sq.auto_cleared? } != 0
+      self.select { |sq| sq.neighboring_mines_zeros? && !sq.auto_cleared? }.each do |z|
+        z.auto_clear
+        clear_square(z.coordinates)
       end
     end
   end
@@ -119,6 +134,19 @@ class Board
     num_mines   = self.count { |sq| sq.mine? }
     num_flaged = self.count { |sq| sq.flaged? }
     num_mines == num_flaged && num_cleared + num_mines == size * size
+  end
+
+  def index_squares
+    i = 0
+    while i < @matrix.count
+      j = 0
+      while j < @matrix.count
+        @matrix[i][j].coordinates = [i,j]
+        j += 1
+      end
+      i += 1
+    end
+    @matrix
   end
 
   def each

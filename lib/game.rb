@@ -23,7 +23,7 @@ class Game
         display_loosing_message
         break
       end
-
+      board.auto_clear_squares
       board.render
 
       if board.winner?

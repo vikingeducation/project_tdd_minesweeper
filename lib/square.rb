@@ -1,10 +1,13 @@
 require 'colorize'
 class Square
   attr_reader :mine, :state, :neighboring_mines
+  attr_accessor :coordinates
   def initialize
+    @coordinates = []
     @state = :none
     @mine = false
     @neighboring_mines = nil
+    @auto_cleared = false
   end
 
   def make_mine
@@ -17,6 +20,10 @@ class Square
 
   def clear
     !mine? ? @state = :cleared : nil
+  end
+
+  def auto_clear
+    @auto_cleared = true
   end
 
   def flag
@@ -43,6 +50,14 @@ class Square
     state == :cleared
   end
 
+  def auto_cleared?
+    @auto_cleared
+  end
+
+  def neighboring_mines_zeros?
+    @neighboring_mines == 0
+  end
+
   def to_s(show_mines = false)
     if flaged?
       print "F".red
@@ -53,6 +68,10 @@ class Square
         when 2 then print "2".green
         when 3 then print "3".red
         when 4 then print "4".yellow
+        when 5 then print "5".magenta
+        when 6 then print "6".light_magenta
+        when 7 then print "7".cyan
+        when 8 then print "8".light_cyan
         else
           print " "
       end
