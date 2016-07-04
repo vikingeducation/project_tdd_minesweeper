@@ -4,24 +4,25 @@ class Board
   attr_accessor :matrix, :remaining_flags, :size, :cursor, :make_mine
   def initialize(size=10, mines=9)
     @size = size
-    @cursor = [4,4]
+    @cursor = [4, 4]
     @matrix = []
-    size.times { @matrix << Array.new(size) { |i| Square.new } }
+    size.times { @matrix << Array.new(size) { |_i| Square.new } }
     index_squares
     @remaining_flags = mines
-    random_squares.each { |i,j| @matrix[i][j].make_mine }
+    random_squares.each { |i, j| @matrix[i][j].make_mine }
   end
 
   def render(show_mines = false)
     system("clear")
+    puts "Welcome to Command line Minesweeper!"
     puts "_______" * 10
     puts "Remaining Flags : #{remaining_flags}"
     puts "_______" * 10
-    (0..@size-1).each do |x|
-      (0..@size-1).each do |y|
-        [x,y] == @cursor ? print("  <") : print("   ")
+    (0..@size - 1).each do |x|
+      (0..@size - 1).each do |y|
+        [x, y] == @cursor ? print("  <") : print("   ")
         print @matrix[x][y].to_s(show_mines)
-        [x,y] == @cursor ? print(">  ") : print("   ")
+        [x, y] == @cursor ? print(">  ") : print("   ")
       end
       puts
     end
@@ -34,7 +35,7 @@ class Board
   def random_squares(size = 10)
     rand_squares = []
     until rand_squares.size == 9
-      sqr = [rand(0..size-1),rand(0..size-1)]
+      sqr = [rand(0..size - 1),rand(0..size-1)]
       rand_squares << sqr if !rand_squares.include?(sqr)
     end
     rand_squares

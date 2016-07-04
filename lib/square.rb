@@ -63,17 +63,17 @@ class Square
       print "F".red
     elsif cleared?
       case @neighboring_mines
-        when 0 then print " "
-        when 1 then print "1".blue
-        when 2 then print "2".green
-        when 3 then print "3".red
-        when 4 then print "4".yellow
-        when 5 then print "5".magenta
-        when 6 then print "6".light_magenta
-        when 7 then print "7".cyan
-        when 8 then print "8".light_cyan
-        else
-          print " "
+      when 0 then print " "
+      when 1 then print "1".blue
+      when 2 then print "2".green
+      when 3 then print "3".red
+      when 4 then print "4".yellow
+      when 5 then print "5".magenta
+      when 6 then print "6".light_magenta
+      when 7 then print "7".cyan
+      when 8 then print "8".light_cyan
+      else
+        print " "
       end
     elsif mine?
       show_mines ? print("x".black) : print("-")
