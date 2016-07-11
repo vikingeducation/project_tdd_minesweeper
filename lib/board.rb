@@ -3,6 +3,7 @@ require 'pry'
 
 class Board
 
+	attr_reader :flags
 
 	def initialize( board = nil )
 
@@ -34,11 +35,35 @@ class Board
 
 
 	# check within proper coordinates
-	def validate_move( move )
+	def valid_coordinates?( move )
 
+		raise 'Must be string format 5, 6 ' if move.is_a?( Numeric )
 
+		coords = move.split(",").map! { |x| x.strip.to_i }
+
+		if ( 0...@board.size ).include?( coords[ 0 ] ) &&
+			 ( 0...@board.size ).include?( coords[ 1 ] )
+			 true
+		else
+			false
+		end
 
 	end
+
+
+	def place_flag( coords )
+
+		placement = coords.split(",").map! { |x| x.strip.to_i }
+
+		if @flags == 0
+			puts "You are out of flags"
+			false
+		else
+			@board[ placement[0] ][ placement[ 1 ] ] = 'F'
+		end
+
+	end
+
 
 
 

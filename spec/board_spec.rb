@@ -67,12 +67,58 @@ describe '.Board' do
 
 		it 'should return true if move is in proper coordinates' do
 
-			expect( board.validate_move ).to be true
+			expect( board.valid_coordinates?( "1, 4" ) ).to be true
 
 		end
 
 
+		it 'should return false if move is out of range of proper coordinates' do
+
+			expect( board.valid_coordinates?( "11, 12" ) ).to be false
+
+		end
+
+
+		it 'should raise error if numeric passed in' do
+
+			expect{ board.valid_coordinates?( 5 ) }.to raise_error( RuntimeError )
+
+		end
+
 	end
 
+
+	describe '#place_flag' do
+
+		placed_board = [
+					[ 'F', nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ]
+					]
+
+		it 'should place a flag at the coordinates provided' do
+
+			board.place_flag( "0, 0" )
+
+			expect( board.instance_variable_get( :@board ) ).to eq(placed_board )
+
+		end
+
+		it 'should return false if no flags left' do
+
+			board.instance_variable_set( :@flags, 0 )
+
+			expect( board.place_flag( "1, 2" ) ).to be false
+
+		end
+
+	end
 
 end #/.Board
