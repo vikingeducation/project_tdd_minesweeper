@@ -33,5 +33,13 @@ class Board
 	end
 
 
+	# check within proper coordinates
+	def validate_move( move )
+
+
+
+	end
+
+
 
 end

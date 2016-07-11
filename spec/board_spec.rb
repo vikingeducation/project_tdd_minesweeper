@@ -36,10 +36,12 @@ describe '.Board' do
 
 	end #/.initialize
 
+
+
+
 	describe "#place_mines" do
 
 		it 'should populate the board with 10 mines' do
-
 
 			array = board.place_mines
 
@@ -55,10 +57,22 @@ describe '.Board' do
 
 			expect( count ).to eq( 10 )
 
-
 		end
 
 	end #/.place_mines
+
+
+	describe '#validate_move' do
+
+
+		it 'should return true if move is in proper coordinates' do
+
+			expect( board.validate_move ).to be true
+
+		end
+
+
+	end
 
 
 end #/.Board
