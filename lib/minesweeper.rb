@@ -1,8 +1,14 @@
+require_relative "player"
+require_relative "board"
+require_relative "view"
+
 class Minesweeper
-  def initialize
-    @square = Square.new
-    @board = Board.new(@square)
-    @view = View.new(@board)
-    @player = Player.new(@view)
+  def initialize(board = Board.new, view = View.new, player = Player.new)
+    @board = board
+    @view = view
+    @player = player
   end
+
+
+
 end

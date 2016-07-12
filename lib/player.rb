@@ -1,11 +1,13 @@
 class Player
-  
+
   def initialize
-    @view = View.new
   end
 
+# input 1,2 and then returns array
   def assign_input
-    
-    gets.chomp
+    input = gets.chomp
+    input.split(',').map(&:to_i)
   end
+
+
 end
