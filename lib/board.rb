@@ -29,6 +29,14 @@ class Board
     end
   end
 
+  def reveal_cell_at(x, y)
+    at_coord(x, y).reveal
+  end
+
+  def flag_cell_at(x, y)
+    at_coord(x, y).flag
+  end
+
   def place_cell(x,y,cell)
     @board[x-1][y-1]=cell
   end

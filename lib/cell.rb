@@ -1,12 +1,36 @@
 class Cell
-  attr_reader :display_state
+  attr_reader :display_state, 
 
   def initialize(coords, board)
     @coord ||= coords
     @x = @coords[1]
     @y = @coords[0]
     @board ||= board
+    @revealed = false
+    @flag = false
     determine_state
+  end
+
+  def render_token
+    if @revealed
+      @display_state
+    elsif @flag
+      flag_token
+    else
+      default_token
+    end
+  end
+
+  def flag
+    @flag = true unless @revealed
+  end
+
+  def unflag
+    @flag = false
+  end
+
+  def reveal
+    @revealed = true
   end
 
   def determine_state
