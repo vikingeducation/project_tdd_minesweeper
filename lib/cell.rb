@@ -1,4 +1,5 @@
 class Cell
+  attr_reader :display_state
 
   def initialize(coords, board)
     @coord ||= coords
@@ -30,24 +31,4 @@ class Cell
 
 
 
-end
-
-
-class Board
-  def initialize
-    @board Array.new(10) { Array.new(10) }
-  end
-
-  def at_coord(x, y)
-    @board[x-1][y-1]
-  end
-
-  # [ [5, 6], [5, 7] ]
-  def get_cell_at_xy(input_array)
-    input_array.map do |coord|
-      x = coord[0]
-      y = coord[1]
-      at_coord(x, y)
-    end
-  end
 end
