@@ -35,6 +35,14 @@ class Board
 	end
 
 
+	def populate_hints
+
+		
+
+
+
+	end
+
 	# check within proper coordinates
 	def valid_coordinates?( move )
 
