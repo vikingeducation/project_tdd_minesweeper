@@ -11,25 +11,53 @@ describe Player do
     end
   end
 
-  describe "#assign_input" do
+  describe "#assign_move" do
 
-    it "gets input and returns player input" do
-      player.assign_input
-      allow(player).to receive(:gets).and_return("1,2")
-      expect(player.assign_input).to eq([1,2])
+    context "player wants to move" do
+      before do 
+        allow(player).to receive(:gets).and_return("1,2")
+      end
+
+      it "gets move and returns player input" do
+        expect(player.assign_move).to eq([1,2])
+      end
+
+      it "calls #valid_input?" do 
+        allow(player).to receive(:valid_input?).and_return(true)
+        expect(player).to receive(:valid_input?)
+        player.assign_move
+      end
+
+
+      it "calls assign_move if move is not valid" do
+        allow(player).to receive(:valid_input?).and_return(false)
+        expect(player).to receive(:assign_move)
+        player.assign_move
+      end
     end
 
     context "player wants to add flag" do
-      it "calls View::ask_where_to_put_flag"
-      it "returns place to put flag"
-    end
+       before do 
+        allow(player).to receive(:gets).and_return("1,2")
+      end
 
-    context "player wants to move" do
-      it "call valid move?"
-      it "should return move if move is valid"
-      it "should ask for move again if move is not valid"
-      it "adds flag to correct location"
-    end
+      it "gets input and returns player input" do
+        expect(player.assign_flag_location).to eq([1,2])
+      end
+
+      it "calls #valid_input?" do 
+        allow(player).to receive(:valid_input?).and_return(true)
+        expect(player).to receive(:valid_input?)
+        player.assign_flag_location
+      end
+
+      it "calls assign_flag_location if move is not valid" do
+        allow(player).to receive(:valid_input?).and_return(false)
+        expect(player).to receive(:assign_flag_location)
+        player.assign_flag_location
+      end
+
+    end    
 
   end
 end
