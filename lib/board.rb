@@ -3,7 +3,7 @@ require 'pry'
 
 class Board
 
-	attr_reader :flags, :board
+	attr_reader :flags, :display_board
 
 	def initialize( board = nil )
 

@@ -12,7 +12,7 @@ describe '.Render' do
 
 			expect( render ).to receive( :render_board )
 
-			render.render_board
+			render.render_board( 5 )
 
 		end
 

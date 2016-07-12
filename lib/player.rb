@@ -12,7 +12,7 @@ class Player
 
 	def get_move
 
-		move = gets.strip.to_i
+		move = 0
 
 		# must choose one of menu options for move
 		until ( 1..4 ).include?( move )
