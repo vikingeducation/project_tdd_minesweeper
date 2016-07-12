@@ -11,6 +11,7 @@ require_relative 'render'
 class Game
 
 
+
 	def initialize( difficulty = nil )
 
 		@board = Board.new
@@ -24,19 +25,38 @@ class Game
 
 		loop do
 
-			system 'clear'
 
+
+			@render.render_flags( @board.flags )
 			@render.render_board( @board.display_board )
 
-			@player.get_move
+			until @board.valid_coordinates?( @player.get_coordinates )
+				@player.get_coordinates
+			end
 
-
+			puts "out of until"
 
 		end
 
 
 	end
 
+
+
+	def player_choice( menu_selection )
+
+		if ( 1..3 ) === menu_selection
+
+			return @player.get_coordinates
+
+		else
+
+			exit
+
+		end
+
+
+	end
 
 
 

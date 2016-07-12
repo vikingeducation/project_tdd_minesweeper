@@ -10,11 +10,11 @@ class Render
 
 		board.each do | x |
 
-			print "#{num}".ljust( 4 )
+			print "#{num}".ljust( 2 )
 
 			 x.each do | y |
 
-			 	print "#{y} "
+			 	print "#{y}".rjust( 3 )
 
 			 end
 
@@ -24,11 +24,7 @@ class Render
 
 		end
 
-		print "--------------------"
-		puts ""
-		print "1 2 3 4 5 6 7 8 9 10"
-
-		puts ""
+		render_footer
 
 	end
 
@@ -36,10 +32,21 @@ class Render
 
 	def render_flags( flags )
 
-
+		puts "Flags: #{ flags }"
 
 	end
 
+
+	def render_footer
+
+		print "----------------------------------"
+		puts ""
+		print "    1  2  3  4  5  6  7  8  9  10"
+
+		puts ""
+
+
+	end
 
 
 	def self.render_message( message )
