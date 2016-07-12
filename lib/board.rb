@@ -3,11 +3,12 @@ require 'pry'
 
 class Board
 
-	attr_reader :flags
+	attr_reader :flags, :board
 
 	def initialize( board = nil )
 
 		@board = Array.new( 10 ) { Array.new( 10 ) }
+		@display_board = Array.new( 10 ) { Array.new( 10 ){"O"} }
 		@flags = 9
 		@mines = 9
 

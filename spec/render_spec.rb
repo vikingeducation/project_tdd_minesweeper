@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'render'
+require 'board'
 
 describe '.Render' do
 
@@ -35,9 +36,9 @@ describe '.Render' do
 
 		it 'should receive render_message' do
 
-			expect( render ).to receive( :render_message )
+			expect( Render ).to receive( :render_message )
 
-			render.render_message( "hello" )
+			Render.render_message( "hello" )
 
 		end
 
