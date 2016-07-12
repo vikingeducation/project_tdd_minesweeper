@@ -6,18 +6,15 @@ class Cell
     @y = @coords[0]
     @board ||= board
     determine_state
-
   end
 
   def determine_state
+    @neighbors = get_neighbors
+    @num_of_mines = @neighbors.select { |cell| cell.is_a?(Mine) }.length
+    @display_state = @num_of_mines == 0 ? :empty : @num_of_mines
   end
 
-  def neighboars_array
-    @neighbors = []
-
-  end
-
-  def neighbors_positions
+  def get_neighbors
     neighbors_relations = [
       [ @x,    (@y+1)],
       [(@x+1), (@y+1)],
