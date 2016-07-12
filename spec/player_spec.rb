@@ -14,7 +14,7 @@ describe Player do
   describe "#assign_move" do
 
     context "player wants to move" do
-      before do 
+      before do
         allow(player).to receive(:gets).and_return("1,2")
       end
 
@@ -22,7 +22,7 @@ describe Player do
         expect(player.assign_move).to eq([1,2])
       end
 
-      it "calls #valid_input?" do 
+      it "calls #valid_input?" do
         allow(player).to receive(:valid_input?).and_return(true)
         expect(player).to receive(:valid_input?)
         player.assign_move
@@ -37,7 +37,7 @@ describe Player do
     end
 
     context "player wants to add flag" do
-       before do 
+       before do
         allow(player).to receive(:gets).and_return("1,2")
       end
 
@@ -45,7 +45,7 @@ describe Player do
         expect(player.assign_flag_location).to eq([1,2])
       end
 
-      it "calls #valid_input?" do 
+      it "calls #valid_input?" do
         allow(player).to receive(:valid_input?).and_return(true)
         expect(player).to receive(:valid_input?)
         player.assign_flag_location
@@ -57,7 +57,7 @@ describe Player do
         player.assign_flag_location
       end
 
-    end    
+    end
 
   end
 end

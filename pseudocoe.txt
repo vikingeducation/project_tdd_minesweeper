@@ -1,5 +1,5 @@
 Minesweeper(size, number of mines)
-  #play 
+  #play
     initialize board
     until game_over?
   #game_over if win? or choice == mine
@@ -11,15 +11,15 @@ Square Class
   #flag?
   #already_revealed?
 
-Player 
+Player
   #assign_input
     view.ask_for_move
   #validate input
-  
+
 
 Board(size, number of mines)
   #reveal square
-
+  #create random mine map(index of all mines [[x,y],[x,y]])
 View
   #ask for input (x,y coords) (or type f to put flag somewhere)
   #ask where to put flag
