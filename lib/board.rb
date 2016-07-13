@@ -7,8 +7,8 @@ class Board
 
 	def initialize( board = nil )
 
-		@board = Array.new( 10 ) { Array.new( 10 ) {'-'}}
-		@display_board = Array.new( 10 ) { Array.new( 10 ){"O"} }
+		@board = Array.new( 10 ) { Array.new( 10 ) {0}}
+		@display_board = Array.new( 10 ) { Array.new( 10 ) {"-"} }
 
 		@mine_locations = []
 
@@ -18,11 +18,11 @@ class Board
 		@row = 0
 		@col = 0
 
-		place_mines
-
-		populate_hints
 
 	end
+
+
+
 
 	def place_mines
 
@@ -40,6 +40,7 @@ class Board
 				@mine_locations << [row, col]
 
 				count -= 1
+
 			end
 
 		end
@@ -58,6 +59,10 @@ class Board
 
 		if ( 0...@board.size ).include?( coords[ 0 ] ) &&
 			 ( 0...@board.size ).include?( coords[ 1 ] )
+
+			 @row = coords[ 0 ]
+			 @col = coords[ 1 ]
+
 			 true
 		else
 			false
@@ -66,18 +71,91 @@ class Board
 	end
 
 
-	def place_flag( coords )
 
-		placement = coords.split(",").map! { |x| x.strip.to_i }
+
+	def place_flag
 
 		if @flags == 0
 			puts "You are out of flags"
-			false
+			return false
+
 		else
-			@board[ placement[0] ][ placement[ 1 ] ] = 'F'
+			@display_board[ @row ][ @col ] = 'F'
+			@flags -= 1
 		end
 
 	end
+
+
+	def remove_flag
+
+		if @flags == @mines
+			puts "You have all your flags"
+			false
+
+		else
+			@display_board[ @row ][ @col ] = '-'
+			@flags += 1
+		end
+
+	end
+
+
+
+	def flag_already_there
+
+		return true if @board[ @row ][ @col ] == 'F'
+
+	end
+
+
+
+	def no_flag_at_location
+
+		return true if @board[ @row ][ @col ] != 'F'
+
+	end
+
+
+
+
+	def reveal( row , col )
+
+		@display_board[ row ][ col ]  = @board[ row ][ col ]
+
+	end
+
+
+
+	def reveal_square
+
+		@display_board[ @row ][ @col ]  = @board[ @row ][ @col ]
+
+	end
+
+
+
+	def square_has_mine_count
+
+		@board[ @row ][ @col ] >= 1 ? true : false
+
+	end
+
+
+
+
+	def check_for_mine
+
+		if @board[ @row ][ @col ] == "*"
+			Game.lose
+			true
+		else
+			false
+		end
+
+	end
+
+
 
 
 	def populate_hints
@@ -88,19 +166,19 @@ class Board
 
 	      @row, @col = row, col
 
-	      check_position
+	      add_mine_counts
 
 	    end
 
 	  end
-
+	  return @board
 
 	end
 
 
-	def check_position
+	def add_mine_counts
 
-	  return if @board[@row][@col] == '*'
+	  return if @board[ @row ][ @col ] == '*'
 
 	  hint = 0
 
@@ -120,8 +198,9 @@ class Board
 
   	@board[ @row ][ @col ] = hint
 
-
   end
+
+
 
 
 end

@@ -6,7 +6,7 @@ class Render
 
 	def render_board( board )
 
-		num = 1
+		num = 0
 
 		board.each do | x |
 
@@ -28,14 +28,11 @@ class Render
 
 	end
 
-
-
 	def render_flags( flags )
 
 		puts "Flags: #{ flags }"
 
 	end
-
 
 	def render_footer
 
@@ -60,7 +57,7 @@ class Render
 	def self.prompt_for_move
 
 		puts "Please enter what you'd like to do."
-		puts "1. Clear Square"
+		puts "1. Reveal Square"
 		puts "2. Place Flag"
 		puts "3. Remove Flag"
 		puts "4. Quit Game"

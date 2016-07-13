@@ -5,7 +5,6 @@ require 'render'
 describe '.Board' do
 
 	let( :board ) { Board.new }
-	let( :render ) { instance_double( "Render" ) }
 
 	describe '#initialize' do
 
@@ -17,7 +16,7 @@ describe '.Board' do
 
 		it 'should create a 10 x 10 array' do
 
-			expect( board.instance_variable_get( :@board )).to eq( Array.new(10) { Array.new( 10 ) {"-"} } )
+			expect( board.instance_variable_get( :@board )).to eq( Array.new(10) { Array.new( 10 ) { 0 } } )
 
 		end
 
@@ -105,29 +104,192 @@ describe '.Board' do
 
 		it 'should place a flag at the coordinates provided' do
 
-			board.place_flag( "0, 0" )
+			board.place_flag
 
-			expect( board.instance_variable_get( :@board ) ).to eq(placed_board )
+			expect( board.display_board ).to eq( placed_board )
 		end
 
 		it 'should return false if no flags left' do
 
 			board.instance_variable_set( :@flags, 0 )
 
-			expect( board.place_flag( "1, 2" ) ).to be false
+			expect( board.place_flag ).to be false
 
 		end
 
 
-		describe '#check' do
+		describe '#populate_hints' do
 
-			it 'should check the location player selected' do
+			it 'should add mine counts around placed mines' do
 
-				arr = [3,2]
+				board.instance_variable_set(:@board, [
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0, "*",   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0, "*",   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ]
+					])
 
-				expect( board.check_coordinates ).to eq( true )
+				expect( board.populate_hints).to eq( [
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1,   1,   1,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1, "*",   2,   1,   0,   0,   0,   0,   0 ],
+					[   0,   1,   2, "*",   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   1,   1,   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ]
+					] )
 
 			end
+
+		end
+
+	end #/.populate_hints
+
+
+	describe "#check for mine" do
+
+		it 'be true if mine is at coords' do
+
+				board.instance_variable_set(:@board, [
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1,   1,   1,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1, "*",   2,   1,   0,   0,   0,   0,   0 ],
+					[   0,   1,   2, "*",   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   1,   1,   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ]
+					] )
+
+				board.instance_variable_set( :@row, 2 )
+				board.instance_variable_set( :@col, 2 )
+
+			expect( board.check_for_mine ).to be true
+
+		end
+
+
+	end
+
+
+	describe '#square_has_mine_count' do
+
+		it 'should return true if a mine count is there' do
+
+				board.instance_variable_set(:@board, [
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1,   1,   1,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1, "*",   2,   1,   0,   0,   0,   0,   0 ],
+					[   0,   1,   2, "*",   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   1,   1,   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ]
+					] )
+
+				board.instance_variable_set( :@row, 3 )
+				board.instance_variable_set( :@col, 2 )
+
+				expect( board.square_has_mine_count ).to be true
+
+
+
+		end
+
+	end #/. square has mine count
+
+
+	describe '#reveal_square' do
+
+
+		it 'should reveal the square if a mine count is beneath it' do
+				board.instance_variable_set(:@board, [
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1,   1,   1,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1, "*",   2,   1,   0,   0,   0,   0,   0 ],
+					[   0,   1,   2, "*",   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   1,   1,   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ]
+					] )
+
+				board.instance_variable_set( :@row, 3 )
+				board.instance_variable_set( :@col, 2 )
+				board.reveal_square
+
+				expect( board.display_board ).to eq( [
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-",   2, "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ]
+					] )
+
+
+
+		end
+
+	end #/.reveal square
+
+
+	describe '#auto_clear' do
+
+		it 'if coords is empty, all surrounding 0s should be shown' do
+
+				board.instance_variable_set(:@board, [
+					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+					[   0,   1,   1,   1,   0,   0,   0,   0,   0,   0 ],
+					[   1,   2, "*",   2,   1,   0,   0,   0,   0,   0 ],
+					[ "*",   2,   2, "*",   1,   0,   0,   0,   0,   0 ],
+					[   1,   1,   1,   1,   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   1, "*",   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   1,   1,   1,   0,   0,   0,   0,   0 ],
+					[   0,   0,   0,   1,   1,   1,   0,   0,   0,   0 ],
+					[   0,   0,   0,   1, "*",   1,   0,   0,   0,   0 ],
+					[   0,   0,   0,   1,   1,   1,   0,   0,   0,   0 ]
+					] )
+
+
+				board.instance_variable_set( :@row, 8 )
+				board.instance_variable_set( :@col, 1 )
+				board.auto_clear( 8, 1 )
+
+				expect( board.display_board ).to eq( [
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[   1,   1, "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[   0,   0,   1, "-", "-", "-", "-", "-", "-", "-" ],
+					[   0,   0,   1, "-", "-", "-", "-", "-", "-", "-" ],
+					[   0,   0,   0,   1, "-", "-", "-", "-", "-", "-" ],
+					[   0,   0,   0,   1, "-", "-", "-", "-", "-", "-" ],
+					[   0,   0,   0,   1, "-", "-", "-", "-", "-", "-" ]
+					] )
+
+
+
 
 		end
 

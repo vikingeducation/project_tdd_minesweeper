@@ -23,18 +23,21 @@ class Game
 
 	def play
 
+		@board.place_mines
+		@board.populate_hints
+
 		loop do
 
 			@render.render_flags( @board.flags )
-			@render.render_board( @board.board )
+			@render.render_board( @board.display_board )
 
 			until @board.valid_coordinates?( @player.get_coordinates )
+
 				@player.get_coordinates
+
 			end
 
-
-
-
+			player_choice( @player.get_move )
 
 		end
 
@@ -45,11 +48,21 @@ class Game
 
 	def player_choice( menu_selection )
 
-		if ( 1..3 ) === menu_selection
+		case menu_selection
 
-			return @player.get_coordinates
+		when 1
 
-		else
+			@board.reveal_square
+
+		when 2
+
+			@board.place_flag
+
+		when 3
+
+			@board.remove_flag
+
+		when 4
 
 			exit
 
@@ -59,6 +72,12 @@ class Game
 	end
 
 
+
+	def self.lose
+
+		puts "You lose"
+
+	end
 
 
 end
