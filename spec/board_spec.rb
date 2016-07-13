@@ -67,14 +67,14 @@ describe '.Board' do
 
 		it 'should return true if move is in proper coordinates' do
 
-			expect( board.valid_coordinates?( "1, 4" ) ).to be true
+			expect( board.valid_coordinates?( [1, 4] ) ).to be true
 
 		end
 
 
 		it 'should return false if move is out of range of proper coordinates' do
 
-			expect( board.valid_coordinates?( "11, 12" ) ).to be false
+			expect( board.valid_coordinates?( [11, 12] ) ).to be false
 
 		end
 
@@ -121,7 +121,7 @@ describe '.Board' do
 
 		describe '#check' do
 
-			it 'should place numbers next to the mines showing how many they are touching' do
+			it 'should check the location player selected' do
 
 				mock_board = [
 					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],

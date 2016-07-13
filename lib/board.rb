@@ -41,8 +41,6 @@ class Board
 		end
 
 
-		populate_hints
-
 		return @board
 
 	end
@@ -116,11 +114,9 @@ end
 	end
 
 	# check within proper coordinates
-	def valid_coordinates?( move )
+	def valid_coordinates?( coords )
 
-		raise 'Must be string format 5, 6 ' if move.is_a?( Numeric )
-
-		coords = move.split(",").map! { |x| x.strip.to_i }
+		raise 'Must be string format 5, 6 ' if coords.is_a?( Numeric )
 
 		if ( 0...@board.size ).include?( coords[ 0 ] ) &&
 			 ( 0...@board.size ).include?( coords[ 1 ] )

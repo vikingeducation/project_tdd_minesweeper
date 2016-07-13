@@ -34,6 +34,7 @@ class Game
 				@player.get_coordinates
 			end
 
+			
 
 		end
 

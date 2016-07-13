@@ -8,6 +8,8 @@ require 'pry'
 
 class Player
 
+	attr_reader :coords
+
 
 
 	def get_move
@@ -31,7 +33,8 @@ class Player
 
 		Render.render_message( "Please enter coordinates in format: 1, 2 " )
 
-		return gets.strip
+		return coords = gets.strip.split(",").map! { |x| x.strip.to_i }
+
 
 	end
 

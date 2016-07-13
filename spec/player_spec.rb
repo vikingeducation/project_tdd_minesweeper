@@ -39,7 +39,7 @@ describe '.Player' do
 
 			allow( player ).to receive( :gets ).and_return( "1,3" )
 
-			expect( player.get_coordinates ).to eq( "1,3" )
+			expect( player.get_coordinates ).to eq( [1,3] )
 
 		end
 
