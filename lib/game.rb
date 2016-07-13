@@ -25,7 +25,7 @@ class Game
 
 		loop do
 
-
+			@board.place_mines
 
 			@render.render_flags( @board.flags )
 			@render.render_board( @board.display_board )
@@ -34,7 +34,6 @@ class Game
 				@player.get_coordinates
 			end
 
-			puts "out of until"
 
 		end
 

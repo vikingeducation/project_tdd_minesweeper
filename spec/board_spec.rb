@@ -17,7 +17,7 @@ describe '.Board' do
 
 		it 'should create a 10 x 10 array' do
 
-			expect( board.instance_variable_get( :@board )).to eq( Array.new(10) { Array.new( 10 )})
+			expect( board.instance_variable_get( :@board )).to eq( Array.new(10) { Array.new( 10 ) {"-"} } )
 
 		end
 
@@ -49,7 +49,7 @@ describe '.Board' do
 			array.each do | x |
 
 				x.each do | y |
-				 count +=1 if y == 'M'
+				 count +=1 if y == '*'
 
 				end
 
@@ -91,16 +91,16 @@ describe '.Board' do
 	describe '#place_flag' do
 
 		placed_board = [
-					[ 'F', nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-					[ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ]
+					[ 'F', "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ]
 					]
 
 		it 'should place a flag at the coordinates provided' do
@@ -108,7 +108,6 @@ describe '.Board' do
 			board.place_flag( "0, 0" )
 
 			expect( board.instance_variable_get( :@board ) ).to eq(placed_board )
-
 		end
 
 		it 'should return false if no flags left' do
@@ -120,24 +119,24 @@ describe '.Board' do
 		end
 
 
-		describe '#populate_hints' do
+		describe '#check' do
 
 			it 'should place numbers next to the mines showing how many they are touching' do
 
 				mock_board = [
 					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
 					[ "-", "-", "-", "-", "-", "-", "-",   1,   1,   1 ],
-					[ "-", "-",   1,   1,   1, "-", "-",   1, 'M',   1 ],
-					[ "-", "-",   2, 'M',   2, "-", "-",   1,   1,   1 ],
-					[ "-", "-",   2, 'M',   2, "-", "-", "-", "-", "-" ],
+					[ "-", "-",   1,   1,   1, "-", "-",   1, '*',   1 ],
+					[ "-", "-",   2, '*',   2, "-", "-",   1,   1,   1 ],
+					[ "-", "-",   2, '*',   2, "-", "-", "-", "-", "-" ],
 					[ "-", "-",   1,   2,   2,   1, "-", "-", "-", "-" ],
-					[ "-", "-", "-",   1, 'M',   1, "-", "-", "-", "-" ],
+					[ "-", "-", "-",   1, '*',   1, "-", "-", "-", "-" ],
 					[ "-", "-", "-",   1,   1,   1, "-", "-", "-", "-" ],
 					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
 					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ]
 					]
 
-				expect( board.populate_hints ).to eq( mock_board )
+				expect( board.check ).to eq( mock_board )
 
 			end
 
