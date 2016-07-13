@@ -20,6 +20,8 @@ class Board
 
 		place_mines
 
+		populate_hints
+
 	end
 
 	def place_mines
@@ -47,73 +49,7 @@ class Board
 
 	end
 
-=begin
-def detect
-  return if @board[@row][@col] == '*'
-  value = 0 # no need to be global anymore
-  (@row - 1..@row + 1).each do |r|
-    (@col - 1..@col + 1).each do |c|
-      unless r < 0 || r >= @board.size || c < 0 || c >= @board.size
-        value += 1 if @board[r][c] == "*"
-      end
-    end
-  end
-  @board[@row][@col] = value
-end
 
-
-def check
-  (0..@board.size - 1).each do |r|
-    (0..@board.size - 1).each do |c|
-      @row, @col = r, c
-      detect
-    end
-  end
-  binding.pry
-end
-
-=end
-
-
-	def populate_hints
-
-		arr = @board
-			# start with row 0 ( end when 10 [base case])
-				# start at col 0
-				# if != 'M'
-
-		arr.each_with_index do | x , ri |
-
-			x.each_with_index do | y , ci |
-
-
-
-			end
-
-
-		end
-
-
-
-
-		return @board
-		#find the first mine
-		# go through the row above indexes 1,2,3 respectively
-			# if nil && != 'M'
-				# change to 1
-			# elsif numeric
-				# take value += 1
-		# go through row it's on index before and after
-			# if nil && != 'M'
-				# change to 1
-			# elsif numeric
-				#take value += 1
-		# start at each
-
-
-
-
-	end
 
 	# check within proper coordinates
 	def valid_coordinates?( coords )
@@ -144,31 +80,45 @@ end
 	end
 
 
-	def check
+	def populate_hints
 
-		(0..@board.size - 1).each do |r|
-	    (0..@board.size - 1).each do |c|
-	      @row, @col = r, c
-	      detect
+		(0..@board.size - 1).each do | row |
+
+	    (0..@board.size - 1).each do | col |
+
+	      @row, @col = row, col
+
+	      check_position
+
 	    end
+
 	  end
 
 
 	end
 
 
-	def detect
+	def check_position
 
 	  return if @board[@row][@col] == '*'
-	  value = 0 # no need to be global anymore
-	  (@row - 1..@row + 1).each do |r|
-	    (@col - 1..@col + 1).each do |c|
-	      unless r < 0 || r >= @board.size || c < 0 || c >= @board.size
-	        value += 1 if @board[r][c] == "*"
+
+	  hint = 0
+
+	  (@row - 1..@row + 1).each do | row |
+
+	    (@col - 1..@col + 1).each do | col |
+
+	      unless row < 0 || row >= @board.size || col < 0 || col >= @board.size
+
+	        hint += 1 if @board[ row ][ col ] == "*"
+
 	      end
+
 	    end
+
 	  end
-  	@board[@row][@col] = value
+
+  	@board[ @row ][ @col ] = hint
 
 
   end
