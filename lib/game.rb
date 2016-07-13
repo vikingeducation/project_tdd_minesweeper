@@ -25,16 +25,16 @@ class Game
 
 		loop do
 
-			@board.place_mines
-
 			@render.render_flags( @board.flags )
-			@render.render_board( @board.display_board )
+			@render.render_board( @board.board )
 
 			until @board.valid_coordinates?( @player.get_coordinates )
 				@player.get_coordinates
 			end
 
-			
+			@board.check
+
+
 
 		end
 
@@ -63,5 +63,5 @@ class Game
 
 end
 
-#game = Game.new
-#game.play
+game = Game.new
+game.play

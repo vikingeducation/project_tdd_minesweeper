@@ -3,7 +3,7 @@ require 'pry'
 
 class Board
 
-	attr_reader :flags, :display_board
+	attr_reader :flags, :display_board, :board
 
 	def initialize( board = nil )
 
@@ -17,6 +17,8 @@ class Board
 
 		@row = 0
 		@col = 0
+
+		place_mines
 
 	end
 
@@ -142,6 +144,34 @@ end
 	end
 
 
+	def check
+
+		(0..@board.size - 1).each do |r|
+	    (0..@board.size - 1).each do |c|
+	      @row, @col = r, c
+	      detect
+	    end
+	  end
+
+
+	end
+
+
+	def detect
+
+	  return if @board[@row][@col] == '*'
+	  value = 0 # no need to be global anymore
+	  (@row - 1..@row + 1).each do |r|
+	    (@col - 1..@col + 1).each do |c|
+	      unless r < 0 || r >= @board.size || c < 0 || c >= @board.size
+	        value += 1 if @board[r][c] == "*"
+	      end
+	    end
+	  end
+  	@board[@row][@col] = value
+
+
+  end
 
 
 end
