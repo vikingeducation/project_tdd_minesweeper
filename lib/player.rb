@@ -37,12 +37,6 @@ class Player
 
 
 
-	def quit
-
-		exit
-
-	end
-
 
 
 end
