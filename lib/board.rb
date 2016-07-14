@@ -76,12 +76,23 @@ class Board
 	def place_flag
 
 		if @flags == 0
+
 			puts "You are out of flags"
 			return false
 
-		else
+		elsif flag_already_there
+
+			puts "Already a flag there"
+
+		elsif square_already_revealed
+
+			puts "That space is already revealed"
+
+		elsif no_flag_at_location
+
 			@display_board[ @row ][ @col ] = 'F'
 			@flags -= 1
+
 		end
 
 	end
@@ -104,7 +115,7 @@ class Board
 
 	def flag_already_there
 
-		return true if @board[ @row ][ @col ] == 'F'
+		return true if @display_board[ @row ][ @col ] == 'F'
 
 	end
 
@@ -112,11 +123,18 @@ class Board
 
 	def no_flag_at_location
 
-		return true if @board[ @row ][ @col ] != 'F'
+		return true if @display_board[ @row ][ @col ] == '-'
 
 	end
 
 
+
+	def square_already_revealed
+
+		return true if @display_board[ @row ][ @col ] != '-' &&
+									 @display_board[ @row ][ @col ] >= 0
+
+	end
 
 
 	def reveal( row , col )
@@ -147,8 +165,9 @@ class Board
 	def check_for_mine
 
 		if @board[ @row ][ @col ] == "*"
-			Render.render_message( "You lose!")
-			exit
+
+			Game.lose
+
 		end
 
 	end

@@ -74,9 +74,9 @@ class Game
 
 
 
-	def check_victory
+	def lose
 
-
+		binding.pry
 
 	end
 

@@ -8,9 +8,6 @@ require 'pry'
 
 class Player
 
-	attr_reader :coords
-
-
 
 	def get_move
 
