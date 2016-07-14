@@ -101,12 +101,19 @@ class Board
 	def remove_flag
 
 		if @flags == @mines
+
 			puts "You have all your flags"
 			false
 
-		else
+		elsif square_already_revealed
+
+			puts "That square is already revealed."
+
+		elsif flag_already_there
+
 			@display_board[ @row ][ @col ] = '-'
 			@flags += 1
+
 		end
 
 	end
@@ -132,8 +139,7 @@ class Board
 	def square_already_revealed
 
 		return true if @display_board[ @row ][ @col ] != '-' &&
-									 @display_board[ @row ][ @col ] >= 0
-
+								   @display_board[ @row ][ @col ] != 'F'
 	end
 
 
