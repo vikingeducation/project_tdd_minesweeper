@@ -147,10 +147,8 @@ class Board
 	def check_for_mine
 
 		if @board[ @row ][ @col ] == "*"
-			Game.lose
-			true
-		else
-			false
+			Render.render_message( "You lose!")
+			exit
 		end
 
 	end

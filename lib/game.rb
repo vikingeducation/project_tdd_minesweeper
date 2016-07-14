@@ -53,6 +53,7 @@ class Game
 		when 1
 
 			@board.reveal_square
+			@board.check_for_mine
 
 		when 2
 
@@ -73,9 +74,9 @@ class Game
 
 
 
-	def self.lose
+	def check_victory
 
-		puts "You lose"
+
 
 	end
 
