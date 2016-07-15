@@ -22,6 +22,12 @@ class Board
 	end
 
 
+	def generate_minefield
+
+		place_mines
+		populate_hints
+
+	end
 
 
 	def place_mines
@@ -37,7 +43,7 @@ class Board
 			if @board[ row ][ col ] != '*'
 
 				@board[ row ][ col ] = '*'
-				@mine_locations << [row, col]
+				@mine_locations << [ row, col ]
 
 				count -= 1
 
@@ -51,8 +57,53 @@ class Board
 	end
 
 
+	def populate_hints
 
-	# check within proper coordinates
+		(0..@board.size - 1).each do | row |
+
+	    (0..@board.size - 1).each do | col |
+
+	      @row, @col = row, col
+
+	      add_mine_counts
+
+	    end
+
+	  end
+
+	  return @board
+
+	end
+
+
+
+	def add_mine_counts
+
+	  return if @board[ @row ][ @col ] == '*'
+
+	  hint = 0
+
+	  (@row - 1..@row + 1).each do | row |
+
+	    (@col - 1..@col + 1).each do | col |
+
+	      unless row < 0 || row >= @board.size || col < 0 || col >= @board.size
+
+	        hint += 1 if @board[ row ][ col ] == "*"
+
+	      end
+
+	    end
+
+	  end
+
+  	@board[ @row ][ @col ] = hint
+
+  end
+
+
+
+
 	def valid_coordinates?( coords )
 
 		raise 'Must be string format 5, 6 ' if coords.is_a?( Numeric )
@@ -91,7 +142,7 @@ class Board
 		elsif no_flag_at_location
 
 			@display_board[ @row ][ @col ] = 'F'
-			@flags -= 1
+			decrement_flag_count
 
 		end
 
@@ -112,11 +163,26 @@ class Board
 		elsif flag_already_there
 
 			@display_board[ @row ][ @col ] = '-'
-			@flags += 1
+			increment_flag_count
 
 		end
 
 	end
+
+
+	def increment_flag_count
+
+			@flags += 1
+
+	end
+
+
+	def decrement_flag_count
+
+		@flags -= 1
+
+	end
+
 
 
 
@@ -153,13 +219,34 @@ class Board
 
 	def reveal_square
 
+	  check_for_mine
+
 	  if square_already_revealed
 	  	puts "Already revealed! Pick another."
 	  	return
+	  elsif @board[ @row ][ @col ] == 0
+	  	reveal
+	  	auto_clear( @row, @col  )
 	  else
-		@display_board[ @row ][ @col ]  = @board[ @row ][ @col ]
-	  end
+			reveal
+		end
 
+	end
+
+
+	def reveal
+
+		@display_board[ @row ][ @col ]  = @board[ @row ][ @col ]
+
+	end
+
+
+
+
+
+	def auto_reveal_square( row, col )
+
+		@display_board[ row ][ col ]  = @board[ row ][ col ]
 
 	end
 
@@ -186,50 +273,68 @@ class Board
 
 
 
+  def auto_clear( row, col )
 
-	def populate_hints
+  	q = []
 
-		(0..@board.size - 1).each do | row |
+  	q << [ row, col ]
 
-	    (0..@board.size - 1).each do | col |
+  	arr = []
 
-	      @row, @col = row, col
+	  	q.each do | n |
 
-	      add_mine_counts
+	  		w_row, e_row = n[0], n[0]
+	  		w_col = n[1] - 1
+	  		e_col = n[1] + 1
 
-	    end
+	  		# move left
+	  		until @board[ w_row ][ w_col ] != 0 || w_col == 0
 
-	  end
-	  return @board
+	  			arr << [ w_row , w_col  ]
 
-	end
+	  			w_col -= 1
+
+	  		end
 
 
-	def add_mine_counts
+	  		# move right
+	  		until	@board[ e_row ][ e_col ] != 0 || e_col > @board.size - 1
 
-	  return if @board[ @row ][ @col ] == '*'
+	  			arr << [ e_row, e_col  ] unless e_col > @board.size - 1
 
-	  hint = 0
+	  			e_col += 1
 
-	  (@row - 1..@row + 1).each do | row |
+	  		end
 
-	    (@col - 1..@col + 1).each do | col |
 
-	      unless row < 0 || row >= @board.size || col < 0 || col >= @board.size
+	  		arr.each do | c |
 
-	        hint += 1 if @board[ row ][ col ] == "*"
+	  			row = c[0]
+	  			col = c[1]
 
-	      end
 
-	    end
+	  			auto_reveal_square( row, col )
 
-	  end
+	  			return if row - 1 < 0 || row + 1 > @board.size - 1
 
-  	@board[ @row ][ @col ] = hint
+	  				if @board[ row - 1 ][ col ] == 0 && row <= 0
+
+	  					q << [ row - 1 , col ]
+
+	  				end
+
+	  				if @board[ row + 1 ][ col ] == 0 && row < @board.size - 1
+
+	  					q << [ row + 1, col ]
+
+	  				end
+
+	  		end #/.arr.each
+
+
+	  	end #/.q.each
 
   end
-
-
 
 
 end

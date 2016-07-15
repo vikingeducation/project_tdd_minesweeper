@@ -14,7 +14,7 @@ class Render
 
 			 x.each do | y |
 
-			 	print "#{y}".rjust( 3 )
+			 		print "#{y}".rjust( 3 )
 
 			 end
 

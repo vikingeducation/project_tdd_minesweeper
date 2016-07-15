@@ -1,9 +1,3 @@
-	# MINESWEEPER GAME
-		# VICTORY?
-			# ALL MINES MARKED
-			# ALL SQUARES REVEALED/CLEARED
-		# LOSS
-			# MINE REVEALED
 require_relative 'board'
 require_relative 'player'
 require_relative 'render'
@@ -23,8 +17,7 @@ class Game
 
 	def play
 
-		@board.place_mines
-		@board.populate_hints
+		@board.generate_minefield
 
 		loop do
 
@@ -53,7 +46,6 @@ class Game
 		when 1
 
 			@board.reveal_square
-			@board.check_for_mine
 
 		when 2
 
@@ -74,9 +66,10 @@ class Game
 
 
 
-	def lose
+	def self.lose
 
-		binding.pry
+		puts "You Lose"
+		exit
 
 	end
 
