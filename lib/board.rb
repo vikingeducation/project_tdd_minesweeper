@@ -143,17 +143,23 @@ class Board
 	end
 
 
-	def reveal( row , col )
+#	def reveal( row , col )
 
-		@display_board[ row ][ col ]  = @board[ row ][ col ]
+#		@display_board[ row ][ col ]  = @board[ row ][ col ]
 
-	end
+#	end
 
 
 
 	def reveal_square
 
+	  if square_already_revealed
+	  	puts "Already revealed! Pick another."
+	  	return
+	  else
 		@display_board[ @row ][ @col ]  = @board[ @row ][ @col ]
+	  end
+
 
 	end
 
