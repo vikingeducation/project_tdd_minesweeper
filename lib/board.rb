@@ -52,8 +52,6 @@ class Board
 		end
 
 
-		return @board
-
 	end
 
 
@@ -108,6 +106,7 @@ class Board
 
 		raise 'Must be string format 5, 6 ' if coords.is_a?( Numeric )
 
+
 		if ( 0...@board.size ).include?( coords[ 0 ] ) &&
 			 ( 0...@board.size ).include?( coords[ 1 ] )
 
@@ -115,8 +114,11 @@ class Board
 			 @col = coords[ 1 ]
 
 			 true
+
 		else
+
 			false
+
 		end
 
 	end
@@ -219,8 +221,6 @@ class Board
 
 	def reveal_square
 
-	  check_for_mine
-
 	  if square_already_revealed
 	  	puts "Already revealed! Pick another."
 	  	return
@@ -263,17 +263,41 @@ class Board
 
 	def check_for_mine
 
-		if @board[ @row ][ @col ] == "*"
-
-			Game.lose
-
-		end
+		return true if @board[ @row ][ @col ] == "*"
 
 	end
 
 
 
   def auto_clear( row, col )
+
+
+  	# function passes in the coordinates
+  	# if the position is a mine it will return
+  	# if the position is a number it will return
+  	# if the position is already revealed, it will return
+  			# revealed is a flag, number or 0
+
+  	# may have to refactor reveal to have it happen here when a zero
+
+  	# generate an array for every position around the sent coords
+  	# TOP ROW
+  	# [r-1][c-1], [r-1][c], [r-1][c+1],
+  	# MIDDLE ROW
+  	# [ r ][c-1], 				, [ r ][c + 1]
+  	# BOTTOM ROW
+  	# [r+1][c-1],[r+1][ c ],[r+1][c + 1]
+
+  	# check every position in the array surrounding the coords
+  	# if the position is a 0
+  		# reveal
+  		# call auto_clear( coords ) with those coordinates
+  	# if the position is a mine_count
+  		# reveal
+  		# return
+  	# if the position is a mine
+  		# return
+
 
   	q = []
 

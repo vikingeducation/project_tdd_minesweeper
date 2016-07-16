@@ -4,6 +4,8 @@ require 'pry'
 class Render
 
 
+
+
 	def render_board( board )
 
 		num = 0

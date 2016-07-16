@@ -18,7 +18,7 @@ class Game
 	def play
 
 		@board.generate_minefield
-
+binding.pry
 		loop do
 
 			@render.render_flags( @board.flags )
@@ -26,7 +26,7 @@ class Game
 
 			until @board.valid_coordinates?( @player.get_coordinates )
 
-				@player.get_coordinates
+				Render.render_message("Enter valid coordinates")
 
 			end
 
@@ -46,6 +46,7 @@ class Game
 		when 1
 
 			@board.reveal_square
+			check_for_mine
 
 		when 2
 
@@ -66,13 +67,22 @@ class Game
 
 
 
-	def self.lose
+	def check_for_mine
 
-		puts "You Lose"
-		exit
+		loss if @board.check_for_mine
 
 	end
 
+
+	def loss
+
+		Render.render_message( %q(You Lose!) )
+
+		@render.render_board( @board.board )
+
+		exit
+
+	end
 
 end
 

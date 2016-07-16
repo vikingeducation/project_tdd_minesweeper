@@ -28,7 +28,7 @@ class Player
 
 	def get_coordinates
 
-		Render.render_message( "Please enter coordinates in format: 1, 2 " )
+		puts "Please enter coords"
 
 		return coords = gets.strip.split(",").map! { |x| x.strip.to_i }
 
