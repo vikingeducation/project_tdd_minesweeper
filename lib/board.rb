@@ -265,9 +265,6 @@ class Board
 	  	return if check_for_mine
 	  	# if the position is a number it will return
 	  	return if square_already_revealed
-	  	# if the position is already revealed, it will return
-
-	  	# may have to refactor reveal to have it happen here when a zero
 
 	  	# only reveal the square if has a mine count
 	  	if square_has_mine_count
@@ -277,13 +274,6 @@ class Board
 	  		reveal
 	  	end
 
-	  	# generate an array for every position around the sent coords
-	  	# TOP ROW
-	  	# [r-1][c-1], [r-1][c], [r-1][c+1],
-	  	# MIDDLE ROW
-	  	# [ r ][c-1], 				, [ r ][c + 1]
-	  	# BOTTOM ROW
-	  	# [r+1][c-1],[r+1][ c ],[r+1][c + 1]
   	adjacent_cells_coords = [
   													# TOP ROW
   													[ @row - 1, @col - 1 ],
@@ -305,8 +295,6 @@ class Board
 			  auto_clear( @row, @col )
 
 			end
-
-
 
   end
 
