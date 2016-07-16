@@ -203,6 +203,17 @@ class Board
 	end
 
 
+	def reveal_square
+
+	  if square_already_revealed
+	  	puts "Already revealed! Pick another."
+	  	return
+	  else
+	  	auto_clear( @row, @col  )
+		end
+
+	end
+
 
 	def square_already_revealed
 
@@ -211,42 +222,9 @@ class Board
 	end
 
 
-#	def reveal( row , col )
-
-#		@display_board[ row ][ col ]  = @board[ row ][ col ]
-
-#	end
-
-
-
-	def reveal_square
-
-	  if square_already_revealed
-	  	puts "Already revealed! Pick another."
-	  	return
-	  elsif @board[ @row ][ @col ] == 0
-	  	reveal
-	  	auto_clear( @row, @col  )
-	  else
-			reveal
-		end
-
-	end
-
-
 	def reveal
 
 		@display_board[ @row ][ @col ]  = @board[ @row ][ @col ]
-
-	end
-
-
-
-
-
-	def auto_reveal_square( row, col )
-
-		@display_board[ row ][ col ]  = @board[ row ][ col ]
 
 	end
 
@@ -268,95 +246,67 @@ class Board
 	end
 
 
+	def out_of_bounds
+
+		return true if @row > @board.size - 1 || @row < 0 || @col > @board.size - 1 || @col < 0
+
+	end
+
+
 
   def auto_clear( row, col )
 
+  	@row = row
+  	@col = col
 
-  	# function passes in the coordinates
-  	# if the position is a mine it will return
-  	# if the position is a number it will return
-  	# if the position is already revealed, it will return
-  			# revealed is a flag, number or 0
+	  	# function passes in the coordinates
+	  	return if out_of_bounds
+	  	# if the position is a mine it will return
+	  	return if check_for_mine
+	  	# if the position is a number it will return
+	  	return if square_already_revealed
+	  	# if the position is already revealed, it will return
 
-  	# may have to refactor reveal to have it happen here when a zero
+	  	# may have to refactor reveal to have it happen here when a zero
 
-  	# generate an array for every position around the sent coords
-  	# TOP ROW
-  	# [r-1][c-1], [r-1][c], [r-1][c+1],
-  	# MIDDLE ROW
-  	# [ r ][c-1], 				, [ r ][c + 1]
-  	# BOTTOM ROW
-  	# [r+1][c-1],[r+1][ c ],[r+1][c + 1]
+	  	# only reveal the square if has a mine count
+	  	if square_has_mine_count
+	  		reveal
+	  		return
+	  	else # this is when square has 0
+	  		reveal
+	  	end
 
-  	# check every position in the array surrounding the coords
-  	# if the position is a 0
-  		# reveal
-  		# call auto_clear( coords ) with those coordinates
-  	# if the position is a mine_count
-  		# reveal
-  		# return
-  	# if the position is a mine
-  		# return
+	  	# generate an array for every position around the sent coords
+	  	# TOP ROW
+	  	# [r-1][c-1], [r-1][c], [r-1][c+1],
+	  	# MIDDLE ROW
+	  	# [ r ][c-1], 				, [ r ][c + 1]
+	  	# BOTTOM ROW
+	  	# [r+1][c-1],[r+1][ c ],[r+1][c + 1]
+  	adjacent_cells_coords = [
+  													# TOP ROW
+  													[ @row - 1, @col - 1 ],
+  													[ @row - 1, @col     ],
+  													[ @row - 1, @col + 1 ],
+  													# MID ROW
+  													[ @row    , @col - 1 ],
+  													[ @row    , @col + 1 ],
+  													# BOTTOM ROW
+  													[ @row + 1, @col - 1 ],
+  													[ @row + 1, @col     ],
+  													[ @row + 1, @col + 1 ]
+  													]
 
+  		adjacent_cells_coords.each do | x |
 
-  	q = []
+  			@row, @col = x[0], x[1]
 
-  	q << [ row, col ]
+			  auto_clear( @row, @col )
 
-  	arr = []
-
-	  	q.each do | n |
-
-	  		w_row, e_row = n[0], n[0]
-	  		w_col = n[1] - 1
-	  		e_col = n[1] + 1
-
-	  		# move left
-	  		until @board[ w_row ][ w_col ] != 0 || w_col == 0
-
-	  			arr << [ w_row , w_col  ]
-
-	  			w_col -= 1
-
-	  		end
-
-
-	  		# move right
-	  		until	@board[ e_row ][ e_col ] != 0 || e_col > @board.size - 1
-
-	  			arr << [ e_row, e_col  ] unless e_col > @board.size - 1
-
-	  			e_col += 1
-
-	  		end
+			end
 
 
-	  		arr.each do | c |
-
-	  			row = c[0]
-	  			col = c[1]
-
-
-	  			auto_reveal_square( row, col )
-
-	  			return if row - 1 < 0 || row + 1 > @board.size - 1
-
-	  				if @board[ row - 1 ][ col ] == 0 && row <= 0
-
-	  					q << [ row - 1 , col ]
-
-	  				end
-
-	  				if @board[ row + 1 ][ col ] == 0 && row < @board.size - 1
-
-	  					q << [ row + 1, col ]
-
-	  				end
-
-	  		end #/.arr.each
-
-
-	  	end #/.q.each
 
   end
 

@@ -18,7 +18,7 @@ class Game
 	def play
 
 		@board.generate_minefield
-binding.pry
+
 		loop do
 
 			@render.render_flags( @board.flags )
@@ -46,7 +46,7 @@ binding.pry
 		when 1
 
 			@board.reveal_square
-			check_for_mine
+			@board.check_for_mine
 
 		when 2
 
