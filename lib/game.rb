@@ -45,8 +45,9 @@ class Game
 
 		when 1
 
+			check_for_mine
 			@board.reveal_square
-			@board.check_for_mine
+
 
 		when 2
 
