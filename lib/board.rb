@@ -9,8 +9,8 @@ class Board
 
 		@board = Array.new( 10 ) { Array.new( 10 ) {0}}
 		@display_board = Array.new( 10 ) { Array.new( 10 ) {"-"} }
+		@victory_board = Array.new( 10 ) { Array.new( 10 ) {0}}
 
-		@mine_locations = []
 
 		@flags = 9
 		@mines = 9
@@ -22,12 +22,42 @@ class Board
 	end
 
 
-	def generate_minefield
+	def generate_boards
 
 		place_mines
 		populate_hints
 
+		generate_victory_board
+
 	end
+
+
+
+
+	def generate_victory_board
+
+		@board.each_with_index do | row, r_index |
+
+			row.each_with_index do | col, c_index |
+
+				if @board[ r_index ][ c_index ] == '*'
+
+					@victory_board[ r_index ][ c_index ] = 'F'
+
+				else
+
+					@victory_board[ r_index ][ c_index ] = @board[ r_index ][ c_index ]
+
+				end
+
+			end
+
+		end
+
+	end
+
+
+
 
 
 	def place_mines
@@ -43,14 +73,12 @@ class Board
 			if @board[ row ][ col ] != '*'
 
 				@board[ row ][ col ] = '*'
-				@mine_locations << [ row, col ]
-
+				@victory_board[ row ][ col ] = 'F'
 				count -= 1
 
 			end
 
 		end
-
 
 	end
 
@@ -68,8 +96,6 @@ class Board
 	    end
 
 	  end
-
-	  return @board
 
 	end
 
@@ -244,6 +270,13 @@ class Board
 		return true if @board[ @row ][ @col ] == "*"
 
 	end
+
+	def check_victory
+
+		@display_board == @victory_board ? true : false
+
+	end
+
 
 
 	def out_of_bounds

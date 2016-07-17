@@ -17,7 +17,7 @@ class Game
 
 	def play
 
-		@board.generate_minefield
+		@board.generate_boards
 
 		loop do
 
@@ -52,6 +52,7 @@ class Game
 		when 2
 
 			@board.place_flag
+			win if @board.check_victory
 
 		when 3
 
@@ -75,13 +76,56 @@ class Game
 	end
 
 
+	def win
+
+		Render.render_message( %q(You Win!) )
+
+		@render.render_board( @board.board )
+
+		play_again
+
+	end
+
+
+
+
+
+	def play_again
+
+		input = ""
+
+		until input == 'Y' || input == 'N'
+
+			Render.render_message( %q(Play Again? Y or N))
+
+			input = gets.strip.upcase
+
+		end
+
+		input == 'Y' ? new_game : exit
+
+	end
+
+
+
+
+	def new_game
+
+		game = Game.new
+		game.play
+
+	end
+
+
+
+
 	def loss
 
 		Render.render_message( %q(You Lose!) )
 
 		@render.render_board( @board.board )
 
-		exit
+		play_again
 
 	end
 
