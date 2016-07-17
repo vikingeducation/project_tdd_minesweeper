@@ -1,7 +1,13 @@
 require 'minesweeper'
 
+
 describe Minesweeper::Game do
-  let(:board){Minesweeper::Board.new}
+
+  before do
+    allow($stdout).to receive(:puts)
+  end
+
+  let(:board){Minesweeper::Board.new(5, 5, nil, [[0,0],[1,1],[2,2],[3,3],[4,4]])}
   let(:game){Minesweeper::Game.new(board)}
 
   describe '#initialize' do
@@ -17,7 +23,5 @@ describe Minesweeper::Game do
       game.run
     end
   end
-
-
 
 end

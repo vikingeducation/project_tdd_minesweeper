@@ -1,14 +1,14 @@
 module Minesweeper
   class Game
     attr_reader :view, :board
-    def initialize(board = nil, size = 10, mines = 10)
+    def initialize(board = nil)
       @view = Minesweeper::View.new
-      @board = board || Minesweeper::Board.new(size, mines)
+      @board = board || Minesweeper::Board.new
     end
 
     def run
       puts @view.welcome_message
-      sleep(1.5)
+      sleep(0.7)
       until finish?
         @board.render
         get_input
@@ -31,7 +31,7 @@ module Minesweeper
     def get_input
       options = {"\e[A" => :up, "\e[B" => :down , "\e[D" => :left, "\e[C" => :right, "f" => :flag, "q" => :quit, " " => :reveal}
       input = read_char
-      @board.receive_input(options[input])
+      options.include?(input) ? @board.receive_input(options[input]) : get_input
     end
 
 

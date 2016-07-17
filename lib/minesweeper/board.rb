@@ -1,10 +1,10 @@
 module Minesweeper
   class Board
     attr_reader :view
-    def initialize(size = 5, mines = 5, grid = nil)
+    def initialize(size = 10, mines = 15, grid = nil, map = nil)
       @size = size
       @mines = mines
-      @mine_map = mine_map
+      @mine_map = map || mine_map
       @grid = grid || build_grid
       @view = Minesweeper::View.new
       @revealed = 0
@@ -37,7 +37,12 @@ module Minesweeper
     def reveal_square(input)
       x = input[0]
       y = input[1]
+      return if @grid[x][y].showing
       @grid[x][y].reveal ? @revealed += 1 : @boom = true
+      return if @grid[x][y].surround >= 1
+      surrounding_squares([x, y]).each do |coord|
+        reveal_square([coord[0], coord[1]])
+      end
     end
 
 
@@ -52,6 +57,7 @@ module Minesweeper
     def receive_input(input)
       options = {flag: method(:place_flag), reveal: method(:reveal_square), quit: method(:exit)}
       if options.include?(input)
+        exit if input == :quit
         options[input].call(@cursor)
       else
         case input
@@ -71,10 +77,33 @@ module Minesweeper
 
 
     def render
+      show_all if ( boom? || complete?)
       @view.render_board(@grid, @cursor)
     end
 
     private
+
+    def surrounding_squares(input)
+      arr = []
+      x = input[0]
+      y = input[1]
+      (x-1..x+1).each do |i|
+        (y-1..y+1).each do |j|
+          if i.between?(0, @size-1) && j.between?(0, @size-1)
+            arr << [i,j]
+          end
+        end
+      end
+      arr - [input]
+    end
+
+    def show_all
+      @grid.each do |col|
+        col.each do |square|
+          square.reveal
+        end
+      end
+    end
 
     def mine_map
       map, coord = [], []

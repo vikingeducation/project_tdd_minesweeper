@@ -20,19 +20,26 @@ module Minesweeper
     end
 
     def reveal
-      @mine ? nil : @showing = true
+      @showing = true
+      @mine ? false : true
     end
 
+
     def count_mines(map)
+      (map & surrounding_squares).length
+    end
+
+  private
+    def surrounding_squares
+      arr = []
       x = @coord[0]
       y = @coord[1]
-      mines = 0
       (x-1..x+1).each do |i|
-        (y-1..y+1).each do |j|
-          mines += 1 if map.include?([i,j])
-        end
+        (y-1..y+1).each { |j| arr << [i,j] }
       end
-      mines
+      arr
     end
+
+
   end
 end
