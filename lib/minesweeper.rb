@@ -5,3 +5,6 @@ require "minesweeper/view"
 require "minesweeper/square"
 require "minesweeper/game"
 require "io/console"
+
+m = Minesweeper::Game.new
+m.run

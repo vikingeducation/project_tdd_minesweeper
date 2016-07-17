@@ -17,9 +17,4 @@ describe Minesweeper::Board do
     end
   end
 
-
-  # describe '#place_mines' do
-  #   it "sets mines in the mine_map coordinates"
-  # end
-
 end
