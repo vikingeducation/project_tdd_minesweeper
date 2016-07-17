@@ -1,15 +1,7 @@
-require_relative "player"
-require_relative "board"
-require_relative "view"
-require_relative "square"
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-class Minesweeper
-  def initialize(board = Board.new, view = View.new, player = Player.new)
-    @board = board
-    @view = view
-    @player = player
-  end
-
-
-
-end
+require "minesweeper/board"
+require "minesweeper/view"
+require "minesweeper/square"
+require "minesweeper/game"
+require "io/console"

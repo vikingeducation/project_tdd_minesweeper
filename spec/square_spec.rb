@@ -1,14 +1,13 @@
 require 'minesweeper'
 
-
-describe Square do
-  let(:coord){[1,2]}
-  let(:map){[[2,2],[6,8]]}
-  let(:square){Square.new(coord, map)}
+describe Minesweeper::Square do
+  let(:coord){[0,0]}
+  let(:map){[[2,2],[1,3],[1,1],[0,1]]}
+  let(:square){Minesweeper::Square.new(coord, map)}
 
   describe "initialize" do
     it "creates a new square" do
-      expect(square).to be_a(Square)
+      expect(square).to be_a(Minesweeper::Square)
     end
   end
 
@@ -27,18 +26,20 @@ describe Square do
   describe "#add_mine" do
     it "sets mine to true" do
       square.add_mine
-      expect(square.mine).to be true
+      expect(square.reveal).to eq nil
     end
   end
 
   describe "#reveal" do
-    it "sets showing to true" do
+    it "sets showing to true if no mine is present" do
       square.reveal
       expect(square.showing).to be true
     end
   end
 
   describe "#count_mines" do
-
+    it "returns the number of surrounding mines" do
+      expect(square.surround).to eq(2)
+    end
   end
 end

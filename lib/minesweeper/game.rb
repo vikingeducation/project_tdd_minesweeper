@@ -1,0 +1,56 @@
+module Minesweeper
+  class Game
+    attr_reader :view, :board
+    def initialize(board = nil, size = 10, mines = 10)
+      @view = Minesweeper::View.new
+      @board = board || Minesweeper::Board.new(size, mines)
+    end
+
+    def run
+      puts @view.welcome_message
+      sleep(1.5)
+      until finish?
+        @board.render
+        get_input
+      end
+      @board.render
+    ending_message
+    end
+
+  private
+
+    def ending_message
+      puts view.victory_message if @board.complete?
+      puts view.lose_message if @board.boom?
+    end
+
+    def finish?
+      @board.complete? || @board.boom?
+    end
+
+    def get_input
+      options = {"\e[A" => :up, "\e[B" => :down , "\e[D" => :left, "\e[C" => :right, "f" => :flag, "q" => :quit, " " => :reveal}
+      input = read_char
+      @board.receive_input(options[input])
+    end
+
+
+  # code from: https://gist.github.com/acook/4190379
+    def read_char
+      STDIN.echo = false
+      STDIN.raw!
+
+      input = STDIN.getc.chr
+      if input == "\e" then
+        input << STDIN.read_nonblock(3) rescue nil
+        input << STDIN.read_nonblock(2) rescue nil
+      end
+    ensure
+      STDIN.echo = true
+      STDIN.cooked!
+
+      return input
+    end
+
+  end
+end
