@@ -64,7 +64,7 @@ class Board
 
 		count = @mines
 
-		until count < 0
+		until count <= 0
 
 			row = rand( 0..9 )
 			col = rand( 0..9 )
@@ -323,7 +323,7 @@ class Board
 
   		adjacent_cells_coords.each do | x |
 
-  			@row, @col = x[0], x[1]
+  			@row, @col = x[ 0 ], x[ 1 ]
 
 			  auto_clear( @row, @col )
 

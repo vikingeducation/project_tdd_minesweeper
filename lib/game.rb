@@ -8,7 +8,7 @@ class Game
 
 	def initialize( difficulty = nil )
 
-		@board = Board.new
+		@board  = Board.new
 		@player = Player.new
 		@render = Render.new
 
@@ -18,7 +18,7 @@ class Game
 	def play
 
 		@board.generate_boards
-
+binding.pry
 		loop do
 
 			@render.render_flags( @board.flags )
@@ -31,6 +31,8 @@ class Game
 			end
 
 			player_choice( @player.get_move )
+
+			win if @board.check_victory
 
 		end
 
@@ -52,7 +54,7 @@ class Game
 		when 2
 
 			@board.place_flag
-			win if @board.check_victory
+
 
 		when 3
 
