@@ -16,7 +16,7 @@ describe '.Board' do
 
 		it 'should create a 10 x 10 array' do
 
-			expect( board.instance_variable_get( :@board )).to eq( Array.new(10) { Array.new( 10 ) { 0 } } )
+			expect( board.board ).to eq( Array.new(10) { Array.new( 10 ) { 0 } } )
 
 		end
 
@@ -40,12 +40,15 @@ describe '.Board' do
 
 	describe "#place_mines" do
 
-		it 'should populate the board with 10 mines' do
+		it 'should populate the board with 9 mines' do
 
-			array = board.place_mines
+
+			board.place_mines
+
+			arr = board.board
 
 			count = 0
-			array.each do | x |
+			arr.each do | x |
 
 				x.each do | y |
 				 count +=1 if y == '*'
@@ -54,7 +57,7 @@ describe '.Board' do
 
 			end
 
-			expect( count ).to eq( 10 )
+			expect( count ).to eq( 9 )
 
 		end
 
@@ -118,7 +121,7 @@ describe '.Board' do
 		end
 
 
-		describe '#populate_hints' do
+		describe '#add_mine_counts' do
 
 			it 'should add mine counts around placed mines' do
 
@@ -135,7 +138,9 @@ describe '.Board' do
 					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ]
 					])
 
-				expect( board.populate_hints).to eq( [
+				board.populate_hints
+
+				expect( board.board ).to eq( [
 					[   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
 					[   0,   1,   1,   1,   0,   0,   0,   0,   0,   0 ],
 					[   0,   1, "*",   2,   1,   0,   0,   0,   0,   0 ],
@@ -152,7 +157,7 @@ describe '.Board' do
 
 		end
 
-	end #/.populate_hints
+	end #/.add_mine_counts
 
 
 	describe "#check for mine" do
@@ -271,8 +276,6 @@ describe '.Board' do
 					] )
 
 
-				board.instance_variable_set( :@row, 8 )
-				board.instance_variable_set( :@col, 1 )
 				board.auto_clear( 8, 1 )
 
 				expect( board.display_board ).to eq( [
@@ -280,9 +283,9 @@ describe '.Board' do
 					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
 					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
 					[ "-", "-", "-", "-", "-", "-", "-", "-", "-", "-" ],
-					[   1,   1, "-", "-", "-", "-", "-", "-", "-", "-" ],
+					[   1,   1,   1, "-", "-", "-", "-", "-", "-", "-" ],
 					[   0,   0,   1, "-", "-", "-", "-", "-", "-", "-" ],
-					[   0,   0,   1, "-", "-", "-", "-", "-", "-", "-" ],
+					[   0,   0,   1,   1, "-", "-", "-", "-", "-", "-" ],
 					[   0,   0,   0,   1, "-", "-", "-", "-", "-", "-" ],
 					[   0,   0,   0,   1, "-", "-", "-", "-", "-", "-" ],
 					[   0,   0,   0,   1, "-", "-", "-", "-", "-", "-" ]

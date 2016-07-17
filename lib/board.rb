@@ -1,6 +1,3 @@
-require 'pry'
-
-
 class Board
 
 	attr_reader :flags, :display_board, :board
@@ -81,6 +78,8 @@ class Board
 		end
 
 	end
+
+
 
 
 	def populate_hints
@@ -177,6 +176,8 @@ class Board
 	end
 
 
+
+
 	def remove_flag
 
 		if @flags == @mines
@@ -196,6 +197,8 @@ class Board
 		end
 
 	end
+
+
 
 
 	def increment_flag_count
@@ -222,11 +225,15 @@ class Board
 
 
 
+
+
 	def no_flag_at_location
 
 		return true if @display_board[ @row ][ @col ] == '-'
 
 	end
+
+
 
 
 	def reveal_square
@@ -241,6 +248,8 @@ class Board
 	end
 
 
+
+
 	def square_already_revealed
 
 		return true if @display_board[ @row ][ @col ] != '-' &&
@@ -248,11 +257,15 @@ class Board
 	end
 
 
+
+
 	def reveal
 
 		@display_board[ @row ][ @col ]  = @board[ @row ][ @col ]
 
 	end
+
+
 
 
 
@@ -270,6 +283,9 @@ class Board
 		return true if @board[ @row ][ @col ] == "*"
 
 	end
+
+
+
 
 	def check_victory
 

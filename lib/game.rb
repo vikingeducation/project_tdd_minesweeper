@@ -18,7 +18,7 @@ class Game
 	def play
 
 		@board.generate_boards
-binding.pry
+
 		loop do
 
 			@render.render_flags( @board.flags )
@@ -133,5 +133,5 @@ binding.pry
 
 end
 
-game = Game.new
-game.play
+#game = Game.new
+#game.play
