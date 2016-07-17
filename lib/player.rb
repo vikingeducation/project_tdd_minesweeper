@@ -1,11 +1,3 @@
-require 'pry'
-	# PLAYER
-		# @FLAGS
-		# SELECT SQUARE
-		# PLACE FLAG
-		# QUIT GAME
-
-
 class Player
 
 

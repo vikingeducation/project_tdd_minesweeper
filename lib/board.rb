@@ -308,11 +308,10 @@ class Board
   	@row = row
   	@col = col
 
-	  	# function passes in the coordinates
 	  	return if out_of_bounds
-	  	# if the position is a mine it will return
+
 	  	return if check_for_mine
-	  	# if the position is a number it will return
+
 	  	return if square_already_revealed
 
 	  	# only reveal the square if has a mine count
