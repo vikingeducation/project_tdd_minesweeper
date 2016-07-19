@@ -1,0 +1,32 @@
+Minesweeper(size, number of mines)
+  #play 
+    initialize board
+    until game_over?
+  #game_over if win? or choice == mine
+
+
+Square Class
+  #touching_mines (integer)
+  #mine?
+  #flag?
+  #already_revealed?
+
+Player 
+  #assign_input
+    view.ask_for_move
+  #validate input
+  
+
+Board(size, number of mines)
+  #reveal square
+
+View
+  #ask for input (x,y coords) (or type f to put flag somewhere)
+  #ask where to put flag
+  #render board
+
+
+Board Data
+[ [square, square, square],
+  [square, square, square],
+  [square, square, square] ]
