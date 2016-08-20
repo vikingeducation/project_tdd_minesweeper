@@ -1,4 +1,5 @@
 module Minesweeper
+  # Initializes board and handles board logic
   class Board
     attr_reader :view
     def initialize(size = 10, mines = 15, grid = nil, map = nil)
@@ -9,16 +10,16 @@ module Minesweeper
       @view = Minesweeper::View.new
       @revealed = 0
       @boom = false
-      @cursor = [0,0]
+      @cursor = [0, 0]
       place_mines
     end
 
     def build_grid
       grid = []
-      (0..@size-1).each do |x|
+      (0..@size - 1).each do |x|
         grid << []
-        (0..@size-1).each do |y|
-          grid[x] << Minesweeper::Square.new([x,y], @mine_map)
+        (0..@size - 1).each do |y|
+          grid[x] << Minesweeper::Square.new([x, y], @mine_map)
         end
       end
       grid
@@ -45,7 +46,6 @@ module Minesweeper
       end
     end
 
-
     def complete?
       @size**2 - @mines <= @revealed
     end
@@ -55,7 +55,7 @@ module Minesweeper
     end
 
     def receive_input(input)
-      options = {flag: method(:place_flag), reveal: method(:reveal_square), quit: method(:exit)}
+      options = { flag: method(:place_flag), reveal: method(:reveal_square), quit: method(:exit) }
       if options.include?(input)
         exit if input == :quit
         options[input].call(@cursor)
@@ -75,9 +75,8 @@ module Minesweeper
       end
     end
 
-
     def render
-      show_all if ( boom? || complete?)
+      show_all if boom? || complete?
       @view.render_board(@grid, @cursor)
     end
 
@@ -87,11 +86,9 @@ module Minesweeper
       arr = []
       x = input[0]
       y = input[1]
-      (x-1..x+1).each do |i|
-        (y-1..y+1).each do |j|
-          if i.between?(0, @size-1) && j.between?(0, @size-1)
-            arr << [i,j]
-          end
+      (x - 1..x + 1).each do |i|
+        (y - 1..y + 1).each do |j|
+          arr << [i, j] if i.between?(0, @size - 1) && j.between?(0, @size - 1)
         end
       end
       arr - [input]
@@ -99,22 +96,20 @@ module Minesweeper
 
     def show_all
       @grid.each do |col|
-        col.each do |square|
-          square.reveal
-        end
+        col.each(&:reveal)
       end
     end
 
     def mine_map
-      map, coord = [], []
-      (0..@size-1).each do |x|
-        (0..@size-1).each {|y| coord << [x,y]}
+      map = []
+      coord = []
+      (0..@size - 1).each do |x|
+        (0..@size - 1).each { |y| coord << [x, y] }
       end
       @mines.times do
         map << coord.delete(coord.sample)
       end
       map
     end
-
   end
 end
