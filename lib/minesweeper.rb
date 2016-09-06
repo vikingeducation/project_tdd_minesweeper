@@ -24,7 +24,7 @@ class Minesweeper
     puts "#########################"
     puts
     puts "You have 9 mines to find"
-    puts "and clear, good luck!"
+    puts "...and clear, good luck!"
   end
 
 end

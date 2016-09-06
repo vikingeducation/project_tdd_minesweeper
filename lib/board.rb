@@ -1,10 +1,11 @@
 class Board
 
-  attr_reader :board, :flags
+  attr_reader :board, :flags, :mine_array
 
   def initialize(board = nil)
     @board = Array.new(10){Array.new(10)}
     @flags = 15
+    @mine_array = []
   end
 
   def render
@@ -15,24 +16,28 @@ class Board
     @board.each_with_index do |row, row_index|
       print "#{row_index}"
       row.each_with_index do |cell, cell_index|
-        cell.nil? ? print("+".center(4)) : print(cell.to_s.center(4))
+        cell.nil? ? print("[]".center(4)) : print(cell.to_s.center(4))
       end
       puts
     end
   end
 
   def place_mines
-    mine_array = []
-    9.times do
+    until @mine_array.length == 9 do
       x = rand(10)
       y = rand(10)
-      mine_array << [x, y]
+      @mine_array << [x, y] unless @mine_array.include?([x, y])
     end
-    mine_array
+    print @mine_array
   end
 
   def place_move(move)
-    if valid_move?(move) && space_available?(move)
+    if loss?(move) == true
+      @board[move[0]][move[1]] = :X
+      render
+      puts "# Oh no, a bomb! You lose."
+      exit
+    elsif valid_move?(move) && space_available?(move)
       @board[move[0]][move[1]] = ' '
       true
     else
@@ -56,6 +61,15 @@ class Board
       puts "You have already cleared that space."
       false
     end
+  end
+
+  def loss?(move)
+    9.times do |i|
+      if @mine_array[i] == move
+        return true
+      end
+    end
+    false
   end
 
   #def clear(move)
