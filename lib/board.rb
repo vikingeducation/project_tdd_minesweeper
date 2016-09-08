@@ -62,8 +62,8 @@ class Board
   def adjacent_bombs(a, b)
     bombs = 0
     neighbor_array = neighbors(a, b)
-    neighbor_array.each do |neighbor|
-      bombs += 1 if has_bomb?(neighbor)
+    neighbor_array.each do |i|
+      bombs += 1 if has_bomb?(i)
     end
     bombs
   end
