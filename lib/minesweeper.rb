@@ -138,6 +138,3 @@ class Minesweeper
     exit
   end
 end
-
-game = Minesweeper.new
-game.play
