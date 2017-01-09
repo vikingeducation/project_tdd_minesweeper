@@ -5,7 +5,32 @@
 module Minesweeper
   class Board
 
+    def initialize(size = 10, mines = 9)
+      @size = size
+      @mines = mines
+      @remaining_flags = mines
+    end
+
+
 # ############################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

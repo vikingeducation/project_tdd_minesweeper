@@ -6,10 +6,59 @@
 module Minesweeper
   class Game
 
+    def initialize
+    end
+
+    def play
+      setup
+      play
+      render
+      finish
+    end
+
+    def set_up
+      welcome
+      setup_board
+      setup_cells
+      
+    end
+
+    def setup_board
+#      size = input_layout_size
+#      mines = input_mines
+      board = Board.new(size, mines)
+    end
+
+    def input_layout_size
+      puts "How many squares on each side of the square (10 - 25)?"
+      until (10..25).include? (answer = gets)
+        print "Incorrect answer - try again."
+      end
+      return size
+    end
+
+    def input_mines
+      puts "How many mines (5 - 50)?"
+      until (5..50).include? (answer = gets)
+        print "Incorrect answer - try again."
+      end
+      return mines
+    end
 
 
 
 
+      loop do
+        until %w(Y N).include? (answer = gets.chomp)
+          print "Incorrect answer - try again. "
+        end
+        return if answer == "N"
+      end
+
+
+
+  end
+end
 
 # #########################################
 
