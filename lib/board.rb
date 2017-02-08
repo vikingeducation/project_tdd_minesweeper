@@ -4,7 +4,7 @@ class Board
   attr_reader :board
 
   def initialize(board = nil)
-    @board = board ||Array.new(10){Array.new(10)}
+    @board = board || Array.new(10){Array.new(10)}
   end
 
   def render
