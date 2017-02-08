@@ -3,15 +3,22 @@ class Board
 
   attr_reader :board
 
-  def initialize(board_arr = nil)
-    @board = Array.new(10){Array.new(10)}
+  def initialize(board = nil)
+    @board = board ||Array.new(10){Array.new(10)}
   end
 
   def render
     puts
     board.each do |row|
       row.each do |cell|
-        cell.nil? ? print("-") : print(cell.to_s)
+        # Dont display the position of the mines when rendering
+        if cell.nil? 
+          print("-")
+        elsif (cell == "X" && !full?)
+          print("-")
+         else
+          print(cell.to_s)
+        end
       end
       puts
     end
@@ -22,17 +29,15 @@ class Board
     if (0..9).include?(coords[0]) && (0..9).include?(coords[1])
         true
     else
-        # display an error message
-        puts "Piece coordinates are out of bounds"
+        puts "The chosen coordinates are not in the range of the board"
     end
   end
 
   def coordinates_available?(coords)
-      if @board[coords[0]][coords[1]].nil?
+      if @board[coords[0]][coords[1]].nil? || @board[coords[0]][coords[1]] == "X"
           true
       else
-          # display error message
-          puts "There is already a piece there!"
+          puts "Position already used"
       end
   end
 
@@ -42,5 +47,23 @@ class Board
           row.none? {|x| x.nil?}
       end
   end
+
+  def add_to_board(coords)
+    if location_valid?(coords)
+      @board[coords[0]][coords[1]] = "C"
+        true
+    else
+        false
+    end
+  end
+
+  def location_valid?(coords)
+    if within_valid_coordinates?(coords)
+        coordinates_available?(coords)
+    end
+  end
+
+
+
 
 end

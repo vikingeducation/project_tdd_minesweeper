@@ -1,12 +1,18 @@
 # Random generator to create Mine
 class Mine
 
+  attr_accessor :mines
+
+  def initialize
+
+  end
+
+  # Generate random coordinates for placing a new mine
   def generate_coords
     coords = [0,0]
     coords[0] = rand(0..9)
     coords[y] = rand(0..9)
     coords
-
   end
 
 
