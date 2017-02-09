@@ -32,12 +32,12 @@ describe Mine do
       mine_obj.mines = [[0,2], [0,3], [3,1]]
     end
 
-    it "returns true if the new coordinates generated for a mine is not already created " do
+    it "returns false if the new coordinates generated for a mine is not already created " do
       
       expect(mine_obj.mine_created?([0,1])).to be false
     end
 
-    it "returns false if the new coordinates generated for a mine is created " do
+    it "returns true if the new coordinates generated for a mine is created " do
       expect(mine_obj.mine_created?([0,3])).to be true
     end
   end
@@ -49,7 +49,6 @@ describe Mine do
     end
 
     it "returns true if a particular mine is adjacent to the cell reference provided" do
-      
       expect(mine_obj.isAdjacent?([0,1], mine_obj.mines[0])).to be true
     end
 
@@ -64,7 +63,6 @@ describe Mine do
     end
 
     it "returns number of adjacent mines if there is a mine nearby" do
-      
       expect(mine_obj.getNumberAdjacentMines([0,3])).to be(2) 
     end
 
@@ -75,4 +73,15 @@ describe Mine do
 
   describe "#update_adj_clear_cells" do
   end
+
+  # describe "create_mines" do
+  #   it "Returns an array of size 9 for each of the random coordinates of mines to place on the board" do
+  #     mine_obj.create_mines(9)
+
+  #     mine_obj.mines.each do |x|
+  #       x.none? {|y| y.nil?}
+  #     end
+  #     expect(mine_obj.mines.size).to be(9)
+  #   end
+  # end
 end

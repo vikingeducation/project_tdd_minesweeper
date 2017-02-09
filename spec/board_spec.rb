@@ -52,10 +52,8 @@ describe Board do
   end
 
     describe "#add_to_board" do 
-
     it "sets valid piece in place" do
-    
-      subject.add_to_board([0, 0])
+      subject.add_to_board([0, 0], "C")
       expect(subject.board).to eq([ 
         ["C", nil, nil, nil, nil, nil, nil, nil, nil, nil],
         [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
@@ -81,12 +79,11 @@ describe Board do
         [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
         [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
         [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]] )
-      # # Then try to put another piece in the same spot
-      expect(spot_occupied_board.add_to_board([0, 0])).to be false
+      expect(spot_occupied_board.add_to_board([0, 0], "C")).to be false
     end
 
     it "returns false if point chosen is not on the board" do
-      expect(subject.add_to_board([10, 10])).to be false
+      expect(subject.add_to_board([10, 10], "C")).to be false
     end
   end
 
@@ -104,9 +101,8 @@ describe Board do
 
 
   describe "#coordinates_available?" do
-
     let(:sparse_board) do 
-      Board.new(  [ 
+      Board.new([ 
         ["C", nil, nil, nil, nil, nil, nil, nil, nil, nil],
         [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
         [nil, nil, "C", nil, nil, nil, nil, nil, nil, nil],
@@ -132,7 +128,6 @@ describe Board do
 
    describe "#full?" do
     it "returns true for full board" do
-
       full_board = Board.new( [
         ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
         ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
@@ -165,7 +160,7 @@ describe Board do
   end
 
    describe "ways to win" do
-    it "returns true if the user has won i.e a full board" do
+    it "returns true if the user has won i.e. a full board" do
       full_board = Board.new( [
         ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
         ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
@@ -180,6 +175,4 @@ describe Board do
       expect(full_board.full?).to be true
     end
   end
-
-
 end

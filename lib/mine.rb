@@ -16,41 +16,60 @@ class Mine
   end
 
 
+  # def within_valid_coordinates?(coords)
+  #   if (0..9).include?(coords[0]) && (0..9).include?(coords[1])
+  #       true
+  #   end
+  # end
+
+
   def isAdjacent?(cell, mine)
     x = (cell[0] - mine[0]).abs
     y = (cell[1] - mine[1]).abs
-    if x < 2 and y < 2
+
+    if x < 2 && y < 2
       true
     else
       false
     end
   end
 
+
+
+        #   numAdjacentMines = getNumberAdjacentMines(square)
+        #   if numAdjacentMines > 0
+        #     marker = numAdjacentMines.to_s
+        #   end
+        # end
+
   # Find coordinates for neighbouring cells that are definitely clear
-  def clear_cells(cell)
+  # def clear_cells(cell)
 
-    # work on the best way to store this
+  #   adjacent_cells = Array.new
 
-    first_clear[0] = cell[0] - 1
-    first_clear[1] = cell[1]
+  #   # work on the best way to store this
+  #   i = 1
+  #   adjacent_cells << [ cell[0]-i, cell[1] ]
 
-    second_clear[0] = cell[0] + 1
-    second_clear[1] = cell[1]
+   
 
-    third_clear[0] = cell[0]
-    third_clear[1] = cell[1] - 1
+  #   second_clear[0] = cell[0] + 1
+  #   second_clear[1] = cell[1]
 
-    fourth_clear[0] = cell[0]
-    fourth_clear[1] = cell[1] + 1
+  #   third_clear[0] = cell[0]
+  #   third_clear[1] = cell[1] - 1
 
-  end
+  #   fourth_clear[0] = cell[0]
+  #   fourth_clear[1] = cell[1] + 1
 
-  def get_adj_clear_cells
-    if(getNumberAdjacentMines(cell) > 0)
-      clear_cells
-    end
+  # end
 
-    # Then we want to add these cell references to the board
+  # def get_adj_clear_cells
+  #   if(getNumberAdjacentMines(cell) > 0)
+  #     clear_cells
+  #   end
+
+  #   # Then we want to add these cell references to the board
   end
 
   def getNumberAdjacentMines(cell)
@@ -66,4 +85,18 @@ class Mine
   def mine_created?(ref)
     @mines.any?{ |cell| cell == ref}
   end
+
+  def create_mines(n)
+    loop do
+      mine = generate_coords
+      if !(mine_created?(mine))
+        @mines << mine
+        n -= 1
+      end
+      break if n == 1
+    end
+  end
+
+
+
 end

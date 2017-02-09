@@ -2,4 +2,6 @@
 class Game
   def initialize
   end
+
+  # add mines to board
 end

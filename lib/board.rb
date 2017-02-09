@@ -1,10 +1,14 @@
 # Stores the different states of the board
+
+require 'mine'
+
 class Board
 
   attr_reader :board
 
   def initialize(board = nil)
     @board = board || Array.new(10){Array.new(10)}
+    @mine = Mine.new
   end
 
   def render
@@ -48,9 +52,9 @@ class Board
       end
   end
 
-  def add_to_board(coords)
+  def add_to_board(coords, marker)
     if location_valid?(coords)
-      @board[coords[0]][coords[1]] = "C"
+      @board[coords[0]][coords[1]] = marker
         true
     else
         false
@@ -63,7 +67,11 @@ class Board
     end
   end
 
-
-
+  def add_mines_to_board(n)
+    mines_arr = @mines.create_mines(n)
+    mines_arr.each do |mine|
+      @board.add_to_board(mine, "X")
+    end
+  end
 
 end
