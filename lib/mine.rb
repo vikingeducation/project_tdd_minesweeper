@@ -3,15 +3,15 @@ class Mine
 
   attr_accessor :mines
 
-  def initialize()
+  def initialize
     @mines = Array.new
   end
 
   # Generate random coordinates for placing a new mine
   def generate_coords
     coords = [0,0]
-    coords[0] = rand(0..9)
-    coords[1] = rand(0..9)
+    coords[0] = rand(9)
+    coords[1] = rand(9)
     coords
   end
 
