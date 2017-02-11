@@ -66,12 +66,11 @@ class Board
         coordinates_available?(coords)
     end
   end
-
+  
   def add_mines_to_board(n)
     mines_arr = @mines.create_mines(n)
     mines_arr.each do |mine|
       @board.add_to_board(mine, "X")
     end
   end
-
 end

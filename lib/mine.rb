@@ -3,8 +3,8 @@ class Mine
 
   attr_accessor :mines
 
-  def initialize
-    @mines = Array.new(9)
+  def initialize()
+    @mines = Array.new
   end
 
   # Generate random coordinates for placing a new mine
@@ -15,13 +15,26 @@ class Mine
     coords
   end
 
+  def mine_created?(ref)
+    @mines.any?{ |cell| cell == ref}
+  end
 
-  # def within_valid_coordinates?(coords)
-  #   if (0..9).include?(coords[0]) && (0..9).include?(coords[1])
-  #       true
-  #   end
-  # end
+  def create_mines(n)
+    # loop do
+    #   mine = generate_coords
+    #   # if !(mine_created?(mine))
+    #     @mines << mine
+    #     n -= 1
+    #   end
+    #   break if n == 1
+    # end
+    until @mines.count == 9 do
+      mine = generate_coords
 
+      @mines << mine unless @mines.include?(mine)
+    end
+
+  end
 
   def isAdjacent?(cell, mine)
     x = (cell[0] - mine[0]).abs
@@ -35,42 +48,31 @@ class Mine
   end
 
 
-
-        #   numAdjacentMines = getNumberAdjacentMines(square)
-        #   if numAdjacentMines > 0
-        #     marker = numAdjacentMines.to_s
-        #   end
-        # end
-
   # Find coordinates for neighbouring cells that are definitely clear
-  # def clear_cells(cell)
+  def update_neighbour_refs(cell)
 
-  #   adjacent_cells = Array.new
+    if(getNumberAdjacentMines(cell) > 0)
+      all_directions = [
+          [-1, 1],  [0, 1],  [1, 1],
+          [-1, 0],           [1, 0],
+          [-1, -1], [0, -1], [1, -1]
+        ]
 
-  #   # work on the best way to store this
-  #   i = 1
-  #   adjacent_cells << [ cell[0]-i, cell[1] ]
+      all_directions.each do |adj_cell|
+        neighbour = [adj_cell[0] + pos[0], adj_cell[1] + pos[1]]
+        next unless (0..8).include?(neighbour[0]) && (0..8).include?(neighbour[1])
 
-   
 
-  #   second_clear[0] = cell[0] + 1
-  #   second_clear[1] = cell[1]
+        # add to board -> neighbour, "C"
 
-  #   third_clear[0] = cell[0]
-  #   third_clear[1] = cell[1] - 1
 
-  #   fourth_clear[0] = cell[0]
-  #   fourth_clear[1] = cell[1] + 1
-
-  # end
-
-  # def get_adj_clear_cells
-  #   if(getNumberAdjacentMines(cell) > 0)
-  #     clear_cells
-  #   end
-
-  #   # Then we want to add these cell references to the board
+        # unless @minefield.all_tiles[neighbor[0]][neighbor[1]].revealed
+        #   reveal(neighbor)
+        # end
+      end
+    end
   end
+
 
   def getNumberAdjacentMines(cell)
     adjacentMines = 0
@@ -81,22 +83,4 @@ class Mine
     end
     adjacentMines
   end
-
-  def mine_created?(ref)
-    @mines.any?{ |cell| cell == ref}
-  end
-
-  def create_mines(n)
-    loop do
-      mine = generate_coords
-      if !(mine_created?(mine))
-        @mines << mine
-        n -= 1
-      end
-      break if n == 1
-    end
-  end
-
-
-
 end

@@ -1,23 +1,24 @@
 # All the player related activity in the game
 class Player
 
-  attr_accessor :use_flag
+  attr_accessor :use_flag, :flags_remaining
 
   def initialize(flags = 9)
     @flags = flags
+    use_flag = false
   end
 
   def get_coordinates
     loop do
       coords = ask_for_coordinates
-      coords = ask_for_flag
+      # flags = ask_for_flag
 
       if validate_coordinates_format(coords)
-        if @board.add_to_board(coords, marker)
-          break
-        end
+        coords
+        break
       end
     end
+    # end
   end
 
   def ask_for_flag
@@ -25,9 +26,18 @@ class Player
     puts "Enter y for yes and n for no"
     input = gets.chomp.upcase
 
-    if(input == "Y" || input == "N" )
-      use_flag = true
+    if (flags_remaining > 0)
+      if input == "Y"
+        use_flag = true
+      elsif input == "N"
+        use_flag = false
+      else
+        ask_for_flag 
+      end
+    else
+      puts "No flags remaining"
     end
+    use_flag
   end
 
 
