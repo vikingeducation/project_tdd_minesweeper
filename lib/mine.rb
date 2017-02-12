@@ -1,10 +1,10 @@
 # Random generator to create Mine
 class Mine
 
-  attr_accessor :mines
+  attr_accessor :mine_arr
 
   def initialize
-    @mines = Array.new
+    @mine_arr = Array.new
   end
 
   # Generate random coordinates for placing a new mine
@@ -16,27 +16,17 @@ class Mine
   end
 
   def mine_created?(ref)
-    @mines.any?{ |cell| cell == ref}
+    @mine_arr.any?{ |cell| cell == ref}
   end
 
   def create_mines(n)
-    # loop do
-    #   mine = generate_coords
-    #   # if !(mine_created?(mine))
-    #     @mines << mine
-    #     n -= 1
-    #   end
-    #   break if n == 1
-    # end
-    until @mines.count == 9 do
+    until @mine_arr.count == n do
       mine = generate_coords
-
-      @mines << mine unless @mines.include?(mine)
+      @mine_arr << mine unless @mine_arr.include?(mine)
     end
-
   end
 
-  def isAdjacent?(cell, mine)
+  def is_adjacent?(cell, mine)
     x = (cell[0] - mine[0]).abs
     y = (cell[1] - mine[1]).abs
 
@@ -47,40 +37,13 @@ class Mine
     end
   end
 
-
-  # Find coordinates for neighbouring cells that are definitely clear
-  def update_neighbour_refs(cell)
-
-    if(getNumberAdjacentMines(cell) > 0)
-      all_directions = [
-          [-1, 1],  [0, 1],  [1, 1],
-          [-1, 0],           [1, 0],
-          [-1, -1], [0, -1], [1, -1]
-        ]
-
-      all_directions.each do |adj_cell|
-        neighbour = [adj_cell[0] + pos[0], adj_cell[1] + pos[1]]
-        next unless (0..8).include?(neighbour[0]) && (0..8).include?(neighbour[1])
-
-
-        # add to board -> neighbour, "C"
-
-
-        # unless @minefield.all_tiles[neighbor[0]][neighbor[1]].revealed
-        #   reveal(neighbor)
-        # end
+  def get_num_adj_mines(cell)
+    adjacent_mines = 0
+    @mine_arr.each do |mine|
+      if is_adjacent?(cell, mine)
+        adjacent_mines += 1
       end
     end
-  end
-
-
-  def getNumberAdjacentMines(cell)
-    adjacentMines = 0
-    @mines.each do |mine|
-      if isAdjacent?(cell, mine)
-        adjacentMines += 1
-      end
-    end
-    adjacentMines
+    adjacent_mines
   end
 end

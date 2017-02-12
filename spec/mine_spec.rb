@@ -29,7 +29,7 @@ describe Mine do
     let(:mine_obj) {Mine.new }
 
     before do
-      mine_obj.mines = [[0,2], [0,3], [3,1]]
+      mine_obj.mine_arr = [[0,2], [0,3], [3,1]]
     end
 
     it "returns false if the new coordinates generated for a mine is not already created " do
@@ -42,46 +42,39 @@ describe Mine do
     end
   end
 
-  describe "#isAdjacent?" do
+  describe "#is_adjacent?" do
     
     before do
-      mine_obj.mines = [[0,2], [0,6], [3,1]]
+      mine_obj.mine_arr = [[0,2], [0,6], [3,1]]
     end
 
     it "returns true if a particular mine is adjacent to the cell reference provided" do
-      expect(mine_obj.isAdjacent?([0,1], mine_obj.mines[0])).to be true
+      expect(mine_obj.is_adjacent?([0,1], mine_obj.mine_arr[0])).to be true
     end
 
     it "returns false if a mine is adjacent to the cell reference provided" do
-      expect(mine_obj.isAdjacent?([0,4], mine_obj.mines[0])).to be false
+      expect(mine_obj.is_adjacent?([0,4], mine_obj.mine_arr[0])).to be false
     end
   end
 
-  describe "#getNumberAdjacentMines?" do
+  describe "#get_num_adj_mines?" do
     before do
-      mine_obj.mines = [[0,2], [1,3], [0,6], [3,1]]
+      mine_obj.mine_arr = [[0,2], [1,3], [0,6], [3,1]]
     end
 
     it "returns number of adjacent mines if there is a mine nearby" do
-      expect(mine_obj.getNumberAdjacentMines([0,3])).to be(2) 
+      expect(mine_obj.get_num_adj_mines([0,3])).to be(2) 
     end
 
     it "returns zero if no mines are adjacent to the cell reference provided" do
-      expect(mine_obj.getNumberAdjacentMines([0,8])).to be(0)
+      expect(mine_obj.get_num_adj_mines([0,8])).to be(0)
     end
   end
 
-  describe "#update_adj_clear_cells" do
+  describe "#create_mines" do
+    it "Returns an array of size 9 for each of the random coordinates of mines to place on the board" do
+      mine_obj.create_mines(9)
+      expect(mine_obj.mine_arr.size).to eq(9)
+    end
   end
-
-  # describe "create_mines" do
-  #   it "Returns an array of size 9 for each of the random coordinates of mines to place on the board" do
-  #     mine_obj.create_mines(9)
-
-  #     mine_obj.mines.each do |x|
-  #       x.none? {|y| y.nil?}
-  #     end
-  #     expect(mine_obj.mines.size).to be(9)
-  #   end
-  # end
 end

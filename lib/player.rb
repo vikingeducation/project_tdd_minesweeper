@@ -1,7 +1,7 @@
 # All the player related activity in the game
 class Player
 
-  attr_accessor :use_flag, :flags_remaining
+  attr_accessor :use_flag, :flags
 
   def initialize(flags = 9)
     @flags = flags
@@ -11,7 +11,6 @@ class Player
   def get_coordinates
     loop do
       coords = ask_for_coordinates
-      # flags = ask_for_flag
 
       if validate_coordinates_format(coords)
         coords
@@ -24,9 +23,9 @@ class Player
   def ask_for_flag
     puts "Do you want to flag this cell as marked with a mine?"
     puts "Enter y for yes and n for no"
-    input = gets.chomp.upcase
+    input = gets.strip.upcase
 
-    if (flags_remaining > 0)
+    if (flags > 0)
       if input == "Y"
         use_flag = true
       elsif input == "N"
