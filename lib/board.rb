@@ -1,26 +1,26 @@
 # Stores the different states of the board
 
-require 'mine'
+require_relative 'mine'
 
 class Board
 
-  attr_reader :board, :mine
+  attr_reader :board_arr, :mine
 
   def initialize(board = nil)
-    @board = board || Array.new(10){Array.new(10)}
+    @board_arr = board || Array.new(10){Array.new(10)}
     @mine = Mine.new
   end
 
-  def render
+  def render(reveal_all = false)
     puts
-    board.each do |row|
+    @board_arr.each do |row|
       row.each do |cell|
         # Dont display the position of the mines when rendering
-        if cell.nil? 
-          print("-")
-        elsif (cell == "X" && !full?)
-          print("-")
-         else
+        if (cell.nil?)
+          print("-")  
+        elsif (cell == "X" && reveal_all == false)
+           print("-")
+        else
           print(cell.to_s)
         end
       end
@@ -38,7 +38,7 @@ class Board
   end
 
   def coordinates_available?(coords)
-      if @board[coords[0]][coords[1]].nil? || @board[coords[0]][coords[1]] == "X"
+      if @board_arr[coords[0]][coords[1]].nil? || @board_arr[coords[0]][coords[1]] == "X"
           true
       else
           puts "Position already used"
@@ -47,14 +47,14 @@ class Board
 
 
   def full?
-      @board.all? do |row|
+      @board_arr.all? do |row|
           row.none? {|x| x.nil?}
       end
   end
 
   def add_to_board(coords, marker)
     if location_valid?(coords)
-      @board[coords[0]][coords[1]] = marker
+      @board_arr[coords[0]][coords[1]] = marker
         true
     else
         false

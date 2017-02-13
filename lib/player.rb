@@ -9,15 +9,16 @@ class Player
   end
 
   def get_coordinates
+
+    coords = ""
     loop do
       coords = ask_for_coordinates
 
       if validate_coordinates_format(coords)
-        coords
         break
       end
     end
-    # end
+    coords
   end
 
   def ask_for_flag
@@ -25,16 +26,18 @@ class Player
     puts "Enter y for yes and n for no"
     input = gets.strip.upcase
 
-    if (flags > 0)
-      if input == "Y"
+  
+    if input == "Y"
+      if (flags > 0)
         use_flag = true
-      elsif input == "N"
-        use_flag = false
       else
-        ask_for_flag 
+        puts "No flags remaining"
+        use_flag = false
       end
+    elsif input == "N"
+      use_flag = false
     else
-      puts "No flags remaining"
+      ask_for_flag 
     end
     use_flag
   end

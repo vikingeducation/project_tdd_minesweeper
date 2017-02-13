@@ -54,7 +54,7 @@ describe Board do
     describe "#add_to_board" do 
     it "sets valid piece in place" do
       subject.add_to_board([0, 0], "C")
-      expect(subject.board).to eq([ 
+      expect(subject.board_arr).to eq([ 
         ["C", nil, nil, nil, nil, nil, nil, nil, nil, nil],
         [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
         [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],

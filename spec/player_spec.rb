@@ -37,9 +37,18 @@ describe Player do
         /Do you want to flag this cell as marked with a mine?.*/).to_stdout
     end
 
+
     it "returns a flag of true if the user has chosen to flag a cell" do
       allow(player).to receive(:gets).and_return("Y")
       expect(player.ask_for_flag).to be true
+    end
+
+    xit "Tells the user there are no flags remaining when the limit is reached" do
+    #   # first stub out `gets` and pass it a value so that it doesn't hang waiting for input
+      
+      allow(player).to receive(:gets).and_return("Y")
+      expect{player.ask_for_flag}.to output(
+        /No flags remaining/).to_stdout
     end
   end
 
@@ -54,9 +63,6 @@ describe Player do
       allow(player).to receive(:gets).and_return("3,2")
       expect(player.ask_for_coordinates).to eq([3,2])
     end
-
-   
-
   end
 
 
