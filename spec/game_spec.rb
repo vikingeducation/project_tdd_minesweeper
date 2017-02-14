@@ -15,4 +15,16 @@ describe Game do
       subject.play
     end
   end
+
+  describe "#check_game_over" do
+    game = Game.new
+    game.game_over = true
+    it "retruns true if the game is over" do
+      expect(game.check_game_over).to be true
+    end
+  end
+  # it "displays an error message if coordindates count is less than 2" do
+  #     expect{ player.validate_coordinates_format([1])}.to output("Your coordinates are in the improper format!\n").to_stdout
+  #   end
+  # end
 end

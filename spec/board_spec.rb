@@ -31,7 +31,23 @@ describe Board do
         ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
         ["1", "C", "1", "F", "C", "C", "F", "2", "F", "1"]] )
 
-      expect{full_board.render}.to output("\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1C1FCCF2F1\n\n").to_stdout
+      expect{full_board.render}.to output("\n1C-FCCF2F1\n1C-FCCF2F1\n1C-FCCF2F1\n1C-FCCF2F1\n1C-FCCF2F1\n1C-FCCF2F1\n1C-FCCF2F1\n1C-FCCF2F1\n1C-FCCF2F1\n1C1FCCF2F1\n\n").to_stdout
+    end
+
+    it "displays board with mines if a value of true is passed in render" do
+      full_board = Board.new([
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
+        ["1", "C", "1", "F", "C", "C", "F", "2", "F", "1"]] )
+
+      expect{full_board.render(true)}.to output("\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1CXFCCF2F1\n1C1FCCF2F1\n\n").to_stdout
     end
 
     it "displays an in-progress board" do
@@ -183,46 +199,4 @@ describe Board do
       expect(mines_board.mine.mine_arr.size).to eq(9)
     end
   end
-
-
-  # describe "#num_adj_mines" do
-  #   it "returns the number of adjacent mines to a particular cell reference" do
-  #     board_with_mines = Board.new( [
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "X", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "X", "F", "C", "C", "F", "2", "F", "1"],
-  #       ["1", "C", "1", "F", "C", "C", "F", "2", "F", "1"]])
-  #     expect(board_with_mines.num_adj_mines([2,1])).to eq(2)
-
-
-  #     puts "#{board_with_mines[[2][1]]}"
-  #   end
-  # end
-
-
-
-    # describe "#update_clear_neighbours" do
-    #   it "updates neighbouring automatically if there are no mines nearby" do
-    #     auto_clear_board = Board.new( [
-    #     ["C", nil, nil, nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, "X", nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, "X", nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
-    #     [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil] ]  )
-    #     auto_clear_board.update_clear_neighbours([0,9])
-    #     expect{auto_clear_board.render}.to output("\nC--------\n---------\n--X------\n--X------\n---------\n---------\n---------\n---------\n---------\n---------\n\n").to_stdout
-    #   end
-
-    # end
 end
