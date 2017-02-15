@@ -34,39 +34,50 @@ attr_accessor :player, :board, :game_over
 
          # If the user is flagging the cell and has flags remaining  ask for the next input
         if(flag)
-          @player.flags -= 1
-          puts "Remaining flags #{@player.flags}"
-          @board.add_to_board(coords, "F")
+          process_flag
         elsif (@board.board_arr[ coords[0] ][ coords[1] ] == "X")
           @game_over = true
         elsif mines_near > 0
           @board.add_to_board(coords, mines_near.to_s)
-          @board.update_neighbour_refs(coords)
         else
-          @board.add_to_board(coords, "C")
+          process_clear_cell
         end
-
-        if(!game_over)
-          @board.render
-        end
-        
       end
-      break if check_game_over
+      break if win? || @game_over
+    end
+    final_user_output
+    final_board_output
+  end
+
+  def process_clear_cell
+    @board.add_to_board(coords, "C")
+    @board.update_neighbour_refs(coords)
+  end
+
+  def process_flag
+    @player.flags -= 1
+    puts "Remaining flags #{@player.flags}"
+    @board.add_to_board(coords, "F")
+  end
+
+  def process_adj_mines
+    @board.add_to_board(coords, mines_near.to_s)
+  end
+
+  def win?
+    @board.full?
+  end
+
+  def final_user_output
+    if win? 
+      puts "You won! You conquered minesweeper!"
+    elsif @game_over
+      puts "Sorry you lost! Try again next time!"
     end
   end
 
-
-  def check_game_over
-    if (board.full?)
-      puts "You won! You conquered minesweeper!"
-      @board.render(true)
-      true
-    elsif (game_over)
-      puts "Sorry you lost! Try again next time!"
-      @board.render(true)
-      true
-    else
-      false
-    end
+  def final_board_output
+    show_mines = win? || game_over
+    @board.render(show_mines)
   end
 end

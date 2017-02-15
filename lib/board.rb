@@ -93,10 +93,6 @@ class Board
       next unless (0..8).include?(neighbour[0]) && (0..8).include?(neighbour[1])
 
       add_to_board(cell, "C")
-
-      # unless @minefield.all_tiles[neighbor[0]][neighbor[1]].revealed
-      #   reveal(neighbor)
-      # end
     end
   end
 end

@@ -43,10 +43,10 @@ describe Player do
       expect(player.ask_for_flag).to be true
     end
 
-    xit "Tells the user there are no flags remaining when the limit is reached" do
+    it "Tells the user there are no flags remaining when the limit is reached" do
     #   # first stub out `gets` and pass it a value so that it doesn't hang waiting for input
-      
       allow(player).to receive(:gets).and_return("Y")
+      player.flags = 0
       expect{player.ask_for_flag}.to output(
         /No flags remaining/).to_stdout
     end
@@ -64,7 +64,4 @@ describe Player do
       expect(player.ask_for_coordinates).to eq([3,2])
     end
   end
-
-
-
 end
