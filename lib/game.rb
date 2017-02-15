@@ -34,33 +34,34 @@ attr_accessor :player, :board, :game_over
 
          # If the user is flagging the cell and has flags remaining  ask for the next input
         if(flag)
-          process_flag
+          process_flag(coords)
         elsif (@board.board_arr[ coords[0] ][ coords[1] ] == "X")
           @game_over = true
         elsif mines_near > 0
-          @board.add_to_board(coords, mines_near.to_s)
+          process_adj_mines(coords, mines_near)
         else
-          process_clear_cell
+          process_clear_cell(coords)
         end
+        show_board
       end
+
       break if win? || @game_over
     end
-    final_user_output
-    final_board_output
+    # show_board
   end
 
-  def process_clear_cell
+  def process_clear_cell(coords)
     @board.add_to_board(coords, "C")
-    @board.update_neighbour_refs(coords)
+    @board.update_clear_neighbours(coords)
   end
 
-  def process_flag
+  def process_flag(coords)
     @player.flags -= 1
     puts "Remaining flags #{@player.flags}"
     @board.add_to_board(coords, "F")
   end
 
-  def process_adj_mines
+  def process_adj_mines(coords, mines_near)
     @board.add_to_board(coords, mines_near.to_s)
   end
 
@@ -76,7 +77,7 @@ attr_accessor :player, :board, :game_over
     end
   end
 
-  def final_board_output
+  def show_board
     show_mines = win? || game_over
     @board.render(show_mines)
   end

@@ -20,21 +20,21 @@ describe Game do
   describe "#process_clear_cell" do
     it "updates a spot that is clear as well as surrounding cells" do
       expect_any_instance_of(Game).to receive(:process_clear_cell)
-      subject.process_clear_cell
+      subject.process_clear_cell([0,0])
     end
   end
 
   describe "#process_flag" do
     it "processes the flag input" do
       expect_any_instance_of(Game).to receive(:process_flag)
-      subject.process_flag
+      subject.process_flag([1,2])
     end
   end
 
    describe "#process_adj_mines" do
     it "processes the scenario where there are nearby mines to a cell" do
       expect_any_instance_of(Game).to receive(:process_adj_mines)
-      subject.process_adj_mines
+      subject.process_adj_mines([4,5], "1")
     end
   end
 
