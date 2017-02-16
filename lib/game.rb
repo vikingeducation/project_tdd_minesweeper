@@ -16,23 +16,15 @@ attr_accessor :player, :board, :game_over
   def play
 
     @board.add_mines_to_board(9)
-    puts "#{@board.mine.mine_arr}"
     
     loop do
       coords = @player.get_coordinates
       flag = @player.ask_for_flag
 
       if(@board.location_valid?(coords))
-
-        puts "board location valid"
         # Check if there are mines adjacent to the cell ref chosen
          mines_near = @board.num_adj_mines(coords)
 
-         puts "number of mines nearby #{mines_near}"
-
-         puts "Do we flag this cell #{flag}"
-
-         # If the user is flagging the cell and has flags remaining  ask for the next input
         if(flag)
           process_flag(coords)
         elsif (@board.board_arr[ coords[0] ][ coords[1] ] == "X")
@@ -47,7 +39,6 @@ attr_accessor :player, :board, :game_over
 
       break if win? || @game_over
     end
-    # show_board
   end
 
   def process_clear_cell(coords)
