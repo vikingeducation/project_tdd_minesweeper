@@ -15,9 +15,9 @@ class Board
     puts
     @board_arr.each do |row|
       row.each do |cell|
-        # Dont display the position of the mines when rendering
         if (cell.nil?)
-          print("-")  
+          print("-")
+          # Dont display the position of the mines when rendering  
         elsif (cell == "X" && reveal_all == false)
            print("-")
         else
@@ -92,7 +92,7 @@ class Board
       neighbour = [adj_cell[0] + cell[0], adj_cell[1] + cell[1]]
 
       puts "#{neighbour}"
-      next unless (0..8).include?(neighbour[0]) && (0..8).include?(neighbour[1])
+      next unless (0..9).include?(neighbour[0]) && (0..9).include?(neighbour[1])
 
       add_to_board(neighbour, "C")
     end
