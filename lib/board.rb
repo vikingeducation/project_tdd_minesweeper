@@ -90,9 +90,11 @@ class Board
 
     all_directions.each do |adj_cell|
       neighbour = [adj_cell[0] + cell[0], adj_cell[1] + cell[1]]
+
+      puts "#{neighbour}"
       next unless (0..8).include?(neighbour[0]) && (0..8).include?(neighbour[1])
 
-      add_to_board(cell, "C")
+      add_to_board(neighbour, "C")
     end
   end
 end
