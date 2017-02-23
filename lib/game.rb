@@ -81,4 +81,13 @@ class Game
     board[x][y] = :C
   end
 
+  def place_flag!(x, y)
+    if flags_remaining > 0 && (board[x][y].nil? || board[x][y] == :B)
+      app_state[:flags_remaining] -= 1
+      board[x][y] = :F
+    else
+      false
+    end
+  end
+
 end

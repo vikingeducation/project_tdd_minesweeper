@@ -67,4 +67,34 @@ describe Game do
     end
   end
 
+  describe "#place_flag!" do
+    it "should place a flag on the referenced axis" do
+      game.place_flag!(0, 0)
+      expect(game.board[0][0]).to eq(:F)
+    end
+
+    it "should only be able to place flags on uncleared spaces" do
+      game.app_state[:board][0][0] = :C
+      game.app_state[:board][1][1] = :F
+      game.app_state[:board][2][2] = :B
+      game.app_state[:board][3][3] = nil
+      expect(game.place_flag!(0, 0)).to be(false)
+      expect(game.place_flag!(1, 1)).to be(false)
+      expect(game.place_flag!(2, 2)).to eq(:F)
+      expect(game.place_flag!(3, 3)).to eq(:F)
+    end
+
+    it "shouldn't place more flags if there are no more remaining" do
+      game.app_state[:flags_remaining] = 0
+      expect(game.place_flag!(0,0)).to be(false)
+    end
+
+    it "should update the remaining flag counter" do
+      flags_before = game.flags_remaining
+      game.place_flag!(0, 0)
+      flags_after = game.flags_remaining
+      expect(flags_after).to eq(flags_before - 1)
+    end
+  end
+
 end
