@@ -60,5 +60,11 @@ describe Game do
     end
   end
 
+  describe "#clear_square!" do
+    it "marks a square as :C" do
+      game.clear_square!(0, 0)
+      expect(game.board[0][0]).to eq(:C)
+    end
+  end
 
 end

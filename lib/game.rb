@@ -77,6 +77,8 @@ class Game
     (1..cols).each{ |i| print " #{i} " }
   end
 
-
+  def clear_square!(x, y)
+    board[x][y] = :C
+  end
 
 end
