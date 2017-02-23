@@ -40,5 +40,23 @@ class Game
     end
   end
 
+  def render_board
+    puts
+    board.each_with_index do |row, i|
+      if i+1 >= 10
+        print "#{i+1} "
+      else
+        print "#{i+1}  "
+      end
+      row.each do |cell|
+        cell.nil? ? print(" - ") : print(" #{cell.to_s} ")
+      end
+      puts
+    end
+    print "   "
+    cols = board[0].length
+    (1..cols).each{ |i| print " #{i} " }
+  end
+
 
 end
