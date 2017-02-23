@@ -53,6 +53,8 @@ class Game
 
   def render_board
     puts
+    puts "Remaining flags: #{flags_remaining}"
+    puts
     board.each_with_index do |row, i|
       # compensating spacing for two digit integer
       i+1 >= 10 ? print("#{i+1} ") : print("#{i+1}  ")
