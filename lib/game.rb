@@ -90,4 +90,28 @@ class Game
     end
   end
 
+  def game_loop
+  end
+
+  def instructions
+    info = [
+      "**** MineSweep ****",
+      "Welcome to MineSweep",
+      "On each turn choose the action and the axis you'd like to perform it on",
+      "Valid actions are:",
+      "Clear the square: c",
+      "Flag a square: f",
+      "You should provide first the action, followed by the x and y axis",
+      "in the following form:",
+      "c, 5, 5",
+      "Have fun"
+    ]
+    render(info)
+  end
+
+  def play
+    instructions
+    game_loop
+  end
+
 end

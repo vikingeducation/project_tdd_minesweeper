@@ -97,4 +97,18 @@ describe Game do
     end
   end
 
+  describe "#play" do
+    it "should display the instructions" do
+      allow(game).to receive(:game_loop).and_return(nil)
+      expect(game).to receive(:instructions)
+      game.play
+    end
+
+    it "should begin the game loop" do
+      allow(game).to receive(:instructions).and_return(nil)
+      expect(game).to receive(:game_loop).and_return(nil)
+      game.play
+    end
+  end
+
 end
