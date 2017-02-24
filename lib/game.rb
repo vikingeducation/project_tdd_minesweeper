@@ -9,7 +9,8 @@ class Game
       mine_positions: [],
       flags_remaining: 9,
       valid_actions: [:C, :F],
-      status: {}
+      status: {},
+      show_bombs?: false
     }
   end
 
@@ -35,6 +36,10 @@ class Game
 
   def status
     app_state[:status]
+  end
+
+  def show_bombs?
+    app_state[:show_bombs?]
   end
 
   # ----------------------------------------------------------------------
@@ -88,10 +93,14 @@ class Game
       row.each_with_index do |cell, col_i|
         if cell.nil?
           print " - "
-        elsif flagged?(row_i, col_i) #cell[:flagged?]
+        elsif flagged?(row_i, col_i)
           print " F "
-        elsif mine?(row_i, col_i) #cell[:mine?]
-          print " - "
+        elsif mine?(row_i, col_i)
+          if show_bombs?
+            print " B "
+          else
+            print " - "
+          end
         elsif cell[:count].zero?
           print "   "
         elsif (1..9).include?(cell[:count])
@@ -163,6 +172,7 @@ class Game
   def clear_square!(x, y)
     if mine?(x, y)
       app_state[:status] = {lose: "You've hit a bomb!\nGame over!"}
+      return false
     else
       nmc = nearby_mine_count(x, y)
       if flagged?(x, y)
@@ -232,7 +242,9 @@ class Game
     render_board
     place_move!(player_input)
     if status[:lose]
+      app_state[:show_bombs?] = true
       render(status[:lose])
+      render_board
     else
       game_loop
     end
