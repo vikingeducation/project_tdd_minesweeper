@@ -63,8 +63,37 @@ describe Game do
   describe "#clear_square!" do
     it "marks a square as :C" do
       game.clear_square!(0, 0)
-      expect(game.board[0][0]).to eq(:C)
+      expect(game.board[0][0]).to eq(0)
     end
+
+    it "ends the game if there's a bomb on the square" do
+      game.app_state[:board][0][0] = :B
+      expect(game.clear_square!(0, 0)).to eq(false)
+      expect(game.status.keys.first).to eq(:lose)
+    end
+
+    it "exposes that square nearby mine counts to one mine" do
+      game.app_state[:board][0][1] = :B
+      game.clear_square!(0, 0)
+      expect(game.board[0][0]).to eq(1)
+    end
+
+    it "exposes that square nearby mine counts to two mines" do
+      game.app_state[:board][0][1] = :B
+      game.app_state[:board][1][1] = :B
+      game.clear_square!(0, 0)
+      expect(game.board[0][0]).to eq(2)
+    end
+
+    it "exposes that square nearby mine counts to three mines" do
+      game.app_state[:board][0][0] = :B
+      game.app_state[:board][0][1] = :B
+      game.app_state[:board][0][2] = :B
+      game.clear_square!(1, 1)
+      expect(game.board[1][1]).to eq(3)
+    end
+
+
   end
 
   describe "#place_flag!" do
@@ -104,10 +133,46 @@ describe Game do
       game.play
     end
 
+    it "should place the generated mines on the board" do
+      allow(game).to receive(:game_loop).and_return(nil)
+      allow(game).to receive(:instructions).and_return(nil)
+      mines = game.generate_mines
+      allow(game).to receive(:plant_mines!).with(mines)
+      expect(game).to receive(:plant_mines!)
+      game.play
+    end
+
     it "should begin the game loop" do
       allow(game).to receive(:instructions).and_return(nil)
       expect(game).to receive(:game_loop).and_return(nil)
       game.play
+    end
+  end
+
+  describe "#player_input" do
+    let(:valid_raw_input){ "c, 1, 1" }
+    let(:sanitized_input){ [:C, 0, 0] }
+
+    it "prompts the player for input" do
+      expect(game).to receive(:gets).and_return(valid_raw_input)
+      game.player_input
+    end
+
+    it "sanitizes and validates the user input, until a valid input comes" do
+      invalid_action = "fuck, 1, 1"
+      invalid_axis = "c, 100, 100"
+      allow(game).to receive(:gets).and_return(invalid_action, valid_raw_input)
+      result = game.player_input
+      expect(result).to eq(sanitized_input)
+    end
+  end
+
+  describe "#place_move!" do
+    it "makes the move according to the user input" do
+      game.place_move!([:F, 0, 0])
+      expect(game.board[0][0]).to eq(:F)
+      game.place_move!([:C, 1, 1])
+      expect(game.board[1][1]).to eq(0)
     end
   end
 
