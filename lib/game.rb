@@ -155,12 +155,24 @@ class Game
     end
   end
 
+  def unflag!(x, y)
+    app_state[:flags_remaining] += 1
+    board[x][y][:flagged?] = false
+  end
+
   def clear_square!(x, y)
     if mine?(x, y)
       app_state[:status] = {lose: "You've hit a bomb!\nGame over!"}
-      false
     else
       nmc = nearby_mine_count(x, y)
+      if flagged?(x, y)
+        if app_state[:mine_positions].include?([x, y])
+          app_state[:status] = {lose: "You've hit a bomb!\nGame over!"}
+          return false
+        else
+          unflag!(x, y)
+        end
+      end
       board[x][y] ? board[x][y][:count] = nmc : board[x][y] = {count: nmc}
       #board[x][y] = nmc
       clear_surrounding_squares!(x, y) if nmc.zero?
