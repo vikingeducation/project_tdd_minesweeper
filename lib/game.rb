@@ -39,6 +39,11 @@ class Game
   # app state
   # ----------------------------------------------------------------------
 
+  def within_board_limits(x, y)
+    rows, cols = board.length, board[0].length
+    (0...rows).include?(x) && (0...cols).include?(y)
+  end
+
   def generate_mines
     rows, cols = board.length, board[0].length
     (0...mines).reduce([]) do |acc, i|
@@ -96,7 +101,7 @@ class Game
   def nearby_mine_count(x, y)
     (x-1..x+1).reduce(0) do |acc, x_|
       acc + (y-1..y+1).reduce(0) do |partial, y_|
-        if x_ < 0 || y_ < 0
+        if !within_board_limits(x_, y_)
           partial
         elsif board[x_][y_] == :B
           partial + 1
@@ -107,12 +112,26 @@ class Game
     end
   end
 
+  def clear_surrounding_squares!(x, y)
+    rows, cols = board.length, board[0].length
+    (x-1..x+1).each do |x_|
+      (y-1..y+1).each do |y_|
+        next if not within_board_limits(x_, y_)
+        next if not board[x_][y_].nil?
+        clear_square!(x_, y_)
+      end
+    end
+  end
+
   def clear_square!(x, y)
     if board[x][y] == :B
       app_state[:status] = {lose: "You've hit a bomb!\nGame over!"}
       false
     else
-      board[x][y] = nearby_mine_count(x, y)
+      nmc = nearby_mine_count(x, y)
+      board[x][y] = nmc
+      clear_surrounding_squares!(x, y) if nmc.zero?
+      true
     end
   end
 

@@ -20,6 +20,18 @@ describe Game do
     end
   end
 
+  describe "#within_board_limits" do
+    it "returns true if the given coordinates are within_board_limits" do
+      expect(game.within_board_limits(0, 0)).to be(true)
+      expect(game.within_board_limits(5, 5)).to be(true)
+    end
+
+    it "returns false if the given coordinates are not within_board_limits" do
+      expect(game.within_board_limits(-1, -1)).to be(false)
+      expect(game.within_board_limits(100, 100)).to be(false)
+    end
+  end
+
   describe "#generate_mines" do
     it "returns an array of axis with equivalent number of mines" do
       expect(game.generate_mines.length).to eq(game.mines)
@@ -93,7 +105,10 @@ describe Game do
       expect(game.board[1][1]).to eq(3)
     end
 
-
+    it "auto clears when there are no nearby bombs" do
+      game.clear_square!(0, 0)
+      expect(game.board[5][5]).to eq(0)
+    end
   end
 
   describe "#place_flag!" do
