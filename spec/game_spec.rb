@@ -46,11 +46,13 @@ describe Game do
   end
 
   describe "#plant_mines!" do
+    let(:mine){ {mine?: true} }
+
     it "plants mines on the positions given by #generate_mines" do
       positions = game.generate_mines
       game.plant_mines!(positions)
       x, y = positions.sample
-      expect(game.board[x][y]).to eq(:B)
+      expect(game.board[x][y]).to eq(mine)
     end
   end
 
@@ -73,59 +75,76 @@ describe Game do
   end
 
   describe "#clear_square!" do
-    it "marks a square as :C" do
+    let(:is_mine){ {mine?: true} }
+    let(:no_nearby_mines){ {count: 0} }
+    let(:one_nearby_mine){ {count: 1} }
+    let(:two_nearby_mines){ {count: 2} }
+    let(:three_nearby_mines){ {count: 3} }
+
+    it "can clear an empty square" do
       game.clear_square!(0, 0)
-      expect(game.board[0][0]).to eq(0)
+      expect(game.board[0][0]).to eq({count: 0})
     end
 
     it "ends the game if there's a bomb on the square" do
-      game.app_state[:board][0][0] = :B
-      expect(game.clear_square!(0, 0)).to eq(false)
+      game.app_state[:board][0][0] = is_mine
+      expect(game.clear_square!(0, 0)).to be(false)
       expect(game.status.keys.first).to eq(:lose)
     end
 
     it "exposes that square nearby mine counts to one mine" do
-      game.app_state[:board][0][1] = :B
+      game.app_state[:board][0][1] = is_mine
       game.clear_square!(0, 0)
-      expect(game.board[0][0]).to eq(1)
+      expect(game.board[0][0]).to eq(one_nearby_mine)
     end
 
     it "exposes that square nearby mine counts to two mines" do
-      game.app_state[:board][0][1] = :B
-      game.app_state[:board][1][1] = :B
+      game.app_state[:board][0][1] = is_mine
+      game.app_state[:board][1][1] = is_mine
       game.clear_square!(0, 0)
-      expect(game.board[0][0]).to eq(2)
+      expect(game.board[0][0]).to eq(two_nearby_mines)
     end
 
     it "exposes that square nearby mine counts to three mines" do
-      game.app_state[:board][0][0] = :B
-      game.app_state[:board][0][1] = :B
-      game.app_state[:board][0][2] = :B
+      game.app_state[:board][0][0] = is_mine
+      game.app_state[:board][0][1] = is_mine
+      game.app_state[:board][0][2] = is_mine
       game.clear_square!(1, 1)
-      expect(game.board[1][1]).to eq(3)
+      expect(game.board[1][1]).to eq(three_nearby_mines)
     end
+
+    it "exposes that square nearby mine counts up and down" do
+      game.app_state[:board][6][0] = is_mine
+      game.app_state[:board][8][0] = is_mine
+      game.clear_square!(5, 5)
+      game.clear_square!(7, 0)
+      expect(game.board[7][0]).to eq(two_nearby_mines)
+    end
+
 
     it "auto clears when there are no nearby bombs" do
       game.clear_square!(0, 0)
-      expect(game.board[5][5]).to eq(0)
+      expect(game.board[5][5]).to eq(no_nearby_mines)
     end
   end
 
   describe "#place_flag!" do
+    let(:is_mine){ {mine?: true} }
+
     it "should place a flag on the referenced axis" do
       game.place_flag!(0, 0)
-      expect(game.board[0][0]).to eq(:F)
+      expect(game.flagged?(0, 0)).to be(true)
     end
 
     it "should only be able to place flags on uncleared spaces" do
-      game.app_state[:board][0][0] = :C
-      game.app_state[:board][1][1] = :F
-      game.app_state[:board][2][2] = :B
+      game.clear_square!(0, 0)
+      game.place_flag!(1, 1)
+      game.app_state[:board][2][2] = is_mine
       game.app_state[:board][3][3] = nil
       expect(game.place_flag!(0, 0)).to be(false)
       expect(game.place_flag!(1, 1)).to be(false)
-      expect(game.place_flag!(2, 2)).to eq(:F)
-      expect(game.place_flag!(3, 3)).to eq(:F)
+      expect(game.place_flag!(2, 2)).to be(true)
+      expect(game.place_flag!(3, 3)).to be(true)
     end
 
     it "shouldn't place more flags if there are no more remaining" do
@@ -165,7 +184,7 @@ describe Game do
   end
 
   describe "#player_input" do
-    let(:valid_raw_input){ "c, 1, 1" }
+    let(:valid_raw_input){ "c 1 1" }
     let(:sanitized_input){ [:C, 0, 0] }
 
     it "prompts the player for input" do
@@ -183,11 +202,21 @@ describe Game do
   end
 
   describe "#place_move!" do
+    let(:flagged){ {flagged?: true} }
+    let(:no_nearby_mines){ {count: 0} }
+
     it "makes the move according to the user input" do
       game.place_move!([:F, 0, 0])
-      expect(game.board[0][0]).to eq(:F)
+      expect(game.board[0][0]).to eq(flagged)
       game.place_move!([:C, 1, 1])
-      expect(game.board[1][1]).to eq(0)
+      expect(game.board[1][1]).to eq(no_nearby_mines)
+    end
+  end
+
+  describe "#board_full?" do
+    it "returns true if there are no more nil cells" do
+      game.clear_square!(5,5)
+      expect(game.board_full?).to be(true)
     end
   end
 

@@ -5,6 +5,8 @@ class Game
     @app_state = {
       board: Array.new(10){ Array.new(10) },
       mines: 9,
+      flags: [],
+      mine_positions: [],
       flags_remaining: 9,
       valid_actions: [:C, :F],
       status: {}
@@ -54,7 +56,8 @@ class Game
 
   def plant_mines!(mine_positions)
     mine_positions.each do |x, y|
-      board[x][y] = :B
+      app_state[:mine_positions] << [x, y]
+      board[x][y].nil? ? board[x][y] = {mine?: true} : board[x][y][:mine?] = true
     end
   end
 
@@ -74,28 +77,57 @@ class Game
     puts
     puts "Remaining flags: #{flags_remaining}"
     puts
-    board.each_with_index do |row, i|
-      # compensating spacing for two digit integer
-      i+1 >= 10 ? print("#{i+1} ") : print("#{i+1}  ")
-      row.each do |cell|
-        case cell
-          when nil
-            print " - "
-          when :B
-            print " - "
-          when :F
-            print " F "
-          when 0
-            print "   "
-          when 1..9
-            print " #{cell} "
-        end
-      end
-      puts
-    end
     print "   "
     cols = board[0].length
     (1..cols).each{ |i| print " #{i} " }
+    puts
+    puts
+    board.each_with_index do |row, row_i|
+      # compensating spacing for two digit integer
+      row_i+1 >= 10 ? print("#{row_i+1} ") : print("#{row_i+1}  ")
+      row.each_with_index do |cell, col_i|
+        if cell.nil?
+          print " - "
+        elsif flagged?(row_i, col_i) #cell[:flagged?]
+          print " F "
+        elsif mine?(row_i, col_i) #cell[:mine?]
+          print " - "
+        elsif cell[:count].zero?
+          print "   "
+        elsif (1..9).include?(cell[:count])
+          print " #{cell[:count]} "
+        end
+      end
+      print("  #{row_i+1}")
+      puts
+    end
+    puts
+    print "   "
+    (1..cols).each{ |i| print " #{i} " }
+  end
+
+  def mine?(x, y)
+    cell = board[x][y]
+    if cell.nil?
+      false
+    else
+      cell[:mine?] ? true : false
+    end
+  end
+
+  def board_full?
+    board.all? do |row|
+      row.none?(&:nil?)
+    end
+  end
+
+  def flagged?(x, y)
+    cell = board[x][y]
+    if cell.nil?
+      false
+    else
+      cell[:flagged?] ? true : false
+    end
   end
 
   def nearby_mine_count(x, y)
@@ -103,7 +135,7 @@ class Game
       acc + (y-1..y+1).reduce(0) do |partial, y_|
         if !within_board_limits(x_, y_)
           partial
-        elsif board[x_][y_] == :B
+        elsif mine?(x_, y_)
           partial + 1
         else
           partial
@@ -124,28 +156,31 @@ class Game
   end
 
   def clear_square!(x, y)
-    if board[x][y] == :B
+    if mine?(x, y)
       app_state[:status] = {lose: "You've hit a bomb!\nGame over!"}
       false
     else
       nmc = nearby_mine_count(x, y)
-      board[x][y] = nmc
+      board[x][y] ? board[x][y][:count] = nmc : board[x][y] = {count: nmc}
+      #board[x][y] = nmc
       clear_surrounding_squares!(x, y) if nmc.zero?
       true
     end
   end
 
   def place_flag!(x, y)
-    if flags_remaining > 0 && (board[x][y].nil? || board[x][y] == :B)
+    if flags_remaining > 0 && (board[x][y].nil? || mine?(x, y))
+      app_state[:flags] << [x, y]
       app_state[:flags_remaining] -= 1
-      board[x][y] = :F
+      board[x][y] ? board[x][y][:flagged?] = true : board[x][y] = {flagged?: true}
+      true
     else
       false
     end
   end
 
   def sanitize_move(input)
-    action, x, y = input.split(",").map{ |char| char.strip }
+    action, x, y = input.split(" ").map{ |char| char.strip }
     action, x, y = action.upcase.to_sym, x.to_i - 1, y.to_i - 1
     rows, cols = board.length, board[0].length
     if (!valid_actions.include?(action) ||
@@ -173,7 +208,15 @@ class Game
     end
   end
 
+  def win?
+    if board_full?
+      puts "You've won!\nCongratulations!"
+      true
+    end
+  end
+
   def game_loop
+    return if win?
     render_board
     place_move!(player_input)
     if status[:lose]
@@ -193,7 +236,7 @@ class Game
       "Flag a square: f",
       "You should provide first the action, followed by the x and y axis",
       "in the following form:",
-      "c, 5, 5",
+      "c 5 5",
       "Have fun"
     ]
     render(info)
