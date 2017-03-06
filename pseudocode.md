@@ -7,9 +7,10 @@
     Create 100 cells [Cell]
       10 of these cells should have mines [Cell]
     Randomly distribute cells throughout the array [Board]
-    Display initial board with all uncleared cells [Board]
+    Display initial board with all uncleared cells [View]
 
   Start the game [Game]
+    Print game instructions to player [View]
     Loop while game is not lost (player has not "cleared a mine") or won (player has cleared all mines) [Game]
       
       Prompt player for action he wants to take (clear, flag, reset, quit) [Player]
