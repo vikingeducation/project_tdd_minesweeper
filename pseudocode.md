@@ -1,77 +1,81 @@
-# Pseucoding the solution
+# Pseudocoding the solution
 ## Program flow
 ```
   Setup game board [Board]
     Initialize a 10 x 10 array [Board]
     Set initial flags to 10 [Board]
     Create 100 cells [Cell]
-      10 of these cells should be Mines [Mine]
+      10 of these cells should have mines [Cell]
     Randomly distribute cells throughout the array [Board]
     Display initial board with all uncleared cells [Board]
 
   Start the game [Game]
-    Loop while game is not lost (player has not "cleared a mine") or won (player has cleared all mines)
+    Loop while game is not lost (player has not "cleared a mine") or won (player has cleared all mines) [Game]
       
-      Prompt player for action he wants to take (clear, flag, reset, quit)
-      Loop until the player enters a valid action
+      Prompt player for action he wants to take (clear, flag, reset, quit) [Player]
+      Loop until the player enters a valid action [Player]
 
       If the user chooses to clear
-        Prompt player for coordinate of cell he wants to clear
-        Validate that coordinate is valid (within range, cell is uncleared)
-        Print appropriate message to screen if coordinate is invalid
-        Loop until the player enters a valid coordinate
-        Mark the cell as cleared
-          If the cell is a Mine
-            Print game over message to screen
-            Reveal all mines on the board
-            Ask player if he would like to play again
+        Prompt player for coordinate of cell he wants to clear [Player]
+        Validate that coordinate is valid (within range, cell is uncleared) [Board]
+        Print appropriate message to screen if coordinate is invalid [View]
+        Loop until the player enters a valid coordinate [Player]
+        Check if the cell has a mine [Cell]
+          If the cell has a mine
+            Print game over message to screen [View]
+            Reveal all cells with mines on the board [View]
+            Ask player if he would like to play again [Player]
             If the player answers yes
-              Reset game
+              Reset game [Game]
             Else
-              Print exit message to screen
-              Exit program
+              Print exit message to screen [View]
+              Exit program [Game]
           Else
             If all cells except those with mines have been cleared
-              Reveal complete game board
-              Print victory message
-              Ask player if he would like to play again
+              Reveal complete game board [View]
+              Print victory message [View]
+              Ask player if he would like to play again [Player]
               If the player answers yes
-                Reset game
+                Reset game [Game]
               Else
-                Print exit message to screen
-                Exit program
-              
-            Calculate how many adjacent mines the cleared cell has
-            If there are no adjacent mines in the cell
-              Mark the cell as blank
-              Recursively calculate the number of adjacent mines for all adjacent cells
-            Else
-              Update the number of adjacent mines in the cell
-        Display the current game board
+                Print exit message to screen [View]
+                Exit program [Game]
+            
+            Else (not all safe cells have been cleared)  
+              Calculate how many adjacent mines the cleared cell has [Cell]
+              If there are no adjacent mines in the cell
+                Mark the cell as blank [Cell]
+                Recursively calculate the number of adjacent mines for all adjacent cells [Cell]
+              Else
+                Update the number of adjacent mines in the cell [Cell]
+              Display the current game board [View]
 
       If the user chooses to flag
-        Validate that there are still remaining flags
+        Validate that there are still remaining flags [Game]
         If there are no remaining flags
-          Return an error
-          Prompt user for action again
+          Print appropriate message to screen [View]
+          Prompt user for action again [Player]
         Else
-          Prompt player for coordinate of cell he wants to flag
-          Validate that coordinate is valid (within range)
-          Loop until the player enters a valid coordinate
+          Prompt player for coordinate of cell he wants to flag [Player]
+          Validate that coordinate is valid (within range) [Board]
+          Loop until the player enters a valid coordinate [Player]
           If cell is unflagged
-            Flag the cell
-            Decrease remaining flags by 1
+            Set the cell as flagged [Cell]
+            Decrease remaining flags by 1 [Game]
           Else
-            Unflag the cell
-            Increase remaining flags by 1
-        Display the current game board
+            Set the cell as uncleared [Cell]
+            Increase remaining flags by 1 [Game]
+        Display the current game board [View]
 
       If the user chooses to reset
-        Print reset message to screen
-        Reset the game
+        Print reset message to screen [View]
+        Reset the game [Game]
 
       If the user chooses to quit
-        Print exit message to screen
-        Exit program
+        Print exit message to screen [View]
+        Exit program [Game]
 
 ```
+
+## Notes to self
+1. The Cell class should have a means to determine what state the cell is in, i.e is it uncleared / cleared / flagged / contains a mine
