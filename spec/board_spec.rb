@@ -18,8 +18,18 @@ describe "Board" do
       expect(board.grid.all? { |row| row.all? { |cell| cell.nil? } }).to be true
     end
 
+    # acceptance criteria states 9 mines, so we'll go with 9 flags for now
     it "sets the number of flags to 9" do
       expect(board.flags).to eq(9)
+    end
+
+    it "accepts an optional parameter to setup the game grid" do
+      test_grid = [[1, 2, 3],
+                  [4, 5, 6],
+                  [7, 8, 9]]
+
+      test_board = Board.new(test_grid)
+      expect(test_board.grid).to eq(test_grid)
     end
   end
 
