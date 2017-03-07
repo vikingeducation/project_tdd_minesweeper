@@ -1,8 +1,15 @@
 # spec/board_spec.rb
 
+require 'board'
+include Minesweeper
+
 describe "Board" do
+  let (:board) { Board.new }
+
   describe "#initialize" do
-    it "creates a Board"
+    it "creates a Board" do
+      expect(board).to be_a(Board)
+    end
 
     it "sets up a 10 x 10 empty grid"
 
