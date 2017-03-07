@@ -2,13 +2,15 @@
 
 describe "Board" do
   describe "#initialize" do
-    it "sets up a 10 x 10 empty array"
+    it "creates a Board"
+
+    it "sets up a 10 x 10 empty grid"
 
     it "sets the number of flags to 10"
   end
 
   describe "setup_minefield" do
-    it "fills up the array with Cells"
+    it "fills up the grid with Cells"
 
     it "randomly sets 9 Cells to have mines"
   end
