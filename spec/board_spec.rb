@@ -11,9 +11,16 @@ describe "Board" do
       expect(board).to be_a(Board)
     end
 
-    it "sets up a 10 x 10 empty grid"
+    it "sets up a 10 x 10 grid with all elements set to nil" do
+      expect(board.grid).to be_a(Array)
+      expect(board.grid.size).to eq(10)
+      expect(board.grid.all? { |row| row.size == 10 }).to be true
+      expect(board.grid.all? { |row| row.all? { |cell| cell.nil? } }).to be true
+    end
 
-    it "sets the number of flags to 10"
+    it "sets the number of flags to 9" do
+      expect(board.flags).to eq(9)
+    end
   end
 
   describe "setup_minefield" do
