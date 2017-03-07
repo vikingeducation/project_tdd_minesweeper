@@ -11,11 +11,11 @@ describe "Board" do
       expect(board).to be_a(Board)
     end
 
-    it "sets up a 10 x 10 grid with all elements set to nil" do
+    it "sets up a 10 x 10 grid with all elements set to an instance of Cell" do
       expect(board.grid).to be_a(Array)
       expect(board.grid.size).to eq(10)
       expect(board.grid.all? { |row| row.size == 10 }).to be true
-      expect(board.grid.all? { |row| row.all? { |cell| cell.nil? } }).to be true
+      expect(board.grid.all? { |row| row.all? { |cell| cell.is_a?(Cell) } }).to be true
     end
 
     # acceptance criteria states 9 mines, so we'll go with 9 flags for now
@@ -34,8 +34,6 @@ describe "Board" do
   end
 
   describe "setup_minefield" do
-    it "fills up the grid with Cells"
-
     it "randomly sets 9 Cells to have mines"
   end
 
