@@ -10,7 +10,7 @@ describe "Board" do
   describe "setup_minefield" do
     it "fills up the array with Cells"
 
-    it "randomly sets 10 Cells to have mines"
+    it "randomly sets 9 Cells to have mines"
   end
 
   describe "valid_coordinate?" do
