@@ -43,16 +43,16 @@
                 Exit program [Game]
             
             Else (not all safe cells have been cleared)  
-              Calculate how many adjacent mines the cleared cell has [Cell]
+              Calculate how many adjacent mines the cleared cell has [Board]
               If there are no adjacent mines in the cell
                 Mark the cell as blank [Cell]
-                Recursively calculate the number of adjacent mines for all adjacent cells [Cell]
+                Recursively calculate the number of adjacent mines for all adjacent cells [Board]
               Else
                 Update the number of adjacent mines in the cell [Cell]
               Display the current game board [View]
 
       If the user chooses to flag
-        Validate that there are still remaining flags [Game]
+        Validate that there are still remaining flags [Board]
         If there are no remaining flags
           Print appropriate message to screen [View]
           Prompt user for action again [Player]
@@ -62,10 +62,10 @@
           Loop until the player enters a valid coordinate [Player]
           If cell is unflagged
             Set the cell as flagged [Cell]
-            Decrease remaining flags by 1 [Game]
+            Decrease remaining flags by 1 [Board]
           Else
             Set the cell as uncleared [Cell]
-            Increase remaining flags by 1 [Game]
+            Increase remaining flags by 1 [Board]
         Display the current game board [View]
 
       If the user chooses to reset
