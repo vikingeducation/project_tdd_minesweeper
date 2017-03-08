@@ -66,6 +66,10 @@ describe "Board" do
     end
   end
 
+  describe "#adjacent_cells" do
+    it "given the row/col of a cell, returns its adjacent cells as an array"
+  end
+
   describe "#adjacent_mines" do
     it "returns 0 if the number of adjacent mines for the Cell is 0"
 
