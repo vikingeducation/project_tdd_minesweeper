@@ -26,6 +26,7 @@ module Minesweeper
       end
     end
 
+    # checks whether the provided row/col is valid
     def valid_coordinate?(row, col)
       unless row.is_a?(Fixnum) && col.is_a?(Fixnum)
         raise "Your inputs to this method must be integers."
@@ -35,6 +36,7 @@ module Minesweeper
       valid_range.include?(row) && valid_range.include?(col)
     end
 
+    # given the coordinates of a Cell, returns its adjacent Cells
     def adjacent_cells(row, col)
       cells = []
       
@@ -51,18 +53,23 @@ module Minesweeper
       cells
     end
 
+    # given the coordinates of a Cell, calculates how many mines it has
+    # in its adjacent Cells
     def adjacent_mines(row, col)
       adjacent_cells(row, col).count { |cell| cell.mine }
     end
 
+    # determines if there are still flags remaining
     def flags_left?
       flags > 0
     end
 
+    # reduces the number of flags by 1
     def decrement_flags
       @flags -= 1
     end
 
+    # increases the number of flags by 1
     def increment_flags
       @flags += 1
     end
