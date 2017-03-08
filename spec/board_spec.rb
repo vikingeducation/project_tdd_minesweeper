@@ -151,23 +151,89 @@ describe "Board" do
   end
 
   describe "#adjacent_mines" do
-    it "returns 0 if the number of adjacent mines for the Cell is 0"
+    # create an empty grid for testing - we can set mines as required
+    let (:test_grid) { Array.new(10) { Array.new(10) { Cell.new } } }
 
-    it "returns 1 if the number of adjacent mines for the Cell is 1"
+    it "returns 0 if the number of adjacent mines for the Cell is 0" do
+      test_board = Board.new(test_grid)
+      expect(test_board.adjacent_mines(0, 0)).to eq(0)
+    end
 
-    it "returns 2 if the number of adjacent mines for the Cell is 2"
+    it "returns 1 if the number of adjacent mines for the Cell is 1" do
+      test_board = Board.new(test_grid)
+      test_board.grid[0][1].mine = true
+      expect(test_board.adjacent_mines(0, 0)).to eq(1)
+    end
 
-    it "returns 3 if the number of adjacent mines for the Cell is 3"
+    it "returns 2 if the number of adjacent mines for the Cell is 2" do
+      test_board = Board.new(test_grid)
+      test_board.grid[0][1].mine = true
+      test_board.grid[1][0].mine = true
+      expect(test_board.adjacent_mines(0, 0)).to eq(2)
+    end
 
-    it "returns 4 if the number of adjacent mines for the Cell is 4"
+    it "returns 3 if the number of adjacent mines for the Cell is 3" do
+      test_board = Board.new(test_grid)
+      test_board.grid[0][1].mine = true
+      test_board.grid[1][0].mine = true
+      test_board.grid[1][1].mine = true
+      expect(test_board.adjacent_mines(0, 0)).to eq(3)
+    end
 
-    it "returns 5 if the number of adjacent mines for the Cell is 5"
+    it "returns 4 if the number of adjacent mines for the Cell is 4" do
+      test_board = Board.new(test_grid)
+      test_board.grid[9][4].mine = true
+      test_board.grid[9][6].mine = true
+      test_board.grid[8][4].mine = true
+      test_board.grid[8][5].mine = true
+      expect(test_board.adjacent_mines(9, 5)).to eq(4)
+    end
 
-    it "returns 6 if the number of adjacent mines for the Cell is 6"
+    it "returns 5 if the number of adjacent mines for the Cell is 5" do
+      test_board = Board.new(test_grid)
+      test_board.grid[9][4].mine = true
+      test_board.grid[9][6].mine = true
+      test_board.grid[8][4].mine = true
+      test_board.grid[8][5].mine = true
+      test_board.grid[8][6].mine = true
+      expect(test_board.adjacent_mines(9, 5)).to eq(5)
+    end
 
-    it "returns 7 if the number of adjacent mines for the Cell is 7"
+    it "returns 6 if the number of adjacent mines for the Cell is 6" do
+      test_board = Board.new(test_grid)
+      test_board.grid[4][4].mine = true
+      test_board.grid[4][5].mine = true
+      test_board.grid[4][6].mine = true
+      test_board.grid[5][4].mine = true
+      test_board.grid[5][6].mine = true
+      test_board.grid[6][4].mine = true
+      expect(test_board.adjacent_mines(5, 5)).to eq(6)
+    end
 
-    it "returns 8 if the number of adjacent mines for the Cell is 8"
+    it "returns 7 if the number of adjacent mines for the Cell is 7" do
+      test_board = Board.new(test_grid)
+      test_board.grid[4][4].mine = true
+      test_board.grid[4][5].mine = true
+      test_board.grid[4][6].mine = true
+      test_board.grid[5][4].mine = true
+      test_board.grid[5][6].mine = true
+      test_board.grid[6][4].mine = true
+      test_board.grid[6][5].mine = true
+      expect(test_board.adjacent_mines(5, 5)).to eq(7)
+    end
+
+    it "returns 8 if the number of adjacent mines for the Cell is 8" do
+      test_board = Board.new(test_grid)
+      test_board.grid[4][4].mine = true
+      test_board.grid[4][5].mine = true
+      test_board.grid[4][6].mine = true
+      test_board.grid[5][4].mine = true
+      test_board.grid[5][6].mine = true
+      test_board.grid[6][4].mine = true
+      test_board.grid[6][5].mine = true
+      test_board.grid[6][6].mine = true
+      expect(test_board.adjacent_mines(5, 5)).to eq(8)
+    end
   end
 
   describe "#flags_left?" do

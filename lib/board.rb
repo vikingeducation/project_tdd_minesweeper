@@ -51,6 +51,10 @@ module Minesweeper
       cells
     end
 
+    def adjacent_mines(row, col)
+      adjacent_cells(row, col).count { |cell| cell.mine }
+    end
+
     def flags_left?
       flags > 0
     end
