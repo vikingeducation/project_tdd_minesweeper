@@ -105,6 +105,9 @@ describe "Board" do
   end
 
   describe "increment_flags" do
-    it "increases the number of flags remaining by 1"
+    it "increases the number of flags remaining by 1" do
+      board.increment_flags
+      expect(board.flags).to eq(10)
+    end
   end
 end

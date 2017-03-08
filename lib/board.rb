@@ -42,5 +42,9 @@ module Minesweeper
     def decrement_flags
       @flags -= 1
     end
+
+    def increment_flags
+      @flags += 1
+    end
   end
 end
