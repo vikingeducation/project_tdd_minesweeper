@@ -33,7 +33,7 @@ describe "Board" do
     end
   end
 
-  describe "setup_minefield" do
+  describe "#setup_minefield" do
     it "randomly sets 9 Cells in the grid to be mines" do
       board.setup_minefield
 
@@ -48,7 +48,7 @@ describe "Board" do
     end
   end
 
-  describe "valid_coordinate?" do
+  describe "#valid_coordinate?" do
     it "returns true if the provided row and column are within range" do
       expect(board.valid_coordinate?(0, 0)).to be true
       expect(board.valid_coordinate?(9, 9)).to be true
@@ -66,7 +66,7 @@ describe "Board" do
     end
   end
 
-  describe "num_adjacent_mines" do
+  describe "#adjacent_mines" do
     it "returns 0 if the number of adjacent mines for the Cell is 0"
 
     it "returns 1 if the number of adjacent mines for the Cell is 1"
@@ -86,7 +86,7 @@ describe "Board" do
     it "returns 8 if the number of adjacent mines for the Cell is 8"
   end
 
-  describe "flags_left?" do
+  describe "#flags_left?" do
     it "returns true if the number of flags is greater than 0" do
       expect(board.flags_left?).to be true
     end
@@ -97,14 +97,14 @@ describe "Board" do
     end
   end
 
-  describe "decrement_flags" do
+  describe "#decrement_flags" do
     it "decreases the number of flags remaining by 1" do
       board.decrement_flags
       expect(board.flags).to eq(8)
     end
   end
 
-  describe "increment_flags" do
+  describe "#increment_flags" do
     it "increases the number of flags remaining by 1" do
       board.increment_flags
       expect(board.flags).to eq(10)
