@@ -49,11 +49,21 @@ describe "Board" do
   end
 
   describe "valid_coordinate?" do
-    it "returns true if the provided row and column are within range"
+    it "returns true if the provided row and column are within range" do
+      expect(board.valid_coordinate?(0, 0)).to be true
+      expect(board.valid_coordinate?(9, 9)).to be true
+    end
 
-    it "returns false if the provided row and column are not within range"
+    it "returns false if the provided row and column are not within range" do
+      expect(board.valid_coordinate?(-1, -1)).to be false
+      expect(board.valid_coordinate?(10, 10)).to be false
+    end
 
-    it "raises an error if the provided row and column inputs are not integers"
+    it "raises an error if the provided row and column inputs are not integers" do
+      expect { board.valid_coordinate?("1", "2") }.to raise_error(/must be integers/)
+
+      expect { board.valid_coordinate?(Hash.new, Array.new) }.to raise_error(/must be integers/)
+    end
   end
 
   describe "num_adjacent_mines" do

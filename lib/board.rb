@@ -25,5 +25,14 @@ module Minesweeper
         end
       end
     end
+
+    def valid_coordinate?(row, col)
+      unless row.is_a?(Fixnum) && col.is_a?(Fixnum)
+        raise "Your inputs to this method must be integers."
+      end
+
+      valid_range = (0..9).to_a
+      valid_range.include?(row) && valid_range.include?(col)
+    end
   end
 end
