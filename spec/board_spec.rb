@@ -34,7 +34,18 @@ describe "Board" do
   end
 
   describe "setup_minefield" do
-    it "randomly sets 9 Cells to have mines"
+    it "randomly sets 9 Cells in the grid to be mines" do
+      board.setup_minefield
+
+      mine_count = 0
+      board.grid.each do |row|
+        row.each do |cell|
+          mine_count += 1 if cell.mine
+        end
+      end
+
+      expect(mine_count).to eq(9)
+    end
   end
 
   describe "valid_coordinate?" do
