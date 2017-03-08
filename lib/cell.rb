@@ -10,18 +10,21 @@ module Minesweeper
       @adjacent_mine_count = 0
     end
 
+    # sets Cell state
     def state=(state)
       raise "You are trying to set an invalid state." unless [:cleared, :uncleared, :flagged].include?(state)
 
       @state = state
     end
 
+    # sets whether the Cell is a mine
     def mine=(value)
       raise "A cell's mine must be true or false." unless [true, false].include?(value)
 
       @mine = value
     end
 
+    # sets the Cell's adjacent mine count
     def adjacent_mine_count=(value)
       raise "A cell's adjacent_mine_count can only be set to a value from 1 to 8" unless (1..8).include?(value)
 
