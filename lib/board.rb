@@ -38,5 +38,9 @@ module Minesweeper
     def flags_left?
       flags > 0
     end
+
+    def decrement_flags
+      @flags -= 1
+    end
   end
 end
