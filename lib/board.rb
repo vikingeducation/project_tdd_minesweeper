@@ -34,5 +34,9 @@ module Minesweeper
       valid_range = (0..9).to_a
       valid_range.include?(row) && valid_range.include?(col)
     end
+
+    def flags_left?
+      flags > 0
+    end
   end
 end

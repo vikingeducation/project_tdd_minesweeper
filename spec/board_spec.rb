@@ -87,9 +87,14 @@ describe "Board" do
   end
 
   describe "flags_left?" do
-    it "returns true if the number of flags is greater than 0"
+    it "returns true if the number of flags is greater than 0" do
+      expect(board.flags_left?).to be true
+    end
 
-    it "returns false otherwise"
+    it "returns false otherwise" do
+      allow(board).to receive(:flags).and_return(0)
+      expect(board.flags_left?).to be false
+    end
   end
 
   describe "decrement_flags" do
