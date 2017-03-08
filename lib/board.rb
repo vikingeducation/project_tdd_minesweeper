@@ -35,6 +35,22 @@ module Minesweeper
       valid_range.include?(row) && valid_range.include?(col)
     end
 
+    def adjacent_cells(row, col)
+      cells = []
+      
+      (-1..1).each do |row_offset|
+        (-1..1).each do |col_offset|
+          next if row_offset == 0 && col_offset == 0
+          next if row + row_offset < 0 || row + row_offset > 9
+          next if col + col_offset < 0 || col + col_offset > 9
+          
+          cells << grid[row + row_offset][col + col_offset]
+        end
+      end
+
+      cells
+    end
+
     def flags_left?
       flags > 0
     end
