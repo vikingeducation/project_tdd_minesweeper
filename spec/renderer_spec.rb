@@ -40,36 +40,4 @@ describe "Renderer" do
 
     it "also prints all Cells that have already been cleared"
   end
-
-  describe "#welcome" do
-    it "prints a welcome message" do
-      expect { renderer.welcome }.to output(/Welcome to Minesweeper/).to_stdout
-    end
-  end
-
-  describe "#prompt_action" do
-    it "prints a prompt with instructions to the player for his desired action" do
-      expect { renderer.prompt_action }.to output("Do you want to (c)lear, (f)lag, (u)nflag a cell; or (r)eset / (q)uit?\n").to_stdout
-    end
-  end
-
-  describe "#invalid_coords" do
-    it "prints a message indicating the specified coordinates are invalid"
-  end
-
-  describe "#no_flags_left" do
-    it "prints a message indicating that there are no flags left"
-  end
-
-  describe "#reset" do
-    it "prints a message indicating the game has reset"
-  end
-
-  describe "#game_over" do
-    it "prints a message indicating the game is over"
-  end
-
-  describe "#display_exit" do
-    it "prints an exit message"
-  end
 end
