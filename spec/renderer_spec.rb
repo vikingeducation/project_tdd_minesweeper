@@ -1,12 +1,25 @@
 # spec/renderer_spec.rb
 
+require 'renderer'
+include Minesweeper
+
 describe "Renderer" do
   describe "#initialize" do
-    it "creates a Renderer"
+    let (:renderer) { Renderer.new }
 
-    it "sets the game board it's rendering to nil"
+    it "creates a Renderer" do
+      expect(renderer).to be_a(Renderer)
+    end
 
-    it "accepts an optional parameter as the game board it will render"
+    it "sets the game board it's rendering to nil" do
+      expect(renderer.board).to be_nil
+    end
+
+    it "accepts an optional parameter as the game board it will render" do
+      test_board = instance_double("Board")
+      test_renderer = Renderer.new(test_board)
+      expect(test_renderer.board).to eq(test_board)
+    end
   end
 
   describe "#render" do
