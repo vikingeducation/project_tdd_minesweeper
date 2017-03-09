@@ -4,8 +4,9 @@ require 'renderer'
 include Minesweeper
 
 describe "Renderer" do
+  let (:renderer) { Renderer.new }
+
   describe "#initialize" do
-    let (:renderer) { Renderer.new }
 
     it "creates a Renderer" do
       expect(renderer).to be_a(Renderer)
@@ -19,6 +20,14 @@ describe "Renderer" do
       test_board = instance_double("Board")
       test_renderer = Renderer.new(test_board)
       expect(test_renderer.board).to eq(test_board)
+    end
+  end
+
+  describe "#board=" do
+    it "allows the Renderer to be assigned a new board to display" do
+      test_board = instance_double("Board")
+      renderer.board = test_board
+      expect(renderer.board).to eq(test_board)
     end
   end
 
