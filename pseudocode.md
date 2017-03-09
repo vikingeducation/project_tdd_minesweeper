@@ -7,10 +7,10 @@
     Create 100 cells [Cell]
       10 of these cells should have mines [Cell]
     Randomly distribute cells throughout the array [Board]
-    Display initial board with all uncleared cells [View]
+    Display initial board with all uncleared cells [Renderer]
 
   Start the game [Game]
-    Print game instructions to player [View]
+    Print game instructions to player [Renderer]
     Loop while game is not lost (player has not "cleared a mine") or won (player has cleared all mines) [Game]
       
       Prompt player for action he wants to take (clear, flag, reset, quit) [Player]
@@ -19,27 +19,27 @@
       If the user chooses to clear
         Prompt player for coordinate of cell he wants to clear [Player]
         Validate that coordinate is valid (within range, cell is uncleared) [Board]
-        Print appropriate message to screen if coordinate is invalid [View]
+        Print appropriate message to screen if coordinate is invalid [Renderer]
         Loop until the player enters a valid coordinate [Player]
         Check if the cell has a mine [Cell]
           If the cell has a mine
-            Print game over message to screen [View]
-            Reveal all cells with mines on the board [View]
+            Print game over message to screen [Renderer]
+            Reveal all cells with mines on the board [Renderer]
             Ask player if he would like to play again [Player]
             If the player answers yes
               Reset game [Game]
             Else
-              Print exit message to screen [View]
+              Print exit message to screen [Renderer]
               Exit program [Game]
           Else
             If all cells except those with mines have been cleared
-              Reveal complete game board [View]
-              Print victory message [View]
+              Reveal complete game board [Renderer]
+              Print victory message [Renderer]
               Ask player if he would like to play again [Player]
               If the player answers yes
                 Reset game [Game]
               Else
-                Print exit message to screen [View]
+                Print exit message to screen [Renderer]
                 Exit program [Game]
             
             Else (not all safe cells have been cleared)  
@@ -49,12 +49,12 @@
                 Recursively calculate the number of adjacent mines for all adjacent cells [Board]
               Else
                 Update the number of adjacent mines in the cell [Cell]
-              Display the current game board [View]
+              Display the current game board [Renderer]
 
       If the user chooses to flag
         Validate that there are still remaining flags [Board]
         If there are no remaining flags
-          Print appropriate message to screen [View]
+          Print appropriate message to screen [Renderer]
           Prompt user for action again [Player]
         Else
           Prompt player for coordinate of cell he wants to flag [Player]
@@ -66,14 +66,14 @@
           Else
             Set the cell as uncleared [Cell]
             Increase remaining flags by 1 [Board]
-        Display the current game board [View]
+        Display the current game board [Renderer]
 
       If the user chooses to reset
-        Print reset message to screen [View]
+        Print reset message to screen [Renderer]
         Reset the game [Game]
 
       If the user chooses to quit
-        Print exit message to screen [View]
+        Print exit message to screen [Renderer]
         Exit program [Game]
 
 ```
