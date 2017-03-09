@@ -41,8 +41,10 @@ describe "Renderer" do
     it "also prints all Cells that have already been cleared"
   end
 
-  describe "#instructions" do
-    it "prints the game instructions to the player"
+  describe "#welcome" do
+    it "prints a welcome message" do
+      expect { renderer.welcome }.to output(/Welcome to Minesweeper/).to_stdout
+    end
   end
 
   describe "#invalid_coords" do
