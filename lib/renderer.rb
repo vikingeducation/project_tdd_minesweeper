@@ -12,5 +12,9 @@ module Minesweeper
       puts "Good luck clearing the minefield!"
       puts
     end
+
+    def prompt_action
+      puts "Do you want to (c)lear, (f)lag, (u)nflag a cell; or (r)eset / (q)uit?"
+    end
   end
 end

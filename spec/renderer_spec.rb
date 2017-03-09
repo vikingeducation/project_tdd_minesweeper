@@ -47,6 +47,12 @@ describe "Renderer" do
     end
   end
 
+  describe "#prompt_action" do
+    it "prints a prompt with instructions to the player for his desired action" do
+      expect { renderer.prompt_action }.to output("Do you want to (c)lear, (f)lag, (u)nflag a cell; or (r)eset / (q)uit?\n").to_stdout
+    end
+  end
+
   describe "#invalid_coords" do
     it "prints a message indicating the specified coordinates are invalid"
   end
