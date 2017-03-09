@@ -32,12 +32,20 @@ describe "Renderer" do
   end
 
   describe "#render" do
-    it "prints the current state of the game board to screen"
+    it "shows a cleared cell's adjacent mine count if it has adjacent mines"
+
+    it "shows a cleared cell as blank if it does not have adjacent mines"
+
+    it "marks a flagged cell as flagged"
+
+    it "marks an uncleared cell as uncleared"
+
+    it "does not reveal existing mines"
   end
 
-  describe "#only_mines" do
-    it "prints all Cells that are mines"
+  describe "#render_only_mines" do
+    it "reveals all cells with mines"
 
-    it "also prints all Cells that have already been cleared"
+    it "shows all cleared cells"
   end
 end
