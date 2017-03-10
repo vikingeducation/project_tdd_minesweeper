@@ -58,29 +58,6 @@ describe "Cell" do
     end
   end
 
-  describe "#state=" do
-    it "can set the Cell's state to cleared'" do
-      cell.state = :cleared
-      expect(cell.state).to eq(:cleared)
-    end
-
-    it "can set the Cell's state to 'flagged'" do
-      cell.state = :flagged
-      expect(cell.state).to eq(:flagged)
-    end
-
-    it "can set the Cell's state to 'uncleared'" do
-      cell.state = :cleared
-      cell.state = :uncleared
-      expect(cell.state).to eq(:uncleared)
-    end
-
-    it "cannot set the Cell's state to anything else" do
-      expect { cell.state = "blah" }.to raise_error(/invalid state/)
-      expect { cell.state = Hash.new }.to raise_error(/invalid state/)
-    end
-  end
-
   describe "has a mine" do
     it "can be set to true" do
       cell.mine = true

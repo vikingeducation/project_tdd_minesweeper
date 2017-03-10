@@ -10,13 +10,6 @@ module Minesweeper
       @adjacent_mine_count = 0
     end
 
-    # sets Cell state
-    def state=(state)
-      raise "You are trying to set an invalid state." unless [:cleared, :uncleared, :flagged].include?(state)
-
-      @state = state
-    end
-
     def clear
       @state = :cleared
     end
