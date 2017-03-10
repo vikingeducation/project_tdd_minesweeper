@@ -76,7 +76,10 @@ describe "Cell" do
   end
 
   context "number of adjacent mines for a Cell" do
-    it "can be set to a value from 1 to 8" do
+    it "can be set to a value from 0 to 8" do
+      cell.adjacent_mine_count = 0
+      expect(cell.adjacent_mine_count).to eq(0)
+
       cell.adjacent_mine_count = 1
       expect(cell.adjacent_mine_count).to eq(1)
 
@@ -103,7 +106,7 @@ describe "Cell" do
     end
 
     it "cannot be set to any other value" do
-      expect { cell.adjacent_mine_count = "one" }.to raise_error(/1 to 8/)
+      expect { cell.adjacent_mine_count = "one" }.to raise_error(/0 to 8/)
     end
   end
 

@@ -34,7 +34,7 @@ module Minesweeper
 
     # sets the Cell's adjacent mine count
     def adjacent_mine_count=(value)
-      raise "A cell's adjacent_mine_count can only be set to a value from 1 to 8" unless (1..8).include?(value)
+      raise "A cell's adjacent_mine_count can only be set to a value from 0 to 8" unless (0..8).include?(value)
 
       @adjacent_mine_count = value
     end
