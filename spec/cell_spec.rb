@@ -11,7 +11,7 @@ describe "Cell" do
       expect(cell).to be_a(Cell)
     end
 
-    it "sets the Cell's initial state to 'uncleared'" do
+    it "sets the Cell's initial state to :uncleared" do
       expect(cell.state).to eq(:uncleared)
     end
 
@@ -25,7 +25,7 @@ describe "Cell" do
   end
 
   describe "#state=" do
-    it "can set the Cell's state to 'cleared'" do
+    it "can set the Cell's state to cleared'" do
       cell.state = :cleared
       expect(cell.state).to eq(:cleared)
     end
