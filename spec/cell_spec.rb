@@ -58,7 +58,7 @@ describe "Cell" do
     end
   end
 
-  describe "has a mine" do
+  context "whether a Cell has a mine" do
     it "can be set to true" do
       cell.mine = true
       expect(cell.mine).to be true
@@ -75,7 +75,7 @@ describe "Cell" do
     end
   end
 
-  describe "adjacent mine count" do
+  context "number of adjacent mines for a Cell" do
     it "can be set to a value from 1 to 8" do
       cell.adjacent_mine_count = 1
       expect(cell.adjacent_mine_count).to eq(1)
