@@ -17,6 +17,18 @@ module Minesweeper
       @state = state
     end
 
+    def clear
+      @state = :cleared
+    end
+
+    def flag
+      @state = :flagged unless @state == :cleared
+    end
+
+    def unflag
+      @state = :uncleared unless @state == :cleared
+    end
+
     # sets whether the Cell is a mine
     def mine=(value)
       raise "A cell's mine must be true or false." unless [true, false].include?(value)

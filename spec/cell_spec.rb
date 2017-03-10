@@ -25,19 +25,37 @@ describe "Cell" do
   end
 
   describe "#clear" do
-    it "sets the Cell's state to :cleared"
+    it "sets the Cell's state to :cleared" do
+      cell.clear
+      expect(cell.state).to eq(:cleared)
+    end
   end
 
   describe "#flag" do
-    it "sets the Cell's state to :flagged"
+    it "sets the Cell's state to :flagged" do
+      cell.flag
+      expect(cell.state).to eq(:flagged)
+    end
 
-    it "does not allow a cleared cell to be flagged"
+    it "does not allow a cleared cell to be flagged" do
+      cell.clear
+      cell.flag
+      expect(cell.state).to eq(:cleared)
+    end
   end
 
   describe "#unflag" do
-    it "sets the Cell's state to :uncleared"
+    it "sets the Cell's state to :uncleared" do
+      cell.flag
+      cell.unflag
+      expect(cell.state).to eq(:uncleared)
+    end
 
-    it "does not unflag a cleared cell"
+    it "does not unflag a cleared cell" do
+      cell.clear
+      cell.unflag
+      expect(cell.state).to eq(:cleared)
+    end
   end
 
   describe "#state=" do
