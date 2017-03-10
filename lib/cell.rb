@@ -10,14 +10,17 @@ module Minesweeper
       @adjacent_mine_count = 0
     end
 
+    # clears a Cell
     def clear
       @state = :cleared
     end
 
+    # flags a Cell
     def flag
       @state = :flagged unless @state == :cleared
     end
 
+    # unflags a Cell
     def unflag
       @state = :uncleared unless @state == :cleared
     end
