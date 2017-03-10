@@ -121,16 +121,15 @@ describe "Cell" do
         expect(cell.to_s).to eq('F')
       end
 
+      it "returns '-' if a cleared Cell has no adjacent mines" do
+        cell.clear
+        expect(cell.to_s).to eq('-')
+      end
+
       it "returns the adjacent mine count of a cleared Cell" do
         cell.clear
         cell.adjacent_mine_count = 8
         expect(cell.to_s).to eq('8')
-      end
-
-      it "returns '-' if a cleared Cell has no adjacent mines" do
-        cell.clear
-        cell.adjacent_mine_count = 0
-        expect(cell.to_s).to eq('-')
       end
     end
 

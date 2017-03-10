@@ -46,7 +46,11 @@ module Minesweeper
       when :flagged
         'F'
       when :cleared
-        self.mine ? 'X' : adjacent_mine_count.to_s
+        if self.mine
+          'X'
+        else
+          adjacent_mine_count == 0 ? '-' : adjacent_mine_count.to_s
+        end
       end
     end
   end
