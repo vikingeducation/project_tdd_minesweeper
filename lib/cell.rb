@@ -38,5 +38,16 @@ module Minesweeper
 
       @adjacent_mine_count = value
     end
+
+    def to_s
+      case state
+      when :uncleared
+        '.'
+      when :flagged
+        'F'
+      when :cleared
+        self.mine ? 'X' : adjacent_mine_count.to_s
+      end
+    end
   end
 end

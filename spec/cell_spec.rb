@@ -106,4 +106,42 @@ describe "Cell" do
       expect { cell.adjacent_mine_count = "one" }.to raise_error(/1 to 8/)
     end
   end
+
+  context "implementing to_s" do
+    context "Cell does not have a mine" do
+      it "returns '.' if the Cell is uncleared" do
+        expect(cell.to_s).to eq('.')
+      end
+
+      it "returns 'F' if the Cell is flagged" do
+        cell.flag
+        expect(cell.to_s).to eq('F')
+      end
+
+      it "returns the adjacent mine count of a cleared Cell" do
+        cell.clear
+        cell.adjacent_mine_count = 8
+        expect(cell.to_s).to eq('8')
+      end
+
+      it "returns '-' if a cleared Cell has no adjacent mines" do
+        cell.clear
+        cell.adjacent_mine_count = 0
+        expect(cell.to_s).to eq('-')
+      end
+    end
+
+    context "Cell has a mine" do
+      it "returns '.' if the Cell is uncleared" do
+        cell.mine = true
+        expect(cell.to_s).to eq('.')
+      end
+
+      it "returns 'X' if the Cell is cleared" do
+        cell.mine = true
+        cell.clear
+        expect(cell.to_s).to eq('X')
+      end
+    end
+  end
 end
