@@ -24,6 +24,22 @@ describe "Cell" do
     end
   end
 
+  describe "#clear" do
+    it "sets the Cell's state to :cleared"
+  end
+
+  describe "#flag" do
+    it "sets the Cell's state to :flagged"
+
+    it "does not allow a cleared cell to be flagged"
+  end
+
+  describe "#unflag" do
+    it "sets the Cell's state to :uncleared"
+
+    it "does not unflag a cleared cell"
+  end
+
   describe "#state=" do
     it "can set the Cell's state to cleared'" do
       cell.state = :cleared
