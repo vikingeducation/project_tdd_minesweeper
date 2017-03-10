@@ -24,7 +24,7 @@ describe "Cell" do
     end
   end
 
-  context "#state=" do
+  describe "#state=" do
     it "can set the Cell's state to 'cleared'" do
       cell.state = :cleared
       expect(cell.state).to eq(:cleared)
@@ -47,7 +47,7 @@ describe "Cell" do
     end
   end
 
-  context "has a mine" do
+  describe "has a mine" do
     it "can be set to true" do
       cell.mine = true
       expect(cell.mine).to be true
@@ -64,7 +64,7 @@ describe "Cell" do
     end
   end
 
-  context "adjacent mine count" do
+  describe "adjacent mine count" do
     it "can be set to a value from 1 to 8" do
       cell.adjacent_mine_count = 1
       expect(cell.adjacent_mine_count).to eq(1)
