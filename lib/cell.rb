@@ -49,7 +49,7 @@ module Minesweeper
         if self.mine
           'X'
         else
-          adjacent_mine_count == 0 ? '-' : adjacent_mine_count.to_s
+          adjacent_mine_count == 0 ? ' ' : adjacent_mine_count.to_s
         end
       end
     end
