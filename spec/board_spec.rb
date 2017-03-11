@@ -112,9 +112,19 @@ describe "Board" do
   end
 
   describe "#unflag" do
-    it "marks a flagged cell at the provided row/column as uncleared"
+    it "marks a flagged cell at the provided row/column as uncleared" do
+      board.flag(0, 0)
+      board.unflag(0, 0)
+      expect(board.cell_flagged?(0, 0)).to be false
+    end
 
-    it "does not change a cleared cell"
+    it "does not change the state of a cleared cell" do
+      board.clear(0, 0)
+      board.flag(0, 0)
+      board.unflag(0, 0)
+      expect(board.cell_flagged?(0, 0)).to be false
+      expect(board.cell_cleared?(0, 0)).to be true
+    end
   end
 
   describe "#adjacent_cells" do
