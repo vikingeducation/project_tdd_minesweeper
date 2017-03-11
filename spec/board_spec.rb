@@ -103,7 +103,7 @@ describe "Board" do
       expect(board.cell_flagged?(0, 0)).to be true
     end
 
-    it "does not change a cleared cell" do
+    it "does not unflag a cleared cell" do
       board.clear(0, 0)
       board.flag(0, 0)
       expect(board.cell_cleared?(0, 0)).to be true
