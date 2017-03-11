@@ -98,9 +98,17 @@ describe "Board" do
   end
 
   describe "#flag" do
-    it "marks a cell at the provided row/column as flagged"
+    it "marks a cell at the provided row/column as flagged" do
+      board.flag(0, 0)
+      expect(board.cell_flagged?(0, 0)).to be true
+    end
 
-    it "does not change a cleared cell"
+    it "does not change a cleared cell" do
+      board.clear(0, 0)
+      board.flag(0, 0)
+      expect(board.cell_cleared?(0, 0)).to be true
+      expect(board.cell_flagged?(0, 0)).to be false
+    end
   end
 
   describe "#unflag" do

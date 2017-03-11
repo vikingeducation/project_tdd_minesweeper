@@ -61,6 +61,9 @@ module Minesweeper
       grid[row][col].clear
     end
 
+    def flag(row, col)
+      grid[row][col].flag
+    end
 
     # given the coordinates of a Cell, returns its adjacent Cells
     def adjacent_cells(row, col)
