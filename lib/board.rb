@@ -6,9 +6,11 @@ module Minesweeper
                 :flags
 
     def initialize(grid = nil)
-      @grid = grid.nil? ? Array.new(10) { Array.new(10) { Cell.new } } : grid
-      @flags = 9
       @mines = 9
+      @flags = 9
+      @rows = 10
+      @cols = 10
+      @grid = grid.nil? ? Array.new(@rows) { Array.new(@cols) { Cell.new } } : grid  
     end
 
     # randomly sets 9 Cells in the grid to be mines
