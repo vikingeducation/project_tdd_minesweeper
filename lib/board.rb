@@ -35,8 +35,9 @@ module Minesweeper
         raise "Your inputs to this method must be integers."
       end
 
-      valid_range = (0..9).to_a
-      valid_range.include?(row) && valid_range.include?(col)
+      valid_row_range = (0...@rows).to_a
+      valid_col_range = (0...@cols).to_a
+      valid_row_range.include?(row) && valid_col_range.include?(col)
     end
 
     # given the coordinates of a Cell, returns its adjacent Cells
