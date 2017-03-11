@@ -57,6 +57,7 @@ module Minesweeper
       grid[row][col].state == :flagged
     end
 
+    # convenience methods
     def clear(row, col)
       grid[row][col].clear
     end
