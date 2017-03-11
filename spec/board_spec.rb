@@ -26,7 +26,7 @@ describe "Board" do
     it "accepts an optional parameter to setup the game grid" do
       test_grid = Array.new(3) { Array.new(3) { Cell.new } }
       test_board = Board.new(test_grid)
-      
+
       expect(test_board.grid).to eq(test_grid)
       expect(test_board.grid.all? { |row| row.all? { |cell| cell.is_a?(Cell) } }).to be true
     end
@@ -66,6 +66,28 @@ describe "Board" do
 
       expect { board.valid_coordinate?(Hash.new, Array.new) }.to raise_error(/must be integers/)
     end
+  end
+
+  describe "#cell_cleared?" do
+    it "returns true if the cell at the provided row/column is cleared"
+
+    it "returns false otherwise"
+  end
+
+  describe "#clear" do
+    it "marks a cell at the provided row/column as cleared"
+  end
+
+  describe "#flag" do
+    it "marks a cell at the provided row/column as flagged"
+
+    it "does not change a cleared cell"
+  end
+
+  describe "#unflag" do
+    it "marks a flagged cell at the provided row/column as uncleared"
+
+    it "does not change a cleared cell"
   end
 
   describe "#adjacent_cells" do
