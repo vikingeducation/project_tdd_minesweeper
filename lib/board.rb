@@ -52,6 +52,11 @@ module Minesweeper
       grid[row][col].state == :cleared
     end
 
+    # checks whehter the Cell at the provided row/col is flagged
+    def cell_flagged?(row, col)
+      grid[row][col].state == :flagged
+    end
+
     def clear(row, col)
       grid[row][col].clear
     end

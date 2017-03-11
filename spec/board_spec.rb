@@ -79,6 +79,17 @@ describe "Board" do
     end
   end
 
+  describe "#cell_flagged?" do
+    it "returns true if the cell at the provided row/column is flagged" do
+      board.grid[0][0].flag
+      expect(board.cell_flagged?(0, 0)).to be true
+    end
+
+    it "returns false otherwise" do
+      expect(board.cell_flagged?(0, 0)).to be false
+    end
+  end
+
   describe "#clear" do
     it "marks a cell at the provided row/column as cleared" do
       board.clear(0, 0)
