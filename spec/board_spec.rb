@@ -69,9 +69,14 @@ describe "Board" do
   end
 
   describe "#cell_cleared?" do
-    it "returns true if the cell at the provided row/column is cleared"
+    it "returns true if the cell at the provided row/column is cleared" do
+      board.grid[0][0].clear
+      expect(board.cell_cleared?(0, 0)).to be true
+    end
 
-    it "returns false otherwise"
+    it "returns false otherwise" do
+      expect(board.cell_cleared?(0, 0)).to be false
+    end
   end
 
   describe "#clear" do

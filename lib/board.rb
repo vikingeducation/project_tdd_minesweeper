@@ -47,6 +47,11 @@ module Minesweeper
       valid_row_range.include?(row) && valid_col_range.include?(col)
     end
 
+    # checks whether the Cell at the provided row/col is cleared
+    def cell_cleared?(row, col)
+      grid[row][col].state == :cleared
+    end
+
     # given the coordinates of a Cell, returns its adjacent Cells
     def adjacent_cells(row, col)
       cells = []
