@@ -14,7 +14,7 @@ module Minesweeper
     # randomly sets 9 Cells in the grid to be mines
     # TODO: refactor to accept variable number of mines
     def setup_minefield
-      mines_left = 9
+      mines_left = @mines
 
       until mines_left == 0
         row, col = rand(0..9), rand(0..9)
