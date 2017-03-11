@@ -10,7 +10,14 @@ module Minesweeper
       @flags = 9
       @rows = 10
       @cols = 10
-      @grid = grid.nil? ? Array.new(@rows) { Array.new(@cols) { Cell.new } } : grid  
+
+      unless grid.nil?
+        @grid = grid
+        @rows = grid.size
+        @cols = grid[0].size
+      else
+        @grid = Array.new(@rows) { Array.new(@cols) { Cell.new } }
+      end
     end
 
     # randomly sets 9 Cells in the grid to be mines
@@ -46,9 +53,11 @@ module Minesweeper
       
       (-1..1).each do |row_offset|
         (-1..1).each do |col_offset|
+          # do not check the same Cell
           next if row_offset == 0 && col_offset == 0
-          next if row + row_offset < 0 || row + row_offset > 9
-          next if col + col_offset < 0 || col + col_offset > 9
+          
+          next if row + row_offset < 0 || row + row_offset >= @rows
+          next if col + col_offset < 0 || col + col_offset >= @cols
           
           cells << grid[row + row_offset][col + col_offset]
         end
