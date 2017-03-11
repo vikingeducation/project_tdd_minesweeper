@@ -1,6 +1,7 @@
 # spec/renderer_spec.rb
 
 require 'renderer'
+require 'board'
 include Minesweeper
 
 describe "Renderer" do
@@ -31,16 +32,56 @@ describe "Renderer" do
     end
   end
 
-  describe "#render" do
-    it "shows a cleared cell's adjacent mine count if it has adjacent mines"
+  describe "#draw_grid" do
+    let (:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
+    let (:test_board) { Board.new(test_grid) }
 
-    it "shows a cleared cell as blank if it does not have adjacent mines"
+    it "correctly displays a board with all uncleared cells and no mines" do
+      renderer.board = test_board
+      expected_output = "...\n...\n...\n"
+      expect { renderer.draw_grid }.to output(expected_output).to_stdout
+    end
 
-    it "marks a flagged cell as flagged"
+    it "shows a cleared cell's adjacent mine count if it has adjacent mines" do
+      test_board.grid[0][0].mine = true
+      test_board.grid[2][2].mine = true
+      renderer.board = test_board
 
-    it "marks an uncleared cell as uncleared"
+      renderer.board.grid[1][1].adjacent_mine_count = renderer.board.adjacent_mines(1, 1)
 
-    it "does not reveal existing mines"
+      renderer.board.grid[1][1].clear
+
+      expected_output = "...\n.2.\n...\n"
+      expect { renderer.draw_grid }.to output(expected_output).to_stdout
+    end
+
+    it "shows a cleared cell as a blank if it does not have adjacent mines" do
+      renderer.board = test_board
+
+      renderer.board.grid[1][1].adjacent_mine_count = renderer.board.adjacent_mines(1, 1)
+
+      renderer.board.grid[1][1].clear
+
+      expected_output = "...\n. .\n...\n"
+      expect { renderer.draw_grid }.to output(expected_output).to_stdout
+    end
+
+    it "marks a flagged cell as flagged" do
+      renderer.board = test_board
+
+      renderer.board.grid[1][1].flag
+
+      expected_output = "...\n.F.\n...\n"
+      expect { renderer.draw_grid }.to output(expected_output).to_stdout
+    end
+
+    it "does not reveal existing mines" do
+      test_board.grid[1][1].mine = true
+      renderer.board = test_board
+
+      expected_output = "...\n...\n...\n"
+      expect { renderer.draw_grid }.to output(expected_output).to_stdout
+    end
   end
 
   describe "#render_only_mines" do
