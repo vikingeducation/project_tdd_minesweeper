@@ -24,12 +24,11 @@ describe "Board" do
     end
 
     it "accepts an optional parameter to setup the game grid" do
-      test_grid = [[1, 2, 3],
-                   [4, 5, 6],
-                   [7, 8, 9]]
-
+      test_grid = Array.new(3) { Array.new(3) { Cell.new } }
       test_board = Board.new(test_grid)
+      
       expect(test_board.grid).to eq(test_grid)
+      expect(test_board.grid.all? { |row| row.all? { |cell| cell.is_a?(Cell) } }).to be true
     end
   end
 
