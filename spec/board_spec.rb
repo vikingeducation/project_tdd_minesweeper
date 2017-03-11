@@ -80,7 +80,10 @@ describe "Board" do
   end
 
   describe "#clear" do
-    it "marks a cell at the provided row/column as cleared"
+    it "marks a cell at the provided row/column as cleared" do
+      board.clear(0, 0)
+      expect(board.cell_cleared?(0, 0)).to be true
+    end
   end
 
   describe "#flag" do

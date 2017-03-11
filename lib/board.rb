@@ -52,6 +52,11 @@ module Minesweeper
       grid[row][col].state == :cleared
     end
 
+    def clear(row, col)
+      grid[row][col].clear
+    end
+
+
     # given the coordinates of a Cell, returns its adjacent Cells
     def adjacent_cells(row, col)
       cells = []
