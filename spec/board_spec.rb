@@ -25,8 +25,8 @@ describe "Board" do
 
     it "accepts an optional parameter to setup the game grid" do
       test_grid = [[1, 2, 3],
-                  [4, 5, 6],
-                  [7, 8, 9]]
+                   [4, 5, 6],
+                   [7, 8, 9]]
 
       test_board = Board.new(test_grid)
       expect(test_board.grid).to eq(test_grid)
