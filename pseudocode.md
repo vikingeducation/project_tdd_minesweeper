@@ -10,7 +10,7 @@
     Display initial board with all uncleared cells [Renderer]
 
   Start the game [Game]
-    Print game instructions to player [Renderer]
+    Print game instructions to player [Game]
     Loop while game is not lost (player has not "cleared a mine") or won (player has cleared all mines) [Game]
       
       Prompt player for action he wants to take (clear, flag, reset, quit) [Player]
@@ -23,23 +23,23 @@
         Loop until the player enters a valid coordinate [Player]
         Check if the cell has a mine [Cell]
           If the cell has a mine
-            Print game over message to screen [Renderer]
+            Print game over message to screen [Game]
             Reveal all cells with mines on the board [Renderer]
             Ask player if he would like to play again [Player]
             If the player answers yes
               Reset game [Game]
             Else
-              Print exit message to screen [Renderer]
+              Print exit message to screen [Game]
               Exit program [Game]
           Else
             If all cells except those with mines have been cleared
               Reveal complete game board [Renderer]
-              Print victory message [Renderer]
+              Print victory message [Game]
               Ask player if he would like to play again [Player]
               If the player answers yes
                 Reset game [Game]
               Else
-                Print exit message to screen [Renderer]
+                Print exit message to screen [Game]
                 Exit program [Game]
             
             Else (not all safe cells have been cleared)  
@@ -69,11 +69,11 @@
         Display the current game board [Renderer]
 
       If the user chooses to reset
-        Print reset message to screen [Renderer]
+        Print reset message to screen [Game]
         Reset the game [Game]
 
       If the user chooses to quit
-        Print exit message to screen [Renderer]
+        Print exit message to screen [Game]
         Exit program [Game]
 
 ```
