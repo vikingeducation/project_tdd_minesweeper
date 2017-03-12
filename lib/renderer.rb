@@ -18,6 +18,7 @@ module Minesweeper
       end
 
       puts grid
+      puts
     end
     
     def show_flags_left
