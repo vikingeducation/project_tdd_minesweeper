@@ -110,5 +110,29 @@ describe "Renderer" do
         expect { renderer.draw_grid(show_mines = true) }.to output(expected_output).to_stdout
       end
     end
+
+    describe "#show_flags_left" do
+      let (:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
+      let (:test_board) { Board.new(test_grid) }
+
+      it "displays the number of flags left at the start of the game" do
+        renderer.board = test_board
+        expect { renderer.show_flags_left }.to output(/Flags left: 9/).to_stdout
+      end
+
+      it "displays the correct number of flags after an increment" do
+        renderer.board = test_board
+        renderer.board.increment_flags
+
+        expect { renderer.show_flags_left }.to output(/Flags left: 10/).to_stdout
+      end
+
+      it "displays the correct number of flags after a decrement" do
+        renderer.board = test_board
+        renderer.board.decrement_flags
+
+        expect { renderer.show_flags_left }.to output(/Flags left: 8/).to_stdout
+      end
+    end
   end
 end

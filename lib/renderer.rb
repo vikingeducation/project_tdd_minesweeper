@@ -19,5 +19,10 @@ module Minesweeper
 
       puts grid
     end
+    
+    def show_flags_left
+      puts "Flags left: #{board.flags}"
+      puts
+    end
   end
 end
