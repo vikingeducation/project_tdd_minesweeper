@@ -95,6 +95,15 @@ describe "Board" do
       board.clear(0, 0)
       expect(board.cell_cleared?(0, 0)).to be true
     end
+
+    it "updates the adjacent mine count of the cleared cell" do
+      board.grid[0][1].mine = true
+      board.grid[1][0].mine = true
+      board.grid[1][1].mine = true
+      board.clear(0, 0)
+
+      expect(board.grid[0][0].adjacent_mine_count).to eq(3)
+    end
   end
 
   describe "#flag" do

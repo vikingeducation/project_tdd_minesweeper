@@ -60,6 +60,7 @@ module Minesweeper
     # convenience methods
     def clear(row, col)
       grid[row][col].clear
+      grid[row][col].adjacent_mine_count = adjacent_mines(row, col)
     end
 
     def flag(row, col)
