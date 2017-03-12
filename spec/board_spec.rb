@@ -104,6 +104,12 @@ describe "Board" do
 
       expect(board.grid[0][0].adjacent_mine_count).to eq(3)
     end
+
+    context "cleared cell has no adjacent mines" do
+      it "auto-clears the cell's adjacent cells"
+
+      it "if any of those adjacent cells have no adjacent mines, their adjacent cells are auto-cleared too"
+    end
   end
 
   describe "#flag" do
