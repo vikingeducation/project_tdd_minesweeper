@@ -49,7 +49,7 @@ describe "Renderer" do
 
       renderer.board.grid[1][1].adjacent_mine_count = renderer.board.adjacent_mines(1, 1)
 
-      renderer.board.grid[1][1].clear
+      renderer.board.clear(1, 1)
 
       expected_output = "...\n.2.\n...\n"
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
@@ -60,7 +60,7 @@ describe "Renderer" do
 
       renderer.board.grid[1][1].adjacent_mine_count = renderer.board.adjacent_mines(1, 1)
 
-      renderer.board.grid[1][1].clear
+      renderer.board.clear(1, 1)
 
       expected_output = "...\n. .\n...\n"
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
@@ -82,11 +82,33 @@ describe "Renderer" do
       expected_output = "...\n...\n...\n"
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
     end
-  end
 
-  describe "#render_only_mines" do
-    it "reveals all cells with mines"
+    context "if the player clears a mine" do  
+      it "reveal all mines if the optional show_mines argument is true" do
+        test_board.grid[0][0].mine = true
+        test_board.grid[1][1].mine = true
+        test_board.grid[2][2].mine = true
+        test_board.clear(0, 0)
+        
+        renderer.board = test_board
 
-    it "shows all cleared cells"
+        expected_output = "X..\n.X.\n..X\n"
+        expect { renderer.draw_grid(show_mines = true) }.to output(expected_output).to_stdout
+      end
+
+      it "reveals all cells that have already been cleared" do
+        test_board.grid[0][0].mine = true
+        test_board.grid[1][1].mine = true
+        test_board.grid[2][2].mine = true
+        test_board.clear(0, 1)
+        test_board.clear(0, 2)
+        test_board.clear(0, 0)
+
+        renderer.board = test_board
+
+        expected_output = "X21\n.X.\n..X\n"
+        expect { renderer.draw_grid(show_mines = true) }.to output(expected_output).to_stdout
+      end
+    end
   end
 end

@@ -6,17 +6,18 @@ module Minesweeper
       @board = board.nil? ? nil : board
     end
 
-    def draw_grid
-      output = ""
+    def draw_grid(show_mines = false)
+      grid = ""
       
       board.grid.each do |row|
         row.each do |cell|
-          output += cell.to_s
+          cell.clear if (show_mines && cell.mine)
+          grid += cell.to_s
         end
-        output += "\n"
+        grid += "\n"
       end
 
-      puts output
+      puts grid
     end
   end
 end
