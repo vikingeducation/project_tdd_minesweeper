@@ -35,7 +35,11 @@ describe "Player" do
 
     it "prints an error message for all other moves"
 
-    it "returns nil for invalid moves"
+    it "sets @last_move to a valid move"
+
+    it "returns true for valid moves"
+
+    it "returns false for invalid moves"
   end
 
   describe "#get_coords" do
@@ -45,6 +49,10 @@ describe "Player" do
 
     it "prints an error message for all other moves"
 
-    it "returns nil for invalid coordinates"
+    it "sets @last_coords to valid coordinates"
+
+    it "returns true for valid coordinates"
+
+    it "returns false for invalid coordinates"
   end
 end
