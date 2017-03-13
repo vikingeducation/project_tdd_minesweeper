@@ -1,14 +1,30 @@
 # spec/game_spec.rb
 
+require 'board'
+require 'renderer'
+require 'player'
+require 'game'
+include Minesweeper
+
 describe "Game" do
+  let (:game) { Game.new }
+
   describe "#initialize" do
-    it "creates an instance of Game"
+    it "creates an instance of Game" do
+      expect(game).to be_a(Game)
+    end
 
-    it "creates an instance of Player in the game"
+    it "creates an instance of Player in the game" do
+      expect(game.player).to be_a(Player)
+    end
 
-    it "creates an instance of Board in the game"
+    it "creates an instance of Board in the game" do
+      expect(game.board).to be_a(Board)
+    end
 
-    it "creates an instance of Renderer in the game"
+    it "creates an instance of Renderer in the game" do
+      expect(game.renderer).to be_a(Renderer)
+    end
   end
 
   context "at the start of the game" do
