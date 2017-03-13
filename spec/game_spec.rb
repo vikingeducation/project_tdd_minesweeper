@@ -27,6 +27,20 @@ describe "Game" do
     end
   end
 
+  context "modifying instance variables" do
+    it "does not allow @player to be modified after initialization" do
+      expect { game.player = "Player" }.to raise_error(NoMethodError)
+    end
+
+    it "does not allow @board to be modified after initialiization" do
+      expect { game.board = "Board" }.to raise_error(NoMethodError)
+    end
+
+    it "does not allow @renderer to be modified after initialization" do
+      expect { game.renderer = "Renderer" }.to raise_error(NoMethodError)
+    end
+  end
+
   context "at the start of the game" do
     it "shows game instructions to the player"
 
