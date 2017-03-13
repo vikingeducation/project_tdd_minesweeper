@@ -90,6 +90,17 @@ describe "Board" do
     end
   end
 
+  describe "#cell_has_mine?" do
+    it "returns true if the cell at the provided row/col has a mine" do
+      board.grid[9][9].mine = true
+      expect(board.cell_has_mine?(9, 9)).to be true
+    end
+
+    it "returns false otherwise" do
+      expect(board.cell_has_mine?(9, 9)).to be false
+    end
+  end
+
   describe "#clear" do
     it "marks a cell at the provided row/column as cleared" do
       board.clear(0, 0)

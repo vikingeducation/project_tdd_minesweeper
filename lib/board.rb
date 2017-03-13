@@ -57,6 +57,11 @@ module Minesweeper
       grid[row][col].state == :flagged
     end
 
+    # checks whether the Cell at the provided row/col has a mine
+    def cell_has_mine?(row, col)
+      grid[row][col].mine
+    end
+
     # convenience methods
     def clear(row, col)
       grid[row][col].clear
