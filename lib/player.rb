@@ -10,8 +10,8 @@ module Minesweeper
       @last_coords = nil
     end
 
-    # prompts the player for a move.
-    # returns true if the move is valid, false otherwise
+    # Prompts the player for a move.
+    # Returns true if the move is valid, false otherwise
     def get_move
       puts "Do you want to (c)lear, (f)lag, (u)nflag, (r)eset, or (q)uit?"
       print "Please enter your move > "
@@ -26,6 +26,10 @@ module Minesweeper
       end
     end
 
+    # Prompts the player for coordinates.
+    # Returns true if the input has two elements, false otherwise.
+    # Checking whether the coordinates are actually valid is delegated
+    # to another class.
     def get_coords
       print "Please enter coordinates in the format 'row, col' > "
 
