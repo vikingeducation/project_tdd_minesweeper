@@ -4,13 +4,20 @@ require 'player'
 include Minesweeper
 
 describe "Player" do
+  let (:player) { Player.new }
 
   describe "#initialize" do
-    it "creates an instance of Player"
+    it "creates an instance of Player" do
+      expect(player).to be_a(Player)
+    end
 
-    it "sets the player's last move to nil"
+    it "sets the player's last move to nil" do
+      expect(player.last_move).to be_nil
+    end
 
-    it "sets the player's last coordinates chosen to nil"
+    it "sets the player's last coordinates chosen to nil" do
+      expect(player.last_coords).to be_nil
+    end
   end
 
   describe "#get_move" do
