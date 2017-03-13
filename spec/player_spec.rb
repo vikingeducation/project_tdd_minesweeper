@@ -21,25 +21,62 @@ describe "Player" do
   end
 
   describe "#get_move" do
-    it "prints a message asking the player for his move"
+    before(:each) do
+      allow(player).to receive(:print).and_return(nil)
+      allow(player).to receive(:puts).and_return(nil)
+    end
 
-    it "accepts 'c' as a valid move (to clear a cell)"
+    it "returns true for valid inputs ('c', 'f', 'u', or 'q')" do
+      allow(player).to receive(:gets).and_return('C')
+      expect(player.get_move).to be true
+    
+      allow(player).to receive(:gets).and_return('F')
+      expect(player.get_move).to be true
+    
+      allow(player).to receive(:gets).and_return('U')
+      expect(player.get_move).to be true
+    
+      allow(player).to receive(:gets).and_return('Q')
+      expect(player.get_move).to be true
+    end
 
-    it "accepts 'f' as a valid move (to flag a cell)"
+    it "returns false for all other inputs" do
+      allow(player).to receive(:gets).and_return('b')
+      expect(player.get_move).to be false
+    end
 
-    it "accepts 'u' as a valid move (to unflag a cell)"
+    it "sets @last_move to a valid move" do
+      allow(player).to receive(:gets).and_return('c')
+      player.get_move
+      expect(player.last_move).to eq('c')
 
-    it "accepts 'r' as a valid move (to reset the game)"
+      allow(player).to receive(:gets).and_return('f')
+      player.get_move
+      expect(player.last_move).to eq('f')
 
-    it "accepts 'q' as a valid move (to quit the game)"
+      allow(player).to receive(:gets).and_return('u')
+      player.get_move
+      expect(player.last_move).to eq('u')
 
-    it "prints an error message for all other moves"
+      allow(player).to receive(:gets).and_return('q')
+      player.get_move
+      expect(player.last_move).to eq('q')
+    end
 
-    it "sets @last_move to a valid move"
+    it "does not modify @last_move if the move is invalid" do
+      allow(player).to receive(:gets).and_return('a')
+      player.get_move
+      expect(player.last_move).not_to eq('a')
 
-    it "returns true for valid moves"
+      allow(player).to receive(:gets).and_return('c')
+      player.get_move
+      expect(player.last_move).to eq('c')
 
-    it "returns false for invalid moves"
+      allow(player).to receive(:gets).and_return('z')
+      player.get_move
+      expect(player.last_move).not_to eq('z')
+      expect(player.last_move).to eq('c')
+    end
   end
 
   describe "#get_coords" do
