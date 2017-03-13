@@ -25,5 +25,18 @@ module Minesweeper
         false
       end
     end
+
+    def get_coords
+      print "Please enter coordinates in the format 'row, col' > "
+
+      input = gets.chomp.split(/\W+/)
+
+      if input.size == 2
+        @last_coords = [input[0].to_i, input[1].to_i]
+        true
+      else
+        false
+      end
+    end
   end
 end

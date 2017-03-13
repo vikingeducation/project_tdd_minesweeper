@@ -80,16 +80,49 @@ describe "Player" do
   end
 
   describe "#get_coords" do
-    it "prints a message asking the player for the coordinates he wants to make a move at"
+    before(:each) do
+      allow(player).to receive(:print).and_return(nil)
+      allow(player).to receive(:puts).and_return(nil)
+    end
 
-    it "accepts an input of 'x, y' as a valid coordinate, where 0 <= x <= rows - 1 and 0 <= y <= cols - 1"
+    it "returns true if the input has two elements, separated by a comma/variable whitespace" do
+      allow(player).to receive(:gets).and_return("1, 2")
+      expect(player.get_coords).to be true
 
-    it "prints an error message for all other moves"
+      allow(player).to receive(:gets).and_return("3  ,    4")
+      expect(player.get_coords).to be true
+    end
 
-    it "sets @last_coords to valid coordinates"
+    it "returns false otherwise" do
+      allow(player).to receive(:gets).and_return("12")
+      expect(player.get_coords).to be false
 
-    it "returns true for valid coordinates"
+      allow(player).to receive(:gets).and_return("blah, 1   5")
+      expect(player.get_coords).to be false
+    end
 
-    it "returns false for invalid coordinates"
+    it "sets @last_coords to an array of two integers if the input has two elements, separated by a comma/variable whitespace" do
+      allow(player).to receive(:gets).and_return("1, 2")
+      player.get_coords
+      expect(player.last_coords).to eq([1, 2])
+
+      allow(player).to receive(:gets).and_return("3  ,    4")
+      player.get_coords
+      expect(player.last_coords).to eq([3, 4])      
+    end
+
+    it "does not modify @last_coords otherwise" do
+      allow(player).to receive(:gets).and_return("12")
+      player.get_coords
+      expect(player.last_coords).to be_nil
+
+      allow(player).to receive(:gets).and_return("1, 2")
+      player.get_coords
+      expect(player.last_coords).to eq([1, 2])
+
+      allow(player).to receive(:gets).and_return("blah, 1   5")
+      player.get_coords
+      expect(player.last_coords).to eq([1, 2])
+    end
   end
 end
