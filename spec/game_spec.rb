@@ -41,16 +41,42 @@ describe "Game" do
     end
   end
 
+  describe "#show_instructions" do
+    it "shows game instructions to the player" do
+      expect { game.show_instructions }.to output.to_stdout
+    end
+  end
+
   context "at the start of the game" do
-    it "shows game instructions to the player"
+    before(:each) do
+      allow(game).to receive(:puts).and_return(nil)
+      allow(game.renderer).to receive(:puts).and_return(nil)
+      allow(game.renderer).to receive(:print).and_return(nil)
+    end
 
-    it "shows the initial minefield"
+    it "shows game instructions to the player" do
+      expect(game).to receive(:show_instructions)
+      game.setup
+    end
 
-    it "shows the number of flags left"
+    it "shows the initial minefield" do
+      expect(game.renderer).to receive(:draw_grid)
+      game.setup
+    end
+
+    it "shows the number of flags left" do
+      expect(game.renderer).to receive(:show_flags_left)
+      game.setup
+    end
   end
 
   context "during every turn" do
-    it "asks the player what action he'd like to take"
+    it "asks the player what action he'd like to take" do
+      allow(game.player).to receive(:gets).and_return('c')
+      # expect(game.player).to receive(:get_move)
+      game.run_loop
+      expect(game.player.last_move).to eq('c')
+    end
 
     it "asks the player for coordinates, if required for the action"
 
