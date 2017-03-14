@@ -22,6 +22,7 @@ module Minesweeper
         @last_move = input
         true
       else
+        @last_move = nil
         false
       end
     end

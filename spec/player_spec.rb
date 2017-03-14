@@ -64,19 +64,14 @@ describe "Player" do
       expect(player.last_move).to eq('q')
     end
 
-    it "does not modify @last_move if the move is invalid" do
-      allow(player).to receive(:gets).and_return('a')
-      player.get_move
-      expect(player.last_move).not_to eq('a')
-
+    it "sets @last_move to nil if the move is invalid" do
       allow(player).to receive(:gets).and_return('c')
       player.get_move
       expect(player.last_move).to eq('c')
 
       allow(player).to receive(:gets).and_return('z')
       player.get_move
-      expect(player.last_move).not_to eq('z')
-      expect(player.last_move).to eq('c')
+      expect(player.last_move).to be_nil
     end
   end
 
