@@ -3,7 +3,9 @@ require_relative './cell.rb'
 module Minesweeper
   class Board
     attr_reader :grid,
-                :flags
+                :flags,
+                :rows,
+                :cols
 
     def initialize(grid = nil)
       @mines = 9
