@@ -67,6 +67,11 @@ describe "Game" do
       game.setup
     end
 
+    it "sets up the minefield with randomly-placed mines" do
+      expect(game.board).to receive(:setup_minefield)
+      game.setup
+    end
+
     it "shows the initial minefield" do
       expect(game.renderer).to receive(:draw_grid)
       game.setup

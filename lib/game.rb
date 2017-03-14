@@ -27,6 +27,7 @@ module Minesweeper
 
     def setup
       show_instructions
+      board.setup_minefield
       renderer.draw_grid
       renderer.show_flags_left
     end
