@@ -161,10 +161,31 @@ describe "Player" do
       expect(test_board.cell_flagged?(2, 2)).to be false
     end
 
-    it "returns false if @last_move is nil (indicating an invalid action)"
+    it "returns false if @last_move is nil (indicating an invalid action)" do
+      allow(player).to receive(:gets).and_return('a', '0, 0')
+      player.get_move
+      player.get_coords
 
-    it "returns false if @last_coords is nil (indicating a wrongly-formatted coordinate)"
+      expect(player.last_move).to be_nil
+      expect(player.make_move(test_board)).to be false
+    end
 
-    it "returns true for all valid actions with valid coordinates"
+    it "returns false if @last_coords is nil (indicating a wrongly-formatted coordinate)" do
+      allow(player).to receive(:gets).and_return('c', 'blah, 1   5')
+      player.get_move
+      player.get_coords
+
+      expect(player.last_coords).to be_nil
+      expect(player.make_move(test_board)).to be false
+    end
+
+    it "returns true for all valid actions with valid coordinates" do
+      allow(player).to receive(:gets).and_return('c', '0, 0')
+      player.get_move
+      player.get_coords
+
+      expect(player.make_move(test_board)).to be true
+    end
   end
+
 end

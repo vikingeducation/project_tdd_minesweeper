@@ -46,15 +46,20 @@ module Minesweeper
     end
 
     def make_move(board)
+      return false if last_move.nil? || last_coords.nil?
+
       row, col = last_coords[0], last_coords[1]
 
       case last_move
       when 'c'
         board.clear(row, col)
+        true
       when 'f'
         board.flag(row, col)
+        true
       when 'u'
         board.unflag(row, col)
+        true
       end
     end
   end
