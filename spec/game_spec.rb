@@ -71,14 +71,36 @@ describe "Game" do
   end
 
   context "during every turn" do
-    it "asks the player what action he'd like to take" do
-      allow(game.player).to receive(:gets).and_return('c')
-      # expect(game.player).to receive(:get_move)
-      game.run_loop
-      expect(game.player.last_move).to eq('c')
+    before(:each) do
+      allow(game.player).to receive(:puts).and_return(nil)
+      allow(game.player).to receive(:print).and_return(nil)
     end
 
-    it "asks the player for coordinates, if required for the action"
+    it "asks the player for a move" do
+      expect(game.player).to receive(:get_move).and_return(true)
+      game.run_loop
+    end
+
+    it "asks the player for coordinates, if player has chosen to clear" do
+      allow(game.player).to receive(:gets).and_return('c', '1, 2')
+      game.run_loop
+      expect(game.player.last_move).to eq('c')
+      expect(game.player.last_coords).to eq([1, 2])
+    end
+
+    it "asks the player for coordinates, if player has chosen to flag" do
+      allow(game.player).to receive(:gets).and_return('f', '3, 4')
+      game.run_loop
+      expect(game.player.last_move).to eq('f')
+      expect(game.player.last_coords).to eq([3, 4])
+    end
+
+    it "asks the player for coordinates, if player has chosen to unflag" do
+      allow(game.player).to receive(:gets).and_return('u', '5, 6')
+      game.run_loop
+      expect(game.player.last_move).to eq('u')
+      expect(game.player.last_coords).to eq([5, 6])
+    end
 
     it "updates the game board, if necessary"
 

@@ -33,6 +33,8 @@ module Minesweeper
 
     def run_loop
       player.get_move
+
+      player.get_coords if %w(c f u).include?(player.last_move)
     end
   end
 end
