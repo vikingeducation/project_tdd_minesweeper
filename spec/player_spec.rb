@@ -131,7 +131,7 @@ describe "Player" do
       allow(player).to receive(:puts).and_return(nil)
     end
 
-    it "if the player has specified a valid coordinate to clear, it clears that cell" do
+    it "it clears the cell at the coordinate the user has specified" do
       allow(player).to receive(:gets).and_return('c', '0, 0')
       player.get_move
       player.get_coords
@@ -139,7 +139,7 @@ describe "Player" do
       expect(test_board.cell_cleared?(0, 0)).to be true
     end
 
-    it "if the player has specified a valid coordinate to flag, it flags that cell" do
+    it "flags the cell at the coordinate the user has specified" do
       allow(player).to receive(:gets).and_return('f', '1, 1')
       player.get_move
       player.get_coords
@@ -147,7 +147,7 @@ describe "Player" do
       expect(test_board.cell_flagged?(1, 1)).to be true
     end
 
-    it "if the player has specified a valid coordinate to unflag, it unflags that cell" do
+    it "unflags the cell at the coordinate the user has specified" do
       allow(player).to receive(:gets).and_return('f', '2, 2', 'u', '2, 2')
       
       player.get_move
@@ -160,5 +160,11 @@ describe "Player" do
 
       expect(test_board.cell_flagged?(2, 2)).to be false
     end
+
+    it "returns false if @last_move is nil (indicating an invalid action)"
+
+    it "returns false if @last_coords is nil (indicating a wrongly-formatted coordinate)"
+
+    it "returns true for all valid actions with valid coordinates"
   end
 end
