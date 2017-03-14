@@ -1,9 +1,9 @@
 module Minesweeper
-  attr_reader :player,
-              :board,
-              :renderer
-
   class Game
+    attr_reader :player,
+                :board,
+                :renderer
+
     def initialize
       @player = Player.new
       @board = Board.new
