@@ -25,6 +25,14 @@ describe "Game" do
     it "creates an instance of Renderer in the game" do
       expect(game.renderer).to be_a(Renderer)
     end
+
+    it "accepts an optional argument to set the game board" do
+      test_grid = Array.new(3) { Array.new(3) { Cell.new }}
+      test_board = Board.new(test_grid)
+      test_game = Game.new(test_board)
+
+      expect(test_game.board).to eq(test_board)
+    end
   end
 
   context "modifying instance variables" do

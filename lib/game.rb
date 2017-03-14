@@ -8,10 +8,10 @@ module Minesweeper
                 :board,
                 :renderer
 
-    def initialize
+    def initialize(board = nil)
       @player = Player.new
-      @board = Board.new
-      @renderer = Renderer.new(board)
+      @board = board || Board.new
+      @renderer = Renderer.new(self.board)
     end
 
     def show_instructions
