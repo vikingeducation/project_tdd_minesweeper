@@ -11,7 +11,7 @@ module Minesweeper
     def initialize
       @player = Player.new
       @board = Board.new
-      @renderer = Renderer.new(@board)
+      @renderer = Renderer.new(board)
     end
 
     def show_instructions
