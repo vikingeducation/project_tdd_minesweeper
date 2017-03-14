@@ -1,5 +1,6 @@
 # spec/player_spec.rb
 
+require 'board'
 require 'player'
 include Minesweeper
 
@@ -127,10 +128,42 @@ describe "Player" do
   end
 
   describe "#make_move" do
-    it "if the player has specified a valid coordinate to clear, it clears that cell"
+    let (:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
+    let (:test_board) { Board.new(test_grid) }
 
-    it "if the player has specified a valid coordinate to flag, it flags that cell"
+    before(:each) do
+      allow(player).to receive(:print).and_return(nil)
+      allow(player).to receive(:puts).and_return(nil)
+    end
 
-    it "if the player has specified a valid coordinate to unflag, it unflags that cell"
+    it "if the player has specified a valid coordinate to clear, it clears that cell" do
+      allow(player).to receive(:gets).and_return('c', '0, 0')
+      player.get_move
+      player.get_coords
+      player.make_move(test_board)
+      expect(test_board.cell_cleared?(0, 0)).to be true
+    end
+
+    it "if the player has specified a valid coordinate to flag, it flags that cell" do
+      allow(player).to receive(:gets).and_return('f', '1, 1')
+      player.get_move
+      player.get_coords
+      player.make_move(test_board)
+      expect(test_board.cell_flagged?(1, 1)).to be true
+    end
+
+    it "if the player has specified a valid coordinate to unflag, it unflags that cell" do
+      allow(player).to receive(:gets).and_return('f', '2, 2', 'u', '2, 2')
+      
+      player.get_move
+      player.get_coords
+      player.make_move(test_board)
+
+      player.get_move
+      player.get_coords
+      player.make_move(test_board)
+
+      expect(test_board.cell_flagged?(2, 2)).to be false
+    end
   end
 end

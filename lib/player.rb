@@ -42,5 +42,18 @@ module Minesweeper
         false
       end
     end
+
+    def make_move(board)
+      row, col = last_coords[0], last_coords[1]
+
+      case last_move
+      when 'c'
+        board.clear(row, col)
+      when 'f'
+        board.flag(row, col)
+      when 'u'
+        board.unflag(row, col)
+      end
+    end
   end
 end
