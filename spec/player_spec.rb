@@ -107,7 +107,7 @@ describe "Player" do
       expect(player.last_coords).to eq([3, 4])      
     end
 
-    it "does not modify @last_coords otherwise" do
+    it "sets @last_coords to nil otherwise" do
       allow(player).to receive(:gets).and_return("12")
       player.get_coords
       expect(player.last_coords).to be_nil
@@ -118,7 +118,7 @@ describe "Player" do
 
       allow(player).to receive(:gets).and_return("blah, 1   5")
       player.get_coords
-      expect(player.last_coords).to eq([1, 2])
+      expect(player.last_coords).to be_nil
     end
   end
 

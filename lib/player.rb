@@ -40,6 +40,7 @@ module Minesweeper
         @last_coords = [input[0].to_i, input[1].to_i]
         true
       else
+        @last_coords = nil
         false
       end
     end
