@@ -125,4 +125,12 @@ describe "Player" do
       expect(player.last_coords).to eq([1, 2])
     end
   end
+
+  describe "#make_move" do
+    it "if the player has specified a valid coordinate to clear, it clears that cell"
+
+    it "if the player has specified a valid coordinate to flag, it flags that cell"
+
+    it "if the player has specified a valid coordinate to unflag, it unflags that cell"
+  end
 end
