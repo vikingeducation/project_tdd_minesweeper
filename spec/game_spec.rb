@@ -131,11 +131,7 @@ describe "Game" do
         expect(test_game.board.cell_flagged?(2, 2)).to be false
       end
     end
-
-    # it "updates the game board, if necessary"
-
-    # it "updates the number of flags left, if necessary"
-
+    
     context "displaying current state of minefield / number of flags" do
       it "shows the current state of the minefield" do
         allow(game.player).to receive(:gets).and_return('c', '2, 2')
