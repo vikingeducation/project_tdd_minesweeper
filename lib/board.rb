@@ -39,6 +39,7 @@ module Minesweeper
     end
 
     # checks whether the provided row/col is valid
+    # TODO: make this method private
     def valid_coordinate?(row, col)
       unless row.is_a?(Fixnum) && col.is_a?(Fixnum)
         raise "Your inputs to this method must be integers."
@@ -81,6 +82,7 @@ module Minesweeper
     end
 
     # given the coordinates of a Cell, returns its adjacent Cells
+    # TODO: make this method private
     def adjacent_cells(row, col)
       cells = []
       
