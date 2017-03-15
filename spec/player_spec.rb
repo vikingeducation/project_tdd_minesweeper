@@ -179,6 +179,14 @@ describe "Player" do
       expect(player.make_move(test_board)).to be false
     end
 
+    it "returns false if @last_coords is an out-of-range coordinate" do
+      allow(player).to receive(:gets).and_return('c', '10, 10')
+      player.get_move
+      player.get_coords
+
+      expect(player.make_move(test_board)).to be false
+    end
+
     it "returns true for all valid actions with valid coordinates" do
       allow(player).to receive(:gets).and_return('c', '0, 0')
       player.get_move

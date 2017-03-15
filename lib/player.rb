@@ -52,6 +52,12 @@ module Minesweeper
 
       row, col = last_coords[0], last_coords[1]
 
+      # validate coordinates before making move..
+      unless board.valid_coordinate?(row, col)
+        puts "Invalid coordinate. Please try again."
+        return false
+      end
+
       case last_move
       when 'c'
         board.clear(row, col)
