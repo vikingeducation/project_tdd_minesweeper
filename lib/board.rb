@@ -72,12 +72,12 @@ module Minesweeper
 
     def flag(row, col)
       grid[row][col].flag
-      decrement_flags
+      self.flags -= 1
     end
 
     def unflag(row, col)
       grid[row][col].unflag
-      increment_flags
+      self.flags += 1
     end
 
     # given the coordinates of a Cell, returns its adjacent Cells
@@ -112,14 +112,6 @@ module Minesweeper
 
     private
 
-    # reduces the number of flags by 1
-    def decrement_flags
-      @flags -= 1
-    end
-
-    # increases the number of flags by 1
-    def increment_flags
-      @flags += 1
-    end
+    attr_writer :flags
   end
 end
