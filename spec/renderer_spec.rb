@@ -120,18 +120,19 @@ describe "Renderer" do
         expect { renderer.show_flags_left }.to output(/Flags left: 9/).to_stdout
       end
 
-      it "displays the correct number of flags after an increment" do
+      it "displays the correct number of flags after a flag has been used" do
         renderer.board = test_board
-        renderer.board.increment_flags
-
-        expect { renderer.show_flags_left }.to output(/Flags left: 10/).to_stdout
-      end
-
-      it "displays the correct number of flags after a decrement" do
-        renderer.board = test_board
-        renderer.board.decrement_flags
+        renderer.board.flag(0, 0)
 
         expect { renderer.show_flags_left }.to output(/Flags left: 8/).to_stdout
+      end
+
+      it "displays the correct number of flags after a flag has been removed" do
+        renderer.board = test_board
+        renderer.board.flag(0, 0)
+        renderer.board.unflag(0, 0)
+
+        expect { renderer.show_flags_left }.to output(/Flags left: 9/).to_stdout
       end
     end
   end
