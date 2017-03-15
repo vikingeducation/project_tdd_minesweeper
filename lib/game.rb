@@ -36,7 +36,8 @@ module Minesweeper
       # get move
       move = player.get_move
 
-      # insert code to quit game here
+      # exit game if player chooses to quit
+      quit if player.last_move == 'q'
 
       # get coordinates of move
       coords = player.get_coords if move
@@ -49,6 +50,10 @@ module Minesweeper
 
       # show remaining flags
       renderer.show_flags_left
+    end
+
+    def quit
+      exit
     end
   end
 end

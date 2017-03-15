@@ -167,10 +167,20 @@ describe "Game" do
         game.run_loop
       end
     end
+
+    context "the player chooses to quit" do
+      it "exits the game" do
+        allow(game.player).to receive(:gets).and_return('q')
+        expect(game).to receive(:quit)
+        game.run_loop
+      end
+    end
   end
 
-  context "the player chooses to quit" do
-    it "exits the game"
+  describe "#quit" do
+    it "exits the game" do
+      expect { game.quit }.to raise_error(SystemExit)
+    end
   end
 
   context "the player clears a mine" do
