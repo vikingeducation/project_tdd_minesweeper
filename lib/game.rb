@@ -59,5 +59,14 @@ module Minesweeper
     def victory?
       board.all_safe_cells_cleared?
     end
+
+    def defeat?
+      if player.last_move == 'c'
+        row, col = self.player.last_coords[0], self.player.last_coords[1]
+        return board.cell_cleared?(row, col) && board.cell_has_mine?(row, col)
+      end
+
+      false
+    end
   end
 end

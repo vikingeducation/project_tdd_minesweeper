@@ -192,6 +192,24 @@ describe "Game" do
     end
   end
 
+  describe "defeat?" do
+    it "returns true if the player's last cleared cell has a mine" do
+      test_game.board.grid[0][0].mine = true
+      
+      allow(test_game.player).to receive(:gets).and_return('c', '0, 0')
+      test_game.run_loop
+
+      expect(test_game.defeat?).to be true
+    end
+
+    it "returns false otherwise" do
+      allow(test_game.player).to receive(:gets).and_return('c', '0, 0')
+      test_game.run_loop
+
+      expect(test_game.defeat?).to be false
+    end
+  end
+
   context "the player clears a mine" do
     it "reveals all mines in the minefield"
 
