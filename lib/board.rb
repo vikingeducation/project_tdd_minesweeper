@@ -110,6 +110,8 @@ module Minesweeper
       flags > 0
     end
 
+    private
+
     # reduces the number of flags by 1
     def decrement_flags
       @flags -= 1

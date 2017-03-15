@@ -344,18 +344,4 @@ describe "Board" do
       expect(board.flags_left?).to be false
     end
   end
-
-  describe "#decrement_flags" do
-    it "decreases the number of flags remaining by 1" do
-      board.decrement_flags
-      expect(board.flags).to eq(8)
-    end
-  end
-
-  describe "#increment_flags" do
-    it "increases the number of flags remaining by 1" do
-      board.increment_flags
-      expect(board.flags).to eq(10)
-    end
-  end
 end
