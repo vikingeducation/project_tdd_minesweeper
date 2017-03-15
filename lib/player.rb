@@ -45,6 +45,8 @@ module Minesweeper
       end
     end
 
+    # Makes the appropriate move on the provided Board.
+    # Returns true if the move is valid, false otherwise.
     def make_move(board)
       return false if last_move.nil? || last_coords.nil?
 
@@ -56,9 +58,11 @@ module Minesweeper
         true
       when 'f'
         board.flag(row, col)
+        board.decrement_flags
         true
       when 'u'
         board.unflag(row, col)
+        board.increment_flags
         true
       end
     end
