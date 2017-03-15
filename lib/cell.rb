@@ -39,6 +39,7 @@ module Minesweeper
       @adjacent_mine_count = value
     end
 
+    # helper method for printing a Cell
     def to_s
       case state
       when :uncleared
