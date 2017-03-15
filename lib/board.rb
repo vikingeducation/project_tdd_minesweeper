@@ -72,10 +72,12 @@ module Minesweeper
 
     def flag(row, col)
       grid[row][col].flag
+      decrement_flags
     end
 
     def unflag(row, col)
       grid[row][col].unflag
+      increment_flags
     end
 
     # given the coordinates of a Cell, returns its adjacent Cells

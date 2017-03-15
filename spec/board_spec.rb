@@ -135,6 +135,11 @@ describe "Board" do
       expect(board.cell_cleared?(0, 0)).to be true
       expect(board.cell_flagged?(0, 0)).to be false
     end
+
+    it "decreases the number of flags left by 1" do
+      board.flag(0, 0)
+      expect(board.flags).to eq(8)
+    end
   end
 
   describe "#unflag" do
@@ -150,6 +155,12 @@ describe "Board" do
       board.unflag(0, 0)
       expect(board.cell_flagged?(0, 0)).to be false
       expect(board.cell_cleared?(0, 0)).to be true
+    end
+
+    it "increases the number of flags left by 1" do
+      board.flag(0, 0)
+      board.unflag(0, 0)
+      expect(board.flags).to eq(9)
     end
   end
 
