@@ -250,28 +250,25 @@ describe "Board" do
 
   describe "#adjacent_mines" do
     # create an empty grid for testing - we can set mines as required
-    let (:test_grid) { Array.new(10) { Array.new(10) { Cell.new } } }
+    let(:test_grid) { Array.new(10) { Array.new(10) { Cell.new } } }
+    let(:test_board) { Board.new(test_grid) }
 
     it "returns 0 if the number of adjacent mines for the Cell is 0" do
-      test_board = Board.new(test_grid)
       expect(test_board.adjacent_mines(0, 0)).to eq(0)
     end
 
     it "returns 1 if the number of adjacent mines for the Cell is 1" do
-      test_board = Board.new(test_grid)
       test_board.grid[0][1].mine = true
       expect(test_board.adjacent_mines(0, 0)).to eq(1)
     end
 
     it "returns 2 if the number of adjacent mines for the Cell is 2" do
-      test_board = Board.new(test_grid)
       test_board.grid[0][1].mine = true
       test_board.grid[1][0].mine = true
       expect(test_board.adjacent_mines(0, 0)).to eq(2)
     end
 
     it "returns 3 if the number of adjacent mines for the Cell is 3" do
-      test_board = Board.new(test_grid)
       test_board.grid[0][1].mine = true
       test_board.grid[1][0].mine = true
       test_board.grid[1][1].mine = true
@@ -279,7 +276,6 @@ describe "Board" do
     end
 
     it "returns 4 if the number of adjacent mines for the Cell is 4" do
-      test_board = Board.new(test_grid)
       test_board.grid[9][4].mine = true
       test_board.grid[9][6].mine = true
       test_board.grid[8][4].mine = true
@@ -288,7 +284,6 @@ describe "Board" do
     end
 
     it "returns 5 if the number of adjacent mines for the Cell is 5" do
-      test_board = Board.new(test_grid)
       test_board.grid[9][4].mine = true
       test_board.grid[9][6].mine = true
       test_board.grid[8][4].mine = true
@@ -298,7 +293,6 @@ describe "Board" do
     end
 
     it "returns 6 if the number of adjacent mines for the Cell is 6" do
-      test_board = Board.new(test_grid)
       test_board.grid[4][4].mine = true
       test_board.grid[4][5].mine = true
       test_board.grid[4][6].mine = true
@@ -309,7 +303,6 @@ describe "Board" do
     end
 
     it "returns 7 if the number of adjacent mines for the Cell is 7" do
-      test_board = Board.new(test_grid)
       test_board.grid[4][4].mine = true
       test_board.grid[4][5].mine = true
       test_board.grid[4][6].mine = true
@@ -321,7 +314,6 @@ describe "Board" do
     end
 
     it "returns 8 if the number of adjacent mines for the Cell is 8" do
-      test_board = Board.new(test_grid)
       test_board.grid[4][4].mine = true
       test_board.grid[4][5].mine = true
       test_board.grid[4][6].mine = true
