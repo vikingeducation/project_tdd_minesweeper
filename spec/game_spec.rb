@@ -88,11 +88,7 @@ describe "Game" do
       before(:each) do
         allow(game.player).to receive(:puts).and_return(nil)
         allow(game.player).to receive(:print).and_return(nil)
-      end
-
-      it "asks the player for a move" do
-        expect(game.player).to receive(:get_move).and_return(true)
-        game.run_loop
+        allow(game.renderer).to receive(:puts).and_return(nil)
       end
 
       it "asks the player for coordinates, if player has chosen to clear" do
@@ -118,12 +114,38 @@ describe "Game" do
     end
 
     context "clearing / flagging / unflagging cells" do
-      it "clears the cell at the user-specified coordinate, if relevant"
+      let (:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
+      let (:test_board) { Board.new(test_grid) }
+      let (:test_game) { Game.new(test_board) }
 
-      it "flags the cell at the user-specified coordinate, if relevant"
+      before(:each) do
+        allow(test_game.player).to receive(:puts).and_return(nil)
+        allow(test_game.player).to receive(:print).and_return(nil)
+        allow(game.renderer).to receive(:puts).and_return(nil)
+      end
 
-      it "unflags the cell at the user-specified coordinate, if relevant"
+      it "clears the cell at the user-specified coordinate, if relevant" do
+        allow(test_game.player).to receive(:gets).and_return('c', '0, 0')
+        test_game.run_loop
 
+        expect(test_game.board.cell_cleared?(0, 0)).to be true
+      end
+
+      it "flags the cell at the user-specified coordinate, if relevant" do
+        allow(test_game.player).to receive(:gets).and_return('f', '1, 1')
+        test_game.run_loop
+
+        expect(test_game.board.cell_flagged?(1, 1)).to be true
+      end
+
+      it "unflags the cell at the user-specified coordinate, if relevant" do
+        allow(test_game.player).to receive(:gets).and_return('f', '2, 2', 'u', '2, 2')
+        
+        test_game.run_loop
+        test_game.run_loop
+
+        expect(test_game.board.cell_flagged?(2, 2)).to be false
+      end
     end
 
     it "updates the game board, if necessary"

@@ -33,9 +33,16 @@ module Minesweeper
     end
 
     def run_loop
-      player.get_move
+      # get move
+      move = player.get_move
 
-      player.get_coords if %w(c f u).include?(player.last_move)
+      # insert code to quit game here
+
+      # get coordinates of move
+      coords = player.get_coords if move
+
+      # make the move if valid
+      player.make_move(board) if move && coords
     end
   end
 end
