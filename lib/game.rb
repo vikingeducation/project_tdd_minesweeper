@@ -55,5 +55,9 @@ module Minesweeper
     def quit
       exit
     end
+
+    def victory?
+      board.all_safe_cells_cleared?
+    end
   end
 end
