@@ -58,11 +58,9 @@ module Minesweeper
         true
       when 'f'
         board.flag(row, col)
-        board.decrement_flags
         true
       when 'u'
         board.unflag(row, col)
-        board.increment_flags
         true
       end
     end

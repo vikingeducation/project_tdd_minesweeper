@@ -147,14 +147,6 @@ describe "Player" do
       expect(test_board.cell_flagged?(1, 1)).to be true
     end
 
-    it "subtracts 1 from the number of flags left if a cell is flagged" do
-      allow(player).to receive(:gets).and_return('f', '1, 1')
-      player.get_move
-      player.get_coords
-      player.make_move(test_board)
-      expect(test_board.flags).to eq(8)
-    end
-
     it "unflags the cell at the coordinate the user has specified" do
       allow(player).to receive(:gets).and_return('f', '2, 2', 'u', '2, 2')
       
@@ -167,20 +159,6 @@ describe "Player" do
       player.make_move(test_board)
 
       expect(test_board.cell_flagged?(2, 2)).to be false
-    end
-
-    it "adds 1 to the number of flags left if a cell is unflagged" do
-      allow(player).to receive(:gets).and_return('f', '2, 2', 'u', '2, 2')
-      
-      player.get_move
-      player.get_coords
-      player.make_move(test_board)
-      expect(test_board.flags).to eq(8) 
-
-      player.get_move
-      player.get_coords
-      player.make_move(test_board)
-      expect(test_board.flags).to eq(9)      
     end
 
     it "returns false if @last_move is nil (indicating an invalid action)" do
