@@ -84,13 +84,13 @@ describe "Game" do
   end
 
   context "during every turn" do
-    context "getting player input" do
-      before(:each) do
-        allow(game.player).to receive(:puts).and_return(nil)
-        allow(game.player).to receive(:print).and_return(nil)
-        allow(game.renderer).to receive(:puts).and_return(nil)
-      end
+    before(:each) do
+      allow(game.player).to receive(:puts).and_return(nil)
+      allow(game.player).to receive(:print).and_return(nil)
+      allow(game.renderer).to receive(:puts).and_return(nil)
+    end
 
+    context "getting player input" do
       it "asks the player for coordinates, if player has chosen to clear" do
         allow(game.player).to receive(:gets).and_return('c', '1, 2')
         game.run_loop
