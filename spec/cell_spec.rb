@@ -29,6 +29,12 @@ describe "Cell" do
       cell.clear
       expect(cell.state).to eq(:cleared)
     end
+
+    it "does not clear a flagged Cell" do
+      cell.flag
+      cell.clear
+      expect(cell.state).to eq(:flagged)
+    end
   end
 
   describe "#flag" do

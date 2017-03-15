@@ -12,7 +12,7 @@ module Minesweeper
 
     # clears a Cell
     def clear
-      @state = :cleared
+      @state = :cleared unless @state == :flagged
     end
 
     # flags a Cell
