@@ -148,13 +148,15 @@ describe "Game" do
       end
     end
 
-    it "updates the game board, if necessary"
+    # it "updates the game board, if necessary"
 
-    it "updates the number of flags left, if necessary"
+    # it "updates the number of flags left, if necessary"
 
-    it "shows the current state of the minefield"
+    context "displaying current state of minefield / number of flags" do
+      it "shows the current state of the minefield"
 
-    it "shows the number of flags left"
+      it "shows the number of flags left"
+    end
   end
 
   context "the player chooses to quit" do
