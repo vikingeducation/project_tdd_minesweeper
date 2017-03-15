@@ -62,7 +62,7 @@ module Minesweeper
 
     def defeat?
       if player.last_move == 'c'
-        row, col = self.player.last_coords[0], self.player.last_coords[1]
+        row, col = player.last_coords[0], player.last_coords[1]
         return board.cell_cleared?(row, col) && board.cell_has_mine?(row, col)
       end
 
