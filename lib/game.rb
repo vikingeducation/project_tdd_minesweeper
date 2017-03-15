@@ -43,6 +43,12 @@ module Minesweeper
 
       # make the move if valid
       player.make_move(board) if move && coords
+
+      # draw the updated grid
+      renderer.draw_grid
+
+      # show remaining flags
+      renderer.show_flags_left
     end
   end
 end

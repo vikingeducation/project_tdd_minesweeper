@@ -121,7 +121,7 @@ describe "Game" do
       before(:each) do
         allow(test_game.player).to receive(:puts).and_return(nil)
         allow(test_game.player).to receive(:print).and_return(nil)
-        allow(game.renderer).to receive(:puts).and_return(nil)
+        allow(test_game.renderer).to receive(:puts).and_return(nil)
       end
 
       it "clears the cell at the user-specified coordinate, if relevant" do
@@ -153,9 +153,19 @@ describe "Game" do
     # it "updates the number of flags left, if necessary"
 
     context "displaying current state of minefield / number of flags" do
-      it "shows the current state of the minefield"
+      it "shows the current state of the minefield" do
+        allow(game.player).to receive(:gets).and_return('c', '2, 2')
+        expect(game.renderer).to receive(:draw_grid).and_return(true)
 
-      it "shows the number of flags left"
+        game.run_loop
+      end
+
+      it "shows the number of flags left" do
+        allow(game.player).to receive(:gets).and_return('f', '3, 3')
+        expect(game.renderer).to receive(:show_flags_left).and_return(true)
+
+        game.run_loop
+      end
     end
   end
 
