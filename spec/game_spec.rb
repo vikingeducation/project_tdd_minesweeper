@@ -192,7 +192,7 @@ describe "Game" do
     end
   end
 
-  describe "defeat?" do
+  describe "#defeat?" do
     it "returns true if the player's last cleared cell has a mine" do
       test_game.board.grid[0][0].mine = true
       
