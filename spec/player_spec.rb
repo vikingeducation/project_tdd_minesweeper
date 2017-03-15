@@ -147,6 +147,8 @@ describe "Player" do
       expect(test_board.cell_flagged?(1, 1)).to be true
     end
 
+    it "subtracts 1 from the number of flags left if a cell is flagged"
+
     it "unflags the cell at the coordinate the user has specified" do
       allow(player).to receive(:gets).and_return('f', '2, 2', 'u', '2, 2')
       
@@ -160,6 +162,8 @@ describe "Player" do
 
       expect(test_board.cell_flagged?(2, 2)).to be false
     end
+
+    it "adds 1 to the number of flags left if a cell is unflagged"
 
     it "returns false if @last_move is nil (indicating an invalid action)" do
       allow(player).to receive(:gets).and_return('a', '0, 0')
