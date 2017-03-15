@@ -187,12 +187,14 @@ describe "Player" do
       expect(player.make_move(test_board)).to be false
     end
 
-    it "returns true for all valid actions with valid coordinates" do
-      allow(player).to receive(:gets).and_return('c', '0, 0')
-      player.get_move
-      player.get_coords
-
-      expect(player.make_move(test_board)).to be true
+    it "returns a truthy value for all valid actions with valid coordinates" do
+      allow(player).to receive(:gets).and_return('c', '0, 0', 'f', '1, 1', 'u', '2, 2')
+      
+      3.times do
+        player.get_move
+        player.get_coords
+        expect(player.make_move(test_board)).to be_truthy
+      end
     end
   end
 

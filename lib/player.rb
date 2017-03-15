@@ -61,13 +61,10 @@ module Minesweeper
       case last_move
       when 'c'
         board.clear(row, col)
-        true
       when 'f'
         board.flag(row, col)
-        true
       when 'u'
         board.unflag(row, col)
-        true
       end
     end
   end
