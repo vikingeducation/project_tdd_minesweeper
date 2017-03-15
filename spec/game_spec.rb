@@ -132,6 +132,28 @@ describe "Game" do
       end
     end
 
+    context "checking whether the game is over" do
+      it "checks whether the player has won"
+
+      it "checks whether the player has lost"
+    end
+
+    context "the player has won" do
+      it "shows the final game board"
+
+      it "congratulates the player"
+
+      it "exits the game"
+    end
+
+    context "the player has lost" do
+      it "reveals all mines in the minefield"
+
+      it "shows a message indicating the player has lost"
+
+      it "exits the game"
+    end
+
     context "displaying current state of minefield / number of flags" do
       it "shows the current state of the minefield" do
         allow(game.player).to receive(:gets).and_return('c', '2, 2')
@@ -208,21 +230,5 @@ describe "Game" do
 
       expect(test_game.defeat?).to be false
     end
-  end
-
-  context "the player clears a mine" do
-    it "reveals all mines in the minefield"
-
-    it "shows a message indicating the player has lost"
-
-    it "exits the game"
-  end
-
-  context "the player successfully clears all cells without mines" do
-    it "shows the final game board"
-
-    it "congratulates the player"
-
-    it "exits the game"
   end
 end
