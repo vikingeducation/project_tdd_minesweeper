@@ -9,6 +9,18 @@ include Minesweeper
 describe "Game" do
   let (:game) { Game.new }
 
+  let (:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
+  let (:test_board) { Board.new(test_grid) }
+  let (:test_game) { Game.new(test_board) }
+
+  before(:each) do
+    allow(game).to receive(:puts).and_return(nil)
+    allow(game.player).to receive(:puts).and_return(nil)
+    allow(game.player).to receive(:print).and_return(nil)
+    allow(game.renderer).to receive(:puts).and_return(nil)
+    allow(game.renderer).to receive(:print).and_return(nil)
+  end
+
   describe "#initialize" do
     it "creates an instance of Game" do
       expect(game).to be_a(Game)
@@ -49,19 +61,7 @@ describe "Game" do
     end
   end
 
-  describe "#show_instructions" do
-    it "shows game instructions to the player" do
-      expect { game.show_instructions }.to output.to_stdout
-    end
-  end
-
   context "at the start of the game" do
-    before(:each) do
-      allow(game).to receive(:puts).and_return(nil)
-      allow(game.renderer).to receive(:puts).and_return(nil)
-      allow(game.renderer).to receive(:print).and_return(nil)
-    end
-
     it "shows game instructions to the player" do
       expect(game).to receive(:show_instructions)
       game.setup
@@ -84,12 +84,6 @@ describe "Game" do
   end
 
   context "during every turn" do
-    before(:each) do
-      allow(game.player).to receive(:puts).and_return(nil)
-      allow(game.player).to receive(:print).and_return(nil)
-      allow(game.renderer).to receive(:puts).and_return(nil)
-    end
-
     context "getting player input" do
       it "asks the player for coordinates, if player has chosen to clear" do
         allow(game.player).to receive(:gets).and_return('c', '1, 2')
@@ -114,16 +108,6 @@ describe "Game" do
     end
 
     context "clearing / flagging / unflagging cells" do
-      let (:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
-      let (:test_board) { Board.new(test_grid) }
-      let (:test_game) { Game.new(test_board) }
-
-      before(:each) do
-        allow(test_game.player).to receive(:puts).and_return(nil)
-        allow(test_game.player).to receive(:print).and_return(nil)
-        allow(test_game.renderer).to receive(:puts).and_return(nil)
-      end
-
       it "clears the cell at the user-specified coordinate, if relevant" do
         allow(test_game.player).to receive(:gets).and_return('c', '0, 0')
         test_game.run_loop
