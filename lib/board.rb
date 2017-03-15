@@ -112,6 +112,22 @@ module Minesweeper
       flags > 0
     end
 
+    # checks whether all safe cells (those without a mine) 
+    # have been cleared (victory condition)
+    def all_safe_cells_cleared?
+      (0...rows).each do |row|
+        (0...cols).each do |col|
+          if cell_cleared?(row, col) && !cell_has_mine?(row, col)
+            next
+          else
+            return false
+          end
+        end
+      end
+
+      true
+    end
+
     private
 
     attr_writer :flags

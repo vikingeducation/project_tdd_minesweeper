@@ -336,4 +336,36 @@ describe "Board" do
       expect(board.flags_left?).to be false
     end
   end
+
+  describe "#all_safe_cells_cleared?" do
+    let(:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
+    let(:test_board) { Board.new(test_grid) }
+
+    it "returns true if all safe cells (those without mines) are cleared" do
+      (0...test_board.rows).each do |row|
+        (0...test_board.cols).each do |col|
+          test_board.clear(row, col)
+        end
+      end
+
+      expect(test_board.all_safe_cells_cleared?).to be true
+    end
+
+    it "returns false if not all safe cells are cleared" do
+      test_board.clear(0, 0)
+      expect(test_board.all_safe_cells_cleared?).to be false
+    end
+
+    it "returns false if a cell with a mine is cleared" do
+      test_board.grid[2][2].mine = true
+
+      (0...test_board.rows).each do |row|
+        (0...test_board.cols).each do |col|
+          test_board.clear(row, col)
+        end
+      end
+
+      expect(test_board.all_safe_cells_cleared?).to be false
+    end
+  end
 end
