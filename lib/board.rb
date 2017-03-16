@@ -45,8 +45,8 @@ module Minesweeper
         raise "Your inputs to this method must be integers."
       end
 
-      valid_row_range = (0...@rows).to_a
-      valid_col_range = (0...@cols).to_a
+      valid_row_range = (0...@rows)
+      valid_col_range = (0...@cols)
       valid_row_range.include?(row) && valid_col_range.include?(col)
     end
 
