@@ -13,7 +13,7 @@ module Minesweeper
     # Prompts the player for a move.
     # Returns true if the move is valid, false otherwise
     def get_move
-      puts "Do you want to (c)lear, (f)lag, (u)nflag, (r)eset, or (q)uit?"
+      puts "Do you want to (c)lear, (f)lag, (u)nflag, or (q)uit?"
       print "Please enter your move > "
 
       input = gets.chomp.downcase
