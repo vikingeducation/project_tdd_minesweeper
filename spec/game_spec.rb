@@ -19,6 +19,12 @@ describe "Game" do
     allow(game.player).to receive(:print).and_return(nil)
     allow(game.renderer).to receive(:puts).and_return(nil)
     allow(game.renderer).to receive(:print).and_return(nil)
+
+    allow(test_game).to receive(:puts).and_return(nil)
+    allow(test_game.player).to receive(:puts).and_return(nil)
+    allow(test_game.player).to receive(:print).and_return(nil)
+    allow(test_game.renderer).to receive(:puts).and_return(nil)
+    allow(test_game.renderer).to receive(:print).and_return(nil)
   end
 
   describe "#initialize" do
