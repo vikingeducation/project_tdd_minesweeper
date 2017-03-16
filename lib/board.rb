@@ -44,7 +44,6 @@ module Minesweeper
     end
 
     # checks whether the provided row/col is valid
-    # TODO: make this method private
     def valid_coordinate?(row, col)
       unless row.is_a?(Fixnum) && col.is_a?(Fixnum)
         raise "Your inputs to this method must be integers."
