@@ -23,6 +23,7 @@ module Minesweeper
         true
       else
         @last_move = nil
+        puts "That move is invalid. Please try again."
         false
       end
     end
