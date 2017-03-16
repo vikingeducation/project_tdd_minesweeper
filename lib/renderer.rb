@@ -12,7 +12,7 @@ module Minesweeper
       board.grid.each do |row|
         row.each do |cell|
           cell.clear if (show_mines && cell.mine)
-          grid += cell.to_s
+          grid += cell.to_s + " "
         end
         grid += "\n"
       end
