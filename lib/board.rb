@@ -54,17 +54,17 @@ module Minesweeper
       valid_row_range.include?(row) && valid_col_range.include?(col)
     end
 
-    # checks whether the Cell at the provided row/col is cleared
+    # checks whether the cell at the provided row/col is cleared
     def cell_cleared?(row, col)
       grid[row][col].state == :cleared
     end
 
-    # checks whehter the Cell at the provided row/col is flagged
+    # checks whehter the cell at the provided row/col is flagged
     def cell_flagged?(row, col)
       grid[row][col].state == :flagged
     end
 
-    # checks whether the Cell at the provided row/col has a mine
+    # checks whether the cell at the provided row/col has a mine
     def cell_has_mine?(row, col)
       grid[row][col].mine
     end
@@ -89,14 +89,14 @@ module Minesweeper
       self.flags += 1
     end
 
-    # given the coordinates of a Cell, returns its adjacent Cells
+    # given the coordinates of a cell, returns its adjacent cells
     # TODO: make this method private
     def adjacent_cells(row, col)
       cells = []
       
       (-1..1).each do |row_offset|
         (-1..1).each do |col_offset|
-          # do not check the same Cell
+          # do not check the same cell
           next if row_offset == 0 && col_offset == 0
           
           next if row + row_offset < 0 || row + row_offset >= @rows
@@ -109,8 +109,8 @@ module Minesweeper
       cells
     end
 
-    # given the coordinates of a Cell, calculates how many mines it has
-    # in its adjacent Cells
+    # given the coordinates of a cell, calculates how many mines it has
+    # in its adjacent cells
     def adjacent_mines(row, col)
       adjacent_cells(row, col).count { |cell| cell.mine }
     end
