@@ -22,6 +22,7 @@ module Minesweeper
         row_num += 1
       end
 
+      puts
       puts grid
       puts
     end
