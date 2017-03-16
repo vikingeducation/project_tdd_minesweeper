@@ -36,12 +36,12 @@ describe "Board" do
       test_grid = Array.new(3) { Array.new(3) { Cell.new } }
       test_board = Board.new(test_grid, num_mines)
 
-      expect(test_board.mines).to eq(num_mines)
+      expect(test_board.mines).to eq(1)
     end
   end
 
   describe "#setup_minefield" do
-    it "randomly sets 9 Cells in the grid to be mines" do
+    it "randomly sets 9 cells in the grid to be mines, if the number of mines is not specified" do
       board.setup_minefield
 
       mine_count = 0
@@ -52,6 +52,22 @@ describe "Board" do
       end
 
       expect(mine_count).to eq(9)
+    end
+
+    it "randomly sets the specified number of cells in the grid to be mines" do
+      num_mines = 3
+      test_grid = Array.new(3) { Array.new(3) { Cell.new } }
+      test_board = Board.new(test_grid, num_mines)
+      test_board.setup_minefield
+
+      mine_count = 0
+      test_board.grid.each do |row|
+        row.each do |cell|
+          mine_count += 1 if cell.mine
+        end
+      end
+
+      expect(mine_count).to eq(3)
     end
   end
 

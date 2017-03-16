@@ -28,13 +28,12 @@ module Minesweeper
       end
     end
 
-    # randomly sets 9 Cells in the grid to be mines
-    # TODO: refactor to accept variable number of mines
+    # randomly sets cells in the grid to have mines
     def setup_minefield
       mines_left = @mines
 
       until mines_left == 0
-        row, col = rand(0..9), rand(0..9)
+        row, col = rand(0...rows), rand(0...cols)
         cell = @grid[row][col]
 
         unless cell.mine
