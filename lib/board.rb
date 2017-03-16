@@ -79,9 +79,14 @@ module Minesweeper
       end
     end
 
+    # flags a cell, unless the cell is already cleared 
     def flag(row, col)
-      grid[row][col].flag
-      self.flags -= 1
+      unless cell_cleared?(row, col)
+        grid[row][col].flag
+        self.flags -= 1
+      else
+        puts "That cell is already cleared."
+      end
     end
 
     def unflag(row, col)
