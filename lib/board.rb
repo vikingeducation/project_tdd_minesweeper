@@ -69,10 +69,14 @@ module Minesweeper
       grid[row][col].mine
     end
 
-    # convenience methods
+    # clears a cell, unless the cell is already flagged
     def clear(row, col)
-      grid[row][col].clear
-      grid[row][col].adjacent_mine_count = adjacent_mines(row, col)
+      unless cell_flagged?(row, col)
+        grid[row][col].clear
+        grid[row][col].adjacent_mine_count = adjacent_mines(row, col)
+      else
+        puts "You must unflag a flagged cell before clearing it."
+      end
     end
 
     def flag(row, col)

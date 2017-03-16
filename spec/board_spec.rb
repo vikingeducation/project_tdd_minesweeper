@@ -140,6 +140,13 @@ describe "Board" do
       expect(board.grid[0][0].adjacent_mine_count).to eq(3)
     end
 
+    it "does not clear a flagged cell" do
+      board.flag(0, 0)
+      board.clear(0, 0)
+      expect(board.cell_flagged?(0, 0)).to be true
+      expect(board.cell_cleared?(0, 0)).to be false
+    end
+
     context "cleared cell has no adjacent mines" do
       it "auto-clears the cell's adjacent cells"
 
@@ -153,7 +160,7 @@ describe "Board" do
       expect(board.cell_flagged?(0, 0)).to be true
     end
 
-    it "does not unflag a cleared cell" do
+    it "does not flag a cleared cell" do
       board.clear(0, 0)
       board.flag(0, 0)
       expect(board.cell_cleared?(0, 0)).to be true
