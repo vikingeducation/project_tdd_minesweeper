@@ -29,24 +29,12 @@ describe "Cell" do
       cell.clear
       expect(cell.state).to eq(:cleared)
     end
-
-    it "does not clear a flagged Cell" do
-      cell.flag
-      cell.clear
-      expect(cell.state).to eq(:flagged)
-    end
   end
 
   describe "#flag" do
     it "sets the Cell's state to :flagged" do
       cell.flag
       expect(cell.state).to eq(:flagged)
-    end
-
-    it "does not allow a cleared cell to be flagged" do
-      cell.clear
-      cell.flag
-      expect(cell.state).to eq(:cleared)
     end
   end
 
@@ -55,12 +43,6 @@ describe "Cell" do
       cell.flag
       cell.unflag
       expect(cell.state).to eq(:uncleared)
-    end
-
-    it "does not unflag a cleared cell" do
-      cell.clear
-      cell.unflag
-      expect(cell.state).to eq(:cleared)
     end
   end
 
