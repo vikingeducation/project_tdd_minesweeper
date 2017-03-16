@@ -5,13 +5,19 @@ module Minesweeper
     attr_reader :grid,
                 :flags,
                 :rows,
-                :cols
+                :cols,
+                :mines
 
-    def initialize(grid = nil)
+    def initialize(grid = nil, mines = nil)
       @mines = 9
       @flags = 9
       @rows = 10
       @cols = 10
+
+      unless mines.nil?
+        @mines = mines
+        @flags = mines
+      end
 
       unless grid.nil?
         @grid = grid

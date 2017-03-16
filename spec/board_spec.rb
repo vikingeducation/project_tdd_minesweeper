@@ -30,6 +30,14 @@ describe "Board" do
       expect(test_board.grid).to eq(test_grid)
       expect(test_board.grid.all? { |row| row.all? { |cell| cell.is_a?(Cell) } }).to be true
     end
+
+    it "accepts an optional parameter for the number of mines" do
+      num_mines = 1
+      test_grid = Array.new(3) { Array.new(3) { Cell.new } }
+      test_board = Board.new(test_grid, num_mines)
+
+      expect(test_board.mines).to eq(num_mines)
+    end
   end
 
   describe "#setup_minefield" do
