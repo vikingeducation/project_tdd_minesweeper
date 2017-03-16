@@ -64,6 +64,7 @@ module Minesweeper
     end
 
     def quit
+      puts "Thank you for playing, goodbye!"
       exit
     end
 
