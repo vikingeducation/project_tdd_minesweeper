@@ -38,7 +38,7 @@ describe "Renderer" do
 
     it "correctly displays a board with all uncleared cells and no mines" do
       renderer.board = test_board
-      expected_output = /...\n...\n...\n/
+      expected_output = /. . . \n. . . \n. . . \n/
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
     end
 
@@ -51,18 +51,18 @@ describe "Renderer" do
 
       renderer.board.clear(1, 1)
 
-      expected_output = /...\n.2.\n...\n/
+      expected_output = /. . . \n. 2 . \n. . . \n/
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
     end
 
-    it "shows a cleared cell as a blank if it does not have adjacent mines" do
+    it "shows a cleared cell as '0' if it does not have adjacent mines" do
       renderer.board = test_board
 
       renderer.board.grid[1][1].adjacent_mine_count = renderer.board.adjacent_mines(1, 1)
 
       renderer.board.clear(1, 1)
 
-      expected_output = /...\n. .\n...\n/
+      expected_output = /. . . \n. 0 . \n. . . \n/
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
     end
 
@@ -71,7 +71,7 @@ describe "Renderer" do
 
       renderer.board.grid[1][1].flag
 
-      expected_output = /...\n.F.\n...\n/
+      expected_output = /. . . \n. F . \n. . . \n/
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
     end
 
@@ -79,7 +79,7 @@ describe "Renderer" do
       test_board.grid[1][1].mine = true
       renderer.board = test_board
 
-      expected_output = /...\n...\n...\n/
+      expected_output = /. . . \n. . . \n. . . \n/
       expect { renderer.draw_grid }.to output(expected_output).to_stdout
     end
 
@@ -92,7 +92,7 @@ describe "Renderer" do
         
         renderer.board = test_board
 
-        expected_output = /..\n.X.\n..X\n/
+        expected_output = /X . . \n. X . \n. . X \n/
         expect { renderer.draw_grid(show_mines = true) }.to output(expected_output).to_stdout
       end
 
@@ -106,7 +106,7 @@ describe "Renderer" do
 
         renderer.board = test_board
 
-        expected_output = /X21\n.X.\n..X\n/
+        expected_output = /X 2 1 \n. X . \n. . X \n/
         expect { renderer.draw_grid(show_mines = true) }.to output(expected_output).to_stdout
       end
     end
