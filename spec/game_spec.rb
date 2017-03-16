@@ -84,6 +84,11 @@ describe "Game" do
   end
 
   context "during every turn" do
+    before(:each) do
+      allow(game).to receive(:victory?).and_return(true)
+      allow(test_game).to receive(:victory?).and_return(true)
+    end
+
     context "getting player input" do
       it "asks the player for coordinates, if player has chosen to clear" do
         allow(game.player).to receive(:gets).and_return('c', '1, 2')
@@ -133,25 +138,47 @@ describe "Game" do
     end
 
     context "checking whether the game is over" do
-      it "checks whether the player has won"
+      before(:each) do
+        allow(game.player).to receive(:gets).and_return('c', '0, 0')
+      end
 
-      it "checks whether the player has lost"
+      it "checks whether the player has won" do
+        expect(game).to receive(:victory?).and_return(false)
+        game.run_loop
+      end
+
+      it "checks whether the player has lost" do
+        expect(game).to receive(:defeat?).and_return(false)
+        game.run_loop
+      end
     end
 
     context "the player has won" do
-      it "shows the final game board"
-
-      it "congratulates the player"
-
-      it "exits the game"
+      it "congratulates the player" do
+        allow(game.player).to receive(:gets).and_return('c', '0, 0')
+        expect(game).to receive(:victory?).and_return(true)
+        expect(game).to receive(:congratulate_player).and_return(nil)
+        game.run_loop
+      end
     end
 
     context "the player has lost" do
-      it "reveals all mines in the minefield"
+      before(:each) do
+        allow(game.player).to receive(:gets).and_return('c', '0, 0')
+      end
 
-      it "shows a message indicating the player has lost"
+      it "reveals all mines in the minefield" do
+        expect(game).to receive(:defeat?).and_return(true)
+        expect(game.renderer).to receive(:draw_grid)
+        expect(game.renderer).to receive(:draw_grid).with(true)
+        game.run_loop
+      end
 
-      it "exits the game"
+      it "shows a message indicating the player has lost" do
+        expect(game).to receive(:defeat?).and_return(true)
+        expect(game).to receive(:console_player).and_return(nil)
+        game.run_loop
+      end
     end
 
     context "displaying current state of minefield / number of flags" do
@@ -219,14 +246,18 @@ describe "Game" do
       test_game.board.grid[0][0].mine = true
       
       allow(test_game.player).to receive(:gets).and_return('c', '0, 0')
-      test_game.run_loop
+      test_game.player.get_move
+      test_game.player.get_coords
+      test_game.player.make_move(test_game.board)
 
       expect(test_game.defeat?).to be true
     end
 
     it "returns false otherwise" do
       allow(test_game.player).to receive(:gets).and_return('c', '0, 0')
-      test_game.run_loop
+      test_game.player.get_move
+      test_game.player.get_coords
+      test_game.player.make_move(test_game.board)
 
       expect(test_game.defeat?).to be false
     end

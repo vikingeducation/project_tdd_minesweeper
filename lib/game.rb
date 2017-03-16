@@ -33,23 +33,34 @@ module Minesweeper
     end
 
     def run_loop
-      # get move
-      move = player.get_move
+      loop do
+        # get move
+        move = player.get_move
 
-      # exit game if player chooses to quit
-      quit if player.last_move == 'q'
+        # exit game if player chooses to quit
+        quit if player.last_move == 'q'
 
-      # get coordinates of move
-      coords = player.get_coords if move
+        # get coordinates of move
+        coords = player.get_coords if move
 
-      # make the move if valid
-      player.make_move(board) if move && coords
+        # make the move if valid
+        player.make_move(board) if move && coords
 
-      # draw the updated grid
-      renderer.draw_grid
+        # draw the updated grid
+        renderer.draw_grid
 
-      # show remaining flags
-      renderer.show_flags_left
+        # show remaining flags
+        renderer.show_flags_left 
+
+        congratulate_player if victory?
+
+        if defeat?
+          renderer.draw_grid(show_mines = true)
+          console_player
+        end
+
+        break if victory? || defeat?
+      end
     end
 
     def quit
@@ -67,6 +78,14 @@ module Minesweeper
       end
 
       false
+    end
+
+    def congratulate_player
+      puts "Congratulations, you won!"
+    end
+
+    def console_player
+      puts "Better luck next time!"
     end
   end
 end
