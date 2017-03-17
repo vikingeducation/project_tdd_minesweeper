@@ -322,6 +322,14 @@ describe "Board" do
     end
   end
 
+  describe "#adjacent_cell_coords" do
+    it "given the row/col of a corner cell, returns the coordinates of its adjacent cells"
+
+    it "given the row/col of a cell along an edge, returns the coordinates of its adjacent cells"
+
+    it "given the row/col of a cell in the middle of the grid, returns the coordinates of its adjacent cells"
+  end
+
   describe "#adjacent_mines" do
     # create an empty grid for testing - we can set mines as required
     let(:test_grid) { Array.new(10) { Array.new(10) { Cell.new } } }
