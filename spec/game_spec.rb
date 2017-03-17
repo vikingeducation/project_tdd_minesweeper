@@ -218,35 +218,6 @@ describe "Game" do
     end
   end
 
-  describe "#victory?" do
-    it "returns true if the player has cleared all cells without mines" do
-      (0...test_game.board.rows).each do |row|
-        (0...test_game.board.cols).each do |col|
-          test_game.board.clear(row, col)
-        end
-      end
-
-      expect(test_game.victory?).to be true
-    end
-
-    it "returns false if not all cells without mines are cleared" do
-      test_game.board.clear(0, 0)
-
-      expect(test_game.victory?).to be false
-    end
-
-    it "returns false if a cell with a mine has been cleared" do
-      test_game.board.grid[0][0].mine = true
-      (0...test_game.board.rows).each do |row|
-        (0...test_game.board.cols).each do |col|
-          test_game.board.clear(row, col)
-        end
-      end
-
-      expect(test_game.victory?).to be false
-    end
-  end
-
   describe "#defeat?" do
     it "returns true if the player's last cleared cell has a mine" do
       test_game.board.grid[0][0].mine = true
