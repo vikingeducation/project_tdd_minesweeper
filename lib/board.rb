@@ -150,7 +150,7 @@ module Minesweeper
     # given the coordinates of a cell, calculates how many mines it has
     # in its adjacent cells
     def adjacent_mines(row, col)
-      adjacent_cells(row, col).count { |cell| cell.mine }
+      adjacent_cell_coords(row, col).count { |coord| cell_has_mine?(coord[0], coord[1])}
     end
 
     # determines if there are still flags remaining
