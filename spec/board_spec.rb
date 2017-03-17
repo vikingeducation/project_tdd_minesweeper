@@ -19,7 +19,7 @@ describe "Board" do
     end
 
     # acceptance criteria states 9 mines, so we'll go with 9 flags for now
-    it "sets the number of flags to 9" do
+    it "sets the number of flags to 9 by default" do
       expect(board.flags).to eq(9)
     end
 
@@ -37,6 +37,14 @@ describe "Board" do
       test_board = Board.new(test_grid, num_mines)
 
       expect(test_board.mines).to eq(1)
+    end
+
+    it "sets the board to have the same number of flags as mines" do
+      num_mines = 1
+      test_grid = Array.new(3) { Array.new(3) { Cell.new } }
+      test_board = Board.new(test_grid, num_mines)
+
+      expect(test_board.flags).to eq(1)
     end
   end
 
@@ -175,6 +183,19 @@ describe "Board" do
       board.flag(0, 0)
       board.flag(0, 0)
       expect(board.cell_flagged?(0, 0)).to be true
+    end
+
+    it "does not flag a cell if there are no flags left" do
+      num_mines = 1
+      test_grid = Array.new(3) { Array.new(3) { Cell.new } }
+      test_board = Board.new(test_grid, num_mines)
+      expect(board.flags).to eq(1)
+
+      # board.flag(0, 0)
+      # board.flag(0, 1)
+
+      # expect(board.cell_flagged?(0, 0)).to be true
+      # expect(board.cell_flagged?(0, 1)).to be false
     end
 
     it "decreases the number of flags left by 1" do
