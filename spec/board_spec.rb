@@ -137,7 +137,7 @@ describe "Board" do
     before(:each) do
       allow(board).to receive(:puts).and_return(nil)
     end
-    
+
     it "marks a cell at the provided row/column as cleared" do
       board.clear(0, 0)
       expect(board.cell_cleared?(0, 0)).to be true
@@ -160,9 +160,38 @@ describe "Board" do
     end
 
     context "cleared cell has no adjacent mines" do
-      it "auto-clears the cell's adjacent cells"
+      it "auto-clears the cell's adjacent cells" do
+        # if a cleared cell has 0 adjacent mines
+        # find all its adjacent cells
+        # place them into a queue
+        # clear those cells too
+        num_mines = 0
+        test_grid = Array.new(3) { Array.new(3) { Cell.new } }
+        test_board = Board.new(test_grid, num_mines)
 
-      it "if any of those adjacent cells have no adjacent mines, their adjacent cells are auto-cleared too"
+        test_board.clear(0, 0)
+        expect(test_board.cell_cleared?(0, 0)).to be true
+        expect(test_board.cell_cleared?(0, 1)).to be true
+        expect(test_board.cell_cleared?(1, 0)).to be true
+        expect(test_board.cell_cleared?(1, 1)).to be true
+      end
+
+      it "if any of those adjacent cells have no adjacent mines, their adjacent cells are auto-cleared too" do
+        num_mines = 0
+        test_grid = Array.new(3) { Array.new(3) { Cell.new } }
+        test_board = Board.new(test_grid, num_mines)
+
+        test_board.clear(0, 0)
+        expect(test_board.cell_cleared?(0, 0)).to be true
+        expect(test_board.cell_cleared?(0, 1)).to be true
+        expect(test_board.cell_cleared?(0, 2)).to be true
+        expect(test_board.cell_cleared?(1, 0)).to be true
+        expect(test_board.cell_cleared?(1, 1)).to be true
+        expect(test_board.cell_cleared?(1, 2)).to be true
+        expect(test_board.cell_cleared?(2, 0)).to be true
+        expect(test_board.cell_cleared?(2, 1)).to be true
+        expect(test_board.cell_cleared?(2, 2)).to be true
+      end
     end
   end
 

@@ -70,10 +70,18 @@ module Minesweeper
     end
 
     # clears a cell, unless the cell is already flagged
+    # if the cleared cell has 0 adjacent mines, recursively clear
+    # all its adjacent mines as well
     def clear(row, col)
       unless cell_flagged?(row, col)
         grid[row][col].clear
-        grid[row][col].adjacent_mine_count = adjacent_mines(row, col)
+        adjacent_mine_count = adjacent_mines(row, col)
+        grid[row][col].adjacent_mine_count = adjacent_mine_count
+
+        if adjacent_mine_count == 0
+          coords_to_autoclear = adjacent_cell_coords(row, col)
+          coords_to_autoclear.each { |coord| clear(coord[0], coord[1]) unless cell_cleared?(coord[0], coord[1]) }
+        end
       else
         puts "You must unflag a flagged cell before clearing it."
       end
@@ -108,8 +116,6 @@ module Minesweeper
     # given the coordinates of a cell, returns the coordinates of its
     # adjacent cells
     def adjacent_cell_coords(row, col)
-      [[0, 1], [1, 0], [1, 1]]
-
       coords = []
       
       (-1..1).each do |row_offset|
