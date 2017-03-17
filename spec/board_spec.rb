@@ -448,20 +448,36 @@ describe "Board" do
 
   describe "#all_safe_cells_cleared?" do
     let(:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
-    let(:test_board) { Board.new(test_grid, 0) }
 
-    it "returns true if all safe cells are cleared" do
+    it "returns true if all safe cells are cleared in a minefield with 0 mines" do
+      test_board = Board.new(test_grid, 0)
       test_board.clear(0, 0)
       expect(test_board.all_safe_cells_cleared?).to be true
     end
 
+    it "returns true if all safe cells are cleared in a minefield with 1 mine" do
+      test_board = Board.new(test_grid, 1)
+      test_board.grid[2][2].mine = true
+      test_board.clear(0, 0)
+      test_board.clear(0, 1)
+      test_board.clear(0, 2)
+      test_board.clear(1, 0)
+      test_board.clear(1, 1)
+      test_board.clear(1, 2)
+      test_board.clear(2, 0)
+      test_board.clear(2, 1)
+      expect(test_board.all_safe_cells_cleared?).to be true
+    end
+
     it "returns false if not all safe cells are cleared" do
+      test_board = Board.new(test_grid, 1)
       test_board.grid[0][1].mine = true
       test_board.clear(0, 0)
       expect(test_board.all_safe_cells_cleared?).to be false
     end
 
     it "returns false if a cell with a mine is cleared" do
+      test_board = Board.new(test_grid, 1)
       test_board.grid[2][2].mine = true
       test_board.clear(2, 2)
 

@@ -147,17 +147,16 @@ module Minesweeper
     # checks whether all safe cells (those without a mine) 
     # have been cleared (victory condition)
     def all_safe_cells_cleared?
+      expected_safe_cells = (rows * cols) - mines
+      safe_cells_cleared = 0
+
       (0...rows).each do |row|
         (0...cols).each do |col|
-          if cell_cleared?(row, col) && !cell_has_mine?(row, col)
-            next
-          else
-            return false
-          end
+          safe_cells_cleared += 1 if cell_cleared?(row, col) && !cell_has_mine?(row, col)
         end
       end
 
-      true
+      safe_cells_cleared == expected_safe_cells ? true : false
     end
 
     private
