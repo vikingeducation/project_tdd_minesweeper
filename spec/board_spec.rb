@@ -161,10 +161,6 @@ describe "Board" do
 
     context "cleared cell has no adjacent mines" do
       it "auto-clears the cell's adjacent cells" do
-        # if a cleared cell has 0 adjacent mines
-        # find all its adjacent cells
-        # place them into a queue
-        # clear those cells too
         num_mines = 0
         test_grid = Array.new(3) { Array.new(3) { Cell.new } }
         test_board = Board.new(test_grid, num_mines)
