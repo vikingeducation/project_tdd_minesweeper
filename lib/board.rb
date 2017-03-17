@@ -105,26 +105,6 @@ module Minesweeper
       end
     end
 
-    # given the coordinates of a cell, returns its adjacent cells
-    # TODO: make this method private
-    def adjacent_cells(row, col)
-      cells = []
-      
-      (-1..1).each do |row_offset|
-        (-1..1).each do |col_offset|
-          # do not check the same cell
-          next if row_offset == 0 && col_offset == 0
-          
-          next if row + row_offset < 0 || row + row_offset >= @rows
-          next if col + col_offset < 0 || col + col_offset >= @cols
-          
-          cells << grid[row + row_offset][col + col_offset]
-        end
-      end
-
-      cells
-    end
-
     # given the coordinates of a cell, returns the coordinates of its
     # adjacent cells
     def adjacent_cell_coords(row, col)
