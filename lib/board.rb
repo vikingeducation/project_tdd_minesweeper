@@ -125,6 +125,28 @@ module Minesweeper
       cells
     end
 
+    # given the coordinates of a cell, returns the coordinates of its
+    # adjacent cells
+    def adjacent_cell_coords(row, col)
+      [[0, 1], [1, 0], [1, 1]]
+
+      coords = []
+      
+      (-1..1).each do |row_offset|
+        (-1..1).each do |col_offset|
+          # do not check the same cell
+          next if row_offset == 0 && col_offset == 0
+          
+          next if row + row_offset < 0 || row + row_offset >= @rows
+          next if col + col_offset < 0 || col + col_offset >= @cols
+          
+          coords << [row + row_offset, col + col_offset]
+        end
+      end
+
+      coords
+    end
+
     # given the coordinates of a cell, calculates how many mines it has
     # in its adjacent cells
     def adjacent_mines(row, col)

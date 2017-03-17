@@ -323,11 +323,93 @@ describe "Board" do
   end
 
   describe "#adjacent_cell_coords" do
-    it "given the row/col of a corner cell, returns the coordinates of its adjacent cells"
+    let(:test_grid) { Array.new(3) { Array.new(3) { Cell.new } } }
+    let(:test_board) { Board.new(test_grid) }
 
-    it "given the row/col of a cell along an edge, returns the coordinates of its adjacent cells"
+    it "given the row/col of a corner cell, returns the coordinates of its adjacent cells" do
+      expected_size = 3
+      coords = test_board.adjacent_cell_coords(0, 0)
 
-    it "given the row/col of a cell in the middle of the grid, returns the coordinates of its adjacent cells"
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([0, 1])
+      expect(coords).to include([1, 0])
+      expect(coords).to include([1, 1])
+
+      # top right corner
+      coords = board.adjacent_cell_coords(0, 9)
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([0, 8])
+      expect(coords).to include([1, 9])
+      expect(coords).to include([1, 8])
+
+      # bottom left corner
+      coords = board.adjacent_cell_coords(9, 0)
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([8, 0])
+      expect(coords).to include([9, 1])
+      expect(coords).to include([8, 1])
+
+      # bottom right corner
+      coords = board.adjacent_cell_coords(9, 9)
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([8, 9])
+      expect(coords).to include([9, 8])
+      expect(coords).to include([8, 8])
+    end
+
+    it "given the row/col of a cell along an edge, returns the coordinates of its adjacent cells" do
+      expected_size = 5
+
+      # top edge
+      coords = board.adjacent_cell_coords(0, 5)
+
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([0, 4])
+      expect(coords).to include([0, 6])
+      expect(coords).to include([1, 5])
+      expect(coords).to include([1, 4])
+      expect(coords).to include([1, 6])
+
+      # left edge
+      coords = board.adjacent_cell_coords(5, 0)
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([4, 0])
+      expect(coords).to include([6, 0])
+      expect(coords).to include([5, 1])
+      expect(coords).to include([4, 1])
+      expect(coords).to include([6, 1])
+
+      # right edge
+      coords = board.adjacent_cell_coords(5, 9)
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([4, 9])
+      expect(coords).to include([6, 9])
+      expect(coords).to include([5, 8])
+      expect(coords).to include([4, 8])
+      expect(coords).to include([6, 8])
+
+      # bottom edge
+      coords = board.adjacent_cell_coords(9, 5)
+      expect(coords.size).to eq(expected_size)
+      expect(coords).to include([9, 4])
+      expect(coords).to include([9, 6])
+      expect(coords).to include([8, 5])
+      expect(coords).to include([8, 4])
+      expect(coords).to include([8, 6])
+    end
+
+    it "given the row/col of a cell in the middle of the grid, returns the coordinates of its adjacent cells" do
+      coords = board.adjacent_cell_coords(5, 5)
+      expect(coords.size).to eq(8)
+      expect(coords).to include([4, 4])
+      expect(coords).to include([4, 5])
+      expect(coords).to include([4, 6])
+      expect(coords).to include([5, 4])
+      expect(coords).to include([5, 6])
+      expect(coords).to include([6, 4])
+      expect(coords).to include([6, 5])
+      expect(coords).to include([6, 6])
+    end
   end
 
   describe "#adjacent_mines" do
