@@ -63,6 +63,11 @@ module Minesweeper
       end
     end
 
+    def play
+      setup
+      run_loop
+    end
+
     def quit
       puts "Thank you for playing, goodbye!"
       exit
@@ -92,4 +97,8 @@ module Minesweeper
       puts "KABOOM! Better luck next time!"
     end
   end
+end
+
+if $0 == __FILE__
+  Minesweeper::Game.new.play
 end
