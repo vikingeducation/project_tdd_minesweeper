@@ -41,6 +41,7 @@ module Minesweeper
         @last_coords = [input[0].to_i, input[1].to_i]
         true
       else
+        puts "Invalid coordinates. Please try again."
         @last_coords = nil
         false
       end
@@ -55,7 +56,7 @@ module Minesweeper
 
       # validate coordinates before making move..
       unless board.valid_coordinate?(row, col)
-        puts "Invalid coordinate. Please try again."
+        puts "Coordinates out of range. Please try again."
         return false
       end
 
