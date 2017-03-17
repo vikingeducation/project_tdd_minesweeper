@@ -82,11 +82,11 @@ module Minesweeper
     end
 
     def congratulate_player
-      puts "Congratulations, you won!"
+      puts "Congratulations, you survived with all your limbs intact!"
     end
 
     def console_player
-      puts "Better luck next time!"
+      puts "KABOOM! Better luck next time!"
     end
   end
 end
