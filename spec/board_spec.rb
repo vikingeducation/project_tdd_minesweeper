@@ -134,6 +134,10 @@ describe "Board" do
   end
 
   describe "#clear" do
+    before(:each) do
+      allow(board).to receive(:puts).and_return(nil)
+    end
+    
     it "marks a cell at the provided row/column as cleared" do
       board.clear(0, 0)
       expect(board.cell_cleared?(0, 0)).to be true
