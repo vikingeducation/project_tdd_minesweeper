@@ -85,6 +85,8 @@ module Minesweeper
         puts "That cell is already flagged."
       elsif cell_cleared?(row, col)
         puts "You cannot flag a cleared cell."
+      elsif !flags_left?
+        puts "You have no more flags to place. Unflag a cell first."
       else
         grid[row][col].flag
         self.flags -= 1

@@ -189,13 +189,15 @@ describe "Board" do
       num_mines = 1
       test_grid = Array.new(3) { Array.new(3) { Cell.new } }
       test_board = Board.new(test_grid, num_mines)
-      expect(board.flags).to eq(1)
+      expect(test_board.flags).to eq(1)
 
-      # board.flag(0, 0)
-      # board.flag(0, 1)
+      test_board.flag(0, 0)
+      expect(test_board.flags).to eq(0)
+      expect(test_board.cell_flagged?(0, 0)).to be true
 
-      # expect(board.cell_flagged?(0, 0)).to be true
-      # expect(board.cell_flagged?(0, 1)).to be false
+      test_board.flag(0, 1)
+      expect(test_board.flags).to eq(0)
+      expect(test_board.cell_flagged?(0, 1)).to be false
     end
 
     it "decreases the number of flags left by 1" do
