@@ -155,7 +155,11 @@ describe "Board" do
   end
 
   describe "#flag" do
-    it "marks a cell at the provided row/column as flagged" do
+    before(:each) do
+      allow(board).to receive(:puts).and_return(nil)
+    end
+
+    it "marks an uncleared cell at the provided row/column as flagged" do
       board.flag(0, 0)
       expect(board.cell_flagged?(0, 0)).to be true
     end
@@ -167,31 +171,47 @@ describe "Board" do
       expect(board.cell_flagged?(0, 0)).to be false
     end
 
-    it "decreases the number of flags left by 1" do
+    it "does not change the state of a flagged cell" do
       board.flag(0, 0)
-      expect(board.flags).to eq(8)
+      board.flag(0, 0)
+      expect(board.cell_flagged?(0, 0)).to be true
+    end
+
+    it "decreases the number of flags left by 1" do
+      flags = board.flags
+      board.flag(0, 0)
+      expect(board.flags).to eq(flags - 1)
     end
   end
 
   describe "#unflag" do
+    before(:each) do
+      allow(board).to receive(:puts).and_return(nil)
+    end
+
     it "marks a flagged cell at the provided row/column as uncleared" do
       board.flag(0, 0)
       board.unflag(0, 0)
       expect(board.cell_flagged?(0, 0)).to be false
+      expect(board.cell_cleared?(0, 0)).to be false
     end
 
     it "does not change the state of a cleared cell" do
       board.clear(0, 0)
-      board.flag(0, 0)
       board.unflag(0, 0)
-      expect(board.cell_flagged?(0, 0)).to be false
       expect(board.cell_cleared?(0, 0)).to be true
     end
 
+    it "does not change the state of an uncleared cell" do
+      board.unflag(0, 0)
+      expect(board.cell_cleared?(0, 0)).to be false
+    end
+
     it "increases the number of flags left by 1" do
+      flags = board.flags
       board.flag(0, 0)
       board.unflag(0, 0)
-      expect(board.flags).to eq(9)
+      expect(board.flags).to eq(flags)
     end
   end
 

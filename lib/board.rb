@@ -79,19 +79,28 @@ module Minesweeper
       end
     end
 
-    # flags a cell, unless the cell is already cleared 
+    # flags a cell, unless the cell is already cleared / flagged
     def flag(row, col)
-      unless cell_cleared?(row, col)
+      if cell_flagged?(row, col)
+        puts "That cell is already flagged."
+      elsif cell_cleared?(row, col)
+        puts "You cannot flag a cleared cell."
+      else
         grid[row][col].flag
         self.flags -= 1
-      else
-        puts "That cell is already cleared."
       end
     end
 
+    # unflags a cell, unless the cell is already cleared / unflagged
     def unflag(row, col)
-      grid[row][col].unflag
-      self.flags += 1
+      if cell_cleared?(row, col)
+        puts "You cannot unflag a cleared cell."
+      elsif !cell_flagged?(row, col)
+        puts "That cell is already unflagged."
+      else
+        grid[row][col].unflag
+        self.flags += 1
+      end
     end
 
     # given the coordinates of a cell, returns its adjacent cells
