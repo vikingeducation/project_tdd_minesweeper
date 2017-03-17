@@ -259,6 +259,18 @@ describe "Game" do
       expect(test_game.defeat?).to be true
     end
 
+    it "returns false if the player has specified a wrongly formatted coordinate to clear" do
+      test_game.board.grid[0][0].mine = true
+      
+      allow(test_game.player).to receive(:gets).and_return('c', '0')
+      test_game.player.get_move
+      test_game.player.get_coords
+      test_game.player.make_move(test_game.board)
+
+      expect(test_game.player.last_coords).to be_nil
+      expect(test_game.defeat?).to be false
+    end
+
     it "returns false otherwise" do
       allow(test_game.player).to receive(:gets).and_return('c', '0, 0')
       test_game.player.get_move
