@@ -4,3 +4,11 @@ Code go boom!
 [A Ruby Test-Driven Development (TDD) project using RSpec from the Viking Code School](http://www.vikingcodeschool.com)
 
 Worked on by [Roy Chen](https://github.com/roychen25)
+
+## Instructions
+
+Clone the repository, change to the cloned directory, then run:
+
+`ruby lib/game.rb`
+
+Enjoy!
