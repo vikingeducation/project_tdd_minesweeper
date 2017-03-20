@@ -1,4 +1,4 @@
-require_relative "player"
+ require_relative "player"
 require_relative "board"
 
 class Minesweeper
@@ -25,7 +25,6 @@ class Minesweeper
     @board.set_mines(@player.row, @player.column)
     @board.open_square(@player.row, @player.column)
     @board.auto_clear(@player.row, @player.column)
-    @board.spread_auto_clear
   end
 
   def play
@@ -47,8 +46,7 @@ class Minesweeper
       @player.marker == :O ? @board.open_square(@player.row, @player.column) : 
         @board.set_flag(@player.row, @player.column)
       @board.auto_clear(@player.row, @player.column)
-      @board.spread_auto_clear
-      break if @board.win?
+        break if @board.win?
     end
 
     @board.display_win  

@@ -1,7 +1,8 @@
 
+
 class Board
 
-  attr_reader :grid, :mines, :remaining_flags, :mine_array, :remaining_squares, :auto_squares
+  attr_reader :grid, :mines, :remaining_flags, :mine_array, :remaining_squares
 
   def initialize
     @grid = Array.new(10) { Array.new(10) }
@@ -9,7 +10,7 @@ class Board
     @mine_array = []
     @remaining_flags = 9
     @remaining_squares = 91
-    @auto_squares = []
+    # @auto_squares = []
   end 
 
   def display_board
@@ -86,24 +87,19 @@ class Board
     puts "Congratulations! You won!" if win?
   end
 
-  def auto_clear(row, col)
+  def auto_clear(row, col, auto_squares = [])
     if @grid[row][col] == :O 
       unopened_adj_squares = adjacent_squares(row, col).select { |arr| @grid[arr[0]][arr[1]] == nil }
       unopened_adj_squares.each { |arr| open_square(arr[0], arr[1]) }
-      @auto_squares += unopened_adj_squares.select { |arr| @grid[arr[0]][arr[1]] == :O }
+      auto_squares += unopened_adj_squares.select { |arr| @grid[arr[0]][arr[1]] == :O }
+    end
+    
+    return if auto_squares.length < 1
+    auto_squares.each do |arr|
+      removed_arr = auto_squares.shift
+      auto_clear(removed_arr[0], removed_arr[1], auto_squares)
     end
   end
-
-  def spread_auto_clear
-    until @auto_squares.length == 0 do
-      @auto_squares.each do |arr|
-        removed_arr = @auto_squares.shift
-        auto_clear(removed_arr[0], removed_arr[1])  
-      end
-    end
-  end
-
-end
 
 
 
