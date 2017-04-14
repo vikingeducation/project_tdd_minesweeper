@@ -15,7 +15,7 @@ describe Game do
     end
 
     it ' calls render on the board ' do
-      expect(game.board).to receive(:render).at_least(:once)
+      expect(game.board).to receive(:render).at_least(:once) 
       game.play
     end
 

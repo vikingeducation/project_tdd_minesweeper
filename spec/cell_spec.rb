@@ -46,4 +46,41 @@ describe Cell do
       expect(cell.render).to eq('4')
     end
   end
+
+  describe ' #toggle_cover ' do
+    it ' changes cover from true to false ' do
+      cell.cover=(true)
+      cell.toggle_cover
+      expect(cell.cover).to eq(false)
+    end
+
+    it ' changes cover from true to false and returns true if a bomb' do
+      cell.cover=(true)
+      cell.bomb=(true)
+      expect(cell.toggle_cover).to eq(true)
+    end
+
+    it ' ignores the change if a flag is on the cell ' do
+      cell.cover=(true)
+      cell.flag=(true)
+      expect(cell.toggle_cover).to eq(false)
+    end
+  end
+
+  describe ' #toggle_flag ' do
+    it ' changes flag setting from false to true ' do
+      cell.flag=(false)
+      cell.toggle_flag
+      expect(cell.flag).to eq(true)
+    end
+    it ' changes flag setting from true to false ' do
+      cell.flag=(true)
+      cell.toggle_flag
+      expect(cell.flag).to eq(false)
+    end
+    it ' only allows a flag if the cell is still covered ' do
+      cell.cover=(false)
+      expect(cell.toggle_flag).to eq(false)
+    end
+  end
 end

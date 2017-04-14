@@ -39,5 +39,38 @@ describe Minesweeper do
       expect(ms).to receive(:render)
       ms.render
     end
+
+    it ' prints an uncovered board ' do
+      ms.uncover_board
+      ms.render
+    end
+
+    it ' prints the instructions ' do
+      ms.print_instructions
+    end
+  end
+
+  describe ' #game_over? ' do
+    it ' returns true if all empty cells are uncovered ' do
+      ms.uncover_board
+      expect(ms.game_over?).to eq(true)
+    end
+  end
+
+  describe ' #turn ' do
+    it ' accepts user input and returns false when out of bounds ' do
+      allow(ms).to receive(:gets).and_return('12,2,F')
+      expect(ms.turn).to eq(false)
+    end
+
+    it ' accepts user input and returns false when not a valid command ' do
+      allow(ms).to receive(:gets).and_return('7,2,Q')
+      expect(ms.turn).to eq(false)
+    end
+
+    it ' accepts user input and returns true when a valid command ' do
+      allow(ms).to receive(:gets).and_return('2,2,F')
+      expect(ms.turn).to_not eq(false)
+    end
   end
 end

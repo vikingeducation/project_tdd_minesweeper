@@ -13,4 +13,15 @@ class Cell
     return 'X' if @bomb
     adjacent_bombs ? adjacent_bombs.to_s : '_'
   end
+
+  def toggle_cover
+    return false if @flag
+    @cover = false
+    return true if @bomb
+  end
+
+  def toggle_flag
+    return false unless @cover
+    @flag = @flag ? false : true
+  end
 end

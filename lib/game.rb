@@ -1,4 +1,4 @@
-require 'minesweeper'
+require_relative 'minesweeper'
 
 class Game
   attr_reader :board
@@ -8,7 +8,9 @@ class Game
   end
 
   def play
-    @board.render
+    @board.print_instructions
     @board.turn until @board.game_over?
+    @board.uncover_board
+    @board.render
   end
 end
