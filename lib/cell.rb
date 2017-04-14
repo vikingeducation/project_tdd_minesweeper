@@ -2,7 +2,7 @@ class Cell
   def initialize(row:, col:)
     @row_coordinate = row
     @column_coordinate = col
-    @contents = ' '
+    @contents = '?'
   end
 
   def render
