@@ -42,7 +42,7 @@ class Board
 
       @board_width.times do |col|
         y = col + 1
-        board_str += " #{find_cell(x, y).render} |"
+        board_str += " #{find_cell(x, y).contents} |"
       end
       board_str += "\n" + row_separator
     end
