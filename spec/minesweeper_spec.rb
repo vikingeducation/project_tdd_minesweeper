@@ -21,7 +21,7 @@ describe Minesweeper do
       expect(board[board.size - 1].length).to eq(columns)
     end
 
-    it ' adds 25% of board size bombs to the board ' do
+    it ' adds 9 mines to the board by default ' do
       board = ms.instance_variable_get(:@board)
       bomb_count = 0
       board.length.times do |row_iter|
@@ -29,7 +29,7 @@ describe Minesweeper do
           board[row_iter][col_iter].bomb ? bomb_count += 1 : next
         end
       end
-      expect(bomb_count).to eq(board.length * board[0].length * 0.25)
+      expect(bomb_count).to eq(9)
     end
 
   end
@@ -73,4 +73,5 @@ describe Minesweeper do
       expect(ms.turn).to_not eq(false)
     end
   end
+
 end

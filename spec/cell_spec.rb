@@ -35,7 +35,7 @@ describe Cell do
 
     it ' renders as covered when true ' do
       cell.cover=(true)
-      expect(cell.render).to eq('O')
+      expect(cell.render).to eq('#')
     end
   end
 

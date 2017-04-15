@@ -1,19 +1,20 @@
 require_relative 'cell'
 
 class Minesweeper
-  def initialize(rows = 10, columns = 10)
+  def initialize(rows = 10, columns = 10, mines = 9)
     @row = rows
     @col = columns
-    @bombs = (rows * columns * 0.25).floor
+    @bombs = mines
     @board = []
-    @flags_used = 0
+    @flags_left = @bombs
+    @start_time = Time.now
     create_board
   end
 
   def turn
     puts "\nEnter your move: "
     player_move = gets.strip.upcase.split(',')
-    unless valid_move?(player_move) 
+    unless valid_move?(player_move)
       puts "Invalid Move!"
       return false
     end
@@ -37,6 +38,7 @@ class Minesweeper
       end
       print "\n"
     end
+    puts "#{(Time.now - @start_time).round} seconds elapsed"
   end
 
   def uncover_board
@@ -56,7 +58,7 @@ class Minesweeper
       end
     end
     if game_over == (@row * @col - @bombs)
-      puts 'You won!!'
+      puts "\nYou won!!"
       return true
     end
     false
@@ -66,7 +68,7 @@ class Minesweeper
     puts 'Welcome to CLI Minesweeper!!!'
     puts "\n"
     puts 'The board renders with: '
-    puts '   O - means a covered square'
+    puts '   # - means a covered square'
     puts '   | - means a flag is placed on that cell'
     puts '   _ - means an empty cell'
     puts '   X - means a bomb is in that cell'
@@ -79,6 +81,7 @@ class Minesweeper
     puts 'Enter a move by typing row,col,action like 3,8,F where '
     puts ' action is one of F - toggle flag, C - uncover cell.'
     puts "\n"
+    render
   end
 
   private
@@ -119,17 +122,8 @@ class Minesweeper
 
   def count_bombs(target_row, target_col)
     bomb_count = 0
-    if target_row > 0
-      target_col > 0 ? (bomb_count += 1 if @board[target_row - 1][target_col - 1].bomb) : 0
-      bomb_count += 1 if @board[target_row - 1][target_col].bomb
-      target_col < (@col - 1) ? (bomb_count += 1 if @board[target_row - 1][target_col + 1].bomb) : 0
-    end
-    target_col > 0 ? (bomb_count += 1 if @board[target_row][target_col - 1].bomb) : 0
-    target_col < (@col - 1) ? (bomb_count += 1 if @board[target_row][target_col + 1].bomb) : 0
-    if target_row < (@row - 1)
-      target_col > 0 ? (bomb_count += 1 if @board[target_row + 1][target_col - 1].bomb) : 0
-      bomb_count += 1 if @board[target_row + 1][target_col].bomb
-      target_col < (@col - 1) ? (bomb_count += 1 if @board[target_row + 1][target_col + 1].bomb) : 0
+    find_adjacent(target_row, target_col).each do |cell|
+      bomb_count += 1 if @board[cell[0]][cell[1]].bomb
     end
     bomb_count
   end
@@ -143,10 +137,53 @@ class Minesweeper
   end
 
   def toggle_cover(target_row, target_col)
-    @board[target_row][target_col].toggle_cover
+    if @board[target_row][target_col].toggle_cover
+      puts "\nYou lose!"
+      uncover_board
+      render
+      exit
+    else clear_adjancent(target_row, target_col)
+    end
   end
 
   def toggle_flag(target_row, target_col)
+    return puts 'No more flags' unless @board[target_row][target_col].flag || @flags_left > 0
     @board[target_row][target_col].toggle_flag
+    @board[target_row][target_col].flag ? @flags_left -= 1 : @flags_left += 1
+    puts "#{@flags_left} flag(s) remaining"
+  end
+
+  def clear_adjancent(target_row, target_col)
+    return unless @board[target_row][target_col].adjacent_bombs.zero?
+    @board[target_row][target_col].toggle_cover
+    find_adjacent(target_row, target_col).each do |cell|
+      next unless @board[cell[0]][cell[1]].cover
+      clear_adjancent(cell[0], cell[1])
+    end
+  end
+
+  def find_adjacent(target_row, target_col)
+    adjacent = []
+    adjacent_valid = []
+    adjacent << [target_row - 1, target_col - 1]
+    adjacent << [target_row - 1, target_col]
+    adjacent << [target_row - 1, target_col + 1]
+    adjacent << [target_row, target_col - 1]
+    adjacent << [target_row, target_col + 1]
+    adjacent << [target_row + 1, target_col - 1]
+    adjacent << [target_row + 1, target_col]
+    adjacent << [target_row + 1, target_col + 1]
+    adjacent.each do |cell|
+      adjacent_valid << cell if in_bounds?(cell)
+    end
+    adjacent_valid
+  end
+
+  def in_bounds?(cell)
+    return false if cell[0] < 0
+    return false if cell[0] >= @row
+    return false if cell[1] < 0
+    return false if cell[1] >= @col
+    true
   end
 end

@@ -4,14 +4,14 @@ class Cell
     @bomb = false
     @flag = false
     @cover = true
-    @adjacent_bombs = nil
+    @adjacent_bombs = 0
   end
 
   def render
     return '|' if @flag
-    return 'O' if @cover
+    return '#' if @cover
     return 'X' if @bomb
-    adjacent_bombs ? adjacent_bombs.to_s : '_'
+    adjacent_bombs > 0 ? adjacent_bombs.to_s : '_'
   end
 
   def toggle_cover
