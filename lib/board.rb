@@ -8,10 +8,10 @@ class Board
   end
 
   def to_s
-    top_row = Array.new(@board_width) { |i| i + 1 }
+    top_row = Array.new(@board_width) { |i| i + 1 }.join(' | ')
     row_separator = "   -----------------------------------------\n"
 
-    header_string = "   | #{top_row.join(' | ')}|\n"
+    header_string = "   | #{top_row}|\n"
     header_string += row_separator
 
     board_as_string = header_string + render_cell_rows(row_separator)

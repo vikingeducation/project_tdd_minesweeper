@@ -1,5 +1,3 @@
-require 'colorize'
-
 class MineSweeper
   VALID_ACTIONS = %w(c cleared).freeze
 
@@ -17,7 +15,7 @@ class MineSweeper
         make_move(coordinates, action)
         break
       rescue StandardError => error
-        puts "\n#{error.message}\n".colorize(:red)
+        puts "\n#{error.message}\n"
       end
     end
   end

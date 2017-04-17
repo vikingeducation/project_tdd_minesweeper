@@ -31,7 +31,7 @@ RSpec.describe MineSweeper do
         allow(ui_spy).to receive(:get_cell_action).and_return('C', 'c')
 
         expect { minesweeper.play }
-          .to output("Those coordinates are incorrect. Start again.\n")
+          .to output("\nThose coordinates are incorrect. Start again.\n")
                 .to_stdout
         expect(ui_spy).to have_received(:get_cell_choice).twice
       end
@@ -43,7 +43,7 @@ RSpec.describe MineSweeper do
         allow(ui_spy).to receive(:get_cell_action).and_return('derp', 'c')
 
         expect { minesweeper.play }
-          .to output("That action is illegal. Start again.\n")
+          .to output("\nThat action is illegal. Start again.\n")
                 .to_stdout
 
         expect(ui_spy).to have_received(:get_cell_action).twice
