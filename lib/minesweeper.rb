@@ -1,4 +1,6 @@
 class MineSweeper
+  VALID_ACTIONS = %w(c cleared).freeze
+
   def initialize(ui:, board:)
     @ui = ui
     @board = board
@@ -9,21 +11,37 @@ class MineSweeper
     cell_action = ''
 
     loop do
-      cell_coordinates = ui.get_cell_choice
-      break if board.valid_move?(cell_coordinates)
-      ui.invalid_move
+      begin
+        ui.display_board(board)
+        cell_coordinates = ui.get_cell_choice
+        cell_action = ui.get_cell_action
+        make_move(cell_coordinates, cell_action)
+        break
+      rescue StandardError => error
+        puts error.message
+      end
     end
-
-    loop do
-      cell_action = ui.get_cell_action
-      break if board.valid_action?(cell_action)
-      ui.invalid_action
-    end
-
-    board.make_move(cell_coordinates, cell_action)
   end
 
   private
 
   attr_reader :ui, :board
+
+  def make_move(coordinates, action)
+    validate_action(action)
+
+    if board.valid_move?(coordinates)
+      board.record_move
+    else
+      raise Errors::UnavailableCellError,
+            'Those coordinates are incorrect. Start again.'
+    end
+  end
+
+  def validate_action(action)
+    unless VALID_ACTIONS.include? action.downcase
+      raise Errors::IllegalActionError,
+            'That action is illegal. Start again.'
+    end
+  end
 end
