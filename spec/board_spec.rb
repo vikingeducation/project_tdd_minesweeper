@@ -9,6 +9,11 @@ RSpec.describe Board do
     it 'is filled with cells' do
       expect(board.mine_field.first).to be_a Cell
     end
+
+    it 'has 10 mines in its minefield by default' do
+      expected_mine_count = board.mine_field.collect { |cell| cell.mined? ? 1 : 0 }.inject(:+)
+      expect(expected_mine_count).to eq 9
+    end
   end
 
   describe 'board of cells' do
@@ -49,7 +54,7 @@ RSpec.describe Board do
     end
   end
 
-  describe 'choosing a cell' do
+  describe 'validating cell availability' do
     context 'cell is on the board' do
       it 'is a valid move when not already cleared' do
         expect(board.valid_move?('3, 3')).to be_truthy
@@ -70,7 +75,7 @@ RSpec.describe Board do
     end
   end
 
-  describe 'making a move' do
+  describe 'recording a move' do
     describe 'clearing a cell' do
       it 'clears the cell' do
         board.record_move('1, 2', 'c')

@@ -6,6 +6,7 @@ class Cell
     @column_coordinate = col
     @contents = '?'
     @cleared = false
+    @mined = false
   end
 
   def cleared?
@@ -17,7 +18,15 @@ class Cell
     @contents = ' '
   end
 
+  def set_mine
+    @mined = true
+  end
+
   def coordinates
     { x: @row_coordinate, y: @column_coordinate }
+  end
+
+  def mined?
+    @mined
   end
 end
