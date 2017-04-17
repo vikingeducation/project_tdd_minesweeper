@@ -14,6 +14,7 @@ class Cell
 
   def clear
     @cleared = true
+    @contents = ' '
   end
 
   def coordinates

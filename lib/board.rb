@@ -21,8 +21,7 @@ class Board
   end
 
   def record_move(coordinates, action)
-    x, y = coordinates.split(',').map(&:to_i)
-    cell = find_cell(x, y)
+    cell = find_cell(coordinates)
 
     action = action.downcase
     if action == 'c' || action == 'clear'
@@ -31,14 +30,14 @@ class Board
   end
 
   def valid_move?(coordinates)
-    x, y = coordinates.split(',').map(&:to_i)
-    candidate_cell = find_cell(x, y)
+    candidate_cell = find_cell(coordinates)
     candidate_cell && !candidate_cell.cleared? ? true : false
   end
 
   private
 
-  def find_cell(x, y)
+  def find_cell(coordinates)
+    x, y = coordinates.split(',').map(&:to_i)
     mine_field.find do |cell|
       cell.coordinates[:x] == x && cell.coordinates[:y] == y
     end
@@ -60,7 +59,7 @@ class Board
 
       @board_width.times do |col|
         y = col + 1
-        board_str += " #{find_cell(x, y).contents} |"
+        board_str += " #{find_cell("#{x}, #{y}").contents} |"
       end
       board_str += "\n" + row_separator
     end
