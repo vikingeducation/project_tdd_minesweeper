@@ -8,7 +8,7 @@ class Board
   end
 
   def to_s
-    top_row = Array.new(@board_width) {|i| i + 1}
+    top_row = Array.new(@board_width) { |i| i + 1 }
     row_separator = "   -----------------------------------------\n"
 
     header_string = "   | #{top_row.join(' | ')}|\n"
@@ -20,10 +20,28 @@ class Board
     board_as_string
   end
 
+  def record_move(coordinates, action)
+    x, y = coordinates.split(',').map(&:to_i)
+    cell = find_cell(x, y)
+
+    action = action.downcase
+    if action == 'c' || action == 'clear'
+      cell.clear
+    end
+  end
+
+  def valid_move?(coordinates)
+    x, y = coordinates.split(',').map(&:to_i)
+    candidate_cell = find_cell(x, y)
+    candidate_cell && !candidate_cell.cleared? ? true : false
+  end
+
   private
 
   def find_cell(x, y)
-    mine_field.find {|cell| cell.coordinates[:x] == x && cell.coordinates[:y] == y}
+    mine_field.find do |cell|
+      cell.coordinates[:x] == x && cell.coordinates[:y] == y
+    end
   end
 
   def initialize_mine_field

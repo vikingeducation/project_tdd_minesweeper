@@ -5,9 +5,7 @@ class CommandLineUI
   def get_cell_choice
   end
 
-  def invalid_action
-  end
-
-  def invalid_move
+  def display_board(board)
+    puts board.to_s
   end
 end

@@ -5,6 +5,15 @@ class Cell
     @row_coordinate = row
     @column_coordinate = col
     @contents = '?'
+    @cleared = false
+  end
+
+  def cleared?
+    @cleared
+  end
+
+  def clear
+    @cleared = true
   end
 
   def coordinates
