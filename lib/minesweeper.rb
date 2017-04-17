@@ -1,3 +1,5 @@
+require 'colorize'
+
 class MineSweeper
   VALID_ACTIONS = %w(c cleared).freeze
 
@@ -7,18 +9,15 @@ class MineSweeper
   end
 
   def play
-    cell_coordinates = []
-    cell_action = ''
-
     loop do
       begin
         ui.display_board(board)
-        cell_coordinates = ui.get_cell_choice
-        cell_action = ui.get_cell_action
-        make_move(cell_coordinates, cell_action)
+        coordinates = ui.get_cell_choice
+        action = ui.get_cell_action
+        make_move(coordinates, action)
         break
       rescue StandardError => error
-        puts error.message
+        puts "\n#{error.message}\n".colorize(:red)
       end
     end
   end
@@ -31,7 +30,7 @@ class MineSweeper
     validate_action(action)
 
     if board.valid_move?(coordinates)
-      board.record_move
+      board.record_move(coordinates, action)
     else
       raise Errors::UnavailableCellError,
             'Those coordinates are incorrect. Start again.'

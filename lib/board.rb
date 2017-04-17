@@ -15,7 +15,7 @@ class Board
     header_string += row_separator
 
     board_as_string = header_string + render_cell_rows(row_separator)
-    board_as_string += "\nFlags left: #{@flag_count}\n"
+    board_as_string += "\nFlags left: #{@flag_count}\n\n"
 
     board_as_string
   end
@@ -23,7 +23,7 @@ class Board
   def record_move(coordinates, action)
     cell = find_cell(coordinates)
 
-    action = action.downcase
+    # action = action.downcase
     if action == 'c' || action == 'clear'
       cell.clear
     end
