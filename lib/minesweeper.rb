@@ -49,7 +49,7 @@ class MineSweeper
   end
 
   def validate_move(coordinates)
-    unless board.valid_move?(coordinates)
+    unless board.cell_available?(coordinates)
       raise Errors::UnavailableCellError,
             'Those coordinates are incorrect. Start again.'
     end

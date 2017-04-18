@@ -31,7 +31,7 @@ RSpec.describe MineSweeper do
 
     context 'invalid move' do
       it 'prompts player for move again' do
-        allow(board_spy).to receive(:valid_move?).and_return(false, true)
+        allow(board_spy).to receive(:cell_available?).and_return(false, true)
         allow(ui_spy).to receive(:get_cell_action).and_return('C', 'c')
 
         minesweeper.play
@@ -42,7 +42,7 @@ RSpec.describe MineSweeper do
 
     context 'invalid action on cell' do
       it 'prompts player for action again' do
-        allow(board_spy).to receive(:valid_move?) { true }
+        allow(board_spy).to receive(:cell_available?) { true }
         allow(ui_spy).to receive(:get_cell_action).and_return('derp', 'c')
 
         minesweeper.play
@@ -59,9 +59,8 @@ RSpec.describe MineSweeper do
           .to receive(:record_move)
                 .and_raise Errors::CellWasMinedError, 'You found a mine!'
 
-        expect { minesweeper.play }
-          .to output("\nYou found a mine!\n")
-                .to_stdout
+        minesweeper.play
+        expect(ui_spy).to have_received(:player_lost).with 'You found a mine!'
       end
     end
   end

@@ -1,5 +1,5 @@
 class Cell
-  attr_reader :contents
+  attr_reader :contents, :neighbors
 
   def initialize(row:, col:)
     @row_coordinate = row
@@ -7,6 +7,7 @@ class Cell
     @contents = '?'
     @cleared = false
     @mined = false
+    @neighbors = []
   end
 
   def cleared?
