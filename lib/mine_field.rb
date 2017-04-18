@@ -4,7 +4,9 @@ class MineField
     @width = width
     @mine_count = mine_count
     @field = initialize_mine_field
+    assign_cell_neighbors(@field)
   end
+
 
   def find(x, y)
     field.find do |cell|
@@ -37,6 +39,32 @@ class MineField
   private
 
   attr_reader :field
+
+  def assign_cell_neighbors(field)
+    field.each do |cell|
+      cell.neighbors = find_neighbors(cell.coordinates)
+    end
+  end
+
+  def find_neighbors(coordinates)
+    x = coordinates[:x]
+    y = coordinates[:y]
+    main_cell = find(x, y)
+    neighbors = []
+
+    ((x - 1)..(x + 1)).each do |row|
+      next if row < 1 || row > @width
+
+      ((y - 1)..(y + 1)).each do |col|
+        next if col < 1 || col > @width
+
+        cell = find(row, col)
+        neighbors << cell if cell && cell != main_cell
+      end
+    end
+
+    neighbors
+  end
 
   def create_field
     field = Array.new(@width) do |row|

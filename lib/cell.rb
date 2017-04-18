@@ -1,5 +1,6 @@
 class Cell
-  attr_reader :contents, :neighbors
+  attr_reader :contents
+  attr_accessor :neighbors
 
   def initialize(row:, col:)
     @row_coordinate = row

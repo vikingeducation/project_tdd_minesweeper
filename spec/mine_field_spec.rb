@@ -17,7 +17,7 @@ RSpec.describe MineField do
   end
 
   describe 'coordinates' do
-    let(:cell1)  { mine_field.find(1, 1) }
+    let(:cell1) { mine_field.find(1, 1) }
     let(:cell11) { mine_field.find(2, 1) }
 
     context 'first row' do
@@ -51,16 +51,31 @@ RSpec.describe MineField do
     end
   end
 
-  xit 'assigns cell neighbors to each cell' do
-    left_corner = board.mine_field.first
-    middle_top_row = board.mine_field[5]
-    middle_non_edge_row = board.mine_field[13]
-    left_non_corner = board.mine_field[10]
+  describe 'assigning neighbors' do
+    it 'assigns 3 neighbors to a corner cell' do
+      corner_cell = mine_field.find(1, 10)
+      expect(corner_cell.neighbors.size).to eq 3
+    end
 
-    expect(left_corner.neighbors.size).to eq 3
-    expect(middle_top_row.neighbors.size).to eq 5
-    expect(middle_non_edge_row.neighbors.size).to eq 8
-    expect(left_non_corner.neighbors.size).to eq 5
+    it 'assigns 8 neighbors to a middle cell' do
+      cell = mine_field.find(2, 4)
+      expect(cell.neighbors.size).to eq 8
+    end
+
+    it 'assigns correct neighbors to cell' do
+      corner_cell = mine_field.find(1, 10)
+      expected_neighbors = [
+        mine_field.find(1, 9).coordinates,
+        mine_field.find(2, 10).coordinates,
+        mine_field.find(2, 9).coordinates
+      ]
+
+      neighbor_coords = corner_cell.neighbors.map { |cell| cell.coordinates }
+
+      neighbor_coords.each do |nc|
+        expect(expected_neighbors).to include nc
+      end
+    end
   end
 
 end
