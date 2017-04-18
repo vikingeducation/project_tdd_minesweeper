@@ -23,7 +23,6 @@ class Board
   def record_move(coordinates, action)
     cell = find_cell(coordinates)
 
-    # action = action.downcase
     if action == 'c' || action == 'clear'
       cell.clear
     end
@@ -36,6 +35,16 @@ class Board
 
   private
 
+  def create_field
+    field = Array.new(@board_width) do |row|
+      Array.new(@board_width) do |col|
+        Cell.new(row: row + 1, col: col + 1)
+      end
+    end.flatten
+
+    place_mines(field)
+  end
+
   def find_cell(coordinates)
     x, y = coordinates.split(',').map(&:to_i)
     mine_field.find do |cell|
@@ -44,11 +53,22 @@ class Board
   end
 
   def initialize_mine_field
-    Array.new(@board_width) do |row|
-      Array.new(@board_width) do |col|
-        Cell.new(row: row + 1, col: col + 1)
+    create_field
+  end
+
+  def place_mines(field)
+    @mine_count.times do
+      loop do
+        cell = field.sample
+
+        unless cell.mined?
+          cell.set_mine
+          break
+        end
       end
-    end.flatten
+    end
+
+    field
   end
 
   def render_cell_rows(row_separator)
