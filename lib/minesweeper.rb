@@ -23,13 +23,13 @@ class MineSweeper
             validate_action(action)
             break
           rescue StandardError => error
-            puts "\n#{error.message}\n"
+            ui.error_feedback(error.message)
           end
         end
 
         make_move(coordinates, action)
       rescue StandardError => error
-        puts "\n#{error.message}\n"
+        ui.player_lost(error.message)
         @game_over = true
       end
 

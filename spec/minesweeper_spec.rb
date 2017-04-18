@@ -30,26 +30,22 @@ RSpec.describe MineSweeper do
     end
 
     context 'invalid move' do
-      it 'displays feedback and prompts player for move' do
+      it 'prompts player for move again' do
         allow(board_spy).to receive(:valid_move?).and_return(false, true)
         allow(ui_spy).to receive(:get_cell_action).and_return('C', 'c')
 
-        expect { minesweeper.play }
-          .to output("\nThose coordinates are incorrect. Start again.\n")
-                .to_stdout
+        minesweeper.play
+
         expect(ui_spy).to have_received(:get_cell_choice).twice
       end
     end
 
     context 'invalid action on cell' do
-      it 'displays feedback and prompts player for action' do
+      it 'prompts player for action again' do
         allow(board_spy).to receive(:valid_move?) { true }
         allow(ui_spy).to receive(:get_cell_action).and_return('derp', 'c')
 
-        expect { minesweeper.play }
-          .to output("\nThat action is illegal. Start again.\n")
-                .to_stdout
-
+        minesweeper.play
         expect(ui_spy).to have_received(:get_cell_action).twice
       end
     end
