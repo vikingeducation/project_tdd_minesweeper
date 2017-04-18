@@ -15,8 +15,12 @@ class MineSweeper
         loop do
           begin
             ui.display_board(board)
+
             coordinates = ui.get_cell_choice
+            validate_move(coordinates)
+
             action = ui.get_cell_action
+            validate_action(action)
             break
           rescue StandardError => error
             puts "\n#{error.message}\n"
@@ -30,8 +34,6 @@ class MineSweeper
       end
 
     end
-
-    puts 'You lose'
   end
 
   private
@@ -43,11 +45,11 @@ class MineSweeper
   end
 
   def make_move(coordinates, action)
-    validate_action(action)
+    board.record_move(coordinates, action)
+  end
 
-    if board.valid_move?(coordinates)
-      board.record_move(coordinates, action)
-    else
+  def validate_move(coordinates)
+    unless board.valid_move?(coordinates)
       raise Errors::UnavailableCellError,
             'Those coordinates are incorrect. Start again.'
     end

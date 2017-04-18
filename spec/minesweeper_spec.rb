@@ -4,15 +4,19 @@ RSpec.describe MineSweeper do
   let(:minesweeper) { MineSweeper.new(ui: ui_spy, board: board_spy) }
 
   describe 'prompting user for a move' do
+    before { allow(minesweeper).to receive(:game_over?).and_return(false, true) }
+
     context 'valid move/action' do
       before do
-        allow(board_spy).to receive(:valid_move?) { true }
+        allow(minesweeper).to receive(:validate_move)
+        allow(minesweeper).to receive(:validate_action)
         allow(minesweeper).to receive(:make_move)
+
         minesweeper.play
-        expect(minesweeper).to have_received(:make_move)
       end
 
       it 'displays the board' do
+        expect(minesweeper).to have_received(:make_move)
         expect(ui_spy).to have_received(:display_board).with board_spy
       end
 

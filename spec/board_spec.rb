@@ -101,7 +101,7 @@ RSpec.describe Board do
     describe 'initial board' do
       let(:rendered_board) { expected_board }
 
-      xit 'renders a blank board with rows and columns marked' do
+      it 'renders a blank board with rows and columns marked' do
         expect(board.to_s).to eq rendered_board
       end
     end
