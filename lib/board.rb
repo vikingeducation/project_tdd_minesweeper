@@ -30,25 +30,3 @@ class Board
     mine_field.find(x, y)
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
