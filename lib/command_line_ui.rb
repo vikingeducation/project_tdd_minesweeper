@@ -1,29 +1,33 @@
-require 'colorize'
-
 class CommandLineUI
+  def initialize
+    @presenter = ShellPresenter.new
+  end
+
   def display_board(board)
-    puts "\n#{board.to_s}"
+    presenter.red_message("\n#{board.to_s}")
   end
 
   def error_feedback(msg)
-    puts "\n#{msg}\n".colorize :red
+    presenter.red_message("\n#{msg}\n")
   end
 
   def get_cell_action
-    puts 'What would you like to do? (c)lear'
-    print ': '
+    presenter.green_message("What would you like to do? (c)lear\n: ")
     gets.chomp.downcase
   end
 
   def get_cell_choice
-    print 'Enter row and column coordinates, separated by a comma (eg 1,2): '
-      .colorize(:green)
+    presenter
+      .green_message('Enter row and column coordinates, separated by a comma (eg 1,2): ')
 
     gets.chomp.downcase
   end
 
   def player_lost(msg)
-    puts "\n#{msg}".colorize :red
-    puts 'The game is over and you lost.'.colorize :red
+    presenter.red_message("\n#{msg}. The game is over and you lost.")
   end
+
+  private
+
+  attr_reader :presenter
 end
