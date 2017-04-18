@@ -14,6 +14,8 @@ class Cell
   end
 
   def clear
+    raise Errors::CellWasMinedError, 'You found a mine!' if mined?
+
     @cleared = true
     @contents = ' '
   end

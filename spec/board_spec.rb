@@ -77,9 +77,22 @@ RSpec.describe Board do
 
   describe 'recording a move' do
     describe 'clearing a cell' do
-      it 'clears the cell' do
-        board.record_move('1, 2', 'c')
-        expect(board.mine_field[1].cleared?).to be_truthy
+      context 'no mine in cell' do
+        it 'clears the cell' do
+          board.record_move('1, 2', 'c')
+          expect(board.mine_field[1].cleared?).to be_truthy
+        end
+      end
+
+      context 'cell is mined' do
+        it 'raises an error' do
+          allow(board.mine_field[1]).to receive(:mined?) { true }
+
+          expect {
+            board.record_move('1,2', 'c')
+          }.to raise_error Errors::CellWasMinedError
+
+        end
       end
     end
   end
@@ -88,7 +101,7 @@ RSpec.describe Board do
     describe 'initial board' do
       let(:rendered_board) { expected_board }
 
-      it 'renders a blank board with rows and columns marked' do
+      xit 'renders a blank board with rows and columns marked' do
         expect(board.to_s).to eq rendered_board
       end
     end

@@ -4,25 +4,43 @@ class MineSweeper
   def initialize(ui:, board:)
     @ui = ui
     @board = board
+    @game_over = false
   end
 
   def play
-    loop do
+    until game_over? do
+
+      coordinates = action = ''
       begin
-        ui.display_board(board)
-        coordinates = ui.get_cell_choice
-        action = ui.get_cell_action
+        loop do
+          begin
+            ui.display_board(board)
+            coordinates = ui.get_cell_choice
+            action = ui.get_cell_action
+            break
+          rescue StandardError => error
+            puts "\n#{error.message}\n"
+          end
+        end
+
         make_move(coordinates, action)
-        break
       rescue StandardError => error
         puts "\n#{error.message}\n"
+        @game_over = true
       end
+
     end
+
+    puts 'You lose'
   end
 
   private
 
   attr_reader :ui, :board
+
+  def game_over?
+    @game_over
+  end
 
   def make_move(coordinates, action)
     validate_action(action)

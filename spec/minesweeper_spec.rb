@@ -50,4 +50,19 @@ RSpec.describe MineSweeper do
       end
     end
   end
+
+  describe 'ending the game' do
+    context 'when a mined cell is cleared' do
+      it 'ends the game' do
+        allow(minesweeper).to receive(:validate_action)
+        allow(board_spy)
+          .to receive(:record_move)
+                .and_raise Errors::CellWasMinedError, 'You found a mine!'
+
+        expect { minesweeper.play }
+          .to output("\nYou found a mine!\n")
+                .to_stdout
+      end
+    end
+  end
 end
