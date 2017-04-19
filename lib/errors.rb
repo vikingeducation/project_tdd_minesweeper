@@ -4,4 +4,6 @@ module Errors
   class IllegalActionError < StandardError; end
 
   class CellWasMinedError < StandardError; end
+
+  class FlagWithNoMineError < StandardError; end
 end

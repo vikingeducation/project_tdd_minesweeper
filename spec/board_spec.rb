@@ -53,6 +53,36 @@ RSpec.describe Board do
         end
       end
     end
+
+    describe 'flagging a cell' do
+      context 'cell is mined' do
+        let(:cell_to_flag) { board.mine_field.find(1, 2) }
+
+        before { allow(cell_to_flag).to receive(:mined?) { true } }
+
+        it 'flags the cell' do
+          board.record_move('1, 2', 'f')
+          expect(cell_to_flag.contents).to eq 'F'
+        end
+
+        it 'reduces flag count by one' do
+          expect(board.to_s).to match /Flags left: 9/
+
+          board.record_move('1, 2', 'f')
+          expect(board.to_s).to match /Flags left: 8/
+        end
+      end
+
+      context 'cell is not mined' do
+        it 'raises and error' do
+          allow(board.mine_field.find(1, 2)).to receive(:mined?) { false }
+
+          expect {
+            board.record_move('1,2', 'f')
+          }.to raise_error Errors::FlagWithNoMineError
+        end
+      end
+    end
   end
 
   describe '#to_s' do

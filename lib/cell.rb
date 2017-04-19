@@ -26,6 +26,14 @@ class Cell
     { x: @row_coordinate, y: @column_coordinate }
   end
 
+  def flag
+    if mined?
+      @contents = 'F'
+    else
+      raise Errors::FlagWithNoMineError, 'You flagged a space without a mine.'
+    end
+  end
+
   def mine_count
     @count ||= @neighbors.collect { |cell| cell.mined? ? 1 : 0 }.inject(:+)
   end

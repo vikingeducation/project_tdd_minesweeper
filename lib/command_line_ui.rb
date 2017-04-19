@@ -12,7 +12,7 @@ class CommandLineUI
   end
 
   def get_cell_action
-    presenter.green_message("What would you like to do? (c)lear\n: ")
+    presenter.green_message("What would you like to do? (c)lear or (f)lag\n: ")
     gets.chomp.downcase
   end
 

@@ -1,5 +1,5 @@
 class MineSweeper
-  VALID_ACTIONS = %w(c cleared).freeze
+  VALID_ACTIONS = %w(c clear f flag).freeze
 
   def initialize(ui:, board:)
     @ui = ui
@@ -8,7 +8,7 @@ class MineSweeper
   end
 
   def play
-    until game_over? do
+    until game_over?
 
       coordinates = action = ''
       begin
@@ -33,6 +33,7 @@ class MineSweeper
         @game_over = true
       end
 
+      @game_over = true unless board.flags_left?
     end
   end
 

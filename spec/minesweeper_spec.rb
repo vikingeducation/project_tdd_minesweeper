@@ -52,15 +52,25 @@ RSpec.describe MineSweeper do
   end
 
   describe 'ending the game' do
+    before { allow(minesweeper).to receive(:validate_action) }
+
     context 'when a mined cell is cleared' do
       it 'ends the game' do
-        allow(minesweeper).to receive(:validate_action)
         allow(board_spy)
           .to receive(:record_move)
                 .and_raise Errors::CellWasMinedError, 'You found a mine!'
 
         minesweeper.play
         expect(ui_spy).to have_received(:player_lost).with 'You found a mine!'
+      end
+    end
+
+    context 'when no more flags left' do
+      it 'ends the game' do
+        allow(board_spy).to receive(:flags_left?) { false }
+        minesweeper.play
+
+        expect(ui_spy).to have_received(:display_board).once
       end
     end
   end

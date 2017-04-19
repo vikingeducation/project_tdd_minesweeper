@@ -6,21 +6,30 @@ class Board
     @mine_field = MineField.new(width: board_width, mine_count: mine_count)
   end
 
-  def to_s
-    "#{mine_field.to_s}\nFlags left: #{@flag_count}\n\n"
+  def cell_available?(coordinates)
+    candidate_cell = find_cell(coordinates)
+    candidate_cell && !candidate_cell.cleared? ? true : false
+  end
+
+  def flags_left?
+    @flag_count > 0
   end
 
   def record_move(coordinates, action)
     cell = find_cell(coordinates)
+
+    if action == 'f' || action == 'flag'
+      @flag_count -= 1
+      cell.flag
+    end
 
     if action == 'c' || action == 'clear'
       cell.clear
     end
   end
 
-  def cell_available?(coordinates)
-    candidate_cell = find_cell(coordinates)
-    candidate_cell && !candidate_cell.cleared? ? true : false
+  def to_s
+    "#{mine_field.to_s}\nFlags left: #{@flag_count}\n\n"
   end
 
   private
