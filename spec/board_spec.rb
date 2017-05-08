@@ -66,6 +66,11 @@ describe Board do
       expect(b.assign_mines).to receive(:plant_mine)
     end
   end
+
+
+  describe '#label_near_mines' do
+    it 'returns the number of mines nearby'
+  end
 end
 
 describe Cell do
@@ -106,14 +111,40 @@ describe Cell do
   end
 end
 
+describe Renderer do
+  r = Renderer.new(Board.new)
+  # describe '#render_board' do
+  #   it 'outputs a string to the command line' do
+  #     expect(r).to receive(:puts)
+  #     r.render_board
+  #   end
+  # end
+  describe '#get_symbol' do
+    c = Cell.new
+
+    it 'returns "# " by default' do
+      expect(r.get_symbol(c)).to eq("# ")
+    end
+
+    it 'returns "^|" if marked' do
+      c.mark_mine
+      expect(r.get_symbol(c)).to eq("^|")
+    end
+
+    it 'returns a number if cleared and not mined' do
+      c.clear
+      c.near_mines = 2
+      expect(r.get_symbol(c)).to eq("2 ")
+    end
+
+    it 'returns " " if cleared and no near mines' do
+      c.clear
+      c.near_mines = 0
+      expect(r.get_symbol(c)).to eq("  ")
+    end
+  end
+end
+
+
 r = Renderer.new(Board.new)
 r.render_board
-# describe Renderer do
-#   r = Renderer.new(Board.new)
-#   describe '#render_board' do
-#     it 'outputs a string to the command line' do
-#       expect(r).to receive(:puts)
-#       r.render_board
-#     end
-#   end
-# end

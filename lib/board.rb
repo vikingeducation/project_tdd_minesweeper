@@ -1,5 +1,6 @@
 # board.rb
 require_relative 'cell'
+require 'colorize'
 
 class Board
   attr_accessor :board_a, :num_flags
@@ -13,6 +14,7 @@ class Board
     @num_mines = num_mines
     @num_flags = num_flags
     assign_mines
+    count_near_mines
   end
 
   # randomly assigns mines to cells
@@ -48,11 +50,19 @@ class Board
     end
   end
 
+  # count_near_mines
+  def count_near_mines
+    # calculates the number of mines near the cell
+    # and passes that value to each cell
+
+  end
+
+
 end
 
 class Cell
-  attr_accessor :cleared
-  attr_reader :mine, :marked, :near_mines
+  attr_accessor :near_mines
+  attr_reader :mine, :marked, :cleared
   #initializes a blank cell
   def initialize
     @mine = false
@@ -69,6 +79,10 @@ class Cell
     @marked = true
   end
 
+  def clear
+    @cleared = true
+  end
+
 end
 
 class Renderer
@@ -81,17 +95,19 @@ class Renderer
     # The size of the board
     range = (0..(@size -1))
     #
-    line_brk = "  "
+    line_brk = "   "
     @size.times {line_brk << "----"}
-    top = "   "
+    top = "    "
+    # creates an index on the top
     range.each {|e| top << "#{e}   "}
     puts top
     puts line_brk
     range.each do |row|
-      new_row = "#{row}|"
+      new_row = " #{row}|"
       range.each do |col|
-        # value =
-        new_row << " #{row} |"
+        cell = @board_a[col][row]
+        symbol = get_symbol(cell)
+        new_row << " #{symbol}|"
       end
       puts new_row
       puts line_brk
@@ -102,11 +118,18 @@ class Renderer
   # get_symbol
   def get_symbol(cell)
     #analyes the cell value and returns the appropriate string
-
-
-
-
-
+    symbol = "# "
+    # cell.marked ? symbol = "&" :
+    if cell.marked
+      symbol = "^|"
+    end
+    if cell.cleared && cell.near_mines > 0
+      symbol = cell.near_mines.to_s + " "
+    end
+    if cell.cleared && cell.near_mines == 0
+      symbol = "  "
+    end
+    return symbol
   end
 end
 
