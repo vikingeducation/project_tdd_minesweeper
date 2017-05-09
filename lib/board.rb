@@ -14,7 +14,7 @@ class Board
     @num_mines = num_mines
     @num_flags = num_flags
     assign_mines
-    count_near_mines
+    label_near_mines
   end
 
   # randomly assigns mines to cells
@@ -51,13 +51,56 @@ class Board
   end
 
   # count_near_mines
-  def count_near_mines
+  def count_near_mines(crd)
     # calculates the number of mines near the cell
-    # and passes that value to each cell
-
+    # and returns the value (based on coordinates)
+    x = crd[0]
+    y = crd[1]
+    num_mines = 0
+    # cell = board.b_a[x][y]
+    offset_a = [[0,-1],[0,1],[1,-1],[1,0],[1,1],[-1,-1],[-1,0],[-1,1]]
+    offset_a.each do |offset|
+      sur_cell = [x + offset[0], y + offset[1]]
+      if in_bounds?(sur_cell)
+          if @board_a[sur_cell[0]][sur_cell[1]].mine == true
+              num_mines += 1
+          end
+      end
+    end
+    num_mines
   end
 
+  def in_bounds?(crds)
+    # a helper method for #count_near_mines
+    # if crds[0] >= 0 && crds[1] >= 0
+    #   true
+    # end
+    results = []
+    crds.each do |val|
+      if val.between?(0, (@size - 1))
+        results << true
+      else
+        results << false
+      end
+    end
+    # the code here is a little backwards here
+    # if there are any false values the function
+    # returns false
+    results.include?(false) ? false : true
+  end
 
+  def label_near_mines
+  #   # updates the cell value with the number
+  #   # of near_mines
+    range = (0..(@size -1))
+    range.each do |row|
+      range.each do |col|
+        crds = [row, col]
+        cell = @board_a[row][col]
+        cell.near_mines = count_near_mines(crds)
+      end
+    end
+  end
 end
 
 class Cell
@@ -100,6 +143,7 @@ class Renderer
     top = "    "
     # creates an index on the top
     range.each {|e| top << "#{e}   "}
+    puts
     puts top
     puts line_brk
     range.each do |row|
@@ -125,13 +169,40 @@ class Renderer
     end
     if cell.cleared && cell.near_mines > 0
       symbol = cell.near_mines.to_s + " "
+      if cell.near_mines == 1
+        symbol = symbol.blue
+      end
+      if cell.near_mines == 2
+        symbol = symbol.green
+      end
+      if cell.near_mines == 3
+        symbol = symbol.red
+      end
     end
     if cell.cleared && cell.near_mines == 0
       symbol = "  "
     end
+    if cell.mine && cell.cleared
+      symbol = "* "
+    end
     return symbol
   end
+
+  def clear_board
+    # a helper method to reveal the board
+    # to be used when player touches a mine
+    range = (0..(@size -1))
+    range.each do |row|
+      range.each do |col|
+        cell = @board_a[col][row]
+        cell.clear
+      end
+    end
+  end
+
 end
 
 r = Renderer.new(Board.new)
+r.render_board
+r.clear_board
 r.render_board

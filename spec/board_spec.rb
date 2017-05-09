@@ -62,15 +62,40 @@ describe Board do
       expect(b).to receive(:randomizer)
       b.assign_mines
     end
-    it 'updates the @mine of different cells' do
-      expect(b.assign_mines).to receive(:plant_mine)
+    # it 'updates the @mine of different cells' do
+    #   allow(b.assign_mines).to receive(:plant_mine)
+    #   expect(b.assign_mines).to receive(:plant_mine)
+    # end
+  end
+
+
+  describe '#count_near_mines' do
+    mock_board = Board.new
+    mock_board.board_a = Array.new(3) {Array.new(3) {Cell.new}}
+    mid_cell = [1,1]
+    it 'returns 0 if no mines nearby' do
+      expect(mock_board.count_near_mines(mid_cell)).to eq(0)
+    end
+    it 'returns the number of mines nearby' do
+      mock_board.board_a[1][0].plant_mine
+      expect(mock_board.count_near_mines(mid_cell)).to eq(1)
+      mock_board.board_a[2][2].plant_mine
+      expect(mock_board.count_near_mines(mid_cell)).to eq(2)
+    end
+  end
+
+  describe '#in_bounds?' do
+    it 'returns true if coordinates between 0 and 9' do
+      expect(b.in_bounds?([4,5])).to eq(true)
+    end
+
+    it 'returns false if coordinates are out of bounds' do
+      expect(b.in_bounds?([-1, 0])).to eq(false)
+      expect(b.in_bounds?([0,10])).to eq(false)
     end
   end
 
 
-  describe '#label_near_mines' do
-    it 'returns the number of mines nearby'
-  end
 end
 
 describe Cell do
@@ -134,7 +159,7 @@ describe Renderer do
     it 'returns a number if cleared and not mined' do
       c.clear
       c.near_mines = 2
-      expect(r.get_symbol(c)).to eq("2 ")
+      expect(r.get_symbol(c)).to eq("2 ".green)
     end
 
     it 'returns " " if cleared and no near mines' do
@@ -144,7 +169,3 @@ describe Renderer do
     end
   end
 end
-
-
-r = Renderer.new(Board.new)
-r.render_board
