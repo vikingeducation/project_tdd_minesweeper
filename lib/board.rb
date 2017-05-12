@@ -103,6 +103,7 @@ class Board
   end
 end
 
+# Cell
 class Cell
   attr_accessor :near_mines
   attr_reader :mine, :marked, :cleared
