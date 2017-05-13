@@ -41,7 +41,8 @@ class Board
     output.sort
   end
 
-  #This handy tool turns an integer into x, y coordinates for the
+
+  #This handy tool turns an integer into x, y coordinates for the board
   def coordinator(num)
     if num < 10
       [0, num]
@@ -69,6 +70,7 @@ class Board
     end
     num_mines
   end
+
 
   def in_bounds?(crds)
     # a helper method for #count_near_mines
@@ -101,42 +103,48 @@ class Board
       end
     end
   end
+
+  def check_cleared_cells
+    range = (0..(@size -1))
+    range.each do |row|
+      range.each do |col|
+        crds = [row, col]
+        cell = @board_a[row][col]
+        if cell.cleared == true && cell.near_mines == 0
+          clear_sur_cells(crds)
+        end
+      end
+    end
+  end
+
+  def clear_sur_cells(crd)
+    x = crd[0]
+    y = crd[1]
+    offset_a = [[0,-1],[0,1],[1,-1],[1,0],[1,1],[-1,-1],[-1,0],[-1,1]]
+    offset_a.each do |offset|
+      crds = [x + offset[0], y + offset[1]]
+      if in_bounds?(crds)
+        sur_cell = @board_a[crds[0]][crds[1]]
+        if sur_cell.mine == false
+          sur_cell.clear
+        end
+      end
+    end
+  end
 end
 
-# Cell
-class Cell
-  attr_accessor :near_mines
-  attr_reader :mine, :marked, :cleared
-  #initializes a blank cell
-  def initialize
-    @mine = false
-    @marked = false
-    @cleared = false
-    @near_mines = 0
-  end
-
-  def plant_mine
-    @mine = true
-  end
-
-  def mark_mine
-    @marked = true
-  end
-
-  def clear
-    @cleared = true
-  end
-
-end
 
 class Renderer
   def initialize(board)
+    @board = board
     @board_a = board.board_a
     @size = board.size
+    @num_flags = board.num_flags
   end
 
   def render_board
     # The size of the board
+    @board.check_cleared_cells
     range = (0..(@size -1))
     #
     line_brk = "   "
@@ -152,12 +160,14 @@ class Renderer
       range.each do |col|
         cell = @board_a[col][row]
         symbol = get_symbol(cell)
+        # puts "The symbol in row #{row} and column #{cell.cleared} is the cleared state"
         new_row << " #{symbol}|"
       end
       puts new_row
       puts line_brk
-
     end
+    puts
+    puts " #{@num_flags} flags remaining"
   end
 
   # get_symbol
@@ -189,6 +199,8 @@ class Renderer
     return symbol
   end
 
+
+
   def clear_board
     # a helper method to reveal the board
     # to be used when player touches a mine
@@ -203,7 +215,7 @@ class Renderer
 
 end
 
-r = Renderer.new(Board.new)
-r.render_board
-r.clear_board
-r.render_board
+# r = Renderer.new(Board.new)
+# r.render_board
+# r.clear_board
+# r.render_board

@@ -48,6 +48,7 @@ describe Board do
     end
   end
 
+
   describe '#coordinator' do
     #Note: this only works for arrays for 10X10 and smaller
     it 'converts an integer into an array of two single digits' do
@@ -95,55 +96,35 @@ describe Board do
     end
   end
 
-
-end
-
-describe Cell do
-  c = Cell.new
-
-  describe '#initialize' do
-    it 'creates a cell' do
-      expect(c).to be_a(Cell)
-    end
-    it 'does not have a mine by default' do
-      expect(c.mine).to eq(false)
-    end
-    it 'is not marked by default' do
-      expect(c.marked).to eq(false)
-    end
-    it 'is not cleared by default' do
-      expect(c.cleared).to eq(false)
-    end
-    it 'is not near any mines by default' do
-      expect(c.near_mines).to eq(0)
-    end
-
-    describe '#plant_mine' do
-      it 'plants a mine' do
-        expect(c.mine).to eq(false)
-        c.plant_mine
-        expect(c.mine).to eq(true)
-      end
-    end
-
-    describe '#mark_mine' do
-      it 'marks the cell as having a mine' do
-        expect(c.marked).to eq(false)
-        c.mark_mine
-        expect(c.marked).to eq(true)
-      end
-    end
-  end
 end
 
 describe Renderer do
   r = Renderer.new(Board.new)
-  # describe '#render_board' do
-  #   it 'outputs a string to the command line' do
-  #     expect(r).to receive(:puts)
-  #     r.render_board
-  #   end
-  # end
+
+  describe '#clear_sur_cells' do
+    it 'clears empty cells next to clear cells' do
+      mock_board = Board.new
+      mock_board.board_a = Array.new(3) {Array.new(3) {Cell.new}}
+      mock_board.board_a[1][1].clear
+      mock_board.clear_sur_cells([1,1])
+      expect(mock_board.board_a[0][0].cleared).to eq(true)
+      expect(mock_board.board_a[0][1].cleared).to eq(true)
+      expect(mock_board.board_a[0][2].cleared).to eq(true)
+      expect(mock_board.board_a[1][0].cleared).to eq(true)
+      expect(mock_board.board_a[1][2].cleared).to eq(true)
+      expect(mock_board.board_a[2][2].cleared).to eq(true)
+    end
+
+    it 'does not clear a cell that is mined' do
+      mock_board = Board.new
+      mock_board.board_a = Array.new(3) {Array.new(3) {Cell.new}}
+      mock_board.board_a[2][2].plant_mine
+      mock_board.clear_sur_cells([1,1])
+      expect(mock_board.board_a[2][2].cleared).to eq(false)
+    end
+
+  end
+
   describe '#get_symbol' do
     c = Cell.new
 
