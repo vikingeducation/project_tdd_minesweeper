@@ -19,11 +19,10 @@ class Game
     loop do
       @render.render_board
       make_move
+      check_end_game
       break if @end_game
     end
-
   end
-
 
   def make_move
     loop do
@@ -36,12 +35,10 @@ class Game
           if execute_move(coordinates)
             break
           end
-        else
         end
       end
       break
     end
-    "boobs"
   end
 
   def get_coordinates
@@ -74,16 +71,14 @@ class Game
     if move == "M" || move == "C"
       return true
     else
+      puts "Invalid move"
       return false
     end
   end
 
   def execute_move(coordinates)
-    # coordinates are flipped
-    puts coordinates.to_s
-    cell = @board.board_a[coordinates[1]][coordinates[0]]
+    cell = @board.board_a[coordinates[0]][coordinates[1]]
     if coordinates[2] == "C"
-      puts "something is going horriby horribly wrong here"
       cell.clear
     end
     if coordinates[2] == "M"
@@ -94,6 +89,46 @@ class Game
         @board.num_flags -= 1
       end
     end
+  end
+
+  def check_end_game
+    if trip_mine || swept_mines
+      @end_game = true
+    end
+  end
+
+  def trip_mine
+    range = (0..((@board.size)-1))
+    range.each do |row|
+      range.each do |col|
+        cell = @board.board_a[row][col]
+        if cell.cleared && cell.mine
+          @render.clear_board
+          @render.render_board
+          puts "You tripped a mine! Game over"
+          return true
+        end
+      end
+    end
+    false
+  end
+
+  def swept_mines
+    uncleared_cells = 0
+    range = (0..((@board.size)-1))
+    range.each do |row|
+      range.each do |col|
+        cell = @board.board_a[row][col]
+        if cell.cleared == false
+          uncleared_cells += 1
+        end
+      end
+    end
+    if uncleared_cells == @board.num_mines
+      puts "You've marked all the mines! You win!"
+      return true
+    end
+    false
   end
 
 end

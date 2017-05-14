@@ -8,11 +8,6 @@ describe Game do
     it 'creates a board' do
       expect(g.board).to be_a(Board)
     end
-    it 'does other stuff'
-  end
-
-  describe 'play' do
-    it 'calls'
   end
 
   describe 'get_coordinates' do
@@ -55,16 +50,12 @@ describe Game do
   end
 
   mock_game = Game.new
-  # mock_game.board.board_a = Array.new(3) {Array.new(3) {Cell.new}}
   test_cell = mock_game.board.board_a[0][0]
 
   describe 'execute move' do
     it 'clears cell if C' do
       expect(test_cell.cleared).to eq(false)
-      puts "The board before"
-      mock_game.render.render_board
       mock_game.execute_move([0,0,"C"])
-      mock_game.render.render_board
       expect(test_cell.cleared).to eq(true)
     end
 
@@ -79,7 +70,7 @@ describe Game do
     end
 
     it 'marks flag if m' do
-      test_cell = mock_game.board.board_a[1][0]
+      test_cell = mock_game.board.board_a[0][1]
       expect(test_cell.marked).to eq(false)
       mock_game.execute_move([0,1,"M"])
       expect(test_cell.marked).to eq(true)
