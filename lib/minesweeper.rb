@@ -58,3 +58,6 @@ class MineSweeper
 
 
 end
+
+n = MineSweeper.new
+n.play_game

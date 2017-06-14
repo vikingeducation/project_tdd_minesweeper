@@ -250,6 +250,30 @@ describe Board do
 
       end
 
+      context "square clicked is empty" do
+
+        it "should call #clear_group method to get group to clear" do
+          expect(board).to receive(:clear_group)
+          board.click_square([0,5,1], mine_hash)
+        end
+
+        it "should auto-clear all empty squares touching it and the first layer of numbered squares" do
+          board.click_square( [0, 5, 1], mine_hash )
+          expect(board.render_board).to eq([ ["-","-","1"," "," "," "," "," ","1","-"],
+                                             ["1","2","2","1"," "," "," "," ","1","-"],
+                                             [" ","1","-","1"," "," "," ","1","2","-"],
+                                             [" ","1","1","1"," "," "," ","1","-","-"],
+                                             [" "," "," "," ","1","1","1","1","-","-"],
+                                             [" "," "," "," ","1","-","-","-","-","-"],
+                                             [" "," ","1","1","2","-","-","-","-","-"],
+                                             ["1","1","1","-","-","-","-","-","-","-"],
+                                             ["-","-","-","-","-","-","-","-","-","-"],
+                                             ["-","-","-","-","-","-","-","-","-","-"]
+                                           ])
+        end
+
+      end
+
     end
 
   end
@@ -338,6 +362,7 @@ describe Board do
     context "it should find and return coordinates of all uncleared('-' & '$') squares" do
 
       specify "for a full blank board" do
+        coords = Array.new
         coords = [[0, 0],[0, 1],[0, 2],[0, 3],[0, 4],[0, 5],[0, 6],[0, 7],[0, 8],[0, 9],
                   [1, 0],[1, 1],[1, 2],[1, 3],[1, 4],[1, 5],[1, 6],[1, 7],[1, 8],[1, 9],
                   [2, 0],[2, 1],[2, 2],[2, 3],[2, 4],[2, 5],[2, 6],[2, 7],[2, 8],[2, 9],
@@ -375,14 +400,18 @@ describe Board do
   end
 
 
-  describe "#clear_as_group" do
+  describe "#clear_group" do
 
     context "the mines have been hidden and the square chosen by player is empty" do
 
-      it "should return all groups that can be cleared by clicking one square" do
-      end 
-
-      it "" do
+      it "should return a group of cells that all can be cleared by clearing the one empty cell selected" do
+        expect(board.clear_group([0, 5], mine_hash)).to eq({" " => [[0,4],[0,3],[1,4],[1,5],[1,6],[1,7],[0,7],[0,6],
+                                                                                  [2,4],[2,5],[2,6],[3,4],[3,5],[3,6],[2,0],[3,0],
+                                                                                  [4,0],[4,1],[4,2],[4,3],[5,0],[5,1],[5,2],[5,3],
+                                                                                  [6,0],[6,1]], "1" => [[0,2],[1,3],[2,3],[3,3],
+                                                                                  [4,4],[4,5],[4,6],[4,7],[3,7],[2,7],[1,8],[0,8],
+                                                                                  [1,0],[2,1],[3,1],[3,2],[5,4],[6,3],[6,2],[7,2],
+                                                                                  [7,1],[7,0]], "2" => [[1,2],[2,8],[1,1],[6,4]], "3" => [], "4" => []})
       end
 
     end

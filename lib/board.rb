@@ -15,15 +15,16 @@ class Board
 
   def initialize(board = Array.new(10).map{ |x| Array.new(10, "-")})
     @game_board = board
-    @number_flags = 9
+    @number_of_flags = 9
+    @number_of_mines = 9
     @flag = "$"
     @mine = "*"
   end
 
   # renders board to terminal
   def render_board
-    puts "Number of Mines: 9"
-    puts "Remaining Flags: #{@number_flags}"
+    puts "Number of Mines: #{@number_of_mines}"
+    puts "Remaining Flags: #{@number_of_flags}"
     puts "  0 1 2 3 4 5 6 7 8 9"
     @game_board.each.with_index do |row, index|
       print "#{index} #{row}"
@@ -33,37 +34,44 @@ class Board
 
   # randomly places nine mines
   def hide_mines
-    mine_hash = Hash.new
-    (1..9).each do |i|
-      mine_hash[i] = [rand(0..9), rand(0..9)]
+    mines = Array.new
+    (1..9).each do
+      mines << [rand(0..9), rand(0..9)]
     end
-    mine_hash
+    mines.uniq!
+    if mines.length < 9
+      mines << [rand(0..9), rand(0..9)]
+    end
+    mines
   end
 
   # once you have coords from user - changes square to cleared, mine, number accordingly
   def click_square(coords, mines)
-    if coords[2] == 1
-      if mines.has_value?([coords[0], coords[1]])
+    x,y,z = coords
+  case z
+    when 1
+      if mines.include?([x, y])
         reveal_mines(mines)
-      elsif near_mines(mines).values.flatten(1).include?([coords[0], coords[1]])
-        reveal_number([coords[0], coords[1]], mines)
+      elsif near_mines(mines).values.flatten(1).include?([x, y])
+        reveal_number([x, y], mines)
       else
-        @game_board[coords[0]][coords[1]] = " "
+        clear_group([x, y], mines)
       end
-    elsif coords[2] == 2
-      if @game_board[coords[0]][coords[1]] == "$"
-        remove_flag([coords[0], coords[1]])
+    when 2
+      if @game_board[x][y] == "$"
+        remove_flag([x, y])
       else
-        place_flag([coords[0], coords[1]])
+        place_flag([x, y])
       end
     end
   end
 
 
   def place_flag(coords)
-    if @number_flags > 0
+    if @number_of_flags > 0
       @game_board[coords[0]][coords[1]] = @flag
-      @number_flags -= 1
+      @number_of_flags -= 1
+      @number_of_mines -= 1
     else
       raise "You are out of flags!"
     end
@@ -71,13 +79,15 @@ class Board
 
 
   def remove_flag(coords)
-    if @number_flags == 9
+    x,y = coords
+    if @number_of_flags == 9
       raise "You have no flags to remove!"
     end
-    case @game_board[coords[0]][coords[1]]
+    case @game_board[x][y]
     when "$"
-      @game_board[coords[0]][coords[1]] = "-"
-      @number_flags += 1
+      @game_board[x][y] = "-"
+      @number_of_flags += 1
+      @number_of_mines += 1
     when "-"
       raise "There is no flag in that square!"
     when " "
@@ -87,7 +97,7 @@ class Board
 
   # checks winning game condition
   def win_game?(mines)
-    remaining_uncleared_squares.sort == mines.values.sort
+    remaining_uncleared_squares.sort == mines.sort
   end
 
   # gives you coordinates of all squares that have not been cleared yet
@@ -102,11 +112,11 @@ class Board
   end
 
   # finds all squares near mines
-  def near_mines(mine_hash)
+  def near_mines(mines)
     near_mines_arr = []
     final = []
-    mine_hash.values.each do |array|
-      near_mines_arr << get_directions(array)
+    mines.each do |coords|
+      near_mines_arr << get_directions(coords)
     end
     near_mines_arr.each do |hash|
       final << hash.values.delete_if { |arr| arr[0] < 0 || arr[1] < 0 || arr[0] > 9 || arr[1] > 9 }
@@ -115,14 +125,34 @@ class Board
     touching_mines(final)
   end
 
-  # creates groups of squares that can all be cleared at once (empty squares touching eachother and one numbered square)
-  def clear_as_group(coords, mine_hash)
-    m = near_mines(mine_hash).values.flatten(1)
-    n = mine_hash.values
-    empty_squares = ALL_COORDS - m - n
-    directly_nextto = (get_directions(coords).delete_if { |key, val| val[0] < 0 || val[0] > 9 || val[1] < 0 || val[1] > 9 }).values
-    directly_nextto.each do
+  # finds all emtpy squares on board after mines and numbers have been determined
+  def empty_squares(mines)
+    nm = near_mines(mines).values.flatten(1)
+    empty_squares = ALL_COORDS - nm - mines
+    empty_squares
   end
+
+
+  # creates groups of squares that can all be cleared at once (empty squares touching eachother and one numbered square)
+  def clear_group(coords, mines)
+    nearmines = near_mines(mines)
+    @game_board[coords[0]][coords[1]] = " "
+    empty = (get_directions(coords).delete_if { |key, val| val[0] < 0 || val[0] > 9 || val[1] < 0 || val[1] > 9 || mines.include?(val) }).values
+    empty.each do |coord|
+      x,y = coord
+      if nearmines.values.flatten(1).include?(coord)
+        (1..8).each do |i|
+          if nearmines[i].include?(coord)
+            @gameboard[x][y] = nearmines[i].to_s
+          end
+        end
+      else
+        @game_board[x][y] = " "
+        clear_group(coord, mines)
+      end
+    end
+  end
+
 
   # checks to see if the game was lost
   def lose_game?
@@ -145,7 +175,7 @@ class Board
 
   # reveals all mines if one is cleared
   def reveal_mines(mines)
-    mines.each_value do |arr|
+    mines.each do |arr|
       @game_board[arr[0]][arr[1]] = "*"
     end
   end
