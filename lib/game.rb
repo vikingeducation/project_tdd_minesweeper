@@ -26,10 +26,6 @@ class Game
 
   end
 
-  def flag(x, y)
-    @board.flag(x, y)
-  end
-
   private
 
   def game_over
@@ -37,10 +33,10 @@ class Game
   end
 
   def revealed
-    p 'Already revealed. Try another.'
+    p 'Phew! No bomb.'
   end
 
 end
 
-start = Game.new(4, 4, 6)
+start = Game.new(4, 4, 5)
 start.click(2, 2)

@@ -8,9 +8,15 @@ class Board
     @x_len = x_len
     @y_len = y_len
     @mines = mines
+    @tiles = []
     build_tiles
     randomize_mines
   end
+
+  ##
+  # TODO: Line 30 isn't working as expected to create a new line
+  # Potentially change string to array or change string build method
+  # "Bombs" are showing in board on first print. This should change.
 
   def print_board
     board = ''
@@ -20,18 +26,17 @@ class Board
           board << 'B'
         elsif !@tiles[y][x].revealed
           board << '?'
-        elsif @tiles[y][x].flagged
-          board << 'f'
         else
           board << 'r'
         end
       end
       board << "\n"
     end
-    board
+   p board
   end
 
   def click(x, y)
+    @tiles[y][x].click
 
     if @tiles[y][x].mine
       return 'mine'
@@ -40,8 +45,6 @@ class Board
     else
       fail 'Some other weird shit happened'
     end
-
-    @tiles[y][x].click
   end
 
   private
