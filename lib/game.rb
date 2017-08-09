@@ -5,7 +5,7 @@ class Game
 
   def initialize(x, y, mines)
     if mines > (x * y)
-      fail 'The mines exceed the number of mines exceeds the board size.'
+      raise 'The mines exceed the number of mines exceeds the board size.'
     else
       @board = Board.new(x, y, mines)
     end
@@ -19,7 +19,7 @@ class Game
     elsif clicked == 'revealed'
       revealed
     else
-      fail 'Some weird shit happened.'
+      raise 'Some weird shit happened.'
     end
 
     @board.print_board
