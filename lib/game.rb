@@ -14,7 +14,7 @@ class Game
   def click(x, y)
     clicked = @board.click(x, y)
 
-    if clicked == 'bomb'
+    if clicked == 'mine'
       game_over
     elsif clicked == 'revealed'
       revealed

@@ -15,13 +15,10 @@ describe Tile do
       expect(nine.mine).to eq(1)
     end
 
-    it 'has not yet been flagged' do
-      expect(nine.flagged).to be_falsey
-    end
-
     it 'has not yet been revealed' do
       expect(nine.revealed).to be_falsey
     end
+
   end
 
   describe '#click' do

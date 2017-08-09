@@ -24,8 +24,16 @@ describe Board do
   end
 
   describe '#click' do
-    it 'returns "mine"' do 
-      expect(all.click(2, 2)).to eq("mine")
+    it 'can return "mine"' do 
+      expect(all.click(1, 1)).to eq("mine")
+    end
+
+    it 'can return "revealed"' do
+      expect(none.click(1, 1)).to eq("revealed")
+    end
+
+    it 'raises an error if the tile doesn\'t exist' do
+      expect{ all.click(2, 2) }.to raise_error(NoMethodError)
     end
   end
 
