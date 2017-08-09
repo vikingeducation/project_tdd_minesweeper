@@ -17,5 +17,4 @@ describe Game do
 
     it 'tells the user the tile had no bomb and has been revealed'
   end
-
 end
