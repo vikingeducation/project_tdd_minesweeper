@@ -13,8 +13,13 @@ describe Game do
   end
 
   describe '#click' do
-    it 'returns information about the game ending'
 
+    ##
+    # Testing both of these is tricky because of how the value is getting returned. 
+    # Submitting for now and will revisit. May require code changes to add dependency 
+    # injection as a solution. 
+    
+    it 'returns information about the game ending'
     it 'tells the user the tile had no bomb and has been revealed'
   end
 end
