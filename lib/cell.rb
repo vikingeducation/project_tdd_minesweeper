@@ -66,15 +66,14 @@ module Minesweeper
           break if out_of_scope?(row, column)
           result << [row, column]
         end
-
       end
-
 
       result
     end
 
     def out_of_scope?(row, column)
-      row < 1 || row > 10 || column < 1 || column > 10 ||
+      size = self.class.cells.map(&:row).max
+      row < 0 || row > size || column < 0 || column > size ||
        (column == self.column && row == self.row)
     end
   end
