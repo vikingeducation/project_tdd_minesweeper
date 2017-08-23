@@ -46,7 +46,7 @@ module Minesweeper
 
     def number_of_mines_around
       count = 0
-      column_and_row_numbers_of_adjacent_cells.each do |row, column|
+      surrounded_cells.each do |row, column|
         cell = Cell.find(row: row, column: column)
         count += 1 if cell&.has_mine?
       end
@@ -57,9 +57,7 @@ module Minesweeper
       number_of_mines_around > 0
     end
 
-    private
-
-    def column_and_row_numbers_of_adjacent_cells
+    def surrounded_cells
       result = []
       ((row - 1)..(row + 1)).each do |row|
         ((column - 1)..(column + 1)).each do |column|
@@ -70,6 +68,8 @@ module Minesweeper
 
       result
     end
+
+    private
 
     def out_of_scope?(row, column)
       size = self.class.cells.map(&:row).max

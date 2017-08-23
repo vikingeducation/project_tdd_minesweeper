@@ -1,12 +1,12 @@
 module Minesweeper
   class Board
-    attr_reader :size, :mines, :flags_left
-
+    attr_reader :size, :mines, :flags_remaining
+    
     def initialize(size: 10, mines: 9, cell: Cell)
       @size = size
       @mines = mines
       @cell = cell
-      @flags_left = mines
+      @flags_remaining = mines
     end
 
     def data
@@ -15,11 +15,40 @@ module Minesweeper
 
     def flag(row, col)
       data[row][col].flag
-      @flags_left -= 1
+      @flags_remaining -= 1
     end
 
-    def clear(row, col)
-      data[row][col].clear
+    def clear(row, col, cleared_cells = [], clear = true)
+      cleared_cells << [row, col]
+      cell = data[row][col]
+
+      if cell.has_mine?
+        cell.clear if clear == true
+        return @cleared_mine = true
+      end
+
+      cell.clear
+
+      if cell.number_of_mines_around.zero?
+        surrounded_cells = cell.surrounded_cells - cleared_cells
+
+        surrounded_cells.each do |_cell|
+          clear(*_cell, cleared_cells, false)
+        end
+      end
+    end
+
+    def cleared_mine?
+      !!@cleared_mine
+    end
+
+    def all_cleared?
+      data.flatten.all? { |cell| cell.cleared? || cell.flaged? }
+    end
+
+    def valid_move?(row, column)
+      (0...size).cover?(row) && (0...size).cover?(column) &&
+      !data[row][column].cleared? && !data[row][column].flaged?
     end
 
     private
@@ -45,5 +74,7 @@ module Minesweeper
 
       @combos
     end
+
+
   end
 end
