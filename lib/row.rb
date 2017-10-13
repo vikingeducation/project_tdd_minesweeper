@@ -9,7 +9,6 @@ class Row
       row << Cell.new
     end
     row << Mine.new
-
     row.shuffle!
   end
 
