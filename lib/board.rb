@@ -61,42 +61,8 @@ end #Board
 
 # puts "Welcome to Minesweeper"
 # puts "Watch your step!", ""
-# board = Board.new(10)
-# p board.render
-# board.add_cell_values
-
-# board_size = 10
-# grid = []
-# board_size.times do
-#   grid << Array.new(Array.new(board_size, 0))
-# end
-
-# grid.each do |row|
-#   p row.object_id
-#   mine = (0..(board_size - 1)).to_a.sample
-#   row[mine] = 'b'
-# end
-
-# p grid
-
-# grid2 = [
-#   [[0],[0],[0],[0],[0],0,0,0,0,0],
-#   ['0','0','0','0','0','0',0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0],
-#   [0,0,0,0,0,0,0,0,0,0]
-# ]
-
-# grid2.each do |row|
-#   p "row: #{row.object_id}"
-#   row.each_with_index do |col, i|
-#     p "col #{i}: #{col.object_id}"
-#   end
-# end
+# board = Board.new(15)
+# board.display_all_cells
+# board.add_hint_values
 
 

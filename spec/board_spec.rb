@@ -17,28 +17,9 @@ describe Board do
       end
     end #no provided size
 
-    describe 'is made of unique objects' do
-      let(:board) { Board.new(minimum_size) }
-
-      xit 'rows have unique object ids' do
-        all_rows = board.grid
-        unique_rows = board.grid.uniq
-        expect(all_rows.length).to eq(unique_rows.length)
-      end #rows
-
-      xit 'cells have unique object ids' do
-        all_cells = []
-        unique_cells = all_cells.uniq
-        board.grid.each do |row|
-          row.each do |cell|
-            all_cells << cell
-          end
-        end
-        expect(all_cells.length).to eq(unique_cells.length)
-      end #cells
-    end #unique objs
     describe 'with a custom board size' do
       let(:board) { Board.new(board_size) }
+      let(:board_size) { minimum_size }
 
       describe 'when 10 is provided' do
         let(:board_size) { 10 }
