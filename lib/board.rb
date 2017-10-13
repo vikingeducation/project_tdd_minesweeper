@@ -1,5 +1,6 @@
 require_relative 'row'
 require_relative 'cell'
+require 'pry'
 
 class Board
   MIN_SIZE = 8
@@ -12,11 +13,11 @@ class Board
     build
     @mine_locations = []
     locate_mines
+    add_hint_values
   end
 
   def render
     grid
-    # add_cell_values
   end
 
   # private
@@ -35,14 +36,19 @@ class Board
     end
   end
 
-  def add_cell_values
+  def add_hint_values
     mine_locations.each do |location|
-      set_top_left(location)
-    end
-  end
 
-  def set_top_left(loc)
-    grid[loc[0]-1][loc[1]-1].value += 1
+      [-1, 0, 1].each do |row_modifier|
+        row_address = location[0] + row_modifier
+
+        [-1,0,1].each do |column_modifier|
+          column_address = location[1] + column_modifier
+          next unless (0...board_size).include?(row_address) && (0...board_size).include?(column_address)
+          grid[row_address][column_address].value += 1
+        end #column
+      end #row
+    end #locations
   end
 
   def verify_board_size(board_size)

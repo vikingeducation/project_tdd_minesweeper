@@ -60,24 +60,10 @@ describe Board do
         it('raises an error') { expect{ board.render }.to raise_error(ArgumentError) }
       end
 
-      describe 'adds mines to the grid' do
-        let(:board_size) { 8 }
-        it 'of the same amount as the board size' do
-          mines = []
-          board.render.each do |row|
-            row.each do |cell|
-              mines << cell if cell.is_a?(Mine)
-            end
-          end
-          expect(mines.length).to eq(board_size)
-        end #it
-      end #adds mines
-
-
-
-      describe 'adds mine indicators to the grid' do
-        it 'does something...'
-      end #adds indicators
+      it 'has hint values in the cells' do
+        row_hint_total = board.render.first.map(&:value).reduce(&:+)
+        expect(row_hint_total).to be > 0
+      end
 
     end #custom board
 
