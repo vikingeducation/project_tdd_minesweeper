@@ -3,27 +3,25 @@ require_relative 'icon'
 class Cell
   include Icon
 
-  attr_accessor :value
+  attr_accessor :value, :visible
 
   def initialize
     @value = 0
-  end
-
-  def revealed?
-    false
+    @visible = false
   end
 
   def to_s
-    "#{value} "
+    visible ? "#{value} " : "#{Icon::HIDDEN}"
   end
 
   def flag
-    "#{Icon::FLAG} "
+    "#{Icon::FLAG}"
   end
 end
 
 class Mine < Cell
   def to_s
-    "#{Icon::MINE} "
+    visible ? "#{Icon::MINE}" : "#{Icon::HIDDEN}"
+
   end
 end
