@@ -13,14 +13,10 @@ describe Cell do
   end
 
   describe '.count_visible' do
+      # let(:cell2) { Cell.new }
+      # cell.visible = true
+      # cell2.visible = true
     it 'returns a count of all Cells that are visible' do
-      a = Cell.new
-      a.visible = true
-
-      b = Cell.new
-      b.visible = true
-
-      c = Cell.new
       expect(Cell.count_visible).to eq(2)
     end
   end
@@ -36,8 +32,11 @@ describe Cell do
     describe 'for a flag' do
       it 'does not allow more than one flag per cell'
       it 'if a flag is already there, it will be removed and the flag count will be restored'
+
       it 'displays a flag icon' do
-        expect(cell.flag).to eq("#{Icon::FLAG}")
+        cell.visible = true
+        cell.flag = true
+        expect(cell.to_s).to eq("#{Icon::FLAG}")
       end
     end
   end

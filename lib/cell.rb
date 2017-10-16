@@ -3,11 +3,12 @@ require_relative 'icon'
 class Cell
   include Icon
 
-  attr_accessor :value, :visible
+  attr_accessor :value, :visible, :flag
 
   def initialize
     @value = 0
     @visible = false
+    @flag = false
   end
 
   def self.count_visible
@@ -18,17 +19,19 @@ class Cell
   end
 
   def to_s
-    visible ? "#{value} " : "#{Icon::HIDDEN}"
+    if visible && flag
+      "#{Icon::FLAG}"
+    elsif visible
+      "#{value} "
+    else
+      "#{Icon::HIDDEN}"
+    end
   end
 
-  def flag
-    "#{Icon::FLAG}"
-  end
-end
+end #Cell
 
 class Mine < Cell
   def to_s
     visible ? "#{Icon::MINE}" : "#{Icon::HIDDEN}"
-
   end
 end
