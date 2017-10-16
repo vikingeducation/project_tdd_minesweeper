@@ -3,10 +3,10 @@ require_relative 'cell'
 require 'pry'
 
 class Board
-  MIN_SIZE = 8
+  MIN_SIZE = 5
   MAX_SIZE = 25
 
-  attr_accessor :board_size, :grid, :mine_locations
+  attr_accessor :board_size, :grid, :mine_locations, :remaining_flags
   def initialize(board_size = MIN_SIZE)
     @board_size = verify_board_size(board_size)
     @grid = []
@@ -14,15 +14,55 @@ class Board
     @mine_locations = []
     @max_visible_cells = board_size * (board_size -1)
     @visible_cell_count = 0
+    @remaining_flags = board_size
     locate_mines
     add_hint_values
   end
 
   def render
-    grid
+    display_all_cells
+    display_mine_and_flag_counts
   end
 
   # private
+
+
+  def display_all_cells
+    header = '     '
+    (0...board_size).each do |num|
+      if num < 10
+        header << "#{num}  "
+      else
+        header << "#{num} "
+      end
+    end
+
+    p header
+    p '   -' + '---' * board_size
+    row_number = 0
+    grid.each do |row|
+      if row_number < 10
+        row.unshift("#{row_number}  |")
+      else
+        row.unshift("#{row_number} |")
+      end
+      row_number += 1
+    end
+
+    grid.each do |row|
+      p row.map(&:to_s).join(' ')
+    end
+  end
+
+  def display_mine_and_flag_counts
+    puts "Mines: #{@mine_locations.count} | Remaining Flags: #{@remaining_flags}", ""
+  end
+
+  def refresh_display_headers
+    grid.map do |row|
+      row.shift
+    end
+  end
 
   def build
     board_size.times do

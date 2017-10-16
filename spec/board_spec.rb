@@ -46,6 +46,18 @@ describe Board do
         expect(row_hint_total).to be > 0
       end
 
+      it 'has a default flag count equal to mines' do
+        expect(board.remaining_flags).to eq(board_size)
+      end
+
+      xit 'displays remaining flag count' do
+        board.remaining_flags = 10
+        board.remaining_flags -= 1
+        expect(board.remaining_flags).to eq(9)
+      end
+
+      it 'displays a mine count'
+
     end #custom board
 
   end #render

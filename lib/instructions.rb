@@ -4,12 +4,15 @@ module Instructions
     puts "* " * (title.length / 2)
     puts title
     puts "* " * (title.length / 2), ""
+  end
+
+  def render_instructions
     puts "Try to uncover the board by entering the coordinates"
     puts "of the cells without mines in them.",""
     request_continue
   end
 
-  def render_instructions
+  def render_how_to
     clear_terminal
     puts "This is a blank board:"
     puts "     1   2   3   4   5   6   7   8   9   10"
