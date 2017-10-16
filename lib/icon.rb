@@ -1,6 +1,5 @@
 module Icon
-  # MINE = "💩 "
-  MINE = "💣 "
+  MINE = "❌ "
   FLAG = "🚩 "
   HIDDEN = ". "
 end
