@@ -12,6 +12,8 @@ class Board
     @grid = []
     build
     @mine_locations = []
+    @max_visible_cells = board_size * (board_size -1)
+    @visible_cell_count = 0
     locate_mines
     add_hint_values
   end
@@ -54,6 +56,11 @@ class Board
   def verify_board_size(board_size)
     raise ArgumentError if board_size < MIN_SIZE || board_size > MAX_SIZE
     board_size == 0 ? MIN_SIZE : board_size
+  end
+
+  def all_cleared?
+    @visible_cell_count = Cell.count_visible
+    @visible_cell_count == @max_visible_cells
   end
 
 
