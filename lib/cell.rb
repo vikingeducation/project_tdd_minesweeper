@@ -10,6 +10,13 @@ class Cell
     @visible = false
   end
 
+  def self.count_visible
+    results = ObjectSpace.each_object(self).find_all do |object|
+       object.instance_variable_get(:@visible) == true
+    end
+    results.length
+  end
+
   def to_s
     visible ? "#{value} " : "#{Icon::HIDDEN}"
   end

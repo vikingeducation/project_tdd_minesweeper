@@ -12,6 +12,19 @@ describe Cell do
     it("is hidden by default") { expect(cell.visible).to eq(false) }
   end
 
+  describe '.count_visible' do
+    it 'returns a count of all Cells that are visible' do
+      a = Cell.new
+      a.visible = true
+
+      b = Cell.new
+      b.visible = true
+
+      c = Cell.new
+      expect(Cell.count_visible).to eq(2)
+    end
+  end
+
   describe 'when a user selects this cell' do
     it 'checks to see if it is a mine'
     it 'clears all neighboring 0 value cells'
