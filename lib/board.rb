@@ -65,9 +65,7 @@ class Board
   end
 
   def build
-    board_size.times do
-      grid << Row.new.build(board_size)
-    end
+    @grid = Array.new(board_size) { Row.new.build(board_size) }
   end
 
   def locate_mines
