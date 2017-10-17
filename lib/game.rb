@@ -6,14 +6,14 @@ class Game
   include Instructions
 
   def initialize
-    @play_again = true
+    @in_play = true
   end
 
   def play
     render_welcome
     render_instructions
     @board = Board.new
-    while @play_again == true
+    while @in_play == true
       play_round
     end
     exit_game
@@ -83,13 +83,12 @@ class Game
   def render_lose
     @board.render
     puts 'You hit a mine, so you lose. Game Over.'
-    exit_game
+    @in_play = false
   end
 
   def render_win
     puts 'Congratulations! You WIN!'
-    @play_again = false
-    exit_game
+    @in_play = false
   end
 
   def exit_game
