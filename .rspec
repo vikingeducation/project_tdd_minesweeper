@@ -1,0 +1,4 @@
+--require string
+--require pry
+--color
+--format documentation
