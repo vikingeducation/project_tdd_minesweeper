@@ -1,10 +1,11 @@
 require 'pry'
+#require_relative 'game'
 
 class Board
-  attr_reader :board, :board_size
-  attr_accessor :flags, :flag_coordinates
+  attr_reader :board_size
+  attr_accessor :flags, :flag_coordinates, :board
   
-  def initialize(board_size = 11, flags = 9)
+  def initialize(board_size = 10, flags = 9)
     @board_size = board_size
     @board = Array.new(@board_size) {Array.new(@board_size) { |cell| '*' } }
     @flags = flags
@@ -23,7 +24,7 @@ class Board
   def replace_repeat_flag_coordinates
     while flag_coordinates.uniq.size < flags 
       self.flag_coordinates.uniq!
-      (flags - flag_coordinates.size).times do 
+      (flags - flag_coordinates.size).times do
         row = (0..(@board_size - 1)).to_a.sample
         column = (0..(@board_size - 1)).to_a.sample
         @flag_coordinates << [row, column]
@@ -63,9 +64,20 @@ class Board
       puts
     end
   end
+
+  def update_board(coordinates)
+    row = coordinates[0].to_i - 1
+    column = coordinates[1].to_i - 1
+    action = coordinates[2]
+
+    if action.downcase == 'c'
+      self.board[row][column] = ' '
+    end
+  end
+  
 end
 
-Board.new.render_board
+
 
 
 

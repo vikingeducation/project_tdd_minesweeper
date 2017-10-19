@@ -1,9 +1,19 @@
-require 'board'
+require_relative 'board'
 
 class Game
-  attr_reader :board
-  
+  attr_accessor :board
   def initialize
     @board = Board.new
   end
+  def make_move
+    move = gets.chomp.split(',')
+    raise 'invalid input' if move.size < 3
+    move
+  end
 end
+
+#@game = Game.new
+
+#@game.board.update_board(@game.make_move)
+#@game.board.render_board
+

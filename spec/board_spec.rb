@@ -1,8 +1,10 @@
 require 'board'
+require 'pry'
 
 describe Board do 
 
   let (:board) { Board.new }
+  let (:game) { Game.new }
 
   describe "#initialize" do
     it 'initializes a board with 10 rows by default' do 
@@ -39,6 +41,15 @@ describe Board do
     end
     it "replaces duplicate flag coordinates" do 
       expect(board.flag_coordinates.uniq.size).to eq(board.flags)
+    end
+  end
+
+  describe "#update_board" do 
+    it "changes coordinate status based on Game.make_move" do 
+      allow(game).to receive(:make_move).and_return([2,3,'c'])
+      board.update_board(game.make_move)
+      binding.pry
+      expect(board.board[1][2]).to eq(' ')
     end
   end
 end
