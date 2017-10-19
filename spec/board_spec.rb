@@ -47,9 +47,21 @@ describe Board do
   describe "#update_board" do 
     it "changes coordinate status based on Game.make_move" do 
       allow(game).to receive(:make_move).and_return([2,3,'c'])
+      board.flag_coordinates = [[3, 3], [1, 3]]
       board.update_board(game.make_move)
       binding.pry
-      expect(board.board[1][2]).to eq(' ')
+      expect(board.board[1][2]).to eq(2)
     end
   end
+
+  describe "#check_surrounding_squares" do
+    let(:board) { Board.new(10, 2) }  
+    it "returns number of bombs in adjacent squares in cleared square" do 
+      board.flag_coordinates = [[3, 3], [1, 3]]
+      allow(game).to receive(:make_move).and_return([2,3,'c'])
+      board.update_board(game.make_move)
+      expect(board.check_surrounding_squares(game.make_move)).to eq(2)
+    end
+  end
+
 end

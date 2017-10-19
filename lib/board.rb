@@ -58,7 +58,7 @@ class Board
         print "#{(row_index + 1)}  "
       end
       row.each do |cell|
-        print cell + '  '
+        print "#{cell}  "
       end
       puts
       puts
@@ -71,11 +71,25 @@ class Board
     action = coordinates[2]
 
     if action.downcase == 'c'
-      self.board[row][column] = ' '
+      self.board[row][column] = check_surrounding_squares(coordinates)
     end
+  end
+
+  def check_surrounding_squares(coordinates)
+    bombs = 0
+    binding.pry
+    surrounding_squares = [[-1, -1], [-1, 0], [-1, 1], 
+      [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
+      [a + coordinates[0].to_i, b + coordinates[1].to_i] }
+    
+    surrounding_squares.each do |square|
+      bombs += 1 if flag_coordinates.include?(square)
+    end
+    bombs
   end
   
 end
+
 
 
 
