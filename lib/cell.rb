@@ -1,7 +1,8 @@
 class Cell 
-  attr_accessor :mine, :flag, :clear
+  attr_accessor :mine, :flag, :clear, :show
 
   def initialize
+    @show = '*'
     @mine = false
     @flag = false
     @clear = false

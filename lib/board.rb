@@ -1,5 +1,6 @@
 require 'pry'
 #require_relative 'game'
+require_relative 'cell'
 
 class Board
   attr_reader :board_size
@@ -7,7 +8,7 @@ class Board
   
   def initialize(board_size = 10, flags = 9)
     @board_size = board_size
-    @board = Array.new(@board_size) {Array.new(@board_size) { |cell| '*' } }
+    @board = Array.new(@board_size) {Array.new(@board_size) { |cell| Cell.new } }
     @flags = flags
   end
 
@@ -58,7 +59,7 @@ class Board
         print "#{(row_index + 1)}  "
       end
       row.each do |cell|
-        print "#{cell}  "
+        print "#{cell.show}  "
       end
       puts
       puts
@@ -71,8 +72,17 @@ class Board
     action = coordinates[2]
 
     if action.downcase == 'c'
-      self.board[row][column] = check_surrounding_squares(coordinates)
-    end
+      self.board[row][column].clear = true
+      self.board[row][column].show = check_surrounding_squares(coordinates)
+    elsif action.downcase == 'f' && board[row][column].clear == false
+      if board[row][column].flag == false
+        self.board[row][column].flag = true
+        self.board[row][column].show = 'F'
+      else
+        self.board[row][column].flag = false
+        self.board[row][column].show = '*'
+      end
+    end     
   end
 
   def check_surrounding_squares(coordinates)

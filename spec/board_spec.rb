@@ -20,7 +20,7 @@ describe Board do
     end
   end
 
-  describe "#assign_flag_coordinates" do 
+  describe "#assign_mine_coordinates" do 
     before do 
       board.assign_mine_coordinates
     end
@@ -33,23 +33,39 @@ describe Board do
     end
   end
 
-  describe "#replace_repeat_flag_coordinates" do
+  describe "#replace_repeat_mine_coordinates" do
     let(:board) { Board.new(10, 2) } 
     before do 
       board.mine_coordinates = [[2, 3], [2, 3]]
       board.replace_repeat_mine_coordinates
     end
-    it "replaces duplicate flag coordinates" do 
+    it "replaces duplicate mine coordinates" do 
       expect(board.mine_coordinates.uniq.size).to eq(board.flags)
     end
   end
 
   describe "#update_board" do 
-    it "changes coordinate status based on Game.make_move" do 
+    it "changes coordinate status to cleared based on Game.make_move" do 
       allow(game).to receive(:make_move).and_return([2,3,'c'])
       board.mine_coordinates = [[3, 3], [1, 3]]
       board.update_board(game.make_move)
-      expect(board.board[1][2]).to eq(2)
+      expect(board.board[1][2].clear).to be true
+      expect(board.board[1][2].show).to eq(2)
+    end
+
+    it "changes coordinate status to flagged based on Game.make_move" do 
+      allow(game).to receive(:make_move).and_return([2,3,'f'])
+      board.update_board(game.make_move)
+      expect(board.board[1][2].flag).to be true
+      expect(board.board[1][2].show).to eq('F')
+    end
+
+    it "changes coordinate status to unflagged based on Game.make_move" do 
+      allow(game).to receive(:make_move).and_return([2,3,'f'])
+      board.board[1][2].flag = true
+      board.update_board(game.make_move)
+      expect(board.board[1][2].flag).to be false
+      expect(board.board[1][2].show).to eq('*')
     end
   end
 
