@@ -3,7 +3,7 @@ require 'pry'
 
 class Board
   attr_reader :board_size
-  attr_accessor :flags, :flag_coordinates, :board
+  attr_accessor :flags, :mine_coordinates, :board
   
   def initialize(board_size = 10, flags = 9)
     @board_size = board_size
@@ -11,23 +11,23 @@ class Board
     @flags = flags
   end
 
-  def assign_flag_coordinates
-    @flag_coordinates = []
+  def assign_mine_coordinates
+    @mine_coordinates = []
     @flags.times do 
       row = (0..(@board_size - 1)).to_a.sample
       column = (0..(@board_size - 1)).to_a.sample
-      @flag_coordinates << [row, column]
+      @mine_coordinates << [row, column]
     end
-    replace_repeat_flag_coordinates
+    replace_repeat_mine_coordinates
   end
 
-  def replace_repeat_flag_coordinates
-    while flag_coordinates.uniq.size < flags 
-      self.flag_coordinates.uniq!
-      (flags - flag_coordinates.size).times do
+  def replace_repeat_mine_coordinates
+    while mine_coordinates.uniq.size < flags 
+      self.mine_coordinates.uniq!
+      (flags - mine_coordinates.size).times do
         row = (0..(@board_size - 1)).to_a.sample
         column = (0..(@board_size - 1)).to_a.sample
-        @flag_coordinates << [row, column]
+        self.mine_coordinates << [row, column]
       end
     end
   end
@@ -77,13 +77,12 @@ class Board
 
   def check_surrounding_squares(coordinates)
     bombs = 0
-    binding.pry
     surrounding_squares = [[-1, -1], [-1, 0], [-1, 1], 
       [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
       [a + coordinates[0].to_i, b + coordinates[1].to_i] }
     
     surrounding_squares.each do |square|
-      bombs += 1 if flag_coordinates.include?(square)
+      bombs += 1 if mine_coordinates.include?(square)
     end
     bombs
   end

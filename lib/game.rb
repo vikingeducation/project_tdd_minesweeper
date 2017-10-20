@@ -12,8 +12,8 @@ class Game
   end
 end
 
-@game = Game.new
-@game.board.assign_flag_coordinates
-@game.board.update_board(@game.make_move)
-@game.board.render_board
+#@game = Game.new
+#@game.board.assign_mine_coordinates
+#@game.board.update_board(@game.make_move)
+#@game.board.render_board
 
