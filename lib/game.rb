@@ -28,9 +28,9 @@ end
 
 @game = Game.new
 @game.board.assign_mine_coordinates
+@game.board.compute_adjacent_mines
 coords = @game.make_move
 @game.board.update_board(coords)
-@game.board.compute_adjacent_mines
 @game.board.render_board
 @game.board.render_mine_board
 

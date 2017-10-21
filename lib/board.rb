@@ -68,9 +68,12 @@ class Board
     end
   end
 
-  def render_mine_board
+  def display_remaining_flags
     puts "#{flags} flags remaining"
     puts 
+  end
+
+  def display_column_numbers
     print '   '
     if @board_size <= 10
       @board_size.times { |i| print "#{i + 1}  "}
@@ -87,6 +90,9 @@ class Board
     end
     puts
     puts
+  end
+
+  def display_rows
     board.each_with_index do |row, row_index|
       if row_index >= 9 
         print "#{(row_index + 1)} "
@@ -99,6 +105,12 @@ class Board
       puts
       puts
     end
+  end
+
+  def render_mine_board
+    display_remaining_flags
+    display_column_numbers
+    display_rows
   end
 
   def update_board(coordinates)
@@ -142,12 +154,8 @@ class Board
     surrounding_cells.each do |coords|
       cell = board[coords[0]][coords[1]]
       #binding.pry
-      if cell.mine == false
-        cell.clear_cell
-        cell.show = check_surrounding_squares(coordinates)
-      else
-        next
-      end
+      cell.clear_cell
+      cell.show = cell.adjacent_mines
     end
   end
 
@@ -163,11 +171,11 @@ class Board
           #binding.pry
           next
         else
-        cell = board[coords[0]][coords[1]]
-        unless cell.mine == true
-          cell.adjacent_mines += 1
+          cell = board[coords[0]][coords[1]]
+          unless cell.mine == true
+            cell.adjacent_mines += 1
+          end
         end
-      end
       end
     end
   end
