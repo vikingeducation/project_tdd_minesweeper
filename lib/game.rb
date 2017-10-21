@@ -12,11 +12,28 @@ class Game
     raise 'invalid input' if move.size < 3
     move
   end
+
+  def greeting
+    puts
+    puts "**Welcome to Minesweeper!**"
+    puts
+  end
+
+  def prompt_for_move
+    puts "Enter your move"
+  end
 end
+
 =begin
+
 @game = Game.new
 @game.board.assign_mine_coordinates
-@game.board.update_board(@game.make_move)
+coords = @game.make_move
+@game.board.update_board(coords)
+@game.board.compute_adjacent_mines(coords)
+@game.board.render_board
+@game.board.update_board(coords)
 @game.board.render_board
 =end
+
 

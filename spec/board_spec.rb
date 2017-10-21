@@ -47,7 +47,7 @@ describe Board do
   describe "#update_board" do 
     it "changes coordinate status to cleared based on Game.make_move" do 
       allow(game).to receive(:make_move).and_return([2,3,'c'])
-      board.mine_coordinates = [[3, 3], [1, 3]]
+      board.mine_coordinates = [[0, 2], [2, 2]]
       board.update_board(game.make_move)
       expect(board.board[1][2].clear).to be true
       expect(board.board[1][2].show).to eq(2)
@@ -67,16 +67,34 @@ describe Board do
       expect(board.board[1][2].flag).to be false
       expect(board.board[1][2].show).to eq('*')
     end
+
+     it "cannot flag a cleared cell" do 
+      allow(game).to receive(:make_move).and_return([2,3,'c'])
+      board.mine_coordinates = [[3, 3], [1, 3]]
+      board.update_board(game.make_move)
+      allow(game).to receive(:make_move).and_return([2,3,'f'])
+      board.update_board(game.make_move)
+      expect(board.board[1][2].flag).to be false
+    end
   end
 
   describe "#check_surrounding_squares" do
     let(:board) { Board.new(10, 2) }  
     it "returns number of mines in adjacent squares in cleared square" do 
-      board.mine_coordinates = [[3, 3], [1, 3]]
+      board.mine_coordinates = [[0, 2], [2, 2]]
       allow(game).to receive(:make_move).and_return([2,3,'c'])
       board.update_board(game.make_move)
       expect(board.check_surrounding_squares(game.make_move)).to eq(2)
     end
   end
 
+  describe "compute_adjacent_mines" do 
+    let(:board) { Board.new(10, 2) } 
+    it "assigns number of adjacent mines to each cell" do  
+      board.mine_coordinates = [[1, 3], [8, 2]]
+      allow(game).to receive(:make_move).and_return([2,3,'c'])
+      board.compute_adjacent_mines(game.make_move)
+      expect(board.board[1][2].adjacent_mines).to eq(1)
+    end
+  end
 end

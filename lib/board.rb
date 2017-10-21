@@ -16,8 +16,9 @@ class Board
     @mine_coordinates = []
     @flags.times do 
       row = (0..(@board_size - 1)).to_a.sample
-      column = (0..(@board_size - 1)).to_a.sample
-      @mine_coordinates << [row, column]
+      column = (0..(@board_size   - 1)).to_a.sample
+      board[row][column].set_mine
+      self.mine_coordinates << [row, column]
     end
     replace_repeat_mine_coordinates
   end
@@ -28,6 +29,7 @@ class Board
       (flags - mine_coordinates.size).times do
         row = (0..(@board_size - 1)).to_a.sample
         column = (0..(@board_size - 1)).to_a.sample
+        board[row][column].set_mine
         self.mine_coordinates << [row, column]
       end
     end
@@ -59,7 +61,7 @@ class Board
         print "#{(row_index + 1)}  "
       end
       row.each do |cell|
-        print "#{cell.show}  "
+        print "#{cell.adjacent_mines}  "
       end
       puts
       puts
@@ -72,31 +74,66 @@ class Board
     action = coordinates[2]
 
     if action.downcase == 'c'
-      self.board[row][column].clear = true
+      self.board[row][column].clear_cell
       self.board[row][column].show = check_surrounding_squares(coordinates)
+      autoclear_nearby_empty_cells(coordinates) if self.board[row][column].show == 0
     elsif action.downcase == 'f' && board[row][column].clear == false
       if board[row][column].flag == false
-        self.board[row][column].flag = true
-        self.board[row][column].show = 'F'
+        self.board[row][column].set_flag
+        self.flags -= 1
       else
-        self.board[row][column].flag = false
-        self.board[row][column].show = '*'
+        self.board[row][column].unflag
+        self.flags += 1
       end
     end     
   end
 
   def check_surrounding_squares(coordinates)
-    bombs = 0
-    surrounding_squares = [[-1, -1], [-1, 0], [-1, 1], 
+    mines = 0
+    surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
       [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
-      [a + coordinates[0].to_i, b + coordinates[1].to_i] }
+      [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
     
-    surrounding_squares.each do |square|
-      bombs += 1 if mine_coordinates.include?(square)
+    surrounding_cells.each do |cell| 
+      mines += 1 if mine_coordinates.include?(cell)
     end
-    bombs
+    mines
   end
-  
+
+  def autoclear_nearby_empty_cells(coordinates)
+    surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
+      [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
+      [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
+      #binding.pry
+
+    surrounding_cells.each do |coords|
+      cell = board[coords[0]][coords[1]]
+      #binding.pry
+      if cell.mine == false
+        cell.clear_cell
+        cell.show = check_surrounding_squares(coordinates)
+      else
+        next
+      end
+    end
+  end
+
+  def compute_adjacent_mines(coordinates)
+    mine_coordinates.each do |mine|
+      #mine_loc = board[mine[0]][mine[1]]
+      surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
+        [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
+        [a + (mine[0].to_i - 1), b + (mine[1].to_i - 1)] }
+      surrounding_cells.each do |coords|
+        cell = board[coords[0]][coords[1]]
+        unless cell.mine == true
+          cell.adjacent_mines += 1
+        end
+      end
+    end
+
+  end
+
 end
 
 
