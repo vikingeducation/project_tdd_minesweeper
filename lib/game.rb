@@ -24,16 +24,16 @@ class Game
   end
 end
 
-=begin
+
 
 @game = Game.new
 @game.board.assign_mine_coordinates
 coords = @game.make_move
 @game.board.update_board(coords)
-@game.board.compute_adjacent_mines(coords)
+@game.board.compute_adjacent_mines
 @game.board.render_board
-@game.board.update_board(coords)
-@game.board.render_board
-=end
+@game.board.render_mine_board
+
+
 
 

@@ -93,7 +93,7 @@ describe Board do
     it "assigns number of adjacent mines to each cell" do  
       board.mine_coordinates = [[1, 3], [8, 2]]
       allow(game).to receive(:make_move).and_return([2,3,'c'])
-      board.compute_adjacent_mines(game.make_move)
+      board.compute_adjacent_mines
       expect(board.board[1][2].adjacent_mines).to eq(1)
     end
   end

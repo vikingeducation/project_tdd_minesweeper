@@ -68,6 +68,39 @@ class Board
     end
   end
 
+  def render_mine_board
+    puts "#{flags} flags remaining"
+    puts 
+    print '   '
+    if @board_size <= 10
+      @board_size.times { |i| print "#{i + 1}  "}
+    else
+      col_num = 0
+      9.times do
+        col_num += 1
+        print "#{col_num}  "
+      end
+      (@board_size - 9).times do
+        print "#{col_num + 1} "
+        col_num += 1
+      end
+    end
+    puts
+    puts
+    board.each_with_index do |row, row_index|
+      if row_index >= 9 
+        print "#{(row_index + 1)} "
+      else
+        print "#{(row_index + 1)}  "
+      end
+      row.each do |cell|
+        print "#{cell.show}  "
+      end
+      puts
+      puts
+    end
+  end
+
   def update_board(coordinates)
     row = coordinates[0].to_i - 1
     column = coordinates[1].to_i - 1
@@ -118,20 +151,25 @@ class Board
     end
   end
 
-  def compute_adjacent_mines(coordinates)
+
+  def compute_adjacent_mines
     mine_coordinates.each do |mine|
-      #mine_loc = board[mine[0]][mine[1]]
       surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
         [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
-        [a + (mine[0].to_i - 1), b + (mine[1].to_i - 1)] }
+        [a + (mine[0].to_i), b + (mine[1].to_i)] }
       surrounding_cells.each do |coords|
+        if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
+          coords[1] > 9 
+          #binding.pry
+          next
+        else
         cell = board[coords[0]][coords[1]]
         unless cell.mine == true
           cell.adjacent_mines += 1
         end
       end
+      end
     end
-
   end
 
 end
@@ -139,10 +177,26 @@ end
 
 
 
+=begin
+mine_coordinates.each do |mine|
+      surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
+        [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
+        [a + (mine[0].to_i - 1), b + (mine[1].to_i - 1)] }
+      surrounding_cells.each do |coords|
+        if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
+          coords[1] > 9 
+          binding.pry
+          next
+        else
+        cell = board[coords[0]][coords[1]]
+        unless cell.mine == true
+          cell.adjacent_mines += 1
+        end
+      end
+      end
+    end
 
-
-
-
+=end
 =begin
 
 -print 10x10 board
