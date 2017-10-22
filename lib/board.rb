@@ -161,7 +161,9 @@ class Board
     [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
 
     surrounding_cell_coords.each do |coords|
-      surrounding_cells << board[coords[0]][coords[1]]
+      unless coords[0] < 0 || coords [0] > 9 || coords[1] < 0 || coords[1] > 9
+        surrounding_cells << board[coords[0]][coords[1]]
+      end 
     end
     surrounding_cells
   end
@@ -177,7 +179,7 @@ class Board
 
   def autoclear_nearby_empty_cells(coordinates)
     surrounding_cells = collect_surrounding_cells(coordinates)
-
+    #binding.pry
     surrounding_cells.each do |cell|
       if cell == nil
         next
@@ -196,11 +198,25 @@ class Board
         end
       end
     end
-  end
+    #binding.pry
+end
 end
 
 
-
+=begin
+  
+ board.each_with_index do |row, row_index|
+      row.each_with_index do |cell, column_index|
+        surrounding_cells = collect_surrounding_cells([row_index, column_index])
+    while surrounding_cells.any? { |cell| cell.clear == false}
+        if cell.adjacent_mines == 0 && cell.clear == true
+          autoclear_nearby_empty_cells([row_index, column_index])
+        end
+      end
+    end
+  end
+  
+=end
 
 =begin
 mine_coordinates.each do |mine|

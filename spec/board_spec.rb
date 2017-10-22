@@ -84,6 +84,11 @@ describe Board do
       expect(board.collect_surrounding_cells(game.make_move)).to eq(
         [board.board[0][1], board.board[0][2], board.board[0][3], board.board[1][1], board.board[1][3], board.board[2][1], board.board[2][2], board.board[2][3]])
     end
+
+    it "does not collect squares that are out of bounds" do
+      allow(game).to receive(:make_move).and_return([1,1,'c'])
+      expect(board.collect_surrounding_cells(game.make_move)).to eq([board.board[0][1], board.board[1][0], board.board[1][1]])
+    end
   end
   describe "#check_surrounding_squares" do
     let(:board) { Board.new(10, 2) }  
