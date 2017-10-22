@@ -35,6 +35,26 @@ class Board
     end
   end
 
+  def compute_adjacent_mines
+    mine_coordinates.each do |mine|
+      surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
+        [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
+        [a + (mine[0].to_i), b + (mine[1].to_i)] }
+      surrounding_cells.each do |coords|
+        if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
+          coords[1] > 9 
+          #binding.pry
+          next
+        else
+          cell = board[coords[0]][coords[1]]
+          unless cell.mine == true
+            cell.adjacent_mines += 1
+          end
+        end
+      end
+    end
+  end
+
   def render_board
     puts "#{flags} flags remaining"
     puts 
@@ -133,53 +153,50 @@ class Board
     end     
   end
 
+  def collect_surrounding_cells(coordinates)
+    surrounding_cells = []
+
+    surrounding_cell_coords = [[-1, -1], [-1, 0], [-1, 1], 
+    [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
+    [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
+
+    surrounding_cell_coords.each do |coords|
+      surrounding_cells << board[coords[0]][coords[1]]
+    end
+    surrounding_cells
+  end
+
   def check_surrounding_squares(coordinates)
     mines = 0
-    surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
-      [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
-      [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
-    
+    surrounding_cells = collect_surrounding_cells(coordinates)
     surrounding_cells.each do |cell| 
-      mines += 1 if mine_coordinates.include?(cell)
+      mines += 1 if cell.mine == true
     end
     mines
   end
 
   def autoclear_nearby_empty_cells(coordinates)
-    surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
-      [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
-      [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
-      #binding.pry
+    surrounding_cells = collect_surrounding_cells(coordinates)
 
-    surrounding_cells.each do |coords|
-      cell = board[coords[0]][coords[1]]
-      #binding.pry
-      cell.clear_cell
-      cell.show = cell.adjacent_mines
-    end
+    surrounding_cells.each do |cell|
+      if cell == nil
+        next
+      else
+        cell.clear_cell
+        cell.show = cell.adjacent_mines
+      end
+    end    
   end
 
-
-  def compute_adjacent_mines
-    mine_coordinates.each do |mine|
-      surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
-        [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
-        [a + (mine[0].to_i), b + (mine[1].to_i)] }
-      surrounding_cells.each do |coords|
-        if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
-          coords[1] > 9 
-          #binding.pry
-          next
-        else
-          cell = board[coords[0]][coords[1]]
-          unless cell.mine == true
-            cell.adjacent_mines += 1
-          end
+  def autoclear_rest_of_board
+    board.each_with_index do |row, row_index|
+      row.each_with_index do |cell, column_index|
+        if cell.adjacent_mines == 0 && cell.clear == true
+          autoclear_nearby_empty_cells([row_index, column_index])
         end
       end
     end
   end
-
 end
 
 
