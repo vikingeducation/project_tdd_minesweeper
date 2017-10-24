@@ -11,7 +11,7 @@ class Cell
 
   def set_mine
     self.mine = true
-    self.show = 'B'
+    self.show = '*'
   end
 
   def set_flag

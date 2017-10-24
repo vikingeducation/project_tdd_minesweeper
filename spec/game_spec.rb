@@ -47,4 +47,15 @@ describe Game do
       expect(game.game_over?).to be_falsy
     end
   end
+
+  describe "#clear_board" do 
+    it "exposes mine loactions when game is over" do 
+      cell = game.board.board[0][0]
+      cell.set_mine
+      allow(game).to receive(:game_over?).and_return(true)
+      game.clear_board
+      expect(cell.show).to eq('B')
+    end
+  end
+
 end
