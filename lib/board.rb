@@ -43,7 +43,6 @@ class Board
       surrounding_cells.each do |coords|
         if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
           coords[1] > 9 
-          #binding.pry
           next
         else
           cell = board[coords[0]][coords[1]]
@@ -146,7 +145,6 @@ class Board
 
   def autoclear_nearby_empty_cells(coordinates)
     surrounding_cells = collect_surrounding_cells(coordinates)
-    #binding.pry
     surrounding_cells.each do |cell|
       if cell == nil
         next
@@ -166,61 +164,9 @@ class Board
     board.each_with_index do |row, row_index|
       row.each_with_index do |cell, column_index|
         if cell.adjacent_mines == 0 && cell.clear == true && cell.mine == false
-          #binding.pry
           autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
         end
       end
-      #surrounding_cells = collect_surrounding_cells([row_index, column_index])
-    #break if surrounding_cells.all? { |cell| cell.adjacent_mines > 1}
-  end
-end
-end
-
-
-=begin
-  
- board.each_with_index do |row, row_index|
-      row.each_with_index do |cell, column_index|
-        surrounding_cells = collect_surrounding_cells([row_index, column_index])
-    while surrounding_cells.any? { |cell| cell.clear == false}
-        if cell.adjacent_mines == 0 && cell.clear == true
-          autoclear_nearby_empty_cells([row_index, column_index])
-        end
-      end
     end
   end
-  
-=end
-
-=begin
-mine_coordinates.each do |mine|
-      surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
-        [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
-        [a + (mine[0].to_i - 1), b + (mine[1].to_i - 1)] }
-      surrounding_cells.each do |coords|
-        if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
-          coords[1] > 9 
-          binding.pry
-          next
-        else
-        cell = board[coords[0]][coords[1]]
-        unless cell.mine == true
-          cell.adjacent_mines += 1
-        end
-      end
-      end
-    end
-
-=end
-=begin
-
--print 10x10 board
--9 squares contain mines
--user selects square
--if square contains mine, game over
--otherwise, squares that are not adjacent to any mines are cleared and those that are adjacent to mines that are adjacent to the cleared squares are marked with a number indicating how many mines they are adjacent to
--from there, user can flag a square that he/she thinks contains a mine or clear squares that he/she thinks do not contain mines
--game ends if player selects a mined square or if all of the non-mind squares have been cleared and all of the mined squares have been flagged
-
-=end
-
+end
