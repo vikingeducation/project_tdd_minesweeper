@@ -90,6 +90,7 @@ describe Board do
       expect(board.collect_surrounding_cells(game.make_move)).to eq([board.board[0][1], board.board[1][0], board.board[1][1]])
     end
   end
+  
   describe "#check_surrounding_squares" do
     let(:board) { Board.new(10, 2) }  
     it "returns number of mines in adjacent squares in cleared square" do 
@@ -100,7 +101,6 @@ describe Board do
       expect(board.check_surrounding_squares(game.make_move)).to eq(2)
     end
   end
-
 
   describe "compute_adjacent_mines" do 
     let(:board) { Board.new(10, 2) } 
