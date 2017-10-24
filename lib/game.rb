@@ -25,7 +25,6 @@ class Game
 end
 
 
-=begin
 game = Game.new
 game.greeting
 game.prompt_for_move
@@ -35,7 +34,7 @@ coords = game.make_move
 game.board.update_board(coords)
 game.board.autoclear_rest_of_board
 game.board.render_board
-=end
+
 
 
 

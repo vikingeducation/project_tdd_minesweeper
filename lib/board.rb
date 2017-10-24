@@ -152,7 +152,12 @@ class Board
         next
       else
         cell.clear_cell
-        cell.show = cell.adjacent_mines
+        if if cell.adjacent_mines > 0
+          cell.show = cell.adjacent_mines 
+        else
+          cell.show = ' '
+        end
+        end
       end
     end    
   end
@@ -161,7 +166,8 @@ class Board
     board.each_with_index do |row, row_index|
       row.each_with_index do |cell, column_index|
         if cell.adjacent_mines == 0 && cell.clear == true && cell.mine == false
-          autoclear_nearby_empty_cells([row_index, column_index])
+          #binding.pry
+          autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
         end
       end
       #surrounding_cells = collect_surrounding_cells([row_index, column_index])
