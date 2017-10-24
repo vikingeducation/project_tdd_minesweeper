@@ -55,39 +55,6 @@ class Board
     end
   end
 
-  def render_board
-    puts "#{flags} flags remaining"
-    puts 
-    print '   '
-    if @board_size <= 10
-      @board_size.times { |i| print "#{i + 1}  "}
-    else
-      col_num = 0
-      9.times do
-        col_num += 1
-        print "#{col_num}  "
-      end
-      (@board_size - 9).times do
-        print "#{col_num + 1} "
-        col_num += 1
-      end
-    end
-    puts
-    puts
-    board.each_with_index do |row, row_index|
-      if row_index >= 9 
-        print "#{(row_index + 1)} "
-      else
-        print "#{(row_index + 1)}  "
-      end
-      row.each do |cell|
-        print "#{cell.adjacent_mines}  "
-      end
-      puts
-      puts
-    end
-  end
-
   def display_remaining_flags
     puts "#{flags} flags remaining"
     puts 
@@ -127,7 +94,7 @@ class Board
     end
   end
 
-  def render_mine_board
+  def render_board
     display_remaining_flags
     display_column_numbers
     display_rows
@@ -193,12 +160,13 @@ class Board
   def autoclear_rest_of_board
     board.each_with_index do |row, row_index|
       row.each_with_index do |cell, column_index|
-        if cell.adjacent_mines == 0 && cell.clear == true
+        if cell.adjacent_mines == 0 && cell.clear == true && cell.mine == false
           autoclear_nearby_empty_cells([row_index, column_index])
         end
       end
-    end
-    #binding.pry
+      #surrounding_cells = collect_surrounding_cells([row_index, column_index])
+    #break if surrounding_cells.all? { |cell| cell.adjacent_mines > 1}
+  end
 end
 end
 
