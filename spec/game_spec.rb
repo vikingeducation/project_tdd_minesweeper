@@ -34,10 +34,42 @@ describe Game do
     end
   end
 
+  describe "#lose" do 
+    it "returns true if player attempts to clear a mined cell" do 
+      game.board.mine_coordinates = [[1, 2]]
+      allow(game).to receive(:move).and_return([2, 3, 'c'])
+      expect(game.lose?).to be_truthy
+    end
+
+    it "returns a false if player makes a move that does not trip a mine" do 
+      game.board.mine_coordinates = [[1, 2]]
+      allow(game).to receive(:move).and_return([5, 6, 'c'])
+      expect(game.lose?).to be_falsy
+    end
+  end
+
+  describe "#win?" do 
+    it "returns true if player wins the game" do 
+      game.board.board = [[Cell.new, Cell.new]]
+      game.board.board[0][0].set_flag 
+      game.board.board[0][1].clear_cell
+      game.board.flags = 0
+      expect(game.win?).to be_truthy
+    end
+
+    it "returns false if the player has not won the game" do 
+      game.board.board = [[Cell.new, Cell.new]]
+      game.board.board[0][1].clear_cell
+      game.board.flags = 0
+      expect(game.win?).to be_truthy
+    end
+  end
+
+
   describe "#game_over?" do 
     it "is truthy if user attempts to clear a mined cell" do 
       game.board.mine_coordinates = [[1, 2]]
-      allow(game).to receive(:move).and_return([1, 2, 'c'])
+      allow(game).to receive(:move).and_return([2, 3, 'c'])
       expect(game.game_over?).to be_truthy
     end 
 
@@ -45,6 +77,18 @@ describe Game do
       game.board.mine_coordinates = [[3, 4]]
       allow(game).to receive(:move).and_return([1, 2, 'c'])
       expect(game.game_over?).to be_falsy
+    end
+
+    it "is truthy if user wins game" do 
+      game.board.mine_coordinates = [[3, 4]]
+      allow(game).to receive(:move).and_return([2, 3, 'c'])
+      game.board.flags = 0
+      game.board.board.each do |row|
+        row.each do |cell|
+          cell.clear_cell
+        end
+      end
+      expect(game.game_over?).to be_truthy
     end
   end
 

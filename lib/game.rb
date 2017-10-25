@@ -24,8 +24,20 @@ class Game
     puts "Enter your move"
   end
 
+  def win?
+    board.flags == 0 &&
+    board.board.all? do |row|
+      row.all? { |cell| cell.flag == true || cell.clear == true }
+    end
+  end
+
+  def lose?
+    move[2] == 'c' && 
+      board.mine_coordinates.include?([move[0].to_i - 1, move[1].to_i - 1])
+  end
+
   def game_over?
-    move[2] == 'c' && board.mine_coordinates.include?([move[0].to_i - 1, move[1].to_i - 1])
+    win? || lose?
   end
 
   def clear_board
@@ -33,7 +45,6 @@ class Game
       board.board.each do |row|
         row.each do |cell|
           if cell.mine == true
-
             cell.show = 'B'
           end
         end
@@ -43,7 +54,7 @@ class Game
 end
 
 
-
+=begin
 game = Game.new
 game.greeting
 game.prompt_for_move
@@ -55,6 +66,6 @@ game.clear_board
 #game.board.update_board(coords)
 #game.board.autoclear_rest_of_board
 game.board.render_board
-
+=end
 
 
