@@ -54,41 +54,33 @@ describe Game do
       game.board.board[0][0].set_flag 
       game.board.board[0][1].clear_cell
       game.board.flags = 0
-      expect(game.win?).to be_truthy
+      expect(game.win?).to be true
     end
 
     it "returns false if the player has not won the game" do 
       game.board.board = [[Cell.new, Cell.new]]
       game.board.board[0][1].clear_cell
       game.board.flags = 0
-      expect(game.win?).to be_truthy
+      expect(game.win?).to be false
     end
   end
 
 
-  describe "#game_over?" do 
-    it "is truthy if user attempts to clear a mined cell" do 
-      game.board.mine_coordinates = [[1, 2]]
-      allow(game).to receive(:move).and_return([2, 3, 'c'])
-      expect(game.game_over?).to be_truthy
-    end 
-
-    it "is falsy if user attempts to clear an unmined cell" do 
-      game.board.mine_coordinates = [[3, 4]]
-      allow(game).to receive(:move).and_return([1, 2, 'c'])
-      expect(game.game_over?).to be_falsy
+  describe "#game_over?" do
+    it "returns true if player wins" do 
+      allow(game).to receive(:win?).and_return(true)
+      expect(game.game_over?).to be true
     end
 
-    it "is truthy if user wins game" do 
-      game.board.mine_coordinates = [[3, 4]]
-      allow(game).to receive(:move).and_return([2, 3, 'c'])
-      game.board.flags = 0
-      game.board.board.each do |row|
-        row.each do |cell|
-          cell.clear_cell
-        end
-      end
-      expect(game.game_over?).to be_truthy
+    it "returns true if player loses" do 
+      allow(game).to receive(:lose?).and_return(true)
+      expect(game.game_over?).to be true
+    end
+
+    it "returns false if player neither wins nor loses" do
+      allow(game).to receive(:win?).and_return(false) 
+      allow(game).to receive(:lose?).and_return(false)
+      expect(game.game_over?).to be false
     end
   end
 
