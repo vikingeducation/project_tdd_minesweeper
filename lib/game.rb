@@ -51,9 +51,33 @@ class Game
       end
     end
   end
+
+  def play
+    greeting 
+    board.assign_mine_coordinates
+    p board.mine_coordinates
+    board.compute_adjacent_mines
+    p board.create_adjacent_mines_board
+    loop do 
+      
+      prompt_for_move
+      
+      coords = make_move
+      if game_over?
+        clear_board
+        board.render_board
+        break
+      end
+      board.update_board(coords)
+      board.autoclear_rest_of_board
+      #board.autoclear_rest_of_board
+      board.render_board
+    end
+  end
 end
 
 
+Game.new.play
 =begin
 game = Game.new
 game.greeting
