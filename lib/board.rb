@@ -123,11 +123,12 @@ class Board
       self.board[row][column].show = board[row][column].adjacent_mines #check_surrounding_squares(coordinates)
       autoclear_nearby_empty_cells(coordinates) if self.board[row][column].show == 0
     elsif action.downcase == 'f' && board[row][column].clear == false
+      #binding.pry
       if board[row][column].flag == false
-        self.board[row][column].set_flag
+        board[row][column].set_flag
         self.flags -= 1
       else
-        self.board[row][column].unflag
+        board[row][column].unflag
         self.flags += 1
       end
     end     

@@ -10,8 +10,38 @@ class Game
   
   def make_move
     self.move = gets.chomp.split(',')
-    raise 'invalid input' if @move.size < 3
+    #self.move[0], self.move[1] = move.[0].to_i, move[1.to_i]
+    validate_move
     move
+  end
+
+  def not_three_elements?
+    move.size > 3 || move.size < 3
+  end
+
+  def invalid_action?
+    !(move[2] == 'c' || move[2] == 'f')
+  end
+
+  def out_of_bounds?
+    move[0].to_i > board.board_size || move[1].to_i > board.board_size ||
+    move[0].to_i < 1 || move[1].to_i < 1
+  end
+
+  def already_clear?
+    board.board[move[0].to_i - 1][move[1].to_i - 1].clear == true
+  end
+
+  def already_flagged?
+    board.board[move[0].to_i - 1][move[1].to_i - 1].flag == true
+  end
+
+  def validate_move
+    while not_three_elements? || invalid_action? || out_of_bounds? ||
+      already_clear? || already_flagged?
+      puts "Invalid move, try again."
+      make_move
+    end
   end
 
   def greeting
@@ -69,7 +99,7 @@ class Game
         break
       end
       board.update_board(coords)
-      board.autoclear_rest_of_board
+      board.autoclear_rest_of_board if coords[2] == 'c'
       #board.autoclear_rest_of_board
       board.render_board
     end
@@ -77,7 +107,7 @@ class Game
 end
 
 
-Game.new.play
+#Game.new.play
 =begin
 game = Game.new
 game.greeting

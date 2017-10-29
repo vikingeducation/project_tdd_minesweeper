@@ -27,11 +27,6 @@ describe Cell do
       cell.set_mine
       expect(cell.mine).to be true
     end
-
-    it "changes cell.show to 'B" do 
-      cell.set_mine
-      expect(cell.show).to eq('B')
-    end
   end
 
   describe "#set_flag" do 
