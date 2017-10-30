@@ -10,7 +10,6 @@ class Game
   
   def make_move
     self.move = gets.chomp.split(',')
-    #self.move[0], self.move[1] = move.[0].to_i, move[1.to_i]
     validate_move
     move
   end
@@ -36,9 +35,13 @@ class Game
     board.board[move[0].to_i - 1][move[1].to_i - 1].flag == true
   end
 
+  def out_of_flags?
+    board.flags == 0
+  end
+
   def validate_move
     while not_three_elements? || invalid_action? || out_of_bounds? ||
-      already_clear? || already_flagged?
+      already_clear? || already_flagged? || out_of_flags?
       puts "Invalid move, try again."
       make_move
     end
@@ -75,10 +78,13 @@ class Game
       board.board.each do |row|
         row.each do |cell|
           if cell.mine == true
-            cell.show = 'B'
+            cell.show = 'B'.colorize(:red)
           end
         end
       end
+      puts
+      puts "**Oh no! You tripped a mine! Bummer!**".colorize(:yellow)
+      puts
     end
   end
 
@@ -100,7 +106,6 @@ class Game
       end
       board.update_board(coords)
       board.autoclear_rest_of_board if coords[2] == 'c'
-      #board.autoclear_rest_of_board
       board.render_board
     end
   end
@@ -108,18 +113,3 @@ end
 
 
 #Game.new.play
-=begin
-game = Game.new
-game.greeting
-game.prompt_for_move
-game.board.assign_mine_coordinates
-p game.board.mine_coordinates
-game.board.compute_adjacent_mines
-coords = game.make_move
-game.clear_board
-#game.board.update_board(coords)
-#game.board.autoclear_rest_of_board
-game.board.render_board
-=end
-
-

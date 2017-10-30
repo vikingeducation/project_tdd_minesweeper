@@ -1,4 +1,5 @@
 require 'board'
+require 'game'
 require 'pry'
 
 describe Board do 

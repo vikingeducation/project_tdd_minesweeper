@@ -1,8 +1,10 @@
+require "colorize"
+
 class Cell 
   attr_accessor :mine, :flag, :clear, :show, :adjacent_mines
 
   def initialize
-    @show = '*'
+    @show = '*'.colorize(:light_blue)
     @mine = false
     @flag = false
     @clear = false
@@ -15,12 +17,12 @@ class Cell
 
   def set_flag
     self.flag = true
-    self.show = 'F'
+    self.show = 'F'.colorize(:light_green)
   end
 
   def unflag
     self.flag = false
-    self.show = '*'
+    self.show = '*'.colorize(:light_blue)
   end
 
   def clear_cell

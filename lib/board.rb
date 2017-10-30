@@ -69,7 +69,8 @@ class Board
   end
 
   def display_remaining_flags
-    puts "#{flags} flags remaining"
+    puts
+    puts "**#{flags} flags remaining**"
     puts 
   end
 
@@ -113,15 +114,20 @@ class Board
     display_rows
   end
 
+  def update_clear(row, column)
+    self.board[row][column].clear_cell
+      self.board[row][column].show = board[row][column].adjacent_mines 
+      autoclear_nearby_empty_cells([row, column]) if self.board[row][column].show == 0
+
+  end
+
   def update_board(coordinates)
     row = coordinates[0].to_i - 1
     column = coordinates[1].to_i - 1
     action = coordinates[2]
 
     if action.downcase == 'c'
-      self.board[row][column].clear_cell
-      self.board[row][column].show = board[row][column].adjacent_mines #check_surrounding_squares(coordinates)
-      autoclear_nearby_empty_cells(coordinates) if self.board[row][column].show == 0
+      update_clear(row, column)
     elsif action.downcase == 'f' && board[row][column].clear == false
       #binding.pry
       if board[row][column].flag == false
@@ -183,58 +189,26 @@ class Board
     end
     #binding.pry
   end
-=begin
-  def autoclear_rest_of_board
-    zero_cells = []
-    unless @zero_cells.nil?
-    @zero_cells.each do |cell|
-      zero_cells << cell 
-    end
-  end
-    #while zero_cells.length > 0
-      #binding.pry
-      zero_cells.each do |coords|
-        autoclear_nearby_empty_cells([coords[0] + 1, coords[1] + 1])
-      end
-    #end
-  end
-=end
-=begin
-  def autoclear_rest_of_board(coordinates)
-    coords = surrounding_cells
-    while 
-    coords.each do |cell_loc|
-      if board[coords[0]][coords[1]].adjacent_mines == 0
-        autoclear_nearby_empty_cells([coords[0], coords[1]])
-      end
-    end
-    coords = 
-
-  end
-=end
 
   def autoclear_rest_of_board
     
     loop do 
-    break_loop = true
-    board.each_with_index do |row, row_index|
-      row.each_with_index do |cell, column_index|
-        if cell.adjacent_mines == 0 && cell.mine == false && cell.clear == true 
-          #autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
-          surrounding_cells = collect_surrounding_cells([row_index + 1, column_index + 1])
-          #binding.pry
-          if surrounding_cells.any? { |cell| cell.clear == false && cell.mine == false }#{ |cell| cell.adjacent_mines == 0 && cell.clear == false && cell.mine == false }
-            autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
-            #board[row_index][column_index].clear_cell
-            break_loop = false
+      break_loop = true
+      board.each_with_index do |row, row_index|
+        row.each_with_index do |cell, column_index|
+          if cell.adjacent_mines == 0 && cell.mine == false && cell.clear == true 
+            #autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
+            surrounding_cells = collect_surrounding_cells([row_index + 1, column_index + 1])
+            #binding.pry
+            if surrounding_cells.any? { |cell| cell.clear == false && cell.mine == false }#{ |cell| cell.adjacent_mines == 0 && cell.clear == false && cell.mine == false }
+              autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
+              #board[row_index][column_index].clear_cell
+              break_loop = false
+            end
           end
         end
       end
-    end
-    break if break_loop
+      break if break_loop
     end
   end
-
 end
-
-

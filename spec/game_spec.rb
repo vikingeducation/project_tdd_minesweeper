@@ -84,6 +84,14 @@ describe Game do
     end 
   end
 
+  describe "#out_of_flags?" do 
+    it "returns true if player tries to flag a cell when out of flags" do
+      game.board.flags = 0
+      #allow(game).to receive(:move).and_return([1, 1, 'c'])
+      expect(game.out_of_flags?).to be true
+    end 
+  end
+
 
 
   describe "#validate_move" do
@@ -127,7 +135,7 @@ describe Game do
       game.validate_move
     end
 
-    it "rasies an error if already_flagged? returns true" do 
+    it "calls make_move if already_flagged? returns true" do 
      allow(game).to receive(:not_three_elements?).and_return(false)
       allow(game).to receive(:invalid_action?).and_return(false)
       allow(game).to receive(:out_of_bounds?).and_return(false)
@@ -136,6 +144,19 @@ describe Game do
       expect(game).to receive(:make_move)
       game.validate_move
     end
+
+    it "calls make_move if already_flagged? returns true" do 
+     allow(game).to receive(:not_three_elements?).and_return(false)
+      allow(game).to receive(:invalid_action?).and_return(false)
+      allow(game).to receive(:out_of_bounds?).and_return(false)
+      allow(game).to receive(:already_clear?).and_return(false)
+      allow(game).to receive(:already_flagged?).and_return(false) 
+      allow(game).to receive(:out_of_flags?).and_return(true, false) 
+      expect(game).to receive(:make_move)
+      game.validate_move
+    end
+
+   
   end
 
 
