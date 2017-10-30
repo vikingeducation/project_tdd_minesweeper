@@ -112,4 +112,4 @@ class Game
 end
 
 
-#Game.new.play
+Game.new.play

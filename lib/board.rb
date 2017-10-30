@@ -36,13 +36,12 @@ class Board
       end
     end
   end
-
+=begin
   def compute_adjacent_mines
     mine_coordinates.each do |mine|
-      surrounding_cells = [[-1, -1], [-1, 0], [-1, 1], 
-        [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].map{|a, b| 
-        [a + (mine[0].to_i), b + (mine[1].to_i)] }
-      surrounding_cells.each do |coords|
+      surrounding_cells = surrounding_cell_offset.map{|a, b| 
+    [a + mine[0].to_i, b + mine[1].to_i] }
+      surrounding_cells.each do |coords|        
         if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
           coords[1] > 9 
           next
@@ -52,6 +51,22 @@ class Board
             cell.adjacent_mines += 1
           end
         end
+      end
+    end
+  end
+=end
+
+  def compute_adjacent_mines
+    mine_coordinates.each do |mine|
+      surrounding_cells = collect_surrounding_cells([mine[0] + 1, mine[1] + 1])
+      surrounding_cells.each do |cell| 
+           
+      
+          unless cell.mine == true
+
+            cell.adjacent_mines += 1
+            #binding.pry 
+          end
       end
     end
   end
@@ -116,9 +131,18 @@ class Board
 
   def update_clear(row, column)
     self.board[row][column].clear_cell
-      self.board[row][column].show = board[row][column].adjacent_mines 
-      autoclear_nearby_empty_cells([row, column]) if self.board[row][column].show == 0
+    self.board[row][column].show = board[row][column].adjacent_mines 
+    autoclear_nearby_empty_cells([row, column]) if self.board[row][column].show == 0
+  end
 
+  def update_flag(row, column)
+    if board[row][column].flag == false
+      board[row][column].set_flag
+      self.flags -= 1
+    else
+      board[row][column].unflag
+      self.flags += 1
+    end
   end
 
   def update_board(coordinates)
@@ -129,14 +153,7 @@ class Board
     if action.downcase == 'c'
       update_clear(row, column)
     elsif action.downcase == 'f' && board[row][column].clear == false
-      #binding.pry
-      if board[row][column].flag == false
-        board[row][column].set_flag
-        self.flags -= 1
-      else
-        board[row][column].unflag
-        self.flags += 1
-      end
+      update_flag(row, column)
     end     
   end
 
@@ -145,6 +162,8 @@ class Board
 
     surrounding_cell_coords = surrounding_cell_offset.map{|a, b| 
     [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
+
+    #binding.pry
 
     surrounding_cell_coords.each do |coords|
       unless coords[0] < 0 || coords [0] > 9 || coords[1] < 0 || coords[1] > 9
@@ -173,7 +192,6 @@ class Board
     surrounding_cells = collect_surrounding_cells(coordinates)
     #while surrounding_cells.any? { |cell| cell.adjacent_mines == 0 }
     #while surrounding_cell_coords != nil
-    @zero_cells = []
     surrounding_cells.each_with_index do |cell, index|
       if cell == nil
         next
@@ -182,8 +200,7 @@ class Board
         if cell.adjacent_mines > 0
           cell.show = cell.adjacent_mines 
         else
-          cell.show = ' '
-          @zero_cells << surrounding_cell_coords[index]
+          cell.show = ' ' if cell.mine == false
         end
       end
     end
