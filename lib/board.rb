@@ -159,12 +159,8 @@ class Board
   end
 
   def autoclear_nearby_empty_cells(coordinates)
-    surrounding_cell_coords = surrounding_cell_offset.map{|a, b| 
-    [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }.delete_if{ 
-      |cell| cell[0] < 0 || cell[1] < 0}
-
     surrounding_cells = collect_surrounding_cells(coordinates)
-  
+
     surrounding_cells.each do |cell|
       if cell.nil?
         next
