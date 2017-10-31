@@ -62,7 +62,7 @@ class Board
 
   def display_remaining_flags
     puts '++++++++++++++++++++++++++++'.colorize(:light_green)
-    puts '**#{flags} flags remaining**'.colorize(:light_green)
+    puts "**#{flags} flags remaining**".colorize(:light_green)
     puts '++++++++++++++++++++++++++++'.colorize(:light_green)
   end
 
@@ -176,7 +176,6 @@ class Board
   end
 
   def autoclear_rest_of_board
-
     loop do
       break_loop = true
       board.each_with_index do |row, row_index|
