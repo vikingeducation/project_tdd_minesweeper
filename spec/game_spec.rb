@@ -1,4 +1,5 @@
 require 'game'
+require 'colorize'
 
 describe Game do 
 
@@ -87,14 +88,14 @@ describe Game do
   describe "#out_of_flags?" do 
     it "returns true if player tries to flag a cell when out of flags" do
       game.board.flags = 0
-      #allow(game).to receive(:move).and_return([1, 1, 'c'])
       expect(game.out_of_flags?).to be true
     end 
   end
 
-
-
   describe "#validate_move" do
+    before do 
+      allow(game).to receive(:move).and_return([1, 1, 'f']) 
+    end
     it "calls make_move if not_three_elements? returns true" do 
       allow(game).to receive(:not_three_elements?).and_return(true, false)
       allow(game).to receive(:invalid_action?).and_return(false)
@@ -136,7 +137,7 @@ describe Game do
     end
 
     it "calls make_move if already_flagged? returns true" do 
-     allow(game).to receive(:not_three_elements?).and_return(false)
+      allow(game).to receive(:not_three_elements?).and_return(false)
       allow(game).to receive(:invalid_action?).and_return(false)
       allow(game).to receive(:out_of_bounds?).and_return(false)
       allow(game).to receive(:already_clear?).and_return(false)
@@ -146,19 +147,16 @@ describe Game do
     end
 
     it "calls make_move if already_flagged? returns true" do 
-     allow(game).to receive(:not_three_elements?).and_return(false)
+      allow(game).to receive(:not_three_elements?).and_return(false)
       allow(game).to receive(:invalid_action?).and_return(false)
       allow(game).to receive(:out_of_bounds?).and_return(false)
       allow(game).to receive(:already_clear?).and_return(false)
-      allow(game).to receive(:already_flagged?).and_return(false) 
+      allow(game).to receive(:already_flagged?).and_return(false)
       allow(game).to receive(:out_of_flags?).and_return(true, false) 
       expect(game).to receive(:make_move)
       game.validate_move
     end
-
-   
   end
-
 
   describe "#lose" do 
     it "returns true if player attempts to clear a mined cell" do 
@@ -191,7 +189,6 @@ describe Game do
     end
   end
 
-
   describe "#game_over?" do
     it "returns true if player wins" do 
       allow(game).to receive(:win?).and_return(true)
@@ -216,8 +213,83 @@ describe Game do
       cell.set_mine
       allow(game).to receive(:game_over?).and_return(true)
       game.clear_board
-      expect(cell.show).to eq('B')
+      expect(cell.show).to eq('B'.colorize(:red))
     end
   end
 
+  describe "#play" do 
+
+    it "calls #greeting" do 
+      expect(game).to receive(:greeting).and_return(nil)
+      allow(game).to receive(:prompt_for_move).and_return(nil)
+      allow(game).to receive(:make_move).and_return(nil)
+      allow(game).to receive(:game_over?).and_return(true)
+      game.play
+    end
+
+    it "calls #prompt_for_move" do 
+      allow(game).to receive(:greeting).and_return(nil)
+      expect(game).to receive(:prompt_for_move).and_return(nil)
+      allow(game).to receive(:make_move).and_return(nil)
+      allow(game).to receive(:game_over?).and_return(true)
+      game.play
+    end
+
+    it "calls #make_move" do 
+      allow(game).to receive(:greeting).and_return(nil)
+      allow(game).to receive(:prompt_for_move).and_return(nil)
+      expect(game).to receive(:make_move).and_return(nil)
+      allow(game).to receive(:game_over?).and_return(true)
+      game.play
+    end
+
+    it "calls #game_over?" do 
+      allow(game).to receive(:greeting).and_return(nil)
+      allow(game).to receive(:prompt_for_move).and_return(nil)
+      allow(game).to receive(:make_move).and_return([1,1,'c'])
+      expect(game).to receive(:game_over?).and_return(false, true)
+      allow(game).to receive(:clear_board).and_return(nil)
+      allow(board).to receive(:update_board).with(:coords).and_return(nil, nil)
+      game.play
+    end
+
+    it "calls #clear_board? if #game_over? is true" do 
+      allow(game).to receive(:greeting).and_return(nil)
+      allow(game).to receive(:prompt_for_move).and_return(nil)
+      allow(game).to receive(:make_move).and_return([1,1,'c'])
+      allow(game).to receive(:game_over?).and_return( true)
+      expect(game).to receive(:clear_board).and_return(nil)
+      game.play
+    end
+
+    it "calls #update_board? if #game_over? is false" do 
+      allow(game).to receive(:greeting).and_return(nil)
+      allow(game).to receive(:prompt_for_move).and_return(nil)
+      allow(game).to receive(:make_move).and_return(:coords)
+      allow(game).to receive(:game_over?).and_return(false, true)
+      expect(game.board).to receive(:update_board).with(:coords).and_return(nil)
+      game.play
+    end
+
+    it "calls Board.autoclear_rest_of_board if #game_over? is false and coords[2] is 'c'" do 
+      allow(game).to receive(:greeting).and_return(nil)
+      allow(game).to receive(:prompt_for_move).and_return(nil)
+      allow(game).to receive(:make_move).and_return([1,1,'c'])
+      allow(game).to receive(:game_over?).and_return(false, true)
+      allow(game.board).to receive(:update_board).and_return(nil)
+      expect(game.board).to receive(:autoclear_rest_of_board)
+      game.play
+    end
+
+    it "calls Board.render_board" do 
+      allow(game).to receive(:greeting).and_return(nil)
+      allow(game).to receive(:prompt_for_move).and_return(nil)
+      allow(game).to receive(:make_move).and_return(:coords)
+      allow(game).to receive(:game_over?).and_return(false, true)
+      allow(game.board).to receive(:update_board).with(:coords).and_return(nil)
+      expect(game.board).to receive(:render_board)
+      expect(game.board).to receive(:render_board)
+      game.play
+    end
+  end
 end

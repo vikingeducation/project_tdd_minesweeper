@@ -1,6 +1,7 @@
 require 'pry'
 #require_relative 'game'
 require_relative 'cell'
+require 'colorize'
 
 class Board
   attr_reader :board_size, :surrounding_cell_offset
@@ -58,15 +59,13 @@ class Board
 
   def compute_adjacent_mines
     mine_coordinates.each do |mine|
-      surrounding_cells = collect_surrounding_cells([mine[0] + 1, mine[1] + 1])
-      surrounding_cells.each do |cell| 
-           
       
-          unless cell.mine == true
-
-            cell.adjacent_mines += 1
-            #binding.pry 
-          end
+      surrounding_cells = collect_surrounding_cells([mine[0] + 1, mine[1] + 1])
+      
+      surrounding_cells.each do |cell| 
+        unless cell.mine == true
+          cell.adjacent_mines += 1 
+        end
       end
     end
   end
@@ -84,15 +83,15 @@ class Board
   end
 
   def display_remaining_flags
-    puts
-    puts "**#{flags} flags remaining**"
-    puts 
+    puts "++++++++++++++++++++++++++++".colorize(:light_green)
+    puts "**#{flags} flags remaining**".colorize(:light_green)
+    puts "++++++++++++++++++++++++++++".colorize(:light_green)
   end
 
   def display_column_numbers
     print '   '
     if @board_size <= 10
-      @board_size.times { |i| print "#{i + 1}  "}
+      @board_size.times { |i| print "#{i + 1}  ".colorize(:light_yellow)}
     else
       col_num = 0
       9.times do
@@ -111,9 +110,9 @@ class Board
   def display_rows
     board.each_with_index do |row, row_index|
       if row_index >= 9 
-        print "#{(row_index + 1)} "
+        print "#{(row_index + 1)} ".colorize(:light_yellow)
       else
-        print "#{(row_index + 1)}  "
+        print "#{(row_index + 1)}  ".colorize(:light_yellow)
       end
       row.each do |cell|
         print "#{cell.show}  "

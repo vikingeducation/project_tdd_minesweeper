@@ -1,5 +1,6 @@
 require_relative 'board'
 require_relative 'cell'
+#require 'colorize'
 
 class Game
   attr_accessor :board, :move
@@ -41,7 +42,7 @@ class Game
 
   def validate_move
     while not_three_elements? || invalid_action? || out_of_bounds? ||
-      already_clear? || already_flagged? || out_of_flags?
+      already_clear? || already_flagged? || (out_of_flags? && move[2] == 'f')
       puts "Invalid move, try again."
       make_move
     end
@@ -91,9 +92,7 @@ class Game
   def play
     greeting 
     board.assign_mine_coordinates
-    p board.mine_coordinates
     board.compute_adjacent_mines
-    p board.create_adjacent_mines_board
     loop do 
       
       prompt_for_move
@@ -112,4 +111,4 @@ class Game
 end
 
 
-Game.new.play
+#Game.new.play

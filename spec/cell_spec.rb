@@ -1,4 +1,5 @@
 require 'cell'
+require 'colorize'
 
 describe Cell do 
 
@@ -37,7 +38,7 @@ describe Cell do
 
     it "changes cell.show to 'F" do 
       cell.set_flag
-      expect(cell.show).to eq('F')
+      expect(cell.show).to eq('F'.colorize(:light_green))
     end
   end
 
@@ -49,7 +50,7 @@ describe Cell do
 
     it "changes cell.show to '*" do 
       cell.unflag
-      expect(cell.show).to eq('*')
+      expect(cell.show).to eq('*'.colorize(:light_blue))
     end
   end
 

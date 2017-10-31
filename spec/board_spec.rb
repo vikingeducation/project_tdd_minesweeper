@@ -1,6 +1,7 @@
 require 'board'
 require 'game'
 require 'pry'
+require 'colorize'
 
 describe Board do 
 
@@ -58,7 +59,7 @@ describe Board do
       allow(game).to receive(:make_move).and_return([2,3,'f'])
       board.update_board(game.make_move)
       expect(board.board[1][2].flag).to be true
-      expect(board.board[1][2].show).to eq('F')
+      expect(board.board[1][2].show).to eq('F'.colorize(:light_green))
     end
 
     it "changes coordinate status to unflagged based on Game.make_move" do 
@@ -66,7 +67,7 @@ describe Board do
       board.board[1][2].flag = true
       board.update_board(game.make_move)
       expect(board.board[1][2].flag).to be false
-      expect(board.board[1][2].show).to eq('*')
+      expect(board.board[1][2].show).to eq('*'.colorize(:light_blue))
     end
 
      it "cannot flag a cleared cell" do 
