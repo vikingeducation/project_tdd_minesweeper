@@ -1,6 +1,5 @@
 require_relative 'board'
 require_relative 'cell'
-#require 'colorize'
 
 class Game
   attr_accessor :board, :move
@@ -43,6 +42,7 @@ class Game
   def validate_move
     while not_three_elements? || invalid_action? || out_of_bounds? ||
       already_clear? || already_flagged? || (out_of_flags? && move[2] == 'f')
+      binding.pry
       puts "Invalid move, try again."
       make_move
     end
@@ -83,9 +83,6 @@ class Game
           end
         end
       end
-      puts
-      puts "**Oh no! You tripped a mine! Bummer!**".colorize(:yellow)
-      puts
     end
   end
 
@@ -101,6 +98,8 @@ class Game
       if game_over?
         clear_board
         board.render_board
+        win? ? (puts "You win!!!") : 
+          (puts "**Oh no! You tripped a mine! Bummer!**".colorize(:light_yellow))
         break
       end
       board.update_board(coords)
@@ -111,4 +110,4 @@ class Game
 end
 
 
-#Game.new.play
+Game.new.play

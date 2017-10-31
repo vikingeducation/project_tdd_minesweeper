@@ -1,5 +1,4 @@
 require 'pry'
-#require_relative 'game'
 require_relative 'cell'
 require 'colorize'
 
@@ -37,25 +36,6 @@ class Board
       end
     end
   end
-=begin
-  def compute_adjacent_mines
-    mine_coordinates.each do |mine|
-      surrounding_cells = surrounding_cell_offset.map{|a, b| 
-    [a + mine[0].to_i, b + mine[1].to_i] }
-      surrounding_cells.each do |coords|        
-        if coords[0] < 0 || coords[0] > 9 || coords[1] < 0 ||
-          coords[1] > 9 
-          next
-        else
-          cell = board[coords[0]][coords[1]]
-          unless cell.mine == true
-            cell.adjacent_mines += 1
-          end
-        end
-      end
-    end
-  end
-=end
 
   def compute_adjacent_mines
     mine_coordinates.each do |mine|
@@ -162,8 +142,6 @@ class Board
     surrounding_cell_coords = surrounding_cell_offset.map{|a, b| 
     [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }
 
-    #binding.pry
-
     surrounding_cell_coords.each do |coords|
       unless coords[0] < 0 || coords [0] > 9 || coords[1] < 0 || coords[1] > 9
         surrounding_cells << board[coords[0]][coords[1]]
@@ -186,11 +164,8 @@ class Board
     [a + (coordinates[0].to_i - 1), b + (coordinates[1].to_i - 1)] }.delete_if{ 
       |cell| cell[0] < 0 || cell[1] < 0}
 
-
-
     surrounding_cells = collect_surrounding_cells(coordinates)
-    #while surrounding_cells.any? { |cell| cell.adjacent_mines == 0 }
-    #while surrounding_cell_coords != nil
+  
     surrounding_cells.each_with_index do |cell, index|
       if cell == nil
         next
@@ -203,7 +178,6 @@ class Board
         end
       end
     end
-    #binding.pry
   end
 
   def autoclear_rest_of_board
@@ -213,12 +187,11 @@ class Board
       board.each_with_index do |row, row_index|
         row.each_with_index do |cell, column_index|
           if cell.adjacent_mines == 0 && cell.mine == false && cell.clear == true 
-            #autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
+    
             surrounding_cells = collect_surrounding_cells([row_index + 1, column_index + 1])
-            #binding.pry
+        
             if surrounding_cells.any? { |cell| cell.clear == false && cell.mine == false }#{ |cell| cell.adjacent_mines == 0 && cell.clear == false && cell.mine == false }
               autoclear_nearby_empty_cells([row_index + 1, column_index + 1])
-              #board[row_index][column_index].clear_cell
               break_loop = false
             end
           end
