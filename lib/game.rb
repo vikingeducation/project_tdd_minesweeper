@@ -3,11 +3,11 @@ require_relative 'cell'
 
 class Game
   attr_accessor :board, :move
-  
+
   def initialize
     @board = Board.new
   end
-  
+
   def make_move
     self.move = gets.chomp.split(',')
     validate_move
@@ -24,7 +24,7 @@ class Game
 
   def out_of_bounds?
     move[0].to_i > board.board_size || move[1].to_i > board.board_size ||
-    move[0].to_i < 1 || move[1].to_i < 1
+      move[0].to_i < 1 || move[1].to_i < 1
   end
 
   def already_clear?
@@ -36,37 +36,36 @@ class Game
   end
 
   def out_of_flags?
-    board.flags == 0
+    board.flags.zero?
   end
 
   def validate_move
     while not_three_elements? || invalid_action? || out_of_bounds? ||
-      already_clear? || already_flagged? || (out_of_flags? && move[2] == 'f')
-      binding.pry
-      puts "Invalid move, try again."
+          already_clear? || already_flagged? || (out_of_flags? && move[2] == 'f')
+      puts 'Invalid move, try again.'
       make_move
     end
   end
 
   def greeting
     puts
-    puts "**Welcome to Minesweeper!**"
+    puts '**Welcome to Minesweeper!**'
     puts
   end
 
   def prompt_for_move
-    puts "Enter your move"
+    puts 'Enter your move'
   end
 
   def win?
-    board.flags == 0 &&
-    board.board.all? do |row|
-      row.all? { |cell| cell.flag == true || cell.clear == true }
-    end
+    board.flags.zero? &&
+      board.board.all? do |row|
+        row.all? { |cell| cell.flag == true || cell.clear == true }
+      end
   end
 
   def lose?
-    move[2] == 'c' && 
+    move[2] == 'c' &&
       board.mine_coordinates.include?([move[0].to_i - 1, move[1].to_i - 1])
   end
 
@@ -78,28 +77,26 @@ class Game
     if game_over?
       board.board.each do |row|
         row.each do |cell|
-          if cell.mine == true
-            cell.show = 'B'.colorize(:red)
-          end
+          cell.show = 'B'.colorize(:red) if cell.mine == true
         end
       end
     end
   end
 
   def play
-    greeting 
+    greeting
     board.assign_mine_coordinates
     board.compute_adjacent_mines
-    loop do 
-      
+    loop do
+
       prompt_for_move
       
       coords = make_move
       if game_over?
         clear_board
         board.render_board
-        win? ? (puts "You win!!!") : 
-          (puts "**Oh no! You tripped a mine! Bummer!**".colorize(:light_yellow))
+        win? ? (puts 'You win!!!') : 
+          (puts '**Oh no! You tripped a mine! Bummer!**'.colorize(:light_yellow))
         break
       end
       board.update_board(coords)
@@ -108,6 +105,5 @@ class Game
     end
   end
 end
-
 
 Game.new.play

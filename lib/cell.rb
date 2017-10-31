@@ -1,6 +1,6 @@
-require "colorize"
+require 'colorize'
 
-class Cell 
+class Cell
   attr_accessor :mine, :flag, :clear, :show, :adjacent_mines
 
   def initialize
